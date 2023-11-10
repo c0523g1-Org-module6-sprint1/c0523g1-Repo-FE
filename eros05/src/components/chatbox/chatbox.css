@@ -1,40 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Roboto:wght@500&display=swap');
 :root {
     --width-box: 320px;
 }
-* {
-    font-family: 'Roboto', sans-serif;
-    color: #151018;
-    box-sizing: border-box;
-}
-.color0 {
-    background-color: white;
-}
-.color1 {
-    background-color: #71959D;
-}
-.color2 {
-    background-color: #CBD2D4;
-}
-.color3 {
-    background-color: #CCBBE4;
-    color: white;
-}
-.color4 {
-    background-color: #D0A8DE;
-    color: white;
-}
-.color5 {
-    background-color: #9D66C3;
-    color: white;
-}
 .cursorPoint{
     cursor: pointer;
-}
-
-::-webkit-scrollbar {
-    width: 0;
-    height: 0;
 }
 .borderRadius {
     border-radius: 20px;

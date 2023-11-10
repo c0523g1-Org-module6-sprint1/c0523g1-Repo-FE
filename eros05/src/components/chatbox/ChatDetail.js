@@ -84,7 +84,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
                     <div className="chatdetail-profile-info-avata"
                          style={{backgroundImage: `url(${element.img})`}}/>
                     <div className="chatdetail-profile-info-text">
-                        <p>{element.name}</p>
+                        <p className="title-text">{element.name}</p>
                         {[
                             <small className="text-online">-- online --</small>,
                             <small className="text-busy">-- busy --</small>,

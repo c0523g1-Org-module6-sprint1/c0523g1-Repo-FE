@@ -1,13 +1,34 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400&display=swap');
+* {
+    font-family: 'Nunito Sans', sans-serif;
+    color: #151018;
+    box-sizing: border-box;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.title-text {
+    font-family: 'Agbalumo', sans-serif;
+}
+.color0 {
+    background-color: white;
+}
+.color1 {
+    background-color: #71959D;
+}
+.color2 {
+    background-color: #CBD2D4;
+}
+.color3 {
+    background-color: #CCBBE4;
+    color: white;
+}
+.color4 {
+    background-color: #D0A8DE;
+    color: white;
+}
+.color5 {
+    background-color: #9D66C3;
+    color: white;
+}
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
