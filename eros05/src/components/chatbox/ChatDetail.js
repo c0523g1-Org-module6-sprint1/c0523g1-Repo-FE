@@ -1,29 +1,35 @@
 import {useEffect, useRef, useState} from "react";
 import { database, refText, push, onValue, storage, refImage, uploadBytes, getDownloadURL } from "../../service/chatbox/firebase";
 import ImageDetail from "./ImageDetail";
-import {dateFormat, dateFormatSendMessage} from "../../service/chatbox/util";
+import {dateFormatSendMessage} from "../../service/chatbox/util";
+import {useNavigate} from "react-router-dom";
+import ChatEmoji from "./ChatEmoji";
 
 export default function ChatDetail({element, closeChatBox, own}) {
     const [content, setContent] = useState();
     const [inputMess, setInputMess] = useState("");
     const [showImgArr, setShowImgArr] = useState(false);
     const [detailImg, setDetailImg] = useState("");
+    const [showEmoji, setShowEmoji] = useState(true);
+    const navigator = useNavigate();
     const chatBoxRef = useRef();
     const inputImgRef = useRef();
     const path = `mess-${+own.id > +element.id ? element.id + "-" + own.id : own.id + "-" + element.id}`;
     const typeArray = ["text", "image", "video", "voice"];
     const pushFireBase = (type, textData) => {
-        push(refText(database, path), {
-            sender: own.id,
-            receive: element.id,
-            // receive: own.id,
-            // sender: element.id,
-            context: textData,
-            type: typeArray[type],
-            release: new Date() + "",
-            seen: false
-        })
-        setInputMess("");
+        if (textData != "") {
+            push(refText(database, path), {
+                sender: own.id,
+                receive: element.id,
+                // receive: own.id,
+                // sender: element.id,
+                context: textData,
+                type: typeArray[type],
+                release: new Date() + "",
+                seen: false
+            })
+            setInputMess("");
+        }
     }
 
     const handleSendMessage = () => {
@@ -84,7 +90,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
                     <div className="chatdetail-profile-info-avata"
                          style={{backgroundImage: `url(${element.img})`}}/>
                     <div className="chatdetail-profile-info-text">
-                        <p className="title-text">{element.name}</p>
+                        <p className="border-text-black">{element.name}</p>
                         {[
                             <small className="text-online">-- online --</small>,
                             <small className="text-busy">-- busy --</small>,
@@ -130,6 +136,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
         </div>
             <input onChange={handleImageUpload} ref={inputImgRef} type="file" multiple={true} hidden={true}/>
             {showImgArr && <ImageDetail path={path} linkImg={detailImg} close={closeDetailImage}/>}
+            {showEmoji && <ChatEmoji/>}
         </>
     )
 }

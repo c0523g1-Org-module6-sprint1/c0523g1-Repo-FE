@@ -58,10 +58,9 @@ export function Chatbox() {
                             />
                             <div/>
                             <div className="chatbox-feature-info">
-                                <h3 className="title-text">{profile.name}</h3>
+                                <h3 className="border-text-white">{profile.name}</h3>
                                 <h4>&#10084; {profile.money}</h4>
                             </div>
-
                         </div>
                         <div className="chatbox-friendList color0 borderRadius"
                              style={{height: `${window.innerHeight - 200 - 75}px`}}>
@@ -75,7 +74,8 @@ export function Chatbox() {
                                                 <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.status.id - 1]}`}
                                                      style={{backgroundImage: `url(${e.img})`}}/>
                                                 <div>
-                                                    <h4 className="chatbox-friendList-board-detail-name title-text">{e.name}
+                                                    <h4 className="chatbox-friendList-board-detail-name">
+                                                        <small className="chatbox-friendList-board-detail-name-name border-text-black">{e.name}</small>
                                                         {e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}</h4>
                                                     <p className="chatbox-friendList-board-detail-mess">{sliceString(e.mess, 15)}</p>
                                                 </div>

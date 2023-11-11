@@ -1,7 +1,21 @@
 :root {
     --width-box: 320px;
 }
-.cursorPoint{
+.border-text-white {
+    text-shadow:
+            1px 1px 0 black,
+            -1px -1px 0 black,
+            1px -1px 0 black,
+            -1px 1px 0 black;
+}
+.border-text-black {
+    text-shadow:
+            1px 1px 0 #CBD2D4,
+            -1px -1px 0 #CBD2D4,
+            1px -1px 0 #CBD2D4,
+            -1px 1px 0 #CBD2D4;
+}
+.cursorPoint {
     cursor: pointer;
 }
 .borderRadius {
@@ -122,6 +136,9 @@
 .chatbox-friendList-board-detail-name {
     grid-area: name;
     margin: 10px;
+}
+.chatbox-friendList-board-detail-name-name {
+    font-size: 16px;
 }
 .chatbox-friendList-board-detail-mess {
     grid-area: mess;
