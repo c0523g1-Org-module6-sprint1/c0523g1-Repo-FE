@@ -10,23 +10,23 @@ create table `privacy_posts`(
 	`name` varchar(100),
     `is_deleted` bit(1) default 0
 );
-create table `package_types`(
-	`id` int primary key auto_increment,
-	`name` varchar(100),
-	`price` double,
-    `days` int,
-    `is_deleted` bit(1) default 0
-);
 create table `account_types`(
 	`id` int primary key auto_increment,
 	`name` varchar(100),
-    `package_type_id` int,
-	foreign key (`package_type_id`) references `package_types`(`id`),
     `is_deleted` bit(1) default 0
 );
 create table `roles`(
 	`id` int primary key auto_increment,
 	`name` varchar(100),
+    `is_deleted` bit(1) default 0
+);
+create table `package_types`(
+	`id` int primary key auto_increment,
+	`name` varchar(100),
+	`price` double,
+    `days` int,
+    `account_type_id` int,
+	foreign key (`account_type_id`) references `account_types`(`id`),  
     `is_deleted` bit(1) default 0
 );
 create table `hobbies`(
@@ -73,6 +73,8 @@ create table `accounts`(
     `avatar` varchar(100),
     `expire` date,
     `message_status_id` int,
+    `marital_status` varchar(100),
+    `point` int,
     `role_id` int,
     `gender_id` int,
     `location_id` int,
@@ -174,10 +176,7 @@ create table `message`(
 	`id` int primary key auto_increment,
 	`sender_account_id` int,
 	`receiver_account_id` int,
-    `content` longtext,
-    `type` varchar(100),
-    `release` datetime,
-    `seen` bit(1),
+    `path` varchar(100),
 	foreign key (`sender_account_id`) references `accounts`(`id`), 
     foreign key (`receiver_account_id`) references `accounts`(`id`), 
 	`is_deleted` bit(1) default 0
