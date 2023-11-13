@@ -113,9 +113,10 @@ export default function ChatDetail({element, closeChatBox, own}) {
                         return (
                             <div key={index}
                                className={`mess ${e.sender == own.id ? "ownMess" : "friendsMess"}`}>
-                                {e.type == "text" && <p className="color2 borderRadius"
+                                <div className="option"/>
+                                {e.type == "text" && <p className="message color2 borderRadius"
                                                         title={dateFormatSendMessage(e.release)}>{e.context}</p>}
-                                {e.type == "image" && <img className="image-content color2 borderRadius cursorPoint"
+                                {e.type == "image" && <img className="message image-content color2 borderRadius cursorPoint"
                                                            src={e.context}
                                                            onClick={() => {detailImage(e.context)}}
                                                            title={dateFormatSendMessage(e.release)}

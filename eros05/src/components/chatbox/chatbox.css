@@ -251,6 +251,7 @@
     margin-left: 10px;
     padding: 5px;
     font-weight: normal;
+    font-size: 14px;
 }
 .chatdetail {
     grid-area: chatDetail;
@@ -371,12 +372,14 @@
 }
 .ownMess {
     justify-content: right;
+    grid-template-areas: "none option message";
 }
 .friendsMess {
     justify-content: left;
+    grid-template-areas: "message option none";
 }
 .mess {
-    display: flex;
+    display: grid;
     margin: 0;
     padding: 0;
 }
@@ -386,6 +389,12 @@
     margin: 5px;
     width: fit-content;
     cursor: context-menu;
+}
+.message {
+    grid-area: message;
+}
+.option {
+    grid-area: option;
 }
 .image-content {
     width: 200px;
