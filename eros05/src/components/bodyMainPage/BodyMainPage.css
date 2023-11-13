@@ -1,0 +1,168 @@
+.body-main-page {
+    flex: 1;
+}
+
+.body-main-page .carousel {
+    height: 100vh;
+    background-image: url("./image/mainPage1.jpg");
+    background-size: cover;
+    position: relative;
+    font-family: Nunito Sans, sans-serif
+}
+
+.body-main-page .carousel .description {
+    padding: 20px 0;
+}
+
+.body-main-page .carousel .description .typeing-text {
+    margin: 20% 0;
+    text-align: center;
+    color: #a36acb;
+    text-shadow: 1px 1px 3px whitesmoke;
+    overflow: hidden;
+    border-right: 0.15em solid orange;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+    font-family: Agbalumo, sans-serif;
+    font-size: 1.5rem;
+    /*text-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;*/
+}
+
+.body-main-page .carousel .carousel-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.body-main-page .carousel .carousel-content .carousel-btn {
+    border-radius: 20px;
+    background-color: #a36acb;
+    color: white;
+    width: max-content;
+    transition: ease 300ms;
+}
+.body-main-page .carousel .carousel-content .carousel-btn:hover {
+    transform: scale(1.05);
+}
+
+.body-main-page .carousel .carousel-btn button {
+    font-family: Agbalumo, sans-serif;
+    color: white;
+    font-size: 20px
+}
+
+/* The typing effect */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+    from,
+    to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #e25a5a;
+    }
+}
+
+.body-main-page .feedbacks {
+    padding: 1rem;
+}
+.body-main-page .feedbacks .feedback-list {
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    gap: 1rem
+}
+.body-main-page .feedbacks .feedback-list .card {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    background-color: #474dc3;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    perspective: 1000px;
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.body-main-page .feedbacks .feedback-list .card img {
+    fill: #333;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 3px;
+}
+
+.body-main-page .feedbacks .feedback-list .card .card__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #d4c3ed;
+    transform: rotateX(-90deg);
+    transform-origin: bottom;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.body-main-page .feedbacks .feedback-list .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px #000000;
+    background-color:white;
+    color: #ffffff;
+}
+.body-main-page .feedbacks .feedback-list .card:hover .card__content {
+    transform: rotateX(0deg);
+}
+.body-main-page .feedbacks .feedback-list .card .card__content .card__title {
+    margin: 0;
+    padding-left: 5px;
+    font-size: 24px;
+    color: white;
+    font-weight: 700;
+}
+
+.card:hover svg {
+    scale: 0;
+}
+
+.body-main-page .feedbacks .feedback-list .card .card__content .card__description {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1.4;
+}
+
+@media only screen and (min-width: 300px) {
+    .body-main-page .carousel .description .typeing-text {
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    .body-main-page .carousel .description .typeing-text {
+        font-size: 3rem;
+    }
+}
+@media only screen and (min-width: 600px) {
+    .body-main-page .feedbacks .feedback-list {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+@media only screen and (min-width: 1200px) {
+    .body-main-page .feedbacks .feedback-list {
+        grid-template-columns: repeat(4,1fr);
+    }
+}
