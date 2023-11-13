@@ -41,6 +41,7 @@ export default function ImageDetail({path, linkImg, close}) {
 
     useEffect(() => {
         getDatabase();
+
     },[]);
 
     if (!picArray || !timeRelease) return null;
