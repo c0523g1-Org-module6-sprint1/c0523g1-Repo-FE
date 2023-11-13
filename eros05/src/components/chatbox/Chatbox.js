@@ -122,5 +122,4 @@ export function Chatbox() {
                 </div>
         }</>)
     }
-
 }
