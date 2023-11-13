@@ -24,11 +24,10 @@
 .showListButton {
     aspect-ratio: 1/1;
     width: 80px;
-    background-image: url("image/close-chatbox.png");
-    background-size: 50px;
+    background-image: url("image/friend-message.png");
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    grid-area: chatList;
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -48,21 +47,21 @@
     position: absolute;
     left: 55%;
     top: 10%;
-    padding: 5px 7px;
-    border: #9D66C3 3px dashed;
+    padding: 5px 5px;
+    border: black 3px dashed;
 }
 .chatbox {
-    grid-area: chatList;
     width: var(--width-box);
     height: calc(100% - 75px);
     display: grid;
-    grid-template-rows: 100px 1fr 100px;
+    grid-template-rows: 100px 1fr 70px;
     position: fixed;
     right: 0;
     bottom: 0;
     border-top: 2px white dashed;
     border-left: 2px white dashed;
     animation: ease-in-out switchChatBox 0.5s;
+    padding: 10px;
 }
 @keyframes switchChatBox {
     0% {
@@ -70,13 +69,13 @@
     }
 }
 .chatbox-feature {
-    padding: 20px;
+    padding: 15px 0;
     display: grid;
-    grid-template-columns: 65px 20px 1fr;
+    grid-template-columns: 70px 15px 1fr;
 }
 .chatbox-feature-avata {
     aspect-ratio: 1/1;
-    border-radius: 100%;
+    border-radius: 50%;
     background-position: center;
     background-size: cover;
     border: white 2px solid;
@@ -85,19 +84,30 @@
     display: grid;
     grid-template-rows: 1fr 1fr;
 }
-.chatbox-feature-info h4, .chatbox-feature-info h3 {
+.chatbox-feature-info h3, .chatbox-feature-info h4 {
     height: 100%;
     margin: 0;
     color: white;
-    font-weight: normal;
     align-items: center;
     display: flex;
 }
 .chatSelected {
     background-color: rgba(113, 149, 157, 0.5);
 }
+
+.chatbox-friendList {
+    width: 100%;
+    padding: 5px;
+    display: grid;
+    grid-template-rows: 1fr 40px;
+    grid-template-areas: "chatbox-list" "chatbox-search";
+    background-size: contain;
+    background-position-x: center;
+    background-position-y: bottom;
+    background-repeat: no-repeat;
+    background-image: url("image/pngwing.com.png");
+}
 .chatbox-friendList-search {
-    margin: 5px;
     height: 35px;
     border: black 1px outset;
     padding-left: 45px;
@@ -108,8 +118,13 @@
     background-position-x: 5px;
     background-position-y: center;
     font-size: 16px;
+    grid-area: chatbox-search;
+}
+.chatbox-friendList h3 {
+    text-align: center;
 }
 .chatbox-friendList-board {
+    grid-area: chatbox-list;
     overflow: auto;
 }
 .chatbox-friendList-board-detail:hover {
@@ -126,11 +141,10 @@
 }
 .chatbox-friendList-board-detail-avata {
     width: 90%;
-    height: 90%;
     margin: 5%;
     aspect-ratio: 1/1;
     background-size: cover;
-    border-radius: 100%;
+    border-radius: 50%;
     grid-area: avata;
 }
 .chatbox-friendList-board-detail-name {
@@ -164,43 +178,41 @@
 .text-busy {
     color: #9D66C3;
 }
-.chatbox-friendList {
-    margin: 15px;
-    display: grid;
-    grid-template-rows: 1fr 50px;
-    background-size: contain;
-    background-position-x: center;
-    background-position-y: bottom;
-    background-repeat: no-repeat;
-    background-image: url("image/pngwing.com.png");
-}
-.chatbox-friendList h3 {
-    text-align: center;
-}
 .chatbox-button {
     display: grid;
-    grid-template-columns: 100px 1fr 100px;
+    grid-template-columns: 60px 1fr 45px 10px 45px;
 }
 .chatbox-button-mode {
     color: white;
-    margin: 10px 0 0 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
 }
-.chatbox-button-hidden {
-    background-image: url("image/close-chatbox.png");
-    background-size: 38px;
+.chatbox-button-key {
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    height: 50px;
     transition-duration: 0.1s;
 }
-.chatbox-button-hidden:hover {
+.chatbox-button-key:hover {
     background-size: 40px;
     transition-duration: 0.1s;
 }
+.chatbox-button-hidden {
+    background-image: url("image/close-chatbox.png");
+}
+.chatbox-button-unknowmessage {
+    background-image: url("image/unknow-message.png");
+
+}
+.chatbox-button-knowmessage {
+    background-image: url("image/friend-message.png");
+}
+
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 60px;
+    width: 100%;
     height: 30px;
     cursor: pointer;
 }
@@ -209,8 +221,7 @@
 }
 .toggle-switch-background {
     position: absolute;
-    top: 20%;
-    left: 20px;
+    top: 20px;
     width: 100%;
     height: 100%;
     background-color: #ddd;
@@ -220,7 +231,7 @@
 }
 .toggle-switch-handle {
     position: absolute;
-    top: 5px;
+    bottom: 5px;
     left: 5px;
     width: 20px;
     height: 20px;
@@ -240,6 +251,7 @@
     margin-left: 10px;
     padding: 5px;
     font-weight: normal;
+    font-size: 14px;
 }
 .chatdetail {
     grid-area: chatDetail;
@@ -275,7 +287,6 @@
     background-position: center;
     border-radius: 100%;
     height: 50px
-
 }
 .chatdetail-profile-info-text {
     display: grid;
@@ -361,12 +372,14 @@
 }
 .ownMess {
     justify-content: right;
+    grid-template-areas: "none option message";
 }
 .friendsMess {
     justify-content: left;
+    grid-template-areas: "message option none";
 }
 .mess {
-    display: flex;
+    display: grid;
     margin: 0;
     padding: 0;
 }
@@ -376,6 +389,12 @@
     margin: 5px;
     width: fit-content;
     cursor: context-menu;
+}
+.message {
+    grid-area: message;
+}
+.option {
+    grid-area: option;
 }
 .image-content {
     width: 200px;
@@ -470,4 +489,10 @@
 }
 .array-image-array-image-unselect {
     border: white 3px solid;
+}
+.emoji-table {
+    position: fixed;
+    right: calc(var(--width-box) * 2);
+    bottom: 0;
+    z-index: 1;
 }
