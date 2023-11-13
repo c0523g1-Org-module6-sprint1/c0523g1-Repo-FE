@@ -11,6 +11,9 @@ export function Chatbox() {
     const [showChatBox, setShowChatBox] = useState(-1);
     const [hideList, setHideList] = useState(false);
     const [messageUnseen, setMessageUnseen] = useState(100);
+    const [chatlistHeight, setChatlistHeight] = useState(0);
+    const [unknowList, setUnknowList] = useState(false);
+    const [busymode, setBusymode] = useState(true);
 
     const handleSelect = async (e) => {
         await setShowChatBox(-1);
@@ -28,12 +31,23 @@ export function Chatbox() {
     const closeChatbox = () => {
         setShowChatBox(-1);
     }
+    const handleResize = () => {
+        setChatlistHeight(window.innerHeight - 75 - 100 - 70 - 20);
+    }
+
     useEffect(() => {
         getProfile();
+        handleResize();
     }, [])
     useEffect(() => {
         getFriendList()
     }, [searchName])
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [])
 
     if (!profile || !friendList){
         return null;
@@ -59,11 +73,10 @@ export function Chatbox() {
                             <div/>
                             <div className="chatbox-feature-info">
                                 <h3 className="border-text-white">{profile.name}</h3>
-                                <h4>&#10084; {profile.money}</h4>
+                                <h4>💖 {profile.money}</h4>
                             </div>
                         </div>
-                        <div className="chatbox-friendList color0 borderRadius"
-                             style={{height: `${window.innerHeight - 200 - 75}px`}}>
+                        <div className="chatbox-friendList color0 borderRadius" style={{height: chatlistHeight}}>
                             <div className="chatbox-friendList-board">
                                 {friendList.length == 0 ? <h3>Không có kết quả</h3> :
                                     friendList.map((e) => {
@@ -89,13 +102,19 @@ export function Chatbox() {
                         </div>
                         <div className="chatbox-button">
                             <label className="toggle-switch">
-                                <input type="checkbox"/>
+                                <input type="checkbox" checked={busymode}
+                                       onClick={() => {setBusymode(!busymode)}}/>
                                 <div className="toggle-switch-background">
                                     <div className="toggle-switch-handle"/>
                                 </div>
                             </label>
-                            <p className="chatbox-button-mode">Busy Mode</p>
-                            <div className="chatbox-button-hidden" title="Hidden chatbox"
+                            <div className="chatbox-button-mode border-text-white">{busymode ? "available" : "i'm busy"}</div>
+                            <div className={`chatbox-button-key ${unknowList ? "chatbox-button-knowmessage" : "chatbox-button-unknowmessage"}`}
+                                 title={unknowList ? "Open unknow message" : "Open friend message"}
+                                 onClick={() => {setUnknowList(!unknowList)}}
+                            />
+                            <div></div>
+                            <div className="chatbox-button-key chatbox-button-hidden" title="Hidden chatbox"
                                  onClick={() => {setHideList(true); setShowChatBox(-1)}}
                             />
                         </div>

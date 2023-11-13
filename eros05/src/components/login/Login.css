@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: Nunito Sans, sans-serif;
+}
+
+html {
+    height: 100%;
+    background-color: #3f426e;
+    background-image: linear-gradient(43deg, #3f426e 0%, #221c69 46%, #080942 100%);
+
+
+}
+
+.form-parent {
+    width: 40%;
+    height: 100%;
+    margin: 6% auto;
+    position: relative;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
+    /*background-color: #2c1292;*/
+    background: linear-gradient(90deg, hsla(209, 75%, 28%, 1) 0%, hsla(257, 75%, 28%, 1) 100%);
+}
+
+.title {
+    text-align: center;
+    color: #ffffff;
+    padding-top: 2%;
+}
+
+.form-child {
+    text-align: center;
+    margin-top: 1%;
+    color: white;
+}
+
+.form-child-unit {
+    padding-top: 4%;
+    margin-top: 1%;
+}
+
+.login-btn {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn {
+    background-color: #3f426e;
+    background-image: linear-gradient(150deg, #3f426e 0%, #594a91 46%, #8d84b5 100%);
+
+    color: white;
+    margin-top: 1%;
+    border: 1px solid #ffffff;
+    border-radius: 19px;
+    vertical-align: center;
+    height: 50px;
+    width: 73%;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 17px;
+    transition: 3s;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+}
+
+.btn:hover {
+
+    background: linear-gradient(90deg, hsla(216, 75%, 26%, 1) 0%, hsla(316, 75%, 26%, 1) 100%);
+}
+
+.fa-facebook {
+    font-size: 17px;
+}
+
+.a-link {
+    font-weight: bold;
+    color: white;
+}
+
+.a-link:hover {
+    text-decoration: underline;
+}
+
+.last {
+    padding-bottom: 2%;
+}
+
+.first {
+    padding-top: 3%;
+}
+
+.input-tag {
+    height: 45px;
+    width: 73%;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    padding-left: 15px;
+    font-weight: bold;
+}
+
+
+.input-tag::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+}
+
+.input-tag:focus {
+    outline: none;
+    border: none;
+}
+
+@media screen and (max-width: 992px) {
+    .form-parent {
+        width: 70%;
+    }
+
+    .btn {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .form-parent {
+        width: 70%;
+    }
+}
+
+.form-child-remember {
+    padding-top: 1%;
+    float: right;
+    padding-right: 14%;
+}
+
+/*checkbox remember*/
+
