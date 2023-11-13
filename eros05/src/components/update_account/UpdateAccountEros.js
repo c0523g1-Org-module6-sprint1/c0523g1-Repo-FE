@@ -7,12 +7,32 @@ import {HeaderUpdateAccount} from "./HeaderUpdateAccount";
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
 import {useEffect, useState} from "react";
+import * as packageTypesService from "../../service/update_account/packageTypesService";
+import React from 'react';
+import {formatPrice, FormatPrice} from "./FormatPrice";
+import * as accountType from "../../service/update_account/accountTypeService";
 
 export function UpdateAccountEros() {
     const [pricePay, setPricePay] = useState(0);
     const [payEros, setPayEros] = useState("");
+    const [packageTypes, setPackageTypes] = useState([]);
+    const [accountTypes, setAccountTypes] = useState([]);
 
-
+    useEffect(() => {
+        getAllAccountType()
+    }, []);
+    useEffect(() => {
+        getAllPackageTypes()
+    }, []);
+    const getAllAccountType = async () => {
+        let data = await accountType.getAll();
+        setAccountTypes(data);
+    }
+    const getAllPackageTypes = async () => {
+        let data = await packageTypesService.getAll();
+        let dataEros = data.filter(data => data.accountType.id === 1)
+        setPackageTypes(dataEros);
+    }
 
     return (
         <div className="row" style={{display: "flex"}}>
@@ -100,47 +120,69 @@ export function UpdateAccountEros() {
                 </div>
 
                 <div className="radio-input">
-                    <input onChange={(values) => setPricePay(values.target.value)}
-                           type="radio" id="value-1"
-                           name="value-radio"
-                           value="107000"/>
-                    <label htmlFor="value-1">
-                        1 tháng<br/>
-                        107.100 đ/tháng
-                    </label>
+                    {packageTypes.map(packageType => (
+                        <>
+                            <input onChange={(values) => setPricePay(values.target.value)}
+                                   type="radio" id={packageType.name}
+                                   name="value-radio"
+                                   value={packageType.price}/>
+                            <label htmlFor={packageType.name}>
+                                {packageType.name}<br/>
+                                {formatPrice(packageType.price)} đ/tháng
+                            </label>
+                        </>
+                    ))}
 
-                    <input onChange={(values) => setPricePay(values.target.value)}
-                           type="radio"
-                           id="value-2" name="value-radio"
-                           value="52000"/>
-                    <label htmlFor="value-2">
-                        6 tháng <br/>
-                        52.350 đ/tháng <br/>
-                        Tiết kiệm 33%
-                    </label>
+                    {/*<input onChange={(values) => setPricePay(values.target.value)}*/}
+                    {/*       type="radio" id="value-1"*/}
+                    {/*       name="value-radio"*/}
+                    {/*       value="107000"/>*/}
+                    {/*<label htmlFor="value-1">*/}
+                    {/*    1 tháng<br/>*/}
+                    {/*    107.100 đ/tháng*/}
+                    {/*</label>*/}
 
-                    <input onChange={(values) => setPricePay(values.target.value)}
-                           type="radio"
-                           id="value-3"
-                           name="value-radio"
-                           value="value-3"/>
-                    <label htmlFor="value-3">
-                        12 tháng <br/>
-                        34.425 đ/tháng <br/>
-                        Tiết kiêm 50%
-                    </label>
+                    {/*<input onChange={(values) => setPricePay(values.target.value)}*/}
+                    {/*       type="radio"*/}
+                    {/*       id="value-2" name="value-radio"*/}
+                    {/*       value="52000"/>*/}
+                    {/*<label htmlFor="value-2">*/}
+                    {/*    6 tháng <br/>*/}
+                    {/*    52.350 đ/tháng <br/>*/}
+                    {/*    Tiết kiệm 33%*/}
+                    {/*</label>*/}
+
+                    {/*<input onChange={(values) => setPricePay(values.target.value)}*/}
+                    {/*       type="radio"*/}
+                    {/*       id="value-3"*/}
+                    {/*       name="value-radio"*/}
+                    {/*       value="value-3"/>*/}
+                    {/*<label htmlFor="value-3">*/}
+                    {/*    12 tháng <br/>*/}
+                    {/*    34.425 đ/tháng <br/>*/}
+                    {/*    Tiết kiêm 50%*/}
+                    {/*</label>*/}
 
                     <div className="radio-input-pay">
-                            <input onChange={(values) => setPayEros(values.target.value)} value="vnpay" name="value-radio-pay"
-                                   id="value-4" type="radio"/>
-                            <label htmlFor="value-4">Thanh toán VNPay</label>
-                            <input onChange={(values) => setPayEros(values.target.value)} value="paypal" name="value-radio-pay"
-                                   id="value-5" type="radio"/>
-                            <label htmlFor="value-5">Thanh toán Paypal</label>
-                            <input onChange={(values) => setPayEros(values.target.value)} value="momo" name="value-radio-pay"
-                                   id="value-6" type="radio"/>
-                            <label htmlFor="value-6">Thanh toán Momo</label>
+                        <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
+                               name="value-radio-pay"
+                               id="value-4" type="radio"/>
+                        <label htmlFor="value-4">Thanh toán VNPay</label>
+                        <input onChange={(values) => setPayEros(values.target.value)} value="paypal"
+                               name="value-radio-pay"
+                               id="value-5" type="radio"/>
+                        <label htmlFor="value-5">Thanh toán Paypal</label>
+                        <input onChange={(values) => setPayEros(values.target.value)} value="momo"
+                               name="value-radio-pay"
+                               id="value-6" type="radio"/>
+                        <label htmlFor="value-6">Thanh toán Momo</label>
                     </div>
+                    {payEros === '' && pricePay === 0 ? (
+                        <div className="card-right">
+                            <p className="title" style={{fontSize: "13px"}}>Vui lòng chọn gói và chọn phương thức thanh
+                                toán</p>
+                        </div>
+                    ) : null}
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
@@ -159,6 +201,8 @@ export function UpdateAccountEros() {
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
+                                          getAllPackageTypes()
+                                          console.log("OK")
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",
@@ -172,10 +216,10 @@ export function UpdateAccountEros() {
                                       }}
                         />
 
-                        
+
                     ) : null}
 
-                    {payEros === 'momo' && pricePay !== 0 ?(
+                    {payEros === 'momo' && pricePay !== 0 ? (
                         <div>
                             <img src="../../public/pay-momo.jpg" alt=""/>
                         </div>
