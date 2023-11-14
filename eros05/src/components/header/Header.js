@@ -8,7 +8,7 @@ import {Link, useNavigate} from "react-router-dom";
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
     const [isShowUserMenu, setIsShowUserMenu] = useState(false)
-    const [isAuthentication, setIsAuthentication] = useState(false)
+    const [isAuthentication, setIsAuthentication] = useState(true)
     const [name, setName] = useState("");
     const userMenuRef = useRef(null)
     const navigate = useNavigate()
