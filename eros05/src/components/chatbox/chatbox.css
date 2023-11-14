@@ -84,7 +84,8 @@
     display: grid;
     grid-template-rows: 1fr 1fr;
 }
-.chatbox-feature-info h3, .chatbox-feature-info h4 {
+.chatbox-feature-info p {
+    font-size: 18px;
     height: 100%;
     margin: 0;
     color: white;
@@ -390,11 +391,15 @@
     width: fit-content;
     cursor: context-menu;
 }
-.message {
-    grid-area: message;
-}
+
 .option {
-    grid-area: option;
+
+    width: 30px;
+    height: 100%;
+    background-image: url("image/select.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .image-content {
     width: 200px;
@@ -416,9 +421,9 @@
     background-color: rgba(255, 255, 255, 0.9);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    border-left: blueviolet 2px dashed;
-    border-top: blueviolet 2px dashed;
-    border-bottom: blueviolet 2px dashed;
+    border-left: black 2px dashed;
+    border-top: black 2px dashed;
+    border-bottom: black 2px dashed;
     display: grid;
     padding: 20px;
     grid-template-columns: 300px 50px 1fr 50px;
@@ -431,7 +436,7 @@
 .array-image-array {
     grid-area: array;
     margin-right: 20px;
-    border: blueviolet 2px dashed;
+    border: black 2px dashed;
     overflow: auto;
 }
 .array-image-detail {

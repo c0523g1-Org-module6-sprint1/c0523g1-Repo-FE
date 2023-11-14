@@ -32,7 +32,7 @@ export const dateFormatSendMessage = (str) => {
     const hour = date.getHours();
     const minute = date.getMinutes();
 
-    return `${addZero(hour)} : ${addZero(minute)} - ${addZero(day)} tháng ${addZero(month)}, ${year}`;
+    return `${addZero(hour)}:${addZero(minute)} - ${addZero(day)} tháng ${addZero(month)}, ${year}`;
 }
 export const addZero = (str) => {
     str += "";

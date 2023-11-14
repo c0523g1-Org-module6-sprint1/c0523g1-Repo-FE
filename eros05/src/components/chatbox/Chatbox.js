@@ -1,18 +1,20 @@
 import "./chatbox.css"
 import {useEffect, useState} from "react";
-import {GetFriendsApi, GetProfileApi} from "../../service/chatbox/apiConnection";
+import {GetFriendsApi, GetProfileApi, GetUnknowApi} from "../../service/chatbox/apiConnection";
 import {numberOfUnseenMess, sliceString} from "../../service/chatbox/util";
 import ChatDetail from "./ChatDetail";
 export function Chatbox() {
     const [profile, setProfile] = useState();
     const [friendList, setFriendList] = useState();
+    const [unknowList, setUnknowList] = useState();
     const [searchName, setSearchName] = useState("");
     const [chatFriend, setChatFriend] = useState({});
     const [showChatBox, setShowChatBox] = useState(-1);
     const [hideList, setHideList] = useState(false);
     const [messageUnseen, setMessageUnseen] = useState(100);
+    const [unknowMessageUnseen, setUnknowMessageUnseen] = useState(10);
     const [chatlistHeight, setChatlistHeight] = useState(0);
-    const [unknowList, setUnknowList] = useState(false);
+    const [unknowMess, setUnknowMess] = useState(false);
     const [busymode, setBusymode] = useState(true);
 
     const handleSelect = async (e) => {
@@ -28,11 +30,19 @@ export function Chatbox() {
         const data = await GetFriendsApi(searchName);
         setFriendList(data);
     }
+    const getUnknowList = async () => {
+        const data = await GetUnknowApi(searchName);
+        console.log(data)
+        setUnknowList(data);
+    }
     const closeChatbox = () => {
         setShowChatBox(-1);
     }
     const handleResize = () => {
         setChatlistHeight(window.innerHeight - 75 - 100 - 70 - 20);
+    }
+    const changeUnknowMessage = () => {
+        setUnknowMess(!unknowMess);
     }
 
     useEffect(() => {
@@ -40,7 +50,8 @@ export function Chatbox() {
         handleResize();
     }, [])
     useEffect(() => {
-        getFriendList()
+        getFriendList();
+        getUnknowList();
     }, [searchName])
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -49,7 +60,7 @@ export function Chatbox() {
         };
     }, [])
 
-    if (!profile || !friendList){
+    if (!profile || !friendList || !unknowList){
         return null;
     } else {
         return (<>
@@ -72,31 +83,53 @@ export function Chatbox() {
                             />
                             <div/>
                             <div className="chatbox-feature-info">
-                                <h3 className="border-text-white">{profile.name}</h3>
-                                <h4>💖 {profile.money}</h4>
+                                <p className="border-text-white">{profile.name}</p>
+                                <p>💖 {profile.money}</p>
                             </div>
                         </div>
                         <div className="chatbox-friendList color0 borderRadius" style={{height: chatlistHeight}}>
-                            <div className="chatbox-friendList-board">
-                                {friendList.length == 0 ? <h3>Không có kết quả</h3> :
-                                    friendList.map((e) => {
-                                        return (
-                                            <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
-                                            ${e.id == showChatBox ? "chatSelected" : ""}`}
-                                                 onClick={() => {handleSelect(e)}}>
-                                                <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.status.id - 1]}`}
-                                                     style={{backgroundImage: `url(${e.img})`}}/>
-                                                <div>
-                                                    <h4 className="chatbox-friendList-board-detail-name">
-                                                        <small className="chatbox-friendList-board-detail-name-name border-text-black">{e.name}</small>
-                                                        {e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}</h4>
-                                                    <p className="chatbox-friendList-board-detail-mess">{sliceString(e.mess, 15)}</p>
+                            {unknowMess ?
+                                <div className="chatbox-friendList-board">
+                                    {unknowList.length == 0 ? <h3>Không có kết quả</h3> :
+                                        unknowList.map((e) => {
+                                            return (
+                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
+                                                ${e.id == showChatBox ? "chatSelected" : ""}`}
+                                                     onClick={() => {handleSelect(e)}}>
+                                                    <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.status.id - 1]}`}
+                                                         style={{backgroundImage: `url(${e.img})`}}/>
+                                                    <div>
+                                                        <h4 className="chatbox-friendList-board-detail-name">
+                                                            <small className="chatbox-friendList-board-detail-name-name border-text-black">{e.name}</small>
+                                                            {e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}</h4>
+                                                        <p className="chatbox-friendList-board-detail-mess">{sliceString(e.mess, 15)}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                                : <div className="chatbox-friendList-board">
+                                    {friendList.length == 0 ? <h3>Không có kết quả</h3> :
+                                        friendList.map((e) => {
+                                            return (
+                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
+                                                ${e.id == showChatBox ? "chatSelected" : ""}`}
+                                                     onClick={() => {handleSelect(e)}}>
+                                                    <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.status.id - 1]}`}
+                                                         style={{backgroundImage: `url(${e.img})`}}/>
+                                                    <div>
+                                                        <h4 className="chatbox-friendList-board-detail-name">
+                                                            <small className="chatbox-friendList-board-detail-name-name border-text-black">{e.name}</small>
+                                                            {e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}</h4>
+                                                        <p className="chatbox-friendList-board-detail-mess">{sliceString(e.mess, 15)}</p>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            }
                             <input className="chatbox-friendList-search borderRadius" placeholder="Tìm kiếm"
                                    onChange={(e) => {setSearchName(e.target.value)}}/>
                         </div>
@@ -109,9 +142,9 @@ export function Chatbox() {
                                 </div>
                             </label>
                             <div className="chatbox-button-mode border-text-white">{busymode ? "available" : "i'm busy"}</div>
-                            <div className={`chatbox-button-key ${unknowList ? "chatbox-button-knowmessage" : "chatbox-button-unknowmessage"}`}
-                                 title={unknowList ? "Open unknow message" : "Open friend message"}
-                                 onClick={() => {setUnknowList(!unknowList)}}
+                            <div className={`chatbox-button-key ${unknowMess ? "chatbox-button-knowmessage" : "chatbox-button-unknowmessage"}`}
+                                 title={unknowMess ? "Open unknow message" : "Open friend message"}
+                                 onClick={changeUnknowMessage}
                             />
                             <div></div>
                             <div className="chatbox-button-key chatbox-button-hidden" title="Hidden chatbox"
