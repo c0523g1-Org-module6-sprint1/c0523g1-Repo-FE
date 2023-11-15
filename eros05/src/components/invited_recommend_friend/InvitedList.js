@@ -20,15 +20,14 @@ export default function InvitedList() {
         <>
             <h1>Lời mời kết bạn</h1>
             invited.map((invited) => {
-            <div className="d-flex" style="float: left; margin:0 32px">
+            <div className="d-flex" >
                 <div className="cards">
                     <div className="icon">
                         <img className="cus-avatar"
-                             src="${invited.image}"
+                             src="${invited.avatar}"
                              alt=""/>
                     </div>
                     <p className="title mb-4">${invited.name}</p>
-                    <h6>${invited.mutualFriends + " bạn chung"}</h6>
                     <p className="text">
                         <button id="confirm" className="btn ">Xác nhận</button>
                         <button id="delete" className="btn text-dark mt-1"

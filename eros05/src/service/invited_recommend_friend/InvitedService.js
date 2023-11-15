@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL_INVITED ="http://localhost:8081/api/member/invited"
+const URL_INVITED ="http://localhost:8080/api/public/invited"
 
 export const findAll = async ()=> {
     try{
