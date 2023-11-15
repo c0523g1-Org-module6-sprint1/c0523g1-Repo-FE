@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL_RECOMMEND ="http://localhost:8081/api/member/recommend"
+const URL_RECOMMEND ="http://localhost:8080/api/member/recommend"
 
 export const findAll = async ()=> {
     try{
