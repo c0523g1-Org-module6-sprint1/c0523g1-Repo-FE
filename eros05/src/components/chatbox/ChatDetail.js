@@ -50,6 +50,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 getMessage.push(mess.val());
             });
             setContent(getMessage);
+            console.log(getMessage)
         });
     }
     const enterButton = (key) => {
@@ -92,7 +93,8 @@ export default function ChatDetail({element, closeChatBox, own}) {
         <>
         <div className="chatdetail color4">
             <div className="chatdetail-profile">
-                <div className="chatdetail-profile-info color0 cursorPoint">
+                <div className="chatdetail-profile-info color0 cursorPoint"
+                     onClick={() => {navigator(`personal-page/${element.id}`)}}>
                     <div className="chatdetail-profile-info-avata"
                          style={{backgroundImage: `url(${element.img})`}}/>
                     <div className="chatdetail-profile-info-text">
@@ -113,10 +115,10 @@ export default function ChatDetail({element, closeChatBox, own}) {
                         return (
                             <div key={index}
                                className={`mess ${e.sender == own.id ? "ownMess" : "friendsMess"}`}>
-                                <div className="option"/>
-                                {e.type == "text" && <p className="message color2 borderRadius"
+                                {/*{e.type != "delete" && <div className="option"/>}*/}
+                                {e.type == "text" && <p className="color2 borderRadius"
                                                         title={dateFormatSendMessage(e.release)}>{e.context}</p>}
-                                {e.type == "image" && <img className="message image-content color2 borderRadius cursorPoint"
+                                {e.type == "image" && <img className="image-content color2 borderRadius cursorPoint"
                                                            src={e.context}
                                                            onClick={() => {detailImage(e.context)}}
                                                            title={dateFormatSendMessage(e.release)}

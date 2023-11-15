@@ -120,51 +120,5 @@
       "mess": "Mãi iu anh Thắng",
       "unseen": 0
     }
-  ],
-  "unknow": [
-    {
-      "id": 20,
-      "img": "https://sohanews.sohacdn.com/160588918557773824/2020/10/13/photo-1-16026039104352120730718.jpg",
-      "name": "Mục Nhã Lan",
-      "status": {
-        "id": 1,
-        "description": "online"
-      },
-      "mess": "Nhớ anh Thắng quá ạ",
-      "unseen": 10
-    },
-    {
-      "id": 21,
-      "img": "https://www.vietnamfineart.com.vn/wp-content/uploads/2023/03/co-nang-nhi-nhanh-700x700-1.jpg",
-      "name": "Bảo Bảo",
-      "status": {
-        "id": 2,
-        "description": "busy"
-      },
-      "mess": "Cho em cơ hội đi mà",
-      "unseen": 10
-    },
-    {
-      "id": 22,
-      "img": "https://antimatter.vn/wp-content/uploads/2022/11/hinh-gai-xinh-trung-quoc-hot-girl-noi-tieng.jpg",
-      "name": "Bành Thập Lục",
-      "status": {
-        "id": 1,
-        "description": "online"
-      },
-      "mess": "Anh có gì không vừa ý thì cho em xin lũi mà",
-      "unseen": 0
-    },
-    {
-      "id": 23,
-      "img": "https://media.doisongphapluat.com/493/2020/9/3/hotgirl-Trung-Quoc-trieu-follow-xinh-nhu-bup-be-bat-can-lo-nhan-sac-that-khien-dan-tinh-vo-mong-dspl-3.jpg",
-      "name": "やまだ",
-      "status": {
-        "id": 3,
-        "description": "offline"
-      },
-      "mess": "Mãi iu anh Thắng",
-      "unseen": 0
-    }
   ]
 }
