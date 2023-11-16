@@ -39,18 +39,18 @@
     flex-direction: column;
 }
 
-.body-main-page .carousel .carousel-content .carousel-btn {
+.body-main-page .carousel .carousel-content .lien-carousel-btn {
     border-radius: 20px;
     background-color: #a36acb;
     color: white;
     width: max-content;
     transition: ease 300ms;
 }
-.body-main-page .carousel .carousel-content .carousel-btn:hover {
+.body-main-page .carousel .carousel-content .lien-carousel-btn:hover {
     transform: scale(1.05);
 }
 
-.body-main-page .carousel .carousel-btn button {
+.body-main-page .carousel .lien-carousel-btn button {
     font-family: Agbalumo, sans-serif;
     color: white;
     font-size: 20px
@@ -89,7 +89,7 @@
     position: relative;
     width: 100%;
     height: 380px;
-    background-color: #474dc3;
+    background-color: whitesmoke;
     border-radius: 10px;
     display: flex;
     align-items: center;
