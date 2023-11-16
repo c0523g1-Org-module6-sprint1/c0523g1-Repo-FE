@@ -8,13 +8,14 @@ import * as personalService from "../../service/personalPage/PersonalpageService
 export function PersonalPage() {
     const [account,setAccount] = useState({});
     const {id} = useParams();
+    let idTemp =1;
 
     useEffect(() => {
         getInfoAccount();
     },[]);
 
     const getInfoAccount = async () => {
-        let result =  await personalService.getInfoPersonal(2)
+        let result =  await personalService.getInfoPersonal(id)
         console.log(result)
         setAccount(result.data);
     }
@@ -50,90 +51,95 @@ export function PersonalPage() {
                                 className="profile-cover__action bg--img"
                                 data-overlay="0.3"
                             ></div>
-                            <div className="profile-cover__info" style={{ height: 190 }}>
-                                <ul className="nav">
-                                    <li>
-                                        <button
-                                            className="btn btn-rounded btn-info"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal"
-                                            style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                        >
-                                            <i className="fa fa-plus bt" />
-                                            <span className="bt">Kết bạn</span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            className="btn btn-rounded btn-info"
-                                            style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                        >
-                                            <i className="fa fa-comment bt" />
-                                            <span className="bt">Tin nhắn</span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <div
-                                            data-bs-target="#exampleModalToggle"
-                                            data-bs-toggle="modal"
-                                        >
-                                            <div>
-                                                <button
-                                                    className="btn btn-rounded btn-info"
-                                                    style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                                >
-                                                    <i className="fa-solid fa-gift bt" />
-                                                    <span className="bt">Tặng quà</span>
-                                                </button>
+                            <div className="profile-cover__info" style={{ height: '120px' }}>
+                                {idTemp !== account.id ?
+                                    (<ul className="nav">
+                                        <li>
+                                            <button
+                                                className="btn btn-rounded btn-info"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"
+                                                style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                            >
+                                                <i className="fa fa-plus bt" />
+                                                <span className="bt">Kết bạn</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                className="btn btn-rounded btn-info"
+                                                style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                            >
+                                                <i className="fa fa-comment bt" />
+                                                <span className="bt">Tin nhắn</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <div
+                                                data-bs-target="#exampleModalToggle"
+                                                data-bs-toggle="modal"
+                                            >
+                                                <div>
+                                                    <button
+                                                        className="btn btn-rounded btn-info"
+                                                        style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                                    >
+                                                        <i className="fa-solid fa-gift bt" />
+                                                        <span className="bt">Tặng quà</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="btn-group dropend"></div>
-                                    </li>
-                                </ul>
-                                <hr />
-                                <div
-                                    className="row"
-                                    style={{ color: "black", textAlign: "center" }}
-                                >
-                                    <div className="col-lg-2" style={{ marginLeft: 30 }}>
-                                        <Link to={"/THienPP"} style={{textDecoration:"none"}}>
-                                        <small>
-                                            <i className="fa-solid fa-user-group"> </i> Bạn bè
-                                        </small>
-                                        </Link>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="col-12">
-                                            <Link to={"/THienPT"} style={{textDecoration:"none"}}>
-                                            <small>
-                                                <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
-                                            </small>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="row">
-                                            <div className="col-12">
-                                              <Link to={"/Hậu"} style={{textDecoration:"none"}}>
+                                        </li>
+                                        <li>
+                                            <div className="btn-group dropend"></div>
+                                        </li>
+                                    </ul>) :
+                                    (<div
+                                        className="row"
+                                        style={{ color: "black", textAlign: "center", paddingTop:"85px",margin:0 }}
+                                    >
+                                        <hr style={{padding:0, margin:0,opacity:1}}/>
+                                        <div className="col-lg-2" style={{ marginLeft: 30 }}>
+                                            <Link to={"/THienPP"} style={{textDecoration:"none"}}>
                                                 <small>
-                                                    <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
+                                                    <i className="fa-solid fa-user-group"> </i> Bạn bè
                                                 </small>
-                                              </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="col-12">
-                                            <Link to={"/ThienLCH"} style={{textDecoration:"none"}}>
-                                            <small>
-                                                <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
-                                            </small>
                                             </Link>
                                         </div>
-                                    </div>
-                                </div>
+                                        <div className="col-lg-3">
+                                            <div className="col-12">
+                                                <Link to={"/THienPT"} style={{textDecoration:"none"}}>
+                                                    <small>
+                                                        <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
+                                                    </small>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-3">
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <Link to={"/Hậu"} style={{textDecoration:"none"}}>
+                                                        <small>
+                                                            <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
+                                                        </small>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-3">
+                                            <div className="col-12">
+                                                <Link to={"/ThienLCH"} style={{textDecoration:"none"}}>
+                                                    <small>
+                                                        <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
+                                                    </small>
+                                                </Link>
+                                            </div>
+                                        </div>
+
+                                    </div>) }
+
+
+
                             </div>
                         </div>
                         <div className="panel">
