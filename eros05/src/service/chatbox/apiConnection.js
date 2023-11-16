@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const GetProfileApi = async () => {
+
     try {
         const res = await axios.get(`http://localhost:8080/api/public/message/account`)
         return res;
@@ -40,3 +41,4 @@ export const SetBusyApi = async (isBusy) => {
         console.log(e);
     }
 }
+
