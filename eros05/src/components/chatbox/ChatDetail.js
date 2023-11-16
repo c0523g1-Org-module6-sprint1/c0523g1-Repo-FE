@@ -16,6 +16,7 @@ import {useNavigate} from "react-router-dom";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import {GetChatBoxApi} from "../../service/chatbox/apiConnection";
+import {toast} from "react-toastify";
 
 export default function ChatDetail({element, closeChatBox, own}) {
     const [content, setContent] = useState();
@@ -50,7 +51,8 @@ export default function ChatDetail({element, closeChatBox, own}) {
         }
     }
     const handlePickEmoji = (emoji) => {
-        setInputMess(inputMess + emoji.native)
+        setInputMess(inputMess + emoji.native);
+        toast.success("alo alo")
     }
     const handleSendMessage = async () => {
         await pushFireBase(0, inputMess);
