@@ -1,4 +1,5 @@
 export const sliceString = (str, n) => {
+    if (str == null) return "";
     if (str.length > n) {
         return str.slice(0, n) + "...";
     } else {
@@ -41,4 +42,11 @@ export const addZero = (str) => {
     } else {
         return str;
     }
+}
+export const compareId = (id1, id2) => {
+    let name = id1 + "-" + id2;
+    if (id1 > id2) {
+        name = id2 + "-" + id1;
+    }
+    return name;
 }

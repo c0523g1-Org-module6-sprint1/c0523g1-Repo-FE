@@ -38,7 +38,7 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
                 toast.error("Tên không chứa ký tự đặc biệt!");
                 return;
             }
-            navigate(`search-name/${name}`);
+            navigate(`public/search-name/${name}`);
         },
         [navigate, name]
     );
@@ -56,12 +56,12 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
                     <h1 className="logo">
                         <div className={'pt-3'}>
                             {isAuthentication ?
-                                <Link to="/dat">
+                                <Link to="/newsfeed">
                                     <img src={logo}
                                          alt=""
                                          style={{width: "130px", height: "150%"}}/>
                                 </Link> :
-                                <Link to="/main-page">
+                                <Link to="/">
                                     <img src={logo}
                                          alt=""
                                          style={{width: "130px", height: "150%"}}/>
@@ -72,19 +72,19 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
                     {
                         isAuthentication ? <ul className="list-navbar-items">
                                 <li className="navbar-item">
-                                    <Link to="/Dat" className="d-flex align-items-center"><i
+                                    <Link to="/newsfeed" className="d-flex align-items-center"><i
                                         className="fa-solid fa-house text-white"></i>Trang chủ</Link>
                                 </li>
                                 <li className="navbar-item">
-                                    <Link to="/Hung" className="d-flex align-items-center"><i
+                                    <Link to="/invited_recommend_friend/RecommendList" className="d-flex align-items-center"><i
                                         className="fa-solid fa-user-plus text-white"></i>Gợi ý kết bạn</Link>
                                 </li>
                                 <li className="navbar-item">
-                                    <Link to="/d" className="d-flex align-items-center"><i
+                                    <Link to="/top_hundered" className="d-flex align-items-center"><i
                                         className="fa-solid fa-crown text-white"></i>Top 100</Link>
                                 </li>
                                 <li className="navbar-item">
-                                    <Link to="/d" className="d-flex align-items-center"><i
+                                    <Link to="/friend/list" className="d-flex align-items-center"><i
                                         className="fa-solid fa-people-group text-white"></i>Danh sách bạn bè</Link>
                                 </li>
                             </ul> :
@@ -113,7 +113,6 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
                             <input type="text" className="form-control"
                                    placeholder="Nhập tên bạn bè" aria-label="Username" aria-describedby="addon-wrapping"
                                    onChange={handleChangeInput}
-                                // onKeyUp={handleInputKeyPress}
                                    value={name}
                             />
                         </div>

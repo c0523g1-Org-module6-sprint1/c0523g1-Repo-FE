@@ -4,17 +4,18 @@ import React, {useEffect, useRef, useState} from "react";
 import NavbarMobile from "../navbarMobile/NavbarMobile";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
+import * as SearchNameService from "../../service/searchName/searchNameService";
+import getUsernameByJwt from "../../service/login/securityService";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
     const [isShowUserMenu, setIsShowUserMenu] = useState(false)
-    const [isAuthentication, setIsAuthentication] = useState(true)
-
-    // const isAuthentication = localStorage.getItem("accessToken") !=null
-
+    const [isAuthentication, setIsAuthentication] = useState(false)
     const [name, setName] = useState("");
     const userMenuRef = useRef(null)
     const navigate = useNavigate()
+    // const [userName, setUserName] = useState("");
+    const [user, setUser] = useState({});
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -29,7 +30,7 @@ export default function Header() {
     const handleButtonClick = () => {
         setIsShowUserMenu((prevState) => !prevState);
     };
-    const returnMainPage = ()=>{
+    const returnMainPage = () => {
         setIsAuthentication(false);
         navigate("/")
     }
@@ -43,32 +44,35 @@ export default function Header() {
             if (!name) {
                 toast.error("Mời bạn nhập tên cần tìm!");
                 return;
-            }else if(!regex.test(name)){
+            } else if (!regex.test(name)) {
                 toast.error("Tên không chứa ký tự đặc biệt!");
                 return;
             }
-            navigate(`search-name/${name}`);
+            navigate(`public/search-name/${name}`);
         },
         [navigate, name]
     );
-    // const handleInputKeyPress = (event) => {
-    //     if (event.key === "Enter") {
-    //         handleSearch();
-    //     }
-    // };
-    const goLoginPage = ()=>{
-        navigate(`ThienBB`)
+    const goLoginPage = () => {
+        navigate(`login`)
     }
-
-    // const loadDataProfile = () => {
-    //     var myHeaders = new Headers();
-    //     myHeaders.append("Authorization", "Bearer" + localStorage.getItem("accessToken"));
-    //     var requestOptions = {
-    //         method : 'GET',
-    //         headers: myHeaders,
-    //         redirect: 'follow'
-    //     };
-    // }
+    useEffect(() => {
+        findUserName();
+    }, []);
+    const findUserName = async () => {
+        const res = await getUsernameByJwt;
+        setUserName(res);
+    }
+    const userName = "liendtm";
+    useEffect(() => {
+        findUser();
+    }, [userName]);
+    const findUser = async () => {
+        const res = await SearchNameService.findByUserName(userName);
+        setUser(res.data);
+        if (user.role !== null) {
+            setIsAuthentication(true);
+        }
+    }
 
     return (
         <header className="header">
@@ -86,11 +90,11 @@ export default function Header() {
                     </button>
                     <div className="d-flex align-items-center">
                         {isAuthentication ?
-                            <Link to={'/dat'}>
+                            <Link to={'/newsfeed'}>
                                 <img src={logo} alt=""
                                      style={{width: "120px", height: "150%"}}/>
                             </Link> :
-                            <Link to={''}>
+                            <Link to={'/'}>
                                 <img src={logo} alt=""
                                      style={{width: "120px", height: "150%"}}/>
                             </Link>
@@ -101,29 +105,31 @@ export default function Header() {
                             isAuthentication ?
                                 <ul className="navbar-nav me-auto mb-2 mb-lg-0  navbar-login-items">
                                     <li className="nav-item">
-                                        <Link to="/dat" className="nav-link icon" aria-current="page">
+                                        <Link to="/newsfeed" className="nav-link icon" aria-current="page">
                                             <i className="fa-solid fa-house fs-4 text-white"></i>
                                             <span className="description-icon">Trang chủ</span>
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to="/hung" className="nav-link icon" aria-current="page">
+                                        <Link to="/invited_recommend_friend/RecommendList" className="nav-link icon"
+                                              aria-current="page">
                                             <i className="fa-solid fa-user-plus fs-4 text-white"></i>
                                             <span className="description-icon">Gợi ý kết bạn</span>
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to="/hanh" className="nav-link icon" aria-current="page">
+                                        <Link to="/top_hundered" className="nav-link icon" aria-current="page">
                                             <i className="fa-solid fa-crown fs-4 text-white"></i>
                                             <span className="description-icon">Top 100</span>
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to="/thien" className="nav-link icon" aria-current="page" >
+                                        <Link to="/friend/list" className="nav-link icon" aria-current="page">
                                             <i className="fa-solid fa-people-group fs-4 text-white"></i>
                                             <span className="description-icon">Danh sách bạn bè</span>
                                         </Link>
                                     </li>
+                                    {/*Qúy code ở đây*/}
                                 </ul> :
                                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                     <li className="nav-item">
@@ -151,9 +157,9 @@ export default function Header() {
                                     </span>
                                 </div>
                                 <input type="text" className="form-control"
-                                       placeholder="Nhập tên bạn bè" aria-label="Username" aria-describedby="addon-wrapping"
+                                       placeholder="Nhập tên bạn bè" aria-label="Username"
+                                       aria-describedby="addon-wrapping"
                                        onChange={handleChangeInput}
-                                       // onKeyUp={handleInputKeyPress}
                                        value={name}
                                 />
                             </div>
@@ -163,26 +169,37 @@ export default function Header() {
                         !isAuthentication ?
                             <div className="float-lg-end lien-login-btn">
                                 <button className="d-flex align-items-center icon"><i
-                                    className="fa-solid fa-right-to-bracket" style={{color: "#9D66C3"}} onClick={goLoginPage}></i>
+                                    className="fa-solid fa-right-to-bracket" style={{color: "#9D66C3"}}
+                                    onClick={goLoginPage}></i>
                                 </button>
                             </div> :
                             <div className="float-lg-end lien-login-btn">
                                 <button ref={userMenuRef} className="position-relative"
                                         onClick={handleButtonClick}>
-                                    <img src={"https://images.pexels.com/photos/2048716/pexels-photo-2048716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
-                                         alt="avatar"
-                                         style={{width: "36px", aspectRatio: '1/1', borderRadius: "50%", objectFit: "cover", objectPosition: "center"}}/>
+                                    <img
+                                        src={user.avatar}
+                                        alt="avatar"
+                                        style={{
+                                            width: "36px",
+                                            aspectRatio: '1/1',
+                                            borderRadius: "50%",
+                                            objectFit: "cover",
+                                            objectPosition: "center"
+                                        }}/>
                                     {
                                         isShowUserMenu && <div className={`user-menu`}>
                                             <ul className="position-relative">
                                                 <li>
-                                                    <Link to="/Long">Trang cá nhân</Link>
-                                                </li>
-                                                <li><Link to="/Quy">Đổi mật khẩu</Link>
+                                                    <Link to="/personal-page/${user.id}">Trang cá nhân</Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/Tri">Quản lý</Link>
+                                                    <Link to="/change_password">Đổi mật khẩu</Link>
                                                 </li>
+                                                {user.role === 1 &&
+                                                <li>
+                                                    <Link to="/accounts">Quản lý</Link>
+                                                </li>
+                                                }
                                                 <hr/>
                                                 <li onClick={returnMainPage}>
                                                     <p>Đăng xuất</p>

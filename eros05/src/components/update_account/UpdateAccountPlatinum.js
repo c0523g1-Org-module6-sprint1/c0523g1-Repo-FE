@@ -5,9 +5,11 @@ import '../update_account/HeaderUpdateAccount'
 import {HeaderUpdateAccount} from "./HeaderUpdateAccount";
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
-import {formatPrice} from "./FormatPrice";
+import {formatPrice, vndToUsd} from "./FormatPrice";
+import {load} from "./Pay";
+
 
 export function UpdateAccountPlatinum() {
     const [pricePay, setPricePay] = useState(0);
@@ -20,7 +22,7 @@ export function UpdateAccountPlatinum() {
 
     const getAll = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountType.id === 3)
+        let dataEros = data.filter(data => data.accountTypes.id === 3)
         console.log(dataEros)
         setPackageTypes(dataEros);
     }
@@ -30,14 +32,14 @@ export function UpdateAccountPlatinum() {
             <HeaderUpdateAccount/>
 
             <div className="col-xs-12 col-6 col-md-12 col-lg-6 col-sm-12">
-                <div className="card-center">
+                <div className="updateaccount-card-center">
                     <div style={{display: "flex", margin: "-25px 0 0 -15px"}}>
                         <p className="title ">Eros</p>
                         <p className="title platinum">Platinum</p>
                     </div>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nâng cấp lượt thích</p>
                     <ul>
                         <li>
@@ -55,7 +57,7 @@ export function UpdateAccountPlatinum() {
                     </ul>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nâng cấp trải nghiệm của bạn</p>
                     <ul>
                         <li>
@@ -85,7 +87,7 @@ export function UpdateAccountPlatinum() {
                     </ul>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nắm quyền kiểm soát</p>
                     <ul>
                         <li>
@@ -105,18 +107,17 @@ export function UpdateAccountPlatinum() {
             </div>
 
             <div className="col-xs-12 col-3 col-md-12 col-lg-3">
-                <div className="card-right">
+                <div className="updateaccount-card-right">
                     <p className="title ">Đăng ký Eros Platinum</p>
                     <p style={{fontSize: "14px"}}>Trải nghiệm hẹn hò thú vị bậc nhất</p>
                 </div>
 
-                <div className="radio-input">
+                <div className="updateaccount-radio-input">
                     {packageTypes.map(packageType => (
                         <>
-                            <input onChange={(values) => setPricePay(values.target.value)}
+                            <input onChange={(values) => setPricePay(packageType.price)}
                                    type="radio" id={packageType.name}
-                                   name="value-radio"
-                                   value={packageType.price}/>
+                                   name="value-radio"/>
                             <label htmlFor={packageType.name}>
                                 {packageType.name}<br/>
                                 {formatPrice(packageType.price)} đ/tháng
@@ -144,7 +145,7 @@ export function UpdateAccountPlatinum() {
                     {/*    Tiết kiêm 65%*/}
                     {/*</label>*/}
 
-                    <div className="radio-input-pay">
+                    <div className="updateaccount-radio-input-pay">
                         <input onChange={(values) => setPayEros(values.target.value)} value="vnpay" name="value-radio-pay"
                                id="value-4" type="radio"/>
                         <label htmlFor="value-4">Thanh toán VNPay</label>
@@ -155,13 +156,19 @@ export function UpdateAccountPlatinum() {
                                id="value-6" type="radio"/>
                         <label htmlFor="value-6">Thanh toán Momo</label>
                     </div>
+                    {payEros === '' && pricePay === 0 ? (
+                        <div className="updateaccount-card-right">
+                            <p className="title" style={{fontSize: "13px"}}>Vui lòng chọn gói và chọn phương thức thanh
+                                toán</p>
+                        </div>
+                    ) : null}
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
-                        <button className="pushable">
-                            <span className="shadow"></span>
-                            <span className="edge"></span>
-                            <span className="front">
+                        <button className="updateaccount-pushable">
+                            <span className="updateaccount-shadow"></span>
+                            <span className="updateaccount-edge"></span>
+                            <span className="updateaccount-front">
                                     Thanh toán VNPay
                                     </span>
                         </button>
@@ -169,12 +176,11 @@ export function UpdateAccountPlatinum() {
 
                     {payEros === 'paypal' && pricePay !== 0 ? (
                         <PayPalButton classname="paypal-button-label-container"
-                                      amount="0.01"
+                                      amount={vndToUsd(pricePay)}
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
-                                          getAll()
-                                          console.log("OK")
+                                          load()
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",

@@ -1,15 +1,17 @@
 .header {
-  position: fixed;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background-color: #a36acb;
-  font-family: Nunito Sans, sans-serif;
-  height: 75px;
-  display: flex;
-  align-items: center;
+
+    position: fixed;
+    /*z-index: 9999;*/
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #a36acb;
+    font-family: Nunito Sans, sans-serif;
+    height: 75px;
+    display: flex;
+    align-items: center;
+
 }
 
 .navbar {
