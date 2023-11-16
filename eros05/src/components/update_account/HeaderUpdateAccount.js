@@ -1,16 +1,17 @@
 import {Link} from "react-router-dom";
-import {Header} from "./Header";
 
-export function HeaderUpdateAccount(){
+
+export function HeaderUpdateAccount(props){
+    const {data} = props;
+
+
     return(
         <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-card">
-            <Header/>
-
-            <Link to="/eros+" className="card">
+            <Link to="/updateAccount/eros+" className="card">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701">
-                        <linearGradient id="gradientColor">
+                        <linearGradient id="gradientColor" >
                             <stop offset="5%" stopColor="#7eaaff"></stop>
                             <stop offset="95%" stopColor="#ff48fb"></stop>
                         </linearGradient>
@@ -27,7 +28,7 @@ export function HeaderUpdateAccount(){
                 <p className="text">Tặng quà nhiều hơn & hơn thế nữa!</p>
             </Link>
 
-            <Link to="/gold" className="card">
+            <Link to="/updateAccount/gold" className="card">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701">
@@ -48,7 +49,7 @@ export function HeaderUpdateAccount(){
                 <p className="text">Nhiều người biết đến bạn hơn & hơn thế nữa!</p>
             </Link>
 
-            <Link className="card" to="/platinum">
+            <Link className="card" to="/updateAccount/platinum">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701" >

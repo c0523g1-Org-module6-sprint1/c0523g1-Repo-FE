@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./index.css";
+import "./post.css";
 import { getListPublic } from "../../service/posts/PostService";
 import EditPost from "./EditPost";
 
@@ -15,7 +15,7 @@ export default function Post() {
   };
   useEffect(() => {
     fetchDataListPublic();
-  }, []);
+  }, [showModal]);
 
   const handleShowModal = (postUpdate) => {
     setShowModal(true);

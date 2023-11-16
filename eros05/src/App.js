@@ -1,5 +1,6 @@
+
 import './App.css';
-import {ToastContainer} from "react-bootstrap";
+import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {Chatbox} from "./components/chatbox/Chatbox";
 import Header from "./components/header/Header";
@@ -31,7 +32,7 @@ function App() {
 
   return (
       <>
-        <ToastContainer/>
+        <ToastContainer position="bottom-left" />
           {/*<Chatbox/>*/}
           <Header/>
           <Routes>
@@ -63,4 +64,5 @@ function App() {
       </>
   );
 }
+
 export default App;

@@ -26,9 +26,8 @@ export default function InvitedList() {
                     Type
                 </button>
                 <ul className="dropdown-menu">
-                    <li className="dropdown-item" >Food</li>
-                    <li className="dropdown-item">Drink</li>
-                    <li className="dropdown-item">Alcohol</li>
+                    <li className="dropdown-item" >Theo lời mời mới nhất</li>
+                    <li className="dropdown-item">Theo lời mời cũ nhất</li>
                 </ul>
             </div>
             <button className="btn btn-success" type="submit">Reset</button>
