@@ -3,12 +3,15 @@ import logo from "./image/Logo-background-transfer.png"
 import React, {useEffect, useRef, useState} from "react";
 import NavbarMobile from "../navbarMobile/NavbarMobile";
 import {Link, useNavigate} from "react-router-dom";
-// import * as Yup from "yup";
+import {toast} from "react-toastify";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
     const [isShowUserMenu, setIsShowUserMenu] = useState(false)
     const [isAuthentication, setIsAuthentication] = useState(true)
+
+    // const isAuthentication = localStorage.getItem("accessToken") !=null
+
     const [name, setName] = useState("");
     const userMenuRef = useRef(null)
     const navigate = useNavigate()
@@ -33,16 +36,38 @@ export default function Header() {
     const handleChangeInput = (event) => {
         setName(event.target.value);
     };
-    const handleGoPage = () => {
-        navigate(`search-name/${name}`)
-    }
+    const handleSearch = React.useCallback(
+        (event) => {
+            event.preventDefault();
+            var regex = /^[a-zA-Z0-9\s]+$/;
+            if (!name) {
+                toast.error("Mời bạn nhập tên cần tìm!");
+                return;
+            }else if(!regex.test(name)){
+                toast.error("Tên không chứa ký tự đặc biệt!");
+                return;
+            }
+            navigate(`search-name/${name}`);
+        },
+        [navigate, name]
+    );
+    // const handleInputKeyPress = (event) => {
+    //     if (event.key === "Enter") {
+    //         handleSearch();
+    //     }
+    // };
     const goLoginPage = ()=>{
         navigate(`ThienBB`)
     }
-    // const validateObject = {
-    //     name: Yup.string()
-    //         .required("Bạn chưa nhập tên!")
-    //         .matches(/^$/)
+
+    // const loadDataProfile = () => {
+    //     var myHeaders = new Headers();
+    //     myHeaders.append("Authorization", "Bearer" + localStorage.getItem("accessToken"));
+    //     var requestOptions = {
+    //         method : 'GET',
+    //         headers: myHeaders,
+    //         redirect: 'follow'
+    //     };
     // }
 
     return (
@@ -50,6 +75,7 @@ export default function Header() {
             <NavbarMobile isOpenNavbarMobile={isOpenNavbarMobile}
                           setOpenNavbarMobile={setOpenNavbarMobile}
                           isAuthentication={isAuthentication}/>
+
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light">
                     <button
@@ -119,7 +145,7 @@ export default function Header() {
                         }
                         <form>
                             <div className="input-group">
-                                <div onClick={handleGoPage} className='search-btn'>
+                                <div onClick={handleSearch} className='search-btn'>
                                     <span className="input-group-text">
                                          <i className="fa-solid fa-magnifying-glass" style={{color: "#9D66C3"}}></i>
                                     </span>
@@ -127,6 +153,7 @@ export default function Header() {
                                 <input type="text" className="form-control"
                                        placeholder="Nhập tên bạn bè" aria-label="Username" aria-describedby="addon-wrapping"
                                        onChange={handleChangeInput}
+                                       // onKeyUp={handleInputKeyPress}
                                        value={name}
                                 />
                             </div>
