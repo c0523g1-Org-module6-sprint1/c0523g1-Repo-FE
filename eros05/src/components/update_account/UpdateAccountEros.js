@@ -6,17 +6,25 @@ import '../update_account/HeaderUpdateAccount'
 import {HeaderUpdateAccount} from "./HeaderUpdateAccount";
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
 import React from 'react';
-import {formatPrice, FormatPrice} from "./FormatPrice";
+import {formatPrice, usdToVnd, vndToUsd} from "./FormatPrice";
 import * as accountType from "../../service/update_account/accountTypeService";
+import {load, paySucces} from "./Pay";
+import {useParams} from "react-router-dom";
+import * as packageDetail from "../../service/update_account/packageDetailService";
 
 export function UpdateAccountEros() {
     const [pricePay, setPricePay] = useState(0);
     const [payEros, setPayEros] = useState("");
     const [packageTypes, setPackageTypes] = useState([]);
     const [accountTypes, setAccountTypes] = useState([]);
+    const [account, setAccount] = useState("");
+    const {id} = useParams();
+    const inputRef = useRef(1);
+
+
 
     useEffect(() => {
         getAllAccountType()
@@ -24,15 +32,35 @@ export function UpdateAccountEros() {
     useEffect(() => {
         getAllPackageTypes()
     }, []);
+    useEffect(() => {
+        if (id) findById(id);
+    }, [id]);
     const getAllAccountType = async () => {
         let data = await accountType.getAll();
         setAccountTypes(data);
     }
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountType.id === 1)
+        let dataEros = data.filter(data => data.accountTypes.id === 1);
+        console.log(dataEros)
         setPackageTypes(dataEros);
     }
+    const findById = async (id) => {
+        let data = await packageDetail.findById(id);
+        setAccount(data);
+    }
+    const setMoneyAccount = async (values) => {
+        values.money = pricePay;
+        console.log(values.money);
+        let status = await packageDetail.setMoneyAccount(values);
+        console.log(status);
+        if (status === 200) {
+            toast.success("Sửa thành công");
+        } else {
+            toast.error("Sửa thất bại");
+        }
+    }
+
 
     return (
         <div className="row" style={{display: "flex"}}>
@@ -122,46 +150,17 @@ export function UpdateAccountEros() {
                 <div className="radio-input">
                     {packageTypes.map(packageType => (
                         <>
-                            <input onChange={(values) => setPricePay(values.target.value)}
-                                   type="radio" id={packageType.name}
-                                   name="value-radio"
-                                   value={packageType.price}/>
+                            <input
+                                key={packageType.id}
+                                onChange={() => setPricePay(packageType.price)}
+                                type="radio" id={packageType.name}
+                                name="value-radio"/>
                             <label htmlFor={packageType.name}>
                                 {packageType.name}<br/>
                                 {formatPrice(packageType.price)} đ/tháng
                             </label>
                         </>
                     ))}
-
-                    {/*<input onChange={(values) => setPricePay(values.target.value)}*/}
-                    {/*       type="radio" id="value-1"*/}
-                    {/*       name="value-radio"*/}
-                    {/*       value="107000"/>*/}
-                    {/*<label htmlFor="value-1">*/}
-                    {/*    1 tháng<br/>*/}
-                    {/*    107.100 đ/tháng*/}
-                    {/*</label>*/}
-
-                    {/*<input onChange={(values) => setPricePay(values.target.value)}*/}
-                    {/*       type="radio"*/}
-                    {/*       id="value-2" name="value-radio"*/}
-                    {/*       value="52000"/>*/}
-                    {/*<label htmlFor="value-2">*/}
-                    {/*    6 tháng <br/>*/}
-                    {/*    52.350 đ/tháng <br/>*/}
-                    {/*    Tiết kiệm 33%*/}
-                    {/*</label>*/}
-
-                    {/*<input onChange={(values) => setPricePay(values.target.value)}*/}
-                    {/*       type="radio"*/}
-                    {/*       id="value-3"*/}
-                    {/*       name="value-radio"*/}
-                    {/*       value="value-3"/>*/}
-                    {/*<label htmlFor="value-3">*/}
-                    {/*    12 tháng <br/>*/}
-                    {/*    34.425 đ/tháng <br/>*/}
-                    {/*    Tiết kiêm 50%*/}
-                    {/*</label>*/}
 
                     <div className="radio-input-pay">
                         <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
@@ -197,12 +196,12 @@ export function UpdateAccountEros() {
 
                     {payEros === 'paypal' && pricePay !== 0 ? (
                         <PayPalButton classname="paypal-button-label-container"
-                                      amount="0.01"
+                                      amount={vndToUsd(pricePay)}
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
-                                          getAllPackageTypes()
-                                          console.log("OK")
+                                          onchange(paySucces(1))
+                                          // load()
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",
