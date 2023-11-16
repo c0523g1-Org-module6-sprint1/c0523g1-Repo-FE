@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const GetProfileApi = async () => {
     try {
-        const res = await axios.get(`http://localhost:8080/profile`)
+        const res = await axios.get(`http://localhost:8080/api/public/message/account`)
         return res;
     } catch (e) {
         console.log(e);
@@ -10,7 +10,7 @@ export const GetProfileApi = async () => {
 }
 export const GetFriendsApi = async (name) => {
     try {
-        const res = await axios.get(`http://localhost:8080/friends?name_like=${name}`)
+        const res = await axios.get(`http://localhost:8080/api/public/message/chatlist?name=${name}`)
         return res.data;
     } catch (e) {
         console.log(e);
@@ -18,21 +18,16 @@ export const GetFriendsApi = async (name) => {
 }
 export const GetUnknowApi = async (name) => {
     try {
-        const res = await axios.get(`http://localhost:8080/unknow?name_like=${name}`)
+        const res = await axios.get(`http://localhost:8080/api/public/message/unknowlist?name=${name}`)
         return res.data;
     } catch (e) {
         console.log(e);
     }
 }
-export const GetChatBoxApi = async (id1, id2) => {
+export const GetChatBoxApi = async (id) => {
     try {
-        const res1 = await axios.get(`http://localhost:8080/mess?sender=${id1}&recipient=${id2}`);
-        const res2 = await axios.get(`http://localhost:8080/mess?sender=${id2}&recipient=${id1}`);
-
-        let res = [...res1.data, ...res2.data];
-        res.sort((a,b) => new Date(b.releaseTime) - new Date(a.releaseTime));
-
-        return res;
+        const res = await axios.get(`http://localhost:8080/api/public/message/Chatbox/${id}`)
+        return res.data;
     } catch (e) {
         console.log(e);
     }

@@ -42,3 +42,10 @@ export const addZero = (str) => {
         return str;
     }
 }
+export const compareId = (id1, id2) => {
+    let name = id1 + "-" + id2;
+    if (id1 > id2) {
+        name = id2 + "-" + id1;
+    }
+    return name;
+}
