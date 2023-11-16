@@ -25,6 +25,8 @@ import Footer from "./components/footer/Footer";
 import TimHieu from "./components/bodyMainPage/TimHieu";
 import HoTro from "./components/bodyMainPage/HoTro";
 import AnToan from "./components/bodyMainPage/AnToan";
+import EditAccount from "./components/account_edit/EditAccount";
+import Post from "./components/posts/Post";
 function App() {
   return (
       <>
@@ -51,6 +53,8 @@ function App() {
               <Route path="/tim-hieu" Component={<TimHieu/>}/>
               <Route path="/ho-tro" Component={<HoTro/>}/>
               <Route path="/an-toan" Component={<AnToan/>}/>
+              <Route path="/personal-page/edit" Component={<EditAccount/>}/>
+              <Route path="/newsfeed" Component={<Post/>}/>
           </Routes>
           <Routes>
               <Route path="/" Component={<Footer/>}/>
