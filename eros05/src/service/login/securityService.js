@@ -4,8 +4,8 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api";
 
-const doLogin = async (loginRequest) => {
-    return await axios.post(API_URL + "/public/login", loginRequest);
+const doLogin = async (data) => {
+    return await axios.post(API_URL + "/public/login", data);
 };
 
 const addAccessToken = async (jwt) => {
@@ -30,8 +30,17 @@ const getIdByJwt = () => {
     }
 }
 
+const getRoleByJwt = () => {
+    const jwt = localStorage.getItem("accessToken");
+    if (jwt) {
+        return jwtDecode(jwt).aut;
+    } else {
+        return null;
+    }
+}
 
 
 
 
-export {doLogin, addAccessToken, getUsernameByJwt, getIdByJwt};
+
+export {doLogin, addAccessToken, getUsernameByJwt, getIdByJwt, getRoleByJwt};
