@@ -1,5 +1,5 @@
-import axios from "axios";
 import {jwtDecode} from "jwt-decode";
+import axios from "axios";
 
 
 const API_URL = "http://localhost:8080/api";
@@ -12,14 +12,26 @@ const addAccessToken = async (jwt) => {
     localStorage.setItem("accessToken", jwt);
 }
 
-const getAccountInfoByJwt = () => {
+const getUsernameByJwt = () => {
     const jwt = localStorage.getItem("accessToken");
     if (jwt) {
-        return jwtDecode(jwt);
+        return jwtDecode(jwt).sub.sub;
+    } else {
+        return null;
+    }
+}
+
+const getIdByJwt = () => {
+    const jwt = localStorage.getItem("accessToken");
+    if (jwt) {
+        return jwtDecode(jwt).sub.id;
     } else {
         return null;
     }
 }
 
 
-export {doLogin, addAccessToken};
+
+
+
+export {doLogin, addAccessToken, getUsernameByJwt, getIdByJwt};
