@@ -32,7 +32,7 @@ export const dateFormatSendMessage = (str) => {
     const hour = date.getHours();
     const minute = date.getMinutes();
 
-    return `${addZero(hour)} : ${addZero(minute)} - ${addZero(day)} tháng ${addZero(month)}, ${year}`;
+    return `${addZero(hour)}:${addZero(minute)} - ${addZero(day)} tháng ${addZero(month)}, ${year}`;
 }
 export const addZero = (str) => {
     str += "";
@@ -41,4 +41,11 @@ export const addZero = (str) => {
     } else {
         return str;
     }
+}
+export const compareId = (id1, id2) => {
+    let name = id1 + "-" + id2;
+    if (id1 > id2) {
+        name = id2 + "-" + id1;
+    }
+    return name;
 }

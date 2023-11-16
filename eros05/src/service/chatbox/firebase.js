@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref as refText, push, onValue, orderByChild, query, equalTo } from "firebase/database";
+import { set, getDatabase, ref as refText, push, onValue, orderByChild, query, equalTo, limitToLast, orderByKey } from "firebase/database";
 import { getStorage, ref as refImage, uploadBytes, getDownloadURL } from "firebase/storage"
 
 
@@ -19,4 +19,4 @@ const analytics = getAnalytics(app);
 const database = getDatabase(app);
 const storage = getStorage(app);
 
-export { database, refText, push, onValue, orderByChild, query, equalTo, storage, refImage, uploadBytes, getDownloadURL };
+export { set, orderByKey, limitToLast, database, refText, push, onValue, orderByChild, query, equalTo, storage, refImage, uploadBytes, getDownloadURL };
