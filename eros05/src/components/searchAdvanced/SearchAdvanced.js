@@ -33,7 +33,7 @@ function SearchAdvanced() {
     const [hobbyType, setHobbyType] = useState([]);
 
     const searchByAdvanced = async () => {
-        const res = await accountService.searchAdvanced(name);
+        const res = await accountService.searchAdvanced();
         setAccount(res.data);
     };
 
@@ -75,6 +75,7 @@ function SearchAdvanced() {
         <div>
             <Formik initialValues={initValue}
                     onSubmit={(values) => {
+
                     }}
                     validationSchema
             >
