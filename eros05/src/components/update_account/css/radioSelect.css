@@ -1,9 +1,9 @@
-.radio-input input {
+.updateaccount-radio-input input {
     display: none;
     text-align: center;
 }
 
-.radio-input {
+.updateaccount-radio-input {
     display: flex;
     flex-direction: column;
     padding: 12px;
@@ -14,21 +14,21 @@
     width: 320px;
 }
 
-.info {
+.updateaccount-info {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.question {
+.updateaccount-question {
     color: rgb(49, 49, 49);
     font-size: 1rem;
     line-height: 1rem;
     font-weight: 800;
 }
 
-.steps {
+.updateaccount-steps {
     background-color: rgb(0, 0, 0);
     padding: 4px;
     color: #fff;
@@ -38,7 +38,7 @@
     font-weight: 600;
 }
 
-.radio-input  label {
+.updateaccount-radio-input  label {
     display: flex;
     background-color: #fff;
     padding: 14px;
@@ -54,58 +54,58 @@
     letter-spacing: 1px;
 }
 
-.radio-input  label:hover {
+.updateaccount-radio-input  label:hover {
     background: linear-gradient(to right,#9797ff,#cc6ffd);
     border: 1px solid #bbb;
 }
 
-.result {
+.updateaccount-result {
     margin-top: 10px;
     font-weight: 600;
     font-size: 12px;
     transition: display .4s ease;
 }
 
-.result.success {
+.updateaccount-result.success {
     color: #3c444f;
 }
 
-.radio-input input[type="radio"]:checked + label {
+.updateaccount-radio-input input[type="radio"]:checked + label {
     background: linear-gradient(to right,#9797ff,#cc6ffd);
     color: black;
 }
 
-.radio-input:has(input[type="radio"]:checked) .result.success {
+.updateaccount-radio-input:has(input[type="radio"]:checked) .updateaccount-result.success {
     display: flex;
 }
 
-.radio-input:has(input:not([type="radio"]):checked ) .result.error {
+.updateaccount-radio-input:has(input:not([type="radio"]):checked ) .updateaccount-result.error {
     display: flex;
 }
 
-.radio-input input[type="radio"]:checked + label {
+.updateaccount-radio-input input[type="radio"]:checked + label {
     background: linear-gradient(to right,#9797ff,#cc6ffd);
     color: black;
 }
 
-.radio-input:has(input[type="radio"]:checked) .result.success {
+.updateaccount-radio-input:has(input[type="radio"]:checked) .updateaccount-result.success {
     display: flex;
 }
 
-.radio-input:has(input:not([type="radio"]):checked ) .result.error {
+.updateaccount-radio-input:has(input:not([type="radio"]):checked ) .updateaccount-result.error {
     display: flex;
 }
 
-.radio-input input[type="radio"]:checked + label {
+.updateaccount-radio-input input[type="radio"]:checked + label {
     background: linear-gradient(to right,#9797ff,#cc6ffd);
     color: black;
 }
 
-.radio-input:has(input[type="radio"]:checked) .result.success {
+.updateaccount-radio-input:has(input[type="radio"]:checked) .updateaccount-result.success {
     display: flex;
 }
 
-.radio-input:has(input:not([type="radio"]):checked ) .result.error {
+.updateaccount-radio-input:has(input:not([type="radio"]):checked ) .updateaccount-result.error {
     display: flex;
 }
 
