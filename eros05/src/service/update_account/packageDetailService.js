@@ -18,11 +18,19 @@ export const setAccountTypes = async (values) =>{
         console.log("Sửa thất bại !");
     }
 }
-export const setMoneyAccount = async (Account, newMoney) =>{
+export const setMoneyAccount = async (account) =>{
     try {
-        let response = await axios.put(URL_PACKAGE_DETAIL + "/" + Account.id);
+        let response = await axios.put(URL_PACKAGE_DETAIL + "/" + account.id, account);
         return response.status;
     } catch (e){
         console.log("Sửa thất bại !");
+    }
+}
+export const findById = async (id) => {
+    try {
+        let response = await axios.get(`http://localhost:8080/accounts + \`/${id}\``);
+        return response.data;
+    } catch (e){
+
     }
 }
