@@ -1,7 +1,7 @@
 import './PersonalPage.css'
 import './header.css'
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import * as personalService from "../../service/personalPage/PersonalpageService"
 
 
@@ -98,31 +98,39 @@ export function PersonalPage() {
                                     style={{ color: "black", textAlign: "center" }}
                                 >
                                     <div className="col-lg-2" style={{ marginLeft: 30 }}>
+                                        <Link to={"/THienPP"} style={{textDecoration:"none"}}>
                                         <small>
                                             <i className="fa-solid fa-user-group"> </i> Bạn bè
                                         </small>
+                                        </Link>
                                     </div>
                                     <div className="col-lg-3">
                                         <div className="col-12">
+                                            <Link to={"/THienPT"} style={{textDecoration:"none"}}>
                                             <small>
                                                 <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
                                             </small>
+                                            </Link>
                                         </div>
                                     </div>
                                     <div className="col-lg-3">
                                         <div className="row">
                                             <div className="col-12">
+                                              <Link to={"/Hậu"} style={{textDecoration:"none"}}>
                                                 <small>
                                                     <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
                                                 </small>
+                                              </Link>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-3">
                                         <div className="col-12">
+                                            <Link to={"/ThienLCH"} style={{textDecoration:"none"}}>
                                             <small>
                                                 <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
                                             </small>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -386,168 +394,8 @@ export function PersonalPage() {
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-question-circle-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Posted the question:{" "}
-                                            <a href="#">
-                                                How can I change my annual reports for the better effect?
-                                            </a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                    Voluptatibus ab a nostrum repudiandae dolorem ut quaerat
-                                                    veniam asperiores, rerum voluptatem magni dolores
-                                                    corporis! Molestiae commodi nesciunt a, repudiandae
-                                                    repellendus ea.
-                                                </p>
-                                            </blockquote>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-image" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Uploaded 4 Image:{" "}
-                                            <a href="#">Office Working Time</a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <ul className="gallery">
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-question-circle-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Posted the question:{" "}
-                                            <a href="#">
-                                                How can I change my annual reports for the better effect?
-                                            </a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                    Voluptatibus ab a nostrum repudiandae dolorem ut quaerat
-                                                    veniam asperiores, rerum voluptatem magni dolores
-                                                    corporis! Molestiae commodi nesciunt a, repudiandae
-                                                    repellendus ea.
-                                                </p>
-                                            </blockquote>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-lightbulb-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> bookmarked a page:{" "}
-                                            <a href="#">Awesome Idea</a>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
+
+
                                 </ul>
                             </div>
                         </div>
