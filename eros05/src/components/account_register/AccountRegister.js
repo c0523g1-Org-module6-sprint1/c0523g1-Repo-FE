@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import * as Yup from "yup";
 
-function Register() {
+export function Register() {
     const navigate = useNavigate();
 
     const initValuesRegister = {
