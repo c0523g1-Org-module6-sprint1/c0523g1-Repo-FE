@@ -14,7 +14,6 @@ export function Test() {
     const [image, setImage] = useState("");
     const [img, setImg] = useState("");
     const [resetSuccess, setResetSuccess] = useState("");
-    let a = 0
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
