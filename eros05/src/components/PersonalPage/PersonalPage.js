@@ -1,7 +1,27 @@
 import './PersonalPage.css'
 import './header.css'
+import {useEffect, useState} from "react";
+import {Link, useParams} from "react-router-dom";
+import * as personalService from "../../service/personalPage/PersonalpageService"
+
 
 export function PersonalPage() {
+    const [account,setAccount] = useState({});
+    const {id} = useParams();
+    let idTemp =1;
+
+    useEffect(() => {
+        getInfoAccount();
+    },[]);
+
+    const getInfoAccount = async () => {
+        let result =  await personalService.getInfoPersonal(id)
+        console.log(result)
+        setAccount(result.data);
+    }
+
+
+
     return(
         <>
             <div className="container-fluid" style={{ marginTop: 80 }}>
@@ -10,91 +30,116 @@ export function PersonalPage() {
                     <div className="col-lg-6">
                         <div className="panel profile-cover">
                             <div className="profile-cover__img">
-                                <div className="ig"></div>
-                                <h3 className="h3">
-                                    <b>Trương Nguyễn Đình Long </b>
+                                <div className="ig" style={{
+                                    backgroundImage : `url(${account.avatar})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    aspectRatio: '1/1',
+                                    width: '80%',
+                                    borderRadius: '100%',
+                                    marginLeft: '25px'}} >
+
+
+                                </div>
+                                <h3 className="h3" >
+                                    <b style={{padding:"45px"}}>{account.name}</b>
                                 </h3>
+
+
                             </div>
                             <div
                                 className="profile-cover__action bg--img"
                                 data-overlay="0.3"
                             ></div>
-                            <div className="profile-cover__info" style={{ height: 190 }}>
-                                <ul className="nav">
-                                    <li>
-                                        <button
-                                            className="btn btn-rounded btn-info"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal"
-                                            style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                        >
-                                            <i className="fa fa-plus bt" />
-                                            <span className="bt">Kết bạn</span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            className="btn btn-rounded btn-info"
-                                            style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                        >
-                                            <i className="fa fa-comment bt" />
-                                            <span className="bt">Tin nhắn</span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <div
-                                            data-bs-target="#exampleModalToggle"
-                                            data-bs-toggle="modal"
-                                        >
-                                            <div>
-                                                <button
-                                                    className="btn btn-rounded btn-info"
-                                                    style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                                >
-                                                    <i className="fa-solid fa-gift bt" />
-                                                    <span className="bt">Tặng quà</span>
-                                                </button>
+                            <div className="profile-cover__info" style={{ height: '120px' }}>
+                                {idTemp !== account.id ?
+                                    (<ul className="nav">
+                                        <li>
+                                            <button
+                                                className="btn btn-rounded btn-info"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"
+                                                style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                            >
+                                                <i className="fa fa-plus bt" />
+                                                <span className="bt">Kết bạn</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                className="btn btn-rounded btn-info"
+                                                style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                            >
+                                                <i className="fa fa-comment bt" />
+                                                <span className="bt">Tin nhắn</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <div
+                                                data-bs-target="#exampleModalToggle"
+                                                data-bs-toggle="modal"
+                                            >
+                                                <div>
+                                                    <button
+                                                        className="btn btn-rounded btn-info"
+                                                        style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                                    >
+                                                        <i className="fa-solid fa-gift bt" />
+                                                        <span className="bt">Tặng quà</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="btn-group dropend"></div>
-                                    </li>
-                                </ul>
-                                <hr />
-                                <div
-                                    className="row"
-                                    style={{ color: "black", textAlign: "center" }}
-                                >
-                                    <div className="col-lg-2" style={{ marginLeft: 30 }}>
-                                        <small>
-                                            <i className="fa-solid fa-user-group"> </i> Bạn bè
-                                        </small>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="col-12">
-                                            <small>
-                                                <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="row">
-                                            <div className="col-12">
+                                        </li>
+                                        <li>
+                                            <div className="btn-group dropend"></div>
+                                        </li>
+                                    </ul>) :
+                                    (<div
+                                        className="row"
+                                        style={{ color: "black", textAlign: "center", paddingTop:"85px",margin:0 }}
+                                    >
+                                        <hr style={{padding:0, margin:0,opacity:1}}/>
+                                        <div className="col-lg-2" style={{ marginLeft: 30 }}>
+                                            <Link to={"/THienPP"} style={{textDecoration:"none"}}>
                                                 <small>
-                                                    <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
+                                                    <i className="fa-solid fa-user-group"> </i> Bạn bè
                                                 </small>
+                                            </Link>
+                                        </div>
+                                        <div className="col-lg-3">
+                                            <div className="col-12">
+                                                <Link to={"/THienPT"} style={{textDecoration:"none"}}>
+                                                    <small>
+                                                        <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
+                                                    </small>
+                                                </Link>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="col-12">
-                                            <small>
-                                                <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
-                                            </small>
+                                        <div className="col-lg-3">
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <Link to={"/Hậu"} style={{textDecoration:"none"}}>
+                                                        <small>
+                                                            <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
+                                                        </small>
+                                                    </Link>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                        <div className="col-lg-3">
+                                            <div className="col-12">
+                                                <Link to={"/ThienLCH"} style={{textDecoration:"none"}}>
+                                                    <small>
+                                                        <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
+                                                    </small>
+                                                </Link>
+                                            </div>
+                                        </div>
+
+                                    </div>) }
+
+
+
                             </div>
                         </div>
                         <div className="panel">
@@ -355,168 +400,8 @@ export function PersonalPage() {
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-question-circle-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Posted the question:{" "}
-                                            <a href="#">
-                                                How can I change my annual reports for the better effect?
-                                            </a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                    Voluptatibus ab a nostrum repudiandae dolorem ut quaerat
-                                                    veniam asperiores, rerum voluptatem magni dolores
-                                                    corporis! Molestiae commodi nesciunt a, repudiandae
-                                                    repellendus ea.
-                                                </p>
-                                            </blockquote>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-image" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Uploaded 4 Image:{" "}
-                                            <a href="#">Office Working Time</a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <ul className="gallery">
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-question-circle-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Posted the question:{" "}
-                                            <a href="#">
-                                                How can I change my annual reports for the better effect?
-                                            </a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                    Voluptatibus ab a nostrum repudiandae dolorem ut quaerat
-                                                    veniam asperiores, rerum voluptatem magni dolores
-                                                    corporis! Molestiae commodi nesciunt a, repudiandae
-                                                    repellendus ea.
-                                                </p>
-                                            </blockquote>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-lightbulb-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> bookmarked a page:{" "}
-                                            <a href="#">Awesome Idea</a>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
+
+
                                 </ul>
                             </div>
                         </div>
