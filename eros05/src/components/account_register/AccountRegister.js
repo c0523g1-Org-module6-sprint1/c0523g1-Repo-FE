@@ -7,6 +7,7 @@ export function Register() {
     const initValuesRegister = {
         userName : "",
         password : "",
+        confirmPassword: "",
         birthday : "",
         gender : JSON.stringify({
             id : 1,
@@ -23,5 +24,7 @@ export function Register() {
         email : "",
         confirmEmail : ""
     }
+
+
 
 }
