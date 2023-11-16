@@ -1,7 +1,26 @@
 import './PersonalPage.css'
 import './header.css'
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import * as personalService from "../../service/personalPage/PersonalpageService"
+
 
 export function PersonalPage() {
+    const [account,setAccount] = useState({});
+    const {id} = useParams();
+
+    useEffect(() => {
+        getInfoAccount();
+    },[]);
+
+    const getInfoAccount = async () => {
+        let result =  await personalService.getInfoPersonal(2)
+        console.log(result)
+        setAccount(result.data);
+    }
+
+
+
     return(
         <>
             <div className="container-fluid" style={{ marginTop: 80 }}>
@@ -10,10 +29,22 @@ export function PersonalPage() {
                     <div className="col-lg-6">
                         <div className="panel profile-cover">
                             <div className="profile-cover__img">
-                                <div className="ig"></div>
-                                <h3 className="h3">
-                                    <b>Trương Nguyễn Đình Long </b>
+                                <div className="ig" style={{
+                                    backgroundImage : `url(${account.avatar})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    aspectRatio: '1/1',
+                                    width: '80%',
+                                    borderRadius: '100%',
+                                    marginLeft: '25px'}} >
+
+
+                                </div>
+                                <h3 className="h3" >
+                                    <b style={{padding:"45px"}}>{account.name}</b>
                                 </h3>
+
+
                             </div>
                             <div
                                 className="profile-cover__action bg--img"
