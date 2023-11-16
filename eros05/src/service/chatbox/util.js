@@ -1,4 +1,5 @@
 export const sliceString = (str, n) => {
+    if (str == null) return "";
     if (str.length > n) {
         return str.slice(0, n) + "...";
     } else {

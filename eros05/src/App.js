@@ -32,8 +32,9 @@ function App() {
 
   return (
       <>
+          requestFilter();
         <ToastContainer position="bottom-left" />
-          {/*<Chatbox/>*/}
+          <Chatbox/>
           <Header/>
           <Routes>
               <Route path="/" element={<BodyMainPage/>}/>

@@ -31,5 +31,12 @@ export const GetChatBoxApi = async (id) => {
     } catch (e) {
         console.log(e);
     }
-
+}
+export const SetBusyApi = async (isBusy) => {
+    try {
+        const res = await axios.post(`http://localhost:8080/api/public/message/setbusy?busyMode=${!isBusy}`);
+        return res;
+    } catch (e) {
+        console.log(e);
+    }
 }
