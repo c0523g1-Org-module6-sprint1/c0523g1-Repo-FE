@@ -3,14 +3,15 @@ import { database, refText, push, onValue, storage, refImage, uploadBytes, getDo
 import ImageDetail from "./ImageDetail";
 import {dateFormatSendMessage} from "../../service/chatbox/util";
 import {useNavigate} from "react-router-dom";
-import ChatEmoji from "./ChatEmoji";
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 export default function ChatDetail({element, closeChatBox, own}) {
     const [content, setContent] = useState();
     const [inputMess, setInputMess] = useState("");
     const [showImgArr, setShowImgArr] = useState(false);
     const [detailImg, setDetailImg] = useState("");
-    const [showEmoji, setShowEmoji] = useState(true);
+    const [showEmoji, setShowEmoji] = useState(false);
     const navigator = useNavigate();
     const chatBoxRef = useRef();
     const inputImgRef = useRef();
@@ -29,11 +30,15 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 seen: false
             })
             setInputMess("");
+            setShowEmoji(false);
         }
     }
-
-    const handleSendMessage = () => {
-        pushFireBase(0, inputMess);
+    const handlePickEmoji = (emoji) => {
+        setInputMess(inputMess + emoji.native)
+    }
+    const handleSendMessage = async () => {
+        await pushFireBase(0, inputMess);
+        scrollToBottom();
     }
     const scrollToBottom = () => {
         chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
@@ -45,6 +50,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 getMessage.push(mess.val());
             });
             setContent(getMessage);
+            console.log(getMessage)
         });
     }
     const enterButton = (key) => {
@@ -57,10 +63,11 @@ export default function ChatDetail({element, closeChatBox, own}) {
         for (let i = 0; i < files.length; i++) {
             try {
                 let file = files[i];
-                let storageRef = refImage(storage, `images/` + file.name);
+                let storageRef = refImage(storage, `images-eros05/` + file.name);
                 let snapshot = await uploadBytes(storageRef, file);
                 let downloadURL = await getDownloadURL(snapshot.ref);
-                await pushFireBase(1, downloadURL);
+                pushFireBase(1, downloadURL);
+
             } catch (e) {
                 console.log(e);
             }
@@ -79,14 +86,15 @@ export default function ChatDetail({element, closeChatBox, own}) {
     },[]);
     useEffect(() => {
         scrollToBottom();
-    }, [inputMess]);
+    }, [content]);
 
     if (!path) return null;
     return (
         <>
         <div className="chatdetail color4">
             <div className="chatdetail-profile">
-                <div className="chatdetail-profile-info color0 cursorPoint">
+                <div className="chatdetail-profile-info color0 cursorPoint"
+                     onClick={() => {navigator(`personal-page/${element.id}`)}}>
                     <div className="chatdetail-profile-info-avata"
                          style={{backgroundImage: `url(${element.img})`}}/>
                     <div className="chatdetail-profile-info-text">
@@ -107,6 +115,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
                         return (
                             <div key={index}
                                className={`mess ${e.sender == own.id ? "ownMess" : "friendsMess"}`}>
+                                {/*{e.type != "delete" && <div className="option"/>}*/}
                                 {e.type == "text" && <p className="color2 borderRadius"
                                                         title={dateFormatSendMessage(e.release)}>{e.context}</p>}
                                 {e.type == "image" && <img className="image-content color2 borderRadius cursorPoint"
@@ -122,8 +131,9 @@ export default function ChatDetail({element, closeChatBox, own}) {
             <div className="chatdetail-feature"
                  style={inputMess == "" ?
                      {gridTemplateColumns : `repeat(2, 50px) 1fr 50px`} :
-                     {gridTemplateColumns : `1fr 50px`}}>
-                {inputMess == "" && <div className="chatdetail-feature-icon" title="Send Icon"/>}
+                     {gridTemplateColumns : `50px 1fr 50px`}}>
+                <div className="chatdetail-feature-icon" title="Send Emoji"
+                                         onClick={() => {setShowEmoji(!showEmoji)}}/>
                 {inputMess == "" && <div className="chatdetail-feature-img" title="Send your image"
                                          onClick={() => {inputImgRef.current.click()}}/>}
                 <input className="chatdetail-feature-inputText color0 borderRadius"
@@ -136,7 +146,15 @@ export default function ChatDetail({element, closeChatBox, own}) {
         </div>
             <input onChange={handleImageUpload} ref={inputImgRef} type="file" multiple={true} hidden={true}/>
             {showImgArr && <ImageDetail path={path} linkImg={detailImg} close={closeDetailImage}/>}
-            {showEmoji && <ChatEmoji/>}
+            {showEmoji &&
+                <div className="emoji-table">
+                <Picker
+                    data={data}
+                    previewPosition="none"
+                    theme="light"
+                    onEmojiSelect={(e) => handlePickEmoji(e)}
+                />
+            </div>}
         </>
     )
 }

@@ -9,7 +9,9 @@ export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
     const [isShowUserMenu, setIsShowUserMenu] = useState(false)
     const [isAuthentication, setIsAuthentication] = useState(true)
+
     // const isAuthentication = localStorage.getItem("accessToken") !=null
+
     const [name, setName] = useState("");
     const userMenuRef = useRef(null)
     const navigate = useNavigate()

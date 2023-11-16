@@ -1,0 +1,139 @@
+* {
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: Nunito Sans, sans-serif;
+}
+
+/**/
+#wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    background-image: linear-gradient(43deg, #3f426e 0%, #221c69 46%, #080942 100%);
+}
+
+/**/
+.main-form {
+    position: relative;
+    left: 50%;
+    top: 14%;
+    transform: translateX(-50%);
+    width: 36%;
+    height: auto;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
+    background: linear-gradient(90deg, hsla(209, 75%, 28%, 1) 0%, hsla(257, 75%, 28%, 1) 100%);
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/**/
+.title {
+    padding-top: 2%;
+    text-align: center;
+    color: white;
+}
+
+/**/
+.login-form {
+    text-align: center;
+    color: white;
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+.form-child-unit, .form-child-btn {
+    padding-top: 4%;
+    margin-top: 1%;
+}
+
+/*login, login with facebook button*/
+.btn {
+    color: white;
+    margin-top: 1%;
+    border: 1px solid #ffffff;
+    border-radius: 19px;
+    vertical-align: center;
+    height: 50px;
+    width: 100%;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 17px;
+    transition: 3s;
+    box-shadow: rgba(0, 0, 0, 0.18) 0 2px 4px;
+    background-image: linear-gradient(150deg, #3f426e 0%, #594a91 46%, #8d84b5 100%);
+
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, hsla(216, 75%, 26%, 1) 0%, hsla(316, 75%, 26%, 1) 100%);
+}
+
+/*facebook icon */
+.fa-facebook {
+    font-size: 17px;
+}
+
+/*username and password field*/
+.input-tag {
+    height: 45px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    padding-left: 15px;
+    font-weight: bold;
+}
+
+.input-tag::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+}
+
+.input-tag:focus {
+    outline: none;
+    border: none;
+}
+
+/*option*/
+.a-link {
+    font-weight: bold;
+    color: white;
+}
+
+.a-link:hover {
+    text-decoration: underline;
+}
+
+/*remember me*/
+.form-child-remember {
+    padding-top: 2%;
+    float: right;
+}
+
+
+/*responsive*/
+@media screen and (max-width: 992px) {
+    .main-form {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .form-parent {
+        width: 70%;
+    }
+}
+
+/*button vertical spacing*/
+.login-btn {
+    padding-top: 3%;
+}
+.login-with-fb-btn {
+    padding-top: 1%;
+}

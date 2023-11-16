@@ -9,6 +9,8 @@ import SearchPage from "./components/searchNamePage/SearchPage";
 import TimHieu from "./components/bodyMainPage/TimHieu";
 import AnToan from "./components/bodyMainPage/AnToan";
 import HoTro from "./components/bodyMainPage/HoTro";
+import {Chatbox} from "./components/chatbox/Chatbox";
+import "bootstrap/dist/css/bootstrap.min.css"
 function App() {
   return (
       <>
@@ -32,6 +34,7 @@ function App() {
               </Route>
           </Routes>
           <ToastContainer/>
+          {/*<Chatbox/>*/}
       </>
   );
 }

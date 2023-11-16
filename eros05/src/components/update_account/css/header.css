@@ -1,0 +1,30 @@
+header {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    position: fixed;
+    background-color: #A36ACB;
+    font-family: Nunito Sans, sans-serif;
+    z-index: 1000;
+}
+.icon {
+    font-size: 30px;
+    width: 40px;
+}
+.navbar {
+    background-color: rgba(0, 0, 0, 0) !important;
+    --bs-navbar-brand-margin-end: 100%;
+}
+.navbar .container {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+.navbar .container .navbar-brand {
+    color: rgb(173, 178, 203);
+}
+.navbar .nav-link {
+    color: black;
+    font-weight: bolder;
+    border-radius: 18px;
+    padding: 8px 16px;
+}
