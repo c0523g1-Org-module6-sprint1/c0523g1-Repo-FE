@@ -7,8 +7,8 @@ import React, {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
-import {formatPrice} from "./FormatPrice";
-import {load} from "./LoadPay";
+import {formatPrice, vndToUsd} from "./FormatPrice";
+import {load} from "./Pay";
 
 export function UpdateAccountGold() {
     const [pricePay, setPricePay] = useState(0);
@@ -114,35 +114,15 @@ export function UpdateAccountGold() {
                 <div className="radio-input">
                     {packageTypes.map(packageType => (
                         <>
-                            <input onChange={(values) => setPricePay(values.target.value)}
+                            <input onChange={(values) => setPricePay(packageType.price)}
                                    type="radio" id={packageType.name}
-                                   name="value-radio"
-                                   value={packageType.price}/>
+                                   name="value-radio"/>
                             <label htmlFor={packageType.name}>
                                 {packageType.name}<br/>
                                 {formatPrice(packageType.price)} đ/tháng
                             </label>
                         </>
                     ))}
-                    {/*<input type="radio" id="value-1" name="value-radio" value="value-1" checked/>*/}
-                    {/*<label htmlFor="value-1">*/}
-                    {/*    1 tháng<br/>*/}
-                    {/*    170.100 đ/tháng*/}
-                    {/*</label>*/}
-
-                    {/*<input type="radio" id="value-2" name="value-radio" value="value-2"/>*/}
-                    {/*<label htmlFor="value-2">*/}
-                    {/*    6 tháng <br/>*/}
-                    {/*    83.850 đ/tháng <br/>*/}
-                    {/*    Tiết kiệm 42%*/}
-                    {/*</label>*/}
-
-                    {/*<input type="radio" id="value-3" name="value-radio" value="value-3"/>*/}
-                    {/*<label htmlFor="value-3">*/}
-                    {/*    12 tháng <br/>*/}
-                    {/*    56.925 đ/tháng <br/>*/}
-                    {/*    Tiết kiêm 62%*/}
-                    {/*</label>*/}
 
                     <div className="radio-input-pay">
                         <input onChange={(values) => setPayEros(values.target.value)} value="vnpay" name="value-radio-pay"
@@ -175,7 +155,7 @@ export function UpdateAccountGold() {
 
                     {payEros === 'paypal' && pricePay !== 0 ? (
                         <PayPalButton classname="paypal-button-label-container"
-                                      amount="0.01"
+                                      amount={vndToUsd(pricePay)}
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);

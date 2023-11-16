@@ -6,7 +6,7 @@ import {toast} from "react-toastify";
 import {Form, Formik} from "formik";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import {load} from "./LoadPay";
+import {load} from "./Pay";
 
 export function Test() {
     const [formData, setFormData] = useState("");
@@ -92,10 +92,12 @@ export function Test() {
                     <input type="file" onChange={handleImageChange} id="upload" accept="image/*"/>
                     <img style={{width: "300px"}} id="preview" src={image}/>
                     <br/>
-                    {formData !== "" ?(
-                        <button disabled type="submit" className="btn btn-dark">Đăng</button>
+                    {formData !== "" || image !== ""?(
+                            <button type="submit" className="btn btn-dark" onClick={clickHandle}>Đăng</button>
+
                     ):(
-                        <button style={{cursor: "no-drop", outline:"none"}} type="submit" className="btn btn-dark" onClick={clickHandle}>Đăng</button>
+                        <button style={{cursor: "no-drop", outline:"none"}} disabled type="submit" className="btn btn-dark">Đăng</button>
+
                     )}
                 </Form>
             </Formik>

@@ -7,8 +7,8 @@ import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
 import React, {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
-import {formatPrice} from "./FormatPrice";
-import {load} from "./LoadPay";
+import {formatPrice, vndToUsd} from "./FormatPrice";
+import {load} from "./Pay";
 
 
 export function UpdateAccountPlatinum() {
@@ -115,10 +115,9 @@ export function UpdateAccountPlatinum() {
                 <div className="radio-input">
                     {packageTypes.map(packageType => (
                         <>
-                            <input onChange={(values) => setPricePay(values.target.value)}
+                            <input onChange={(values) => setPricePay(packageType.price)}
                                    type="radio" id={packageType.name}
-                                   name="value-radio"
-                                   value={packageType.price}/>
+                                   name="value-radio"/>
                             <label htmlFor={packageType.name}>
                                 {packageType.name}<br/>
                                 {formatPrice(packageType.price)} đ/tháng
@@ -177,7 +176,7 @@ export function UpdateAccountPlatinum() {
 
                     {payEros === 'paypal' && pricePay !== 0 ? (
                         <PayPalButton classname="paypal-button-label-container"
-                                      amount="0.01"
+                                      amount={vndToUsd(pricePay)}
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);

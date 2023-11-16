@@ -1,15 +1,17 @@
 import {Link} from "react-router-dom";
 
 
-export function HeaderUpdateAccount(){
+export function HeaderUpdateAccount(props){
+    const {data} = props;
+
+
     return(
         <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-card">
-
             <Link to="/updateAccount/eros+" className="card">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701">
-                        <linearGradient id="gradientColor">
+                        <linearGradient id="gradientColor" >
                             <stop offset="5%" stopColor="#7eaaff"></stop>
                             <stop offset="95%" stopColor="#ff48fb"></stop>
                         </linearGradient>
