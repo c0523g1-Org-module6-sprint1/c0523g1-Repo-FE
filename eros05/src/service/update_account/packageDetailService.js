@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const URL_PACKAGE_DETAIL = "http://localhost:8081/api/packageDetail"
+// const URL_PACKAGE_DETAIL = "http://localhost:8081/api/packageDetail"
+const URL_PACKAGE_DETAIL = "http://localhost:8080/api/public/packageDetail"
 
 export const getAll = async () => {
     try {
@@ -10,9 +11,13 @@ export const getAll = async () => {
         console.log("lỗi hàm getAll");
     }
 }
-export const setAccountTypes = async (values) =>{
+export const setAccountTypesToAccount = async (values) =>{
+    console.log("++++++++++++++++++")
+    console.log(values)
     try {
-        let response = await axios.put(URL_PACKAGE_DETAIL + "/" + values.id, values);
+        let response = await axios.patch(URL_PACKAGE_DETAIL, values);
+        console.log("kết quả")
+        console.log(response)
         return response.status;
     } catch (e){
         console.log("Sửa thất bại !");
@@ -20,7 +25,7 @@ export const setAccountTypes = async (values) =>{
 }
 export const setMoneyAccount = async (account) =>{
     try {
-        let response = await axios.put(URL_PACKAGE_DETAIL + "/" + account.id, account);
+        let response = await axios.patch(URL_PACKAGE_DETAIL + "/" + account.id, account);
         return response.status;
     } catch (e){
         console.log("Sửa thất bại !");
