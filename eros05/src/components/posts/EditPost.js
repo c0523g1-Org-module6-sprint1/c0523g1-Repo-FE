@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { getPrivacyPost } from "../../service/posts/PostService";
+import { getPrivacyPost,update } from "../../service/posts/PostService";
 import { Formik, Form, Field } from "formik";
+import{toast} from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function EditPost({ showModal, handleHideModal, postUpdate }) {
   const [privacyPostList, setPrivacyPostList] = useState();
+  const navigate = useNavigate();
   const fetchDataPrivacyPost = async () => {
     const privacyPostList = await getPrivacyPost();
     setPrivacyPostList(privacyPostList);
   };
+  const handleSubmit = async (id,values) => {
+    const respone = await update(id,values);
+    if (respone == 200) {
+      handleHideModal();
+      toast.success("Success Updated");
+    }
+
+  }
   useEffect(() => {
     fetchDataPrivacyPost();
   }, []);
@@ -26,7 +37,12 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
     <div>
       <Modal show={showModal}>
         <div>
-          <Formik initialValues={initValue}>
+          <Formik initialValues={initValue}
+            onSubmit={(values)=> {
+              console.log(values.image);
+              handleSubmit(postUpdate.id,values)
+            }}
+          >
             <Form>
               <div className="modal-content">
                 <div className="modal-header">
@@ -57,34 +73,63 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                             />
                             <div className="info">
                               <h5>Lisa Black Pink</h5>
-                              <select
+                              <Field
+                              name = "privacyPostId"
                                 as="select"
                                 className="form-select"
                                 aria-label="Default select example"
                                 style={{
                                   marginTop: 6,
                                   width: "91%",
-                                  fontSize: 13,
+                                  fontSize: 16,
                                 }}
                               >
                                 {privacyPostList.map((item) => (
-                                  <option key={item.id}>{item.name}</option>
+                                  <option key={item.id} value={item.id}>
+                                    {item.name}
+                                  </option>
                                 ))}
-                              </select>
+                              </Field>
                             </div>
                           </div>
                         </div>
                         <div className="media-body">
                           <Field
                             name="content"
-                            style = {{width:"100%", border: "none"}}
+                            style={{
+                              width: "100%",
+                              border: "none",
+                              marginBottom: "15px",
+                            }}
                             className="card-text text-justify"
                           ></Field>
                           <div className="row no-gutters mb-3">
-                            <Field
-                              name="image"
-                              className="img-fluid mb-2"
-                            />
+                            <Field name="image">
+                              {({ field, form }) => (
+                                <div>
+                                  <img
+                                    src={field.value} 
+                                    className="img-fluid mb-2"
+                                  />
+                                  <input
+                                    className="btn btn-primary"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(event) => {
+                                      const file = event.currentTarget.files[0];
+                                      const reader = new FileReader();
+                                      reader.onloadend = () => {
+                                        form.setFieldValue(
+                                          field.name,
+                                          reader.result
+                                        ); // Cập nhật giá trị của trường
+                                      };
+                                      reader.readAsDataURL(file);
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </Field>
                           </div>
                         </div>
                       </div>
@@ -98,7 +143,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                       backgroundColor: "#a36acb",
                       color: "white",
                     }}
-                    type="button"
+                    type="submit"
                     className="btn "
                   >
                     Lưu

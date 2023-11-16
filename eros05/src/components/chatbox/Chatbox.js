@@ -21,7 +21,7 @@ export function Chatbox() {
 
     const handleSelect = async (e) => {
         await setShowChatBox(-1);
-        await setChatFriend(e)
+        await setChatFriend(e);
         await setShowChatBox(e.id);
     }
     const getProfile = async () => {
@@ -30,13 +30,13 @@ export function Chatbox() {
         setBusymode(data.data.messageStatus.name != "Busy");
     }
     const setLastMessageObject = async (elementId) => {
+        if (!profile) return;
         let lastmess = await getLastMess(profile.id, elementId);
         let name = compareId(profile.id, elementId);
         setLastMessage((prevState) => ({
             ...prevState,
                 [name] : lastmess
         }))
-        console.log(lastMessage)
     }
     const getFriendList = async () => {
         const data = await GetFriendsApi(searchName);
@@ -45,10 +45,17 @@ export function Chatbox() {
     const getUnknowList = async () => {
         const data = await GetUnknowApi(searchName);
         setUnknowList(data);
-        for (let i = 0; i < data.length; i++){
-            console.log(data)
-            setLastMessageObject(data[i].senderAccount.id);
+    }
+    const getStateLastMess = () => {
+        for (let i = 0; i < unknowList.length; i++){
+            let accountId = unknowList[i].id;
+            setLastMessageObject(accountId);
         }
+        for (let i = 0; i < friendList.length; i++){
+            let accountId = friendList[i].id;
+            setLastMessageObject(accountId);
+        }
+
     }
     const closeChatbox = () => {
         setShowChatBox(-1);
@@ -63,10 +70,14 @@ export function Chatbox() {
     useEffect(() => {
         getProfile();
         handleResize();
+        getFriendList();
+        getUnknowList();
+        getStateLastMess();
     }, [])
     useEffect(() => {
         getFriendList();
         getUnknowList();
+        getStateLastMess();
     }, [searchName])
     useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -116,7 +127,7 @@ export function Chatbox() {
                                                     <div>
                                                         <h4 className="chatbox-friendList-board-detail-name">
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{e.senderAccount.name}</small>
-                                                            {/*{e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}*/}
+                                                            {e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}
                                                         </h4>
                                                         <p className="chatbox-friendList-board-detail-mess">{lastMessage[compareId(profile.id, e.senderAccount.id)]}</p>
                                                     </div>
@@ -137,7 +148,7 @@ export function Chatbox() {
                                                     <div>
                                                         <h4 className="chatbox-friendList-board-detail-name">
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
-                                                            {/*{e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}*/}
+                                                            {e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}
                                                         </h4>
                                                         <p className="chatbox-friendList-board-detail-mess">{lastMessage[compareId(profile.id, e.id)]}</p>
                                                     </div>
@@ -173,5 +184,3 @@ export function Chatbox() {
         }</>)
     }
 }
-
-//chuyển tin nhắn cuois đồng bộ

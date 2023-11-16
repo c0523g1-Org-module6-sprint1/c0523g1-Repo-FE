@@ -33,6 +33,7 @@
     right: 20px;
     transition-duration: 0.2s;
     animation: ease-in-out switchChat 0.5s;
+    z-index: 1000;
 }
 .showListButton:hover {
     scale: 1.1;
@@ -51,6 +52,7 @@
     border: black 3px dashed;
 }
 .chatbox {
+    z-index: 1000;
     width: var(--width-box);
     height: calc(100% - 75px);
     display: grid;
@@ -268,6 +270,7 @@
     position: fixed;
     right: var(--width-box);
     animation: ease-in-out switchChatBox 0.5s;
+    z-index: 1000;
 }
 .chatdetail-profile {
     display: grid;
