@@ -1,17 +1,20 @@
-import './App.css';
-import {ToastContainer} from "react-bootstrap";
-import 'react-toastify/dist/ReactToastify.css';
-import {Chatbox} from "./components/chatbox/Chatbox";
-import Header from "./components/header/Header";
-import "bootstrap/dist/css/bootstrap.min.css"
-function App() {
-  return (
-      <>
-        <ToastContainer/>
-          <Chatbox/>
-          <Header/>
-      </>
-  );
+
+import React from 'react';
+import {PersonalPage} from "./components/PersonalPage/PersonalPage";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {TestNoUse} from "./components/PersonalPage/TestNoUse";
+
+
+function App(props) {
+    return (
+        <>
+               <Routes>
+                   <Route element={<TestNoUse/>} path={"/"}></Route>
+                   <Route element={<PersonalPage/>} path={"/personal-page/:id"}></Route>
+               </Routes>
+
+        </>
+    );
 }
 
 export default App;
