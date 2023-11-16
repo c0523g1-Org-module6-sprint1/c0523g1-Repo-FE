@@ -1,12 +1,13 @@
 import "./chatbox.css"
 import {useEffect, useState} from "react";
 import {GetFriendsApi, GetProfileApi, GetUnknowApi} from "../../service/chatbox/apiConnection";
-import {numberOfUnseenMess, sliceString} from "../../service/chatbox/util";
+import {compareId, numberOfUnseenMess, sliceString} from "../../service/chatbox/util";
 import ChatDetail from "./ChatDetail";
+import {getLastMess} from "../../service/chatbox/getLastMess";
 export function Chatbox() {
     const [profile, setProfile] = useState();
-    const [friendList, setFriendList] = useState();
-    const [unknowList, setUnknowList] = useState();
+    const [friendList, setFriendList] = useState([]);
+    const [unknowList, setUnknowList] = useState([]);
     const [searchName, setSearchName] = useState("");
     const [chatFriend, setChatFriend] = useState({});
     const [showChatBox, setShowChatBox] = useState(-1);
@@ -16,6 +17,7 @@ export function Chatbox() {
     const [chatlistHeight, setChatlistHeight] = useState(0);
     const [unknowMess, setUnknowMess] = useState(false);
     const [busymode, setBusymode] = useState(true);
+    const [lastMessage, setLastMessage] = useState({});
 
     const handleSelect = async (e) => {
         await setShowChatBox(-1);
@@ -25,6 +27,16 @@ export function Chatbox() {
     const getProfile = async () => {
         const data = await GetProfileApi();
         setProfile(data.data);
+        setBusymode(data.data.messageStatus.name != "Busy");
+    }
+    const setLastMessageObject = async (elementId) => {
+        let lastmess = await getLastMess(profile.id, elementId);
+        let name = compareId(profile.id, elementId);
+        setLastMessage((prevState) => ({
+            ...prevState,
+                [name] : lastmess
+        }))
+        console.log(lastMessage)
     }
     const getFriendList = async () => {
         const data = await GetFriendsApi(searchName);
@@ -32,8 +44,11 @@ export function Chatbox() {
     }
     const getUnknowList = async () => {
         const data = await GetUnknowApi(searchName);
-        console.log(data)
         setUnknowList(data);
+        for (let i = 0; i < data.length; i++){
+            console.log(data)
+            setLastMessageObject(data[i].senderAccount.id);
+        }
     }
     const closeChatbox = () => {
         setShowChatBox(-1);
@@ -60,7 +75,7 @@ export function Chatbox() {
         };
     }, [])
 
-    if (!profile || !friendList || !unknowList){
+    if (!profile){
         return null;
     } else {
         return (<>
@@ -79,12 +94,12 @@ export function Chatbox() {
                     <div className="chatbox color4">
                         <div className="chatbox-feature">
                             <div className="chatbox-feature-avata"
-                                 style={{backgroundImage: `url(${profile.img})`}}
+                                 style={{backgroundImage: `url(${profile.avatar})`}}
                             />
                             <div/>
                             <div className="chatbox-feature-info">
                                 <p className="border-text-white">{profile.name}</p>
-                                <p>💖 {profile.money}</p>
+                                <p>💵 {profile.money}</p>
                             </div>
                         </div>
                         <div className="chatbox-friendList color0 borderRadius" style={{height: chatlistHeight}}>
@@ -94,15 +109,16 @@ export function Chatbox() {
                                         unknowList.map((e) => {
                                             return (
                                                 <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
-                                                ${e.id == showChatBox ? "chatSelected" : ""}`}
-                                                     onClick={() => {handleSelect(e)}}>
-                                                    <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.status.id - 1]}`}
-                                                         style={{backgroundImage: `url(${e.img})`}}/>
+                                                ${e.senderAccount.id == showChatBox ? "chatSelected" : ""}`}
+                                                     onClick={() => {handleSelect(e.senderAccount)}}>
+                                                    <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.senderAccount.messageStatus.id - 1]}`}
+                                                         style={{backgroundImage: `url(${e.senderAccount.avatar})`}}/>
                                                     <div>
                                                         <h4 className="chatbox-friendList-board-detail-name">
-                                                            <small className="chatbox-friendList-board-detail-name-name border-text-black">{e.name}</small>
-                                                            {e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}</h4>
-                                                        <p className="chatbox-friendList-board-detail-mess">{sliceString(e.mess, 15)}</p>
+                                                            <small className="chatbox-friendList-board-detail-name-name border-text-black">{e.senderAccount.name}</small>
+                                                            {/*{e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}*/}
+                                                        </h4>
+                                                        <p className="chatbox-friendList-board-detail-mess">{lastMessage[compareId(profile.id, e.senderAccount.id)]}</p>
                                                     </div>
                                                 </div>
                                             )
@@ -116,13 +132,14 @@ export function Chatbox() {
                                                 <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
                                                 ${e.id == showChatBox ? "chatSelected" : ""}`}
                                                      onClick={() => {handleSelect(e)}}>
-                                                    <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.status.id - 1]}`}
-                                                         style={{backgroundImage: `url(${e.img})`}}/>
+                                                    <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.messageStatus.id - 1]}`}
+                                                         style={{backgroundImage: `url(${e.avatar})`}}/>
                                                     <div>
                                                         <h4 className="chatbox-friendList-board-detail-name">
-                                                            <small className="chatbox-friendList-board-detail-name-name border-text-black">{e.name}</small>
-                                                            {e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}</h4>
-                                                        <p className="chatbox-friendList-board-detail-mess">{sliceString(e.mess, 15)}</p>
+                                                            <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
+                                                            {/*{e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}*/}
+                                                        </h4>
+                                                        <p className="chatbox-friendList-board-detail-mess">{lastMessage[compareId(profile.id, e.id)]}</p>
                                                     </div>
                                                 </div>
                                             )
@@ -156,3 +173,5 @@ export function Chatbox() {
         }</>)
     }
 }
+
+//chuyển tin nhắn cuois đồng bộ

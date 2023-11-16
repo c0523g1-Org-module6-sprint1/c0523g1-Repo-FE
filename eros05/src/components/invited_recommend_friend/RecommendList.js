@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import * as service from "../../service/invited_recommend_friend/recommendService"
+import * as service from "../../service/invited_recommend_friend/RecommendService"
 
 export default function RecommendList() {
     const [recommend, setRecommend] = useState([])
