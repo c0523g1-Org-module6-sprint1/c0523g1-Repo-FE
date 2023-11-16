@@ -9,14 +9,20 @@ import {toast} from "react-toastify";
 import {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
 import React from 'react';
-import {formatPrice, FormatPrice} from "./FormatPrice";
+import {formatPrice} from "./FormatPrice";
 import * as accountType from "../../service/update_account/accountTypeService";
+import {load} from "./LoadPay";
+import {useParams} from "react-router-dom";
+import * as packageDetail from "../../service/update_account/packageDetailService";
+import {setMoneyAccount} from "../../service/update_account/packageDetailService";
 
 export function UpdateAccountEros() {
     const [pricePay, setPricePay] = useState(0);
     const [payEros, setPayEros] = useState("");
     const [packageTypes, setPackageTypes] = useState([]);
     const [accountTypes, setAccountTypes] = useState([]);
+    const [account, setAccount] = useState("");
+    const {id} = useParams();
 
     useEffect(() => {
         getAllAccountType()
@@ -24,14 +30,33 @@ export function UpdateAccountEros() {
     useEffect(() => {
         getAllPackageTypes()
     }, []);
+    useEffect(() => {
+        if(id) findById(id);
+    }, [id]);
     const getAllAccountType = async () => {
         let data = await accountType.getAll();
         setAccountTypes(data);
     }
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountType.id === 1)
+        let dataEros = data.filter(data => data.accountTypes.id === 1);
+        console.log(dataEros)
         setPackageTypes(dataEros);
+    }
+    const findById = async (id) => {
+        let data = await packageDetail.findById(id);
+        setAccount(data);
+    }
+    const setMoneyAccount = async (values) => {
+        values.money = pricePay;
+        console.log(values.money);
+        let status = await packageDetail.setMoneyAccount(values);
+        console.log(status);
+        if (status === 200){
+            toast.success("Sửa thành công");
+        } else {
+            toast.error("Sửa thất bại");
+        }
     }
 
     return (
@@ -122,7 +147,7 @@ export function UpdateAccountEros() {
                 <div className="radio-input">
                     {packageTypes.map(packageType => (
                         <>
-                            <input onChange={(values) => setPricePay(values.target.value)}
+                            <input key={packageType.id} onChange={(values) => setPricePay(values.target.value)}
                                    type="radio" id={packageType.name}
                                    name="value-radio"
                                    value={packageType.price}/>
@@ -197,12 +222,12 @@ export function UpdateAccountEros() {
 
                     {payEros === 'paypal' && pricePay !== 0 ? (
                         <PayPalButton classname="paypal-button-label-container"
-                                      amount="0.01"
+                                      amount="50000"
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
-                                          getAllPackageTypes()
-                                          console.log("OK")
+                                          setMoneyAccount(account)
+                                          load()
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",

@@ -3,11 +3,12 @@ import '../update_account/css/buttonPay.css'
 import '../update_account/css/radioSelect.css'
 import '../update_account/HeaderUpdateAccount'
 import {HeaderUpdateAccount} from "./HeaderUpdateAccount";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
 import {formatPrice} from "./FormatPrice";
+import {load} from "./LoadPay";
 
 export function UpdateAccountGold() {
     const [pricePay, setPricePay] = useState(0);
@@ -20,7 +21,7 @@ export function UpdateAccountGold() {
 
     const getAll = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountType.id === 2)
+        let dataEros = data.filter(data => data.accountTypes.id === 2)
         console.log(dataEros)
         setPackageTypes(dataEros);
     }
@@ -154,6 +155,12 @@ export function UpdateAccountGold() {
                                id="value-6" type="radio"/>
                         <label htmlFor="value-6">Thanh toán Momo</label>
                     </div>
+                    {payEros === '' && pricePay === 0 ? (
+                        <div className="card-right">
+                            <p className="title" style={{fontSize: "13px"}}>Vui lòng chọn gói và chọn phương thức thanh
+                                toán</p>
+                        </div>
+                    ) : null}
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
@@ -172,8 +179,7 @@ export function UpdateAccountGold() {
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
-                                          getAll()
-                                          console.log("OK")
+                                          load()
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",
