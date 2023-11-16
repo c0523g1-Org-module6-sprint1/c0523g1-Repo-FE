@@ -1,53 +1,45 @@
 import './Login.css'
-import {Field, Form} from "formik";
+import {Field, Form, Formik} from "formik";
 import {useEffect, useState} from "react";
-import * as loginService from '../../service/login/loginService';
+import * as securityService from '../../service/login/loginService';
 import axios from "axios";
 
 export default function Login() {
 
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const navigate = useNavigate();
+
     const initLoginRequest = {
-        username: "",
-        password: ""
+        username: null,
+        password: null
     }
-
-    const [loginRequest, setLoginRequest] = useState(initLoginRequest);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [token, setToken] = useState(localStorage.getItem(token));
-
-    /*set the default authorization header in axios */
-    useEffect(() => {
-        if (token) {
-            axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-            localStorage.setItem('token', token);
-        } else {
-            delete axios.defaults.headers.common["Authorization"];
-            localStorage.removeItem('token')
-        }
-    }, [token]);
+    const [loginRequest, setLoginRequest] = useState({initLoginRequest});
 
     /*Handle: username, password, submit */
     const handleChangeUsername = (events) => {
-        setUsername(events);
+        setUsername(events.target.value);
     }
 
     const handleChangePassword = (events) => {
-        setPassword(events);
+        setPassword(events.target.value);
     }
 
     const handleSubmit = async () => {
-        setLoginRequest({
-            username: username,
-            password: password
-        })
-        await loginService.doLogin(loginRequest);
+        try {
+            const res = await securityService.doLogin(loginRequest);
+            if (res.status === 200) {
+                await securityService.addAccessToken(res.data.jwtToken);
+                navigate("/home")
+            } else {
+                toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!")
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
 
-    /*Handle: setToken into localStorage*/
-    const handleSetToken = (events) => {
-        setToken(events);
-    }
+
 
 
     return (
