@@ -16,6 +16,14 @@ export const GetFriendsApi = async (name) => {
         console.log(e);
     }
 }
+export const GetUnknowApi = async (name) => {
+    try {
+        const res = await axios.get(`http://localhost:8080/unknow?name_like=${name}`)
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
 export const GetChatBoxApi = async (id1, id2) => {
     try {
         const res1 = await axios.get(`http://localhost:8080/mess?sender=${id1}&recipient=${id2}`);
