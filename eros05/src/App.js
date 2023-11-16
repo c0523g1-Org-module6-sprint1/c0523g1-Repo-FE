@@ -28,6 +28,7 @@ import AnToan from "./components/bodyMainPage/AnToan";
 import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
 function App() {
+
   return (
       <>
         <ToastContainer/>
