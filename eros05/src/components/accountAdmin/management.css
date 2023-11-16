@@ -1,0 +1,72 @@
+#h1 {
+    text-align: center;
+    margin-top: 8%;
+    font-family: Agbalumo, serif
+}
+a{
+    text-decoration: none;
+}
+#tb-mana {
+    text-align: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;  /* để các ô trong bảng không có khoảng trống */
+}
+#tb-mana td, #tb-mana th {
+    padding: 8px; /* điều chỉnh khoảng cách giữa nội dung và đường viền */
+
+    border-radius: 10px; /* đường bo tròn cho ô trong bảng */
+}
+
+#bt-mana{
+    border-radius: 20px;
+}
+
+#tb-th {
+    background-color: #9E66C3;
+    color: white
+}
+
+#bd-mana {
+    background-color: #CBD2D4;
+    margin-top: 10px;
+    font-family: Nunito Sans, sans-serif;
+
+}
+
+#gold {
+    background: linear-gradient(to right, #FFD93D, #F6F1E9);
+    color: midnightblue;
+    font-style: italic;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 16px;
+    width: 125px;
+    padding: 0 12%;
+}
+
+#platinum {
+    background: linear-gradient(to right, black, #d8afe7);
+    color: white;
+    font-style: italic;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 16px;
+    width: 125px;
+    padding: 0 5%;
+
+}
+
+#thuong {
+    color: white;
+    background: linear-gradient(to right, #5e6773, #9797ff);
+    font-style: italic;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 16px;
+    width: 125px;
+    padding: 0 7%;
+}
+
+

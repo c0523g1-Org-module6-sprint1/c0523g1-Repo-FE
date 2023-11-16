@@ -93,7 +93,7 @@
     display: flex;
 }
 .chatSelected {
-    background-color: rgba(113, 149, 157, 0.5);
+    background-color: rgba(204, 187, 228, 0.5);
 }
 
 .chatbox-friendList {
@@ -129,7 +129,7 @@
     overflow: auto;
 }
 .chatbox-friendList-board-detail:hover {
-    background-color: rgba(113, 149, 157, 0.75);
+    background-color: rgba(204, 187, 228, 0.9);
     transition-duration: 0.2s;
 }
 .chatbox-friendList-board-detail {

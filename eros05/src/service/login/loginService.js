@@ -1,10 +1,25 @@
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 
-const LOGIN_API = "http://localhost:8080/api/public/login";
+
+const API_URL = "http://localhost:8080/api";
 
 const doLogin = async (loginRequest) => {
-    const res = await axios.post(LOGIN_API, loginRequest);
-    console.log(res.status);
+    return await axios.post(API_URL + "/public/login", loginRequest);
 };
 
-export {doLogin};
+const addAccessToken = async (jwt) => {
+    localStorage.setItem("accessToken", jwt);
+}
+
+const getAccountInfoByJwt = () => {
+    const jwt = localStorage.getItem("accessToken");
+    if (jwt) {
+        return jwtDecode(jwt);
+    } else {
+        return null;
+    }
+}
+
+
+export {doLogin, addAccessToken};

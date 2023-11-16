@@ -1,52 +1,44 @@
 import './Login.css'
-import {Field, Form} from "formik";
+import {Field, Form, Formik} from "formik";
 import {useEffect, useState} from "react";
-import * as loginService from '../../service/login/loginService';
+import * as securityService from '../../service/login/loginService';
 import axios from "axios";
+import {Link, useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 export default function Login() {
 
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const navigate = useNavigate();
+
     const initLoginRequest = {
-        username: "",
-        password: ""
+        username: null,
+        password: null
     }
-
-    const [loginRequest, setLoginRequest] = useState(initLoginRequest);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [token, setToken] = useState(localStorage.getItem(token));
-
-    /*set the default authorization header in axios */
-    useEffect(() => {
-        if (token) {
-            axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-            localStorage.setItem('token', token);
-        } else {
-            delete axios.defaults.headers.common["Authorization"];
-            localStorage.removeItem('token')
-        }
-    }, [token]);
+    const [loginRequest, setLoginRequest] = useState({initLoginRequest});
 
     /*Handle: username, password, submit */
     const handleChangeUsername = (events) => {
-        setUsername(events);
+        setUsername(events.target.value);
     }
 
     const handleChangePassword = (events) => {
-        setPassword(events);
+        setPassword(events.target.value);
     }
 
     const handleSubmit = async () => {
-        setLoginRequest({
-            username: username,
-            password: password
-        })
-        await loginService.doLogin(loginRequest);
-    }
-
-    /*Handle: setToken into localStorage*/
-    const handleSetToken = (events) => {
-        setToken(events);
+        try {
+            const res = await securityService.doLogin(loginRequest);
+            if (res.status === 200) {
+                await securityService.addAccessToken(res.data.jwtToken);
+                navigate("/newsfeed")
+            } else {
+                toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!")
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
 
 
@@ -58,19 +50,20 @@ export default function Login() {
                 </div>
                 <div className="login-form">
                     <Formik
-                        initialValues={null}
-                        onSubmit={null}>
+                        initialValues={initLoginRequest}
+                        onSubmit={handleSubmit}>
                         <Form>
                             <div className="form-child-unit">
-                                <Field type="text" placeholder="Tên tài khoản" className="input-tag"/>
+                                <Field onChange={(events) => handleChangeUsername(events)}
+                                    type="text" placeholder="Tên tài khoản" className="input-tag"/>
                             </div>
                             <div className="form-child-unit">
-                                <Field type="password" placeholder="Mật khẩu" className="input-tag"/>
+                                <Field onChange={(events) => handleChangePassword(events)}
+                                    type="password" placeholder="Mật khẩu" className="input-tag"/>
                             </div>
                             <div className="form-child-remember">
                                 <label htmlFor="remember-me">
-                                    <Field type="checkbox" id="remember-me"/> Ghi nhớ tài
-                                    khoản
+                                    <Field type="checkbox" id="remember-me"/> Ghi nhớ tài khoản
                                 </label>
                             </div>
                             <div className="form-child-btn" id="login-btn-div">
@@ -84,7 +77,7 @@ export default function Login() {
                                 </div>
                             </div>
                             <div className="form-child-option">
-                                <p> Quay về <a href="#" className="a-link"> Trang chủ! </a></p>
+                                <p> Quay về <Link to="/" className="a-link"> Trang chủ! </Link></p>
                                 <p>Bạn chưa có tài khoản? <a href="#" className="a-link">Đăng ký</a></p>
                             </div>
                         </Form>
