@@ -11,12 +11,11 @@ import {
     set
 } from "../../service/chatbox/firebase";
 import ImageDetail from "./ImageDetail";
-import {dateFormatSendMessage, sliceString} from "../../service/chatbox/util";
+import {compareId, dateFormatSendMessage, sliceString} from "../../service/chatbox/util";
 import {useNavigate} from "react-router-dom";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import {GetChatBoxApi} from "../../service/chatbox/apiConnection";
-import {get} from "axios";
 
 export default function ChatDetail({element, closeChatBox, own}) {
     const [content, setContent] = useState();
@@ -33,10 +32,10 @@ export default function ChatDetail({element, closeChatBox, own}) {
     const pushFireBase = (type, textData) => {
         if (textData != "") {
             push(refText(database, path), {
-                // sender: own.id,
-                // receive: element.id,
-                receive: own.id,
-                sender: element.id,
+                sender: own.id,
+                receive: element.id,
+                // receive: own.id,
+                // sender: element.id,
                 context: textData,
                 type: typeArray[type],
                 release: new Date() + "",
@@ -67,14 +66,13 @@ export default function ChatDetail({element, closeChatBox, own}) {
         await setPath(res.path);
     }
     const getDatabase = () => {
-        let finishpath = `mess-${(own.id < element.id) ? own.id + "-" + element.id : element.id + "-" + own.id}`
+        let finishpath = `mess-${compareId(element.id, own.id)}`
         onValue(refText(database, finishpath), data => {
             let getMessage = [];
             data.forEach((mess) => {
                 getMessage.push(mess.val());
             });
             setContent(getMessage);
-            console.log(getMessage)
         });
     }
     const enterButton = (key) => {
@@ -91,7 +89,6 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 let snapshot = await uploadBytes(storageRef, file);
                 let downloadURL = await getDownloadURL(snapshot.ref);
                 pushFireBase(1, downloadURL);
-
             } catch (e) {
                 console.log(e);
             }

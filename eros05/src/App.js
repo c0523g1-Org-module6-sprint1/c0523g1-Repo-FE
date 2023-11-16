@@ -25,35 +25,40 @@ import Footer from "./components/footer/Footer";
 import TimHieu from "./components/bodyMainPage/TimHieu";
 import HoTro from "./components/bodyMainPage/HoTro";
 import AnToan from "./components/bodyMainPage/AnToan";
+import EditAccount from "./components/account_edit/EditAccount";
+import Post from "./components/posts/Post";
 function App() {
+
   return (
       <>
         <ToastContainer/>
-          <Chatbox/>
+          {/*<Chatbox/>*/}
           <Header/>
           <Routes>
-              <Route path="/" Component={<BodyMainPage/>}/>
-              <Route path="/public/search-name/:name" Component={<SearchPage/>}/>
-              <Route path="/search_advanced" Component={<SearchAdvanced/>}/>
-              <Route path="/top_hundered" Component={<TopHundered/>}/>
-              <Route path="/register" Component={<Register/>}/>
-              <Route path="/initial-information" Component={<InitInfo/>}/>
-              <Route path="/login" Component={<Login/>}/>
-              <Route path="/friend/list" Component={<ListFriend/>}/>
-              <Route path="/invited_recommend_friend/InvitedList" Component={<InvitedList/>}/>
-              <Route path="/invited_recommend_friend/RecommendList" Component={<RecommendList/>}/>
-              <Route path="/personal-page/:id" Component={<PersonalPage/>}/>
-              <Route path="/updateAccount/eros+" Component={<UpdateAccountEros/>}/>
-              <Route path="/updateAccount/gold" Component={<UpdateAccountGold/>}/>
-              <Route path="/updateAccount/platinum" Component={<UpdateAccountPlatinum/>}/>
-              <Route path="/change_password" Component={<ChangePassword/>}/>
-              <Route path="/accounts/:id" Component={<ListAccount/>}/>
-              <Route path="/tim-hieu" Component={<TimHieu/>}/>
-              <Route path="/ho-tro" Component={<HoTro/>}/>
-              <Route path="/an-toan" Component={<AnToan/>}/>
+              <Route path="/" element={<BodyMainPage/>}/>
+              <Route path="/public/search-name/:name" element={<SearchPage/>}/>
+              <Route path="/search_advanced" element={<SearchAdvanced/>}/>
+              <Route path="/top_hundered" element={<TopHundered/>}/>
+              <Route path="/register" element={<Register/>}/>
+              <Route path="/initial-information" element={<InitInfo/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/friend/list" element={<ListFriend/>}/>
+              <Route path="/invited_recommend_friend/InvitedList" element={<InvitedList/>}/>
+              <Route path="/invited_recommend_friend/RecommendList" element={<RecommendList/>}/>
+              <Route path="/personal-page/:id" element={<PersonalPage/>}/>
+              <Route path="/updateAccount/eros+" element={<UpdateAccountEros/>}/>
+              <Route path="/updateAccount/gold" element={<UpdateAccountGold/>}/>
+              <Route path="/updateAccount/platinum" element={<UpdateAccountPlatinum/>}/>
+              <Route path="/change_password" element={<ChangePassword/>}/>
+              <Route path="/accounts" element={<ListAccount/>}/>
+              <Route path="/tim-hieu" element={<TimHieu/>}/>
+              <Route path="/ho-tro" element={<HoTro/>}/>
+              <Route path="/an-toan" element={<AnToan/>}/>
+              <Route path="/personal-page/edit" element={<EditAccount/>}/>
+              <Route path="/newsfeed" element={<Post/>}/>
           </Routes>
           <Routes>
-              <Route path="/" Component={<Footer/>}/>
+              <Route path="/" element={<Footer/>}/>
           </Routes>
       </>
   );
