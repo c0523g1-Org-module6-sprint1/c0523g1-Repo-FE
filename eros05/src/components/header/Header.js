@@ -5,6 +5,7 @@ import NavbarMobile from "../navbarMobile/NavbarMobile";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import * as SearchNameService from "../../service/searchName/searchNameService";
+import getUsernameByJwt from "../../service/login/securityService";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
@@ -58,8 +59,8 @@ export default function Header() {
         findUserName();
     }, []);
     const findUserName = async () => {
-        const res = await loginService.getUserNameByJwt();
-        setUserName(res.data);
+        const res = await getUsernameByJwt;
+        setUserName(res);
     }
     const userName = "liendtm";
     useEffect(() => {
