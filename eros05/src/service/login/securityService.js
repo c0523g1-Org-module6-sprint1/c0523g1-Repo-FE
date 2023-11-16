@@ -12,6 +12,15 @@ const addAccessToken = async (jwt) => {
     localStorage.setItem("accessToken", jwt);
 }
 
+const getAccessToken = () => {
+    const jwt = localStorage.getItem("accessToken");
+    if (jwt) {
+        return jwtDecode(jwt);
+    } else {
+        return null;
+    }
+}
+
 const getUsernameByJwt = () => {
     const jwt = localStorage.getItem("accessToken");
     if (jwt) {
@@ -40,4 +49,4 @@ const getRoleByJwt = () => {
 }
 
 
-export {doLogin, addAccessToken, getUsernameByJwt, getIdByJwt, getRoleByJwt};
+export {doLogin, addAccessToken, getUsernameByJwt, getIdByJwt, getRoleByJwt, getAccessToken};
