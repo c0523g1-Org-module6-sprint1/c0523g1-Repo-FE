@@ -40,7 +40,4 @@ const getRoleByJwt = () => {
 }
 
 
-
-
-
 export {doLogin, addAccessToken, getUsernameByJwt, getIdByJwt, getRoleByJwt};

@@ -36,16 +36,17 @@ export default function Login() {
     }
 
     const handleSubmit = async () => {
-        console.log("username + password: " + loginRequest.username + " " + loginRequest.password)
+        await console.log("username + password: " + loginRequest.username + " " + loginRequest.password)
         try {
             const res = await securityService.doLogin(loginRequest);
+            await console.log("http status: " + res.status);
+
             switch (res.status) {
                 case 200:
                     await securityService.addAccessToken(res.data.jwtToken);
-                    toast("login success");
                     console.log(localStorage.getItem("accessToken"));
-                    console.log(jwtDecode(localStorage.getItem("accessToken")).sub.getId())
-                    // navigate("/newsfeed");
+                    toast("login success");
+                    navigate("/newsfeed");
                     break;
                 case 404:
                     toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
