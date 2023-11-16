@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@500&family=Roboto:wght@500&display=swap');
-body{
+
+body {
     font-family: 'Roboto', sans-serif;
     color: #151018;
     box-sizing: border-box;
 }
-.card {
+
+.updateaccount-card {
     width: 100%;
     max-width: 300px;
     min-width: 200px;
@@ -25,12 +27,13 @@ body{
     font-family: 'Poppins', sans-serif;
     text-decoration: none;
 }
-.card-center{
+
+.updateaccount-card-center {
     width: 100%;
     max-width: 300px;
     min-width: 100%;
     height: 68px;
-    background: linear-gradient(to right,#eaecef,#bec4cc);
+    background: linear-gradient(to right, #eaecef, #bec4cc);
     margin: 10px;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.24);
@@ -44,7 +47,8 @@ body{
     font-family: 'Poppins', sans-serif;
     cursor: context-menu;
 }
-.card-center .title{
+
+.updateaccount-card-center .title {
     width: 100%;
     margin: 0;
     text-align: center;
@@ -54,7 +58,8 @@ body{
     text-transform: uppercase;
     letter-spacing: 4px;
 }
-.card-center-content{
+
+.updateaccount-card-center-content {
     width: 100%;
     max-width: 300px;
     min-width: 100%;
@@ -75,7 +80,8 @@ body{
     font-family: 'Poppins', sans-serif;
     cursor: context-menu;
 }
-.card-center-content .title{
+
+.updateaccount-card-center-content .title {
     width: 100%;
     margin: 0;
     text-align: center;
@@ -87,18 +93,21 @@ body{
     font-weight: bold;
     font-size: 19px;
 }
-.card-center-content li{
+
+.updateaccount-card-center-content li {
     color: black;
     font-weight: bold;
     font-size: 15px;
     margin: 7px 0;
 }
-.card-center-content p{
+
+.updateaccount-card-center-content p {
     color: black;
     font-weight: 100;
     font-size: 12px;
 }
-.card-center-content ul{
+
+.updateaccount-card-center-content ul {
     margin-right: auto;
     margin-bottom: auto;
     color: black;
@@ -107,7 +116,8 @@ body{
     font-size: 17px;
     list-style-type: none;
 }
-.card-center .platinum{
+
+.updateaccount-card-center .platinum {
     background: linear-gradient(to right, black, #5e6773);
     color: #da65fc;
     font-style: italic;
@@ -116,7 +126,8 @@ body{
     font-size: 16px;
     width: 125px;
 }
-.card-center .gold{
+
+.updateaccount-card-center .gold {
     background-color: #f5cf65;
     color: #282c34;
     font-style: italic;
@@ -125,7 +136,8 @@ body{
     font-size: 16px;
     width: 70px;
 }
-.card-center .text {
+
+.updateaccount-card-center .text {
     width: 95%;
     margin: 0 auto;
     font-size: 13px;
@@ -138,7 +150,8 @@ body{
     max-height: 0;
     transition: all 0.3s ease;
 }
-.card-right .title{
+
+.updateaccount-card-right .title {
     width: 100%;
     margin: 0;
     text-align: center;
@@ -150,9 +163,11 @@ body{
     font-weight: bold;
     font-size: 19px;
 }
-.card-right p{
+
+.updateaccount-card-right p {
     text-align: center;
 }
+
 .icon-update-account {
     margin: 0 auto;
     width: 100%;
@@ -172,7 +187,7 @@ body{
     fill: white;
 }
 
-.card .title {
+.updateaccount-card .title {
     width: 100%;
     margin: 0;
     text-align: center;
@@ -182,13 +197,15 @@ body{
     text-transform: uppercase;
     letter-spacing: 4px;
 }
-.card .label{
+
+.updateaccount-card .label {
     margin: 21px 0 0 7px;
     color: #da65fc;
     font-size: 27px;
     font-weight: bold;
 }
-.card .gold{
+
+.updateaccount-card .gold {
     background-color: #f5cf65;
     color: #282c34;
     font-style: italic;
@@ -197,7 +214,8 @@ body{
     font-size: 16px;
     width: 70px;
 }
-.card .platinum{
+
+.updateaccount-card .platinum {
     background: linear-gradient(to right, black, #5e6773);
     color: #da65fc;
     font-style: italic;
@@ -206,7 +224,8 @@ body{
     font-size: 16px;
     width: 125px;
 }
-.card .text {
+
+.updateaccount-card .text {
     width: 95%;
     margin: 0 auto;
     font-size: 13px;
@@ -220,56 +239,60 @@ body{
     transition: all 0.3s ease;
 }
 
-.card:hover {
+.updateaccount-card:hover {
     height: 180px;
 }
 
-.card:hover .text {
+.updateaccount-card:hover .text {
     transition: all 0.3s ease;
     opacity: 1;
     max-height: 40px;
 }
 
-.card:hover .icon-update-account {
+.updateaccount-card:hover .icon-update-account {
     background-position: -120px;
     transition: all 0.3s ease;
 }
 
-.card:hover .icon-update-account svg path {
+.updateaccount-card:hover .icon-update-account svg path {
     fill: url('#gradientColor');
     transition: all 0.3s ease;
 }
 
-.card:focus {
+.updateaccount-card:focus {
     height: 180px;
 }
 
-.card:focus .text {
+.updateaccount-card:focus .text {
     transition: all 0.3s ease;
     opacity: 1;
     max-height: 40px;
 }
 
-.card:focus .icon-update-account {
+.updateaccount-card:focus .icon-update-account {
     background-position: -120px;
     transition: all 0.3s ease;
 }
 
-.card:focus .icon-update-account svg path {
+.updateaccount-card:focus .icon-update-account svg path {
     fill: url('#gradientColor');
     transition: all 0.3s ease;
 }
-.total-card{
+
+.updateaccount-total-card {
     height: 100%;
     background-color: transparent;
     margin: -8px 0;
 }
-.front{
+
+.front {
     background-color: #A36ACB;
 }
-Link{
+
+Link {
     text-decoration: none;
 }
-.row{
+
+.row {
     margin: 5% 0
 }
