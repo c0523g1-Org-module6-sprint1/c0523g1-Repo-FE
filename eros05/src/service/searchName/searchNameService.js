@@ -11,11 +11,11 @@ export const searchByName = async (name)=>{
         alert("Tìm tên lỗi");
     }
 }
-// export const findByUserName = async (userName)=>{
-//     try{
-//         const res = await axios.get(URL_ACCOUNT+`/${userName}`)
-//         return res;
-//     }catch (e){
-//         alert("Tìm user lỗi");
-//     }
-// }
+export const findByUserName = async (userName)=>{
+    try{
+        const res = await axios.get(URL_USER+`/${userName}`)
+        return res;
+    }catch (e){
+        alert("Tìm user lỗi");
+    }
+}
