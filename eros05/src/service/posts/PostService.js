@@ -29,4 +29,16 @@ export const getPrivacyPost = async () => {
     }
 }
 
+export const update = async (id,values) => {
+    try {
+        const respone = await axios.patch("http://localhost:8080/api/public/newsfeed/post/admin/" + id,values);
+        console.log(respone.status);
+        return respone.status; 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
 
