@@ -1,7 +1,8 @@
 import "./check.css"
 import "./management.css"
 import React, {useEffect, useState} from "react";
-import {getAll} from "../service/AdminAccountService";
+import {getAll} from "../../service/accountAdmin/AdminAccountService";
+
 
 
 export function ListAccount() {
