@@ -1,9 +1,9 @@
 import {database, onValue, query, refText} from "./firebase";
-import {sliceString} from "./util";
+import {compareId, sliceString} from "./util";
 
 export function getLastMess(ownId, eleId) {
     let result;
-    let path = `mess-${ownId < eleId ? ownId + "-" + eleId : eleId + "-" + ownId}`;
+    let path = `mess-${compareId(ownId, eleId)}`;
     const messQuery = query(
         refText(database, path + "/last")
     );
