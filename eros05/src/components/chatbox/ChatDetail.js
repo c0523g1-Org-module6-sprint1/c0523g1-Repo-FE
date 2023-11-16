@@ -1,10 +1,22 @@
 import {useEffect, useRef, useState} from "react";
-import { database, refText, push, onValue, storage, refImage, uploadBytes, getDownloadURL } from "../../service/chatbox/firebase";
+import {
+    database,
+    refText,
+    push,
+    onValue,
+    storage,
+    refImage,
+    uploadBytes,
+    getDownloadURL,
+    set
+} from "../../service/chatbox/firebase";
 import ImageDetail from "./ImageDetail";
-import {dateFormatSendMessage} from "../../service/chatbox/util";
+import {compareId, dateFormatSendMessage, sliceString} from "../../service/chatbox/util";
 import {useNavigate} from "react-router-dom";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import {GetChatBoxApi} from "../../service/chatbox/apiConnection";
+import {toast} from "react-toastify";
 
 export default function ChatDetail({element, closeChatBox, own}) {
     const [content, setContent] = useState();
@@ -12,10 +24,11 @@ export default function ChatDetail({element, closeChatBox, own}) {
     const [showImgArr, setShowImgArr] = useState(false);
     const [detailImg, setDetailImg] = useState("");
     const [showEmoji, setShowEmoji] = useState(false);
+    const [path, setPath] = useState();
     const navigator = useNavigate();
     const chatBoxRef = useRef();
     const inputImgRef = useRef();
-    const path = `mess-${+own.id > +element.id ? element.id + "-" + own.id : own.id + "-" + element.id}`;
+
     const typeArray = ["text", "image", "video", "voice"];
     const pushFireBase = (type, textData) => {
         if (textData != "") {
@@ -29,28 +42,39 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 release: new Date() + "",
                 seen: false
             })
+            set(refText(database, path + "/last"), {
+                context: textData,
+                type: typeArray[type],
+            })
             setInputMess("");
             setShowEmoji(false);
         }
     }
     const handlePickEmoji = (emoji) => {
-        setInputMess(inputMess + emoji.native)
+        setInputMess(inputMess + emoji.native);
+        toast.success("alo alo")
     }
     const handleSendMessage = async () => {
         await pushFireBase(0, inputMess);
         scrollToBottom();
     }
     const scrollToBottom = () => {
-        chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+        if (chatBoxRef.current) {
+            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+        }
     };
+    const getPath = async () => {
+        const res = await GetChatBoxApi(element.id);
+        await setPath(res.path);
+    }
     const getDatabase = () => {
-        onValue(refText(database, path), data => {
+        let finishpath = `mess-${compareId(element.id, own.id)}`
+        onValue(refText(database, finishpath), data => {
             let getMessage = [];
             data.forEach((mess) => {
                 getMessage.push(mess.val());
             });
             setContent(getMessage);
-            console.log(getMessage)
         });
     }
     const enterButton = (key) => {
@@ -67,7 +91,6 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 let snapshot = await uploadBytes(storageRef, file);
                 let downloadURL = await getDownloadURL(snapshot.ref);
                 pushFireBase(1, downloadURL);
-
             } catch (e) {
                 console.log(e);
             }
@@ -82,13 +105,16 @@ export default function ChatDetail({element, closeChatBox, own}) {
     }
 
     useEffect(() => {
+        getPath();
         getDatabase();
     },[]);
     useEffect(() => {
         scrollToBottom();
     }, [content]);
 
-    if (!path) return null;
+    if (!path) {
+        return null;
+    }
     return (
         <>
         <div className="chatdetail color4">
@@ -96,14 +122,14 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 <div className="chatdetail-profile-info color0 cursorPoint"
                      onClick={() => {navigator(`personal-page/${element.id}`)}}>
                     <div className="chatdetail-profile-info-avata"
-                         style={{backgroundImage: `url(${element.img})`}}/>
+                         style={{backgroundImage: `url(${element.avatar})`}}/>
                     <div className="chatdetail-profile-info-text">
-                        <p className="border-text-black">{element.name}</p>
+                        <p className="border-text-black">{sliceString(element.name, 15)}</p>
                         {[
                             <small className="text-online">-- online --</small>,
                             <small className="text-busy">-- busy --</small>,
                             <small className="text-offline">-- offline --</small>
-                        ][element.status.id - 1]}
+                        ][element.messageStatus.id - 1]}
                     </div>
                 </div>
                 <div onClick={closeChatBox} title="Close this chatbox"
@@ -116,9 +142,11 @@ export default function ChatDetail({element, closeChatBox, own}) {
                             <div key={index}
                                className={`mess ${e.sender == own.id ? "ownMess" : "friendsMess"}`}>
                                 {/*{e.type != "delete" && <div className="option"/>}*/}
-                                {e.type == "text" && <p className="color2 borderRadius"
+                                {(e.type == "text" && e.release) &&
+                                    <p className="color2 borderRadius"
                                                         title={dateFormatSendMessage(e.release)}>{e.context}</p>}
-                                {e.type == "image" && <img className="image-content color2 borderRadius cursorPoint"
+                                {(e.type == "image" && e.release) &&
+                                    <img className="image-content color2 borderRadius cursorPoint"
                                                            src={e.context}
                                                            onClick={() => {detailImage(e.context)}}
                                                            title={dateFormatSendMessage(e.release)}

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './NavbarMobile.css'
 import logo from "../header/image/Logo-background-transfer.png";
 import {Link, useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const getWindowDimensions = () => {
     const {innerWidth: width, innerHeight: height} = window;
@@ -14,6 +15,7 @@ const getWindowDimensions = () => {
 const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication}) => {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const navigate = useNavigate()
+    const [name, setName] = useState("");
     useEffect(() => {
         const handleResize = () => {
             setWindowDimensions(getWindowDimensions());
@@ -25,10 +27,24 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
         return () => window.removeEventListener('resize', handleResize);
     }, [windowDimensions, setOpenNavbarMobile]);
 
-    const handleGoPage = () => {
-        navigate('search-name')
-        setOpenNavbarMobile(false)
-    }
+    const handleSearch = React.useCallback(
+        (event) => {
+            event.preventDefault();
+            var regex = /^[a-zA-Z0-9\s]+$/;
+            if (!name) {
+                toast.error("Mời bạn nhập tên cần tìm!");
+                return;
+            }else if(!regex.test(name)){
+                toast.error("Tên không chứa ký tự đặc biệt!");
+                return;
+            }
+            navigate(`public/search-name/${name}`);
+        },
+        [navigate, name]
+    );
+    const handleChangeInput = (event) => {
+        setName(event.target.value);
+    };
     return (
         <>
             <div className={`navbar-mobile ${isOpenNavbarMobile && 'active'}`}>
@@ -40,12 +56,12 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
                     <h1 className="logo">
                         <div className={'pt-3'}>
                             {isAuthentication ?
-                                <Link to="/dat">
+                                <Link to="/newsfeed">
                                     <img src={logo}
                                          alt=""
                                          style={{width: "130px", height: "150%"}}/>
                                 </Link> :
-                                <Link to="/main-page">
+                                <Link to="/">
                                     <img src={logo}
                                          alt=""
                                          style={{width: "130px", height: "150%"}}/>
@@ -56,19 +72,19 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
                     {
                         isAuthentication ? <ul className="list-navbar-items">
                                 <li className="navbar-item">
-                                    <Link to="/Dat" className="d-flex align-items-center"><i
+                                    <Link to="/newsfeed" className="d-flex align-items-center"><i
                                         className="fa-solid fa-house text-white"></i>Trang chủ</Link>
                                 </li>
                                 <li className="navbar-item">
-                                    <Link to="/Hung" className="d-flex align-items-center"><i
+                                    <Link to="/invited_recommend_friend/RecommendList" className="d-flex align-items-center"><i
                                         className="fa-solid fa-user-plus text-white"></i>Gợi ý kết bạn</Link>
                                 </li>
                                 <li className="navbar-item">
-                                    <Link to="/d" className="d-flex align-items-center"><i
+                                    <Link to="/top_hundered" className="d-flex align-items-center"><i
                                         className="fa-solid fa-crown text-white"></i>Top 100</Link>
                                 </li>
                                 <li className="navbar-item">
-                                    <Link to="/d" className="d-flex align-items-center"><i
+                                    <Link to="/friend/list" className="d-flex align-items-center"><i
                                         className="fa-solid fa-people-group text-white"></i>Danh sách bạn bè</Link>
                                 </li>
                             </ul> :
@@ -89,13 +105,17 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
                     }
                     <form>
                         <div className="input-group">
-                            <div onClick={handleGoPage} className='search-btn'>
+                            <div onClick={handleSearch} className='search-btn'>
                                     <span className="input-group-text">
-                                        <i className="fa-solid fa-magnifying-glass"></i>
+                                         <i className="fa-solid fa-magnifying-glass" style={{color: "#9D66C3"}}></i>
                                     </span>
                             </div>
                             <input type="text" className="form-control"
-                                   placeholder="Nhập tên bạn bè" aria-label="Username" aria-describedby="addon-wrapping"/>
+                                   placeholder="Nhập tên bạn bè" aria-label="Username" aria-describedby="addon-wrapping"
+                                   onChange={handleChangeInput}
+                                // onKeyUp={handleInputKeyPress}
+                                   value={name}
+                            />
                         </div>
                     </form>
                 </div>
