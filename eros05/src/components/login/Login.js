@@ -35,27 +35,32 @@ export default function Login() {
         })
     }
 
+
     const handleSubmit = async () => {
         await console.log("username + password: " + loginRequest.username + " " + loginRequest.password)
         try {
             const res = await securityService.doLogin(loginRequest);
-            await console.log("http status: " + res.status);
 
             switch (res.status) {
                 case 200:
                     await securityService.addAccessToken(res.data.jwtToken);
                     console.log(localStorage.getItem("accessToken"));
-                    toast("login success");
+                    console.log("http status: " + res.status)
+                    toast("Đăng nhập thành công!!");
                     navigate("/newsfeed");
                     break;
                 case 404:
+                    console.log("http status: " + res.status);
                     toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
                     break;
                 case 400:
+                    console.log("http status: " + res.status);
                     toast.error("Vui lòng thử lại!");
-                    break
+                    break;
                 default:
-                    toast.info("Lỗi không xác định, vui lòng liên hệ QTV để nhận hỗ trợ!")
+                    console.log("http status: " + res.status);
+                    toast.info("Lỗi không xác định, vui lòng liên hệ QTV để nhận hỗ trợ!");
+                    break;
             }
         } catch (e) {
             console.log(e);
@@ -110,7 +115,7 @@ export default function Login() {
                                     <Link to="/" className="thienbb-a-link"> Trang chủ! </Link>
                                 </p>
                                 <p className="thienbb-login-text">Bạn chưa có tài khoản?
-                                    <a href="#" className="thienbb-a-link">Đăng ký</a>
+                                    <Link to="/register" className="thienbb-a-link">Đăng ký</Link>
                                 </p>
                             </div>
                         </Form>
