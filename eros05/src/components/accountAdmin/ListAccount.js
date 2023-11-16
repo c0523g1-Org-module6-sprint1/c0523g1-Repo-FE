@@ -2,24 +2,28 @@ import "./check.css"
 import "./management.css"
 import React, {useEffect, useState} from "react";
 import {getAll} from "../../service/accountAdmin/AdminAccountService";
-
+import data from "@emoji-mart/data";
 
 
 export function ListAccount() {
     const [account, setAccount] = useState([]);
     const [name, setName] = useState("");
 
-    useEffect(() => {
-        display()
-    }, [name]);
-    const display = async () => {
-        const res = await getAll(name);
-        setAccount(res);
-    }
-
 
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
+
+    useEffect(() => {
+        display()
+    }, [name, page]);
+
+
+    const display = async () => {
+        const res = await getAll(name, page);
+        setTotalPage(res.data.totalPages)
+        // console.log(res)
+        setAccount(res.data.content);
+    }
 
 
     const nextPage = () => {
@@ -139,26 +143,26 @@ export function ListAccount() {
                         </tr>
                         </thead>
                         {
-                          account &&  account.length !== 0 ?
-                              <tbody>
-                              {
-                                  account.map((account, index) => (
-                                      <tr key={index}>
-                                          <td>{index + 1}</td>
-                                          <td>{account.userName}</td>
-                                          <td>{account.regisDate}</td>
-                                          <td>{account.money}</td>
-                                          <td>{account.faultAmount}</td>
-                                          <td>{account.description}</td>
-                                          <td>{account.dateWarning}</td>
-                                          <td>{account.typeAccount}</td>
-                                      </tr>
-                                  ))
-                              }
-                              </tbody>:
-                              <p>
-                                  ko du lieu
-                              </p>
+                            account && account.length !== 0 ?
+                                <tbody>
+                                {
+                                    account.map((account, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{account.userName}</td>
+                                            <td>{account.regisDate}</td>
+                                            <td>{account.money}</td>
+                                            <td>{account.faultAmount}</td>
+                                            <td>{account.description}</td>
+                                            <td>{account.dateWarning}</td>
+                                            <td>{account.typeAccount}</td>
+                                        </tr>
+                                    ))
+                                }
+                                </tbody> :
+                                <p>
+                                    ko du lieu
+                                </p>
 
                         }
 
