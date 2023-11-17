@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Gift from "./Gift";
 function GiftBackup() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModaQuyNP, setShowModalQuyNP] = useState(false);
   const handleModal = async () => {
     console.log("hi");
-    setShowModal(true);
+    setShowModalQuyNP(true);
   };
 
   const closeModal = async () => {
-    setShowModal(false);
+    setShowModalQuyNP(false);
   };
   return (
     <div>
-      <Gift show={showModal} handleClose={closeModal} />
+      <Gift showModaQuyNP={showModaQuyNP} handleClose={closeModal} />
       <button
         onClick={handleModal}
         style={{
