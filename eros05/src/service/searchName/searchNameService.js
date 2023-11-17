@@ -8,7 +8,7 @@ export const searchByName = async (name)=>{
         const res = await axios.get(URL_ACCOUNT+`/${name}`)
         return res;
     }catch (e){
-        alert("Tìm tên lỗi");
+        console.log("Tìm tên lỗi")
     }
 }
 export const findByUserName = async (userName)=>{
@@ -16,6 +16,6 @@ export const findByUserName = async (userName)=>{
         const res = await axios.get(URL_USER+`/${userName}`)
         return res;
     }catch (e){
-        alert("Tìm user lỗi");
+        console.log("Tìm user lỗi")
     }
 }
