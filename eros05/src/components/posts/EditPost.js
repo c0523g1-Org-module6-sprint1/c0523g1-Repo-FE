@@ -63,7 +63,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                             <div
                               style={{
                                 backgroundImage:
-                                  'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZDG0XwFyQdvQbMPR_X44NXKZXWRvDqPMMZQ&usqp=CAU")',
+                                  `url(${postUpdate.account.avatar})`,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
                                 aspectRatio: "1/1",
@@ -73,7 +73,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                               }}
                             />
                             <div className="info">
-                              <h5>Lisa Black Pink</h5>
+                              <h5>{postUpdate.account.userName}</h5>
                               <Field
                               name = "privacyPostId"
                                 as="select"
@@ -81,7 +81,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                                 aria-label="Default select example"
                                 style={{
                                   marginTop: 6,
-                                  width: "91%",
+                                  width: "100%",
                                   fontSize: 16,
                                 }}
                               >
