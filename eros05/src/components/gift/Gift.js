@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as giftService from "../../service/gift/giftService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
-function Gift({ show, handleClose, userNow, userGift }) {
+function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
   const [listGift, setListGift] = useState([]);
   const [getMoney, setgetMoney] = useState(0);
   const [product, setProduct] = useState({});
@@ -13,7 +13,7 @@ function Gift({ show, handleClose, userNow, userGift }) {
 
   const display = async () => {
     const res = await giftService.getAll();
-    const resMoney = await giftService.getMoney("2");
+    const resMoney = await giftService.getMoney(userNow);
     const result = resMoney / 100;
     setgetMoney(result);
     setListGift(res);
@@ -21,15 +21,15 @@ function Gift({ show, handleClose, userNow, userGift }) {
   };
   useEffect(() => {
     display();
-  }, [show]);
+  }, [showModaQuyNP]);
   useEffect(() => {
-    if (!show) {
+    if (!showModaQuyNP) {
       setFlagChoice(false);
       setProduct({});
       setquantity(1);
       setMoneyStatus(false);
     }
-  }, [show]);
+  }, [showModaQuyNP]);
 
   const choiceProduct = (value) => {
     setProduct(value);
@@ -55,8 +55,8 @@ function Gift({ show, handleClose, userNow, userGift }) {
     const GiveDto = {
       quantity: quantity,
       giftId: product.id,
-      accountSenderId: "2",
-      accountReceiverId: "1",
+      accountSenderId: userNow,
+      accountReceiverId: userGift,
     };
     const flag = await giftService.giveaGive(GiveDto);
     console.log(flag);
@@ -70,7 +70,7 @@ function Gift({ show, handleClose, userNow, userGift }) {
   };
   return (
     <>
-      {show && (
+      {showModaQuyNP && (
         <div
           style={{
             borderRadius: "10px",

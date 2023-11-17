@@ -39,6 +39,17 @@ export const update = async (id,values) => {
     }
 }
 
+export const getListOfAnAccount = async (userName) => {
+    try {
+        const respone = await axios.get("http://localhost:8080/api/public/newsfeed/post/account/" + userName);
+        console.log(respone.data);
+        return respone.data; 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 
 
 
