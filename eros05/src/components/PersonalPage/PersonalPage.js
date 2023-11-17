@@ -16,14 +16,14 @@ export function PersonalPage() {
 
     useEffect(() => {
         getInfoAccount();
-        status()
-    },[statusRelation]);
+
+    },[]);
 
     const getInfoAccount = async () => {
         let result =  await personalService.getInfoPersonal(id)
         setAccountVisit(result.data);
+        status(result.data)
     }
-    
     const handleSentInvite = async (relationships) => {
       let result = await personalService.sentInvite(relationships);
       if (result.status === 201){
@@ -37,13 +37,16 @@ export function PersonalPage() {
         receiverAccount: accountVisit.id
     }
 
-    const status = async () => {
-        let result = await personalService.getStatus(idLogin,accountVisit.id);
-        console.log(result);
-        setStatusRelation(result.data);
+    const status = async (accVisit) => {
+        console.log(idLogin);
+        console.log(accVisit.id);
+        if(accountVisit){
+           const result = await personalService.getStatus(idLogin,accVisit.id);
+            if(result){
+                setStatusRelation(result.data);
+            }
+        }
     }
-
-
 
     return(
         <>
@@ -154,7 +157,7 @@ export function PersonalPage() {
 
                                         </div>
                                         <div className="col-lg-3">
-                                                <Link to={`/personal-page/edit/${accountVisit.id}`} style={{textDecoration:"none"}}>
+                                                <Link to={`/personal-page/edit/${idLogin}`} style={{textDecoration:"none"}}>
                                                     <small>
                                                         <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
                                                     </small>

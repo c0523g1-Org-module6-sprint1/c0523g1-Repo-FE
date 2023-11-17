@@ -196,7 +196,7 @@ export default function Header() {
                                         isShowUserMenu && <div className={`user-menu`}>
                                             <ul className="position-relative">
                                                 <li>
-                                                    <Link to="/personal-page/${user.id}">Trang cá nhân</Link>
+                                                    <Link to={`/personal-page/${user.id}`}>Trang cá nhân</Link>
                                                 </li>
                                                 <li>
                                                     <Link to="/change_password">Đổi mật khẩu</Link>
