@@ -34,7 +34,7 @@ export default function Header() {
     const returnMainPage = () => {
         setIsAuthentication(false);
         navigate("/")
-        // xóa accessToken
+        securityService.handleLogout();
     }
     const handleChangeInput = (event) => {
         setName(event.target.value);
