@@ -3,6 +3,7 @@ import "./post.css";
 import { getListPublic } from "../../service/posts/PostService";
 import EditPost from "./EditPost";
 import {getRoleByJwt,getIdByJwt,getUsernameByJwt}  from "../../service/login/securityService";
+import { Link } from "react-router-dom";
 
 
 
@@ -74,7 +75,7 @@ console.log(username);
                               }}
                             />
                             <div className="info">
-                              <h5>{item.account.userName}</h5>
+                              <h5><Link to = {`/personal-page/${item.account.id}`}>{item.account.userName}</Link></h5>
                               <small>{item.date}</small>
                             </div>
                           </div>
