@@ -6,7 +6,6 @@ import {toast} from "react-toastify";
 
 export default function InvitedList() {
     const [invited, setInvited] = useState(null)
-    const [reset,setReset] =useState(1);
 
     const findAll = async (accountID) => {
         let data = await service.findAll(accountID)
@@ -32,7 +31,6 @@ export default function InvitedList() {
         if (res.status === 200) {
             toast.success("thành công")
             findAll(1)
-            setReset(reset + 1)
         }
     }
 
@@ -43,10 +41,8 @@ export default function InvitedList() {
     if (!invited) return null;
     return (
 
-
         <>
             <div>
-
                 <div style={{marginTop: "75px"}}>
                     <h1>Lời mời kết bạn</h1>
                     <div className="d-flex">
@@ -65,8 +61,6 @@ export default function InvitedList() {
                                         background: "#a36acb"
                                     }}>
                                 Sắp xếp
-
-           
                             </button>
                             <ul className="dropdown-menu"
                                 style={{backgroundColor: "#d0a8de", cursor: "pointer"}}>
@@ -76,31 +70,31 @@ export default function InvitedList() {
                         </div>
                     </div>
                 </div>
-                {invited.map((invited) =>
-                    <div className="d-flex" style={{float: "left"}}>
-                        <div className="hlpcards">
-                            <div className="hlpicon">
-                                <img className="hlpcus-avatar"
-                                     src={invited.avatarAccount}
-                                     alt=""/>
-                            </div>
-                            <p className="hlptitle mb-4">{invited.nameAccount}</p>
-                            <p className="hlptext">
-                                <button id="confirm" className="btn "
-                                        style={{width: "100%", background: "#d0a8de", color: "white"}}
-                                        onClick={() => acceptFriend(invited.id)}>Xác
-                                    nhận
-                                </button>
-                                <button id="delete" className="btn text-dark mt-1"
-                                        style={{width: "100%", background: "#cbd2d4", color: "white"}}
-                                        onClick={() => deleteInvited(invited.id)}
-                                        type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Xóa
-                                </button>
-                            </p>
-                        </div>
-                    </div>
-                )}
             </div>
+            {invited.map((invited) =>
+                <div className="d-flex" style={{float: "left"}}>
+                    <div className="hlpcards">
+                        <div className="hlpicon">
+                            <img className="hlpcus-avatar"
+                                 src={invited.avatarAccount}
+                                 alt=""/>
+                        </div>
+                        <p className="hlptitle mb-4">{invited.nameAccount}</p>
+                        <p className="hlptext">
+                            <button id="confirm" className="btn "
+                                    style={{width: "100%", background: "#d0a8de", color: "white"}}
+                                    onClick={() => acceptFriend(invited.id)}>Xác
+                                nhận
+                            </button>
+                            <button id="delete" className="btn text-dark mt-1"
+                                    style={{width: "100%", background: "#cbd2d4", color: "white"}}
+                                    onClick={() => deleteInvited(invited.id)}
+                                    type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Xóa
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            )}
         </>
     )
 }
