@@ -3,10 +3,7 @@ import * as securityService from '../../service/login/securityService';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-import {jwtDecode} from "jwt-decode";
 import {useState} from "react";
-import * as yup from "yup";
-import {getAccessToken, getIdByJwt, getUsernameByJwt} from "../../service/login/securityService";
 
 export default function Login() {
 
@@ -14,8 +11,6 @@ export default function Login() {
         username: null,
         password: null
     }
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
 
     const [loginRequest, setLoginRequest] = useState(initLoginRequest);
     const navigate = useNavigate();

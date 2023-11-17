@@ -48,5 +48,8 @@ const getRoleByJwt = () => {
     }
 }
 
+const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+}
 
 export {doLogin, addAccessToken, getUsernameByJwt, getIdByJwt, getRoleByJwt, getAccessToken};
