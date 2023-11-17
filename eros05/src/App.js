@@ -28,15 +28,17 @@ import HoTro from "./components/bodyMainPage/HoTro";
 import AnToan from "./components/bodyMainPage/AnToan";
 import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
-import {requestFilter} from "./service/login/requestFilter";
 function App() {
-    requestFilter();
+
   return (
       <>
-
+          requestFilter();
         <ToastContainer position="bottom-left" />
           <Chatbox/>
-          <Header/>
+          <Routes>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="*" element={<Header/>}/>
+          </Routes>
           <Routes>
               <Route path="/" element={<BodyMainPage/>}/>
               <Route path="/public/search-name/:name" element={<SearchPage/>}/>
@@ -44,7 +46,6 @@ function App() {
               <Route path="/top_hundered" element={<TopHundered/>}/>
               <Route path="/register" element={<Register/>}/>
               <Route path="/initial-information" element={<InitInfo/>}/>
-              <Route path="/login" element={<Login/>}/>
               <Route path="/friend/list" element={<ListFriend/>}/>
               <Route path="/invited_recommend_friend/InvitedList" element={<InvitedList/>}/>
               <Route path="/invited_recommend_friend/RecommendList" element={<RecommendList/>}/>
