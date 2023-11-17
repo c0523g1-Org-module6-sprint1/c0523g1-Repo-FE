@@ -1,0 +1,65 @@
+
+.edit-account .avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 300px;
+}
+
+.edit-account input[type="file"] {
+    display: none;
+}
+
+.edit-account .cssbuttons-io-button {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 0.8em 1.5em 0.8em 1.2em;
+    color: white;
+    background: #ad5389;
+    background: #9d66c3;
+    border: none;
+    box-shadow: 0 0.7em 1.5em -0.5em rgb(184, 146, 255);
+    letter-spacing: 0.05em;
+    border-radius: 20em;
+}
+
+.edit-account .cssbuttons-io-button svg {
+    margin-right: 8px;
+}
+
+.edit-account .cssbuttons-io-button:hover {
+    box-shadow: 0 0.5em 1.5em -0.5em rgb(149, 91, 255);
+}
+
+.edit-account .cssbuttons-io-button:active {
+    box-shadow: 0 0.3em 1em -0.5em rgb(160, 109, 255);
+}
+
+
+.edit-account .icon {
+    font-size: 30px;
+    width: 40px;
+}
+
+.edit-account. navbar {
+    background-color: rgba(0, 0, 0, 0) !important;
+    --bs-navbar-brand-margin-end: 100%;
+}
+
+.edit-account .navbar .container {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.edit-account.navbar .container .navbar-brand {
+    color: rgb(173, 178, 203);
+}
+
+.edit-account.navbar .nav-link {
+    color: black;
+    font-weight: bolder;
+    border-radius: 18px;
+    padding: 8px 16px;
+}

@@ -8,6 +8,7 @@ import {
     refImage,
     uploadBytes,
     getDownloadURL,
+    update,
     set
 } from "../../service/chatbox/firebase";
 import ImageDetail from "./ImageDetail";
@@ -41,16 +42,19 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 release: new Date() + "",
                 seen: false
             })
-            set(refText(database, path + "/last"), {
-                context: textData,
-                type: typeArray[type],
+            let last = textData;
+            if (type == 1) {
+                last = "[hình ảnh]"
+            }
+            update(refText(database, "lastmess"), {
+                [path]: last,
             })
             setInputMess("");
             setShowEmoji(false);
         }
     }
     const handlePickEmoji = (emoji) => {
-        setInputMess(inputMess + emoji.native)
+        setInputMess(inputMess + emoji.native);
     }
     const handleSendMessage = async () => {
         await pushFireBase(0, inputMess);
@@ -140,10 +144,10 @@ export default function ChatDetail({element, closeChatBox, own}) {
                             <div key={index}
                                className={`mess ${e.sender == own.id ? "ownMess" : "friendsMess"}`}>
                                 {/*{e.type != "delete" && <div className="option"/>}*/}
-                                {(e.type == "text" && e.release) &&
+                                {e.type == "text" &&
                                     <p className="color2 borderRadius"
                                                         title={dateFormatSendMessage(e.release)}>{e.context}</p>}
-                                {(e.type == "image" && e.release) &&
+                                {e.type == "image" &&
                                     <img className="image-content color2 borderRadius cursorPoint"
                                                            src={e.context}
                                                            onClick={() => {detailImage(e.context)}}

@@ -1,5 +1,6 @@
+
 import './App.css';
-import {ToastContainer} from "react-bootstrap";
+import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {Chatbox} from "./components/chatbox/Chatbox";
 import Header from "./components/header/Header";
@@ -27,12 +28,15 @@ import HoTro from "./components/bodyMainPage/HoTro";
 import AnToan from "./components/bodyMainPage/AnToan";
 import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
-function App() {
 
+import {requestFilter} from "./service/login/requestFilter";
+function App() {
+    requestFilter();
   return (
       <>
-        <ToastContainer/>
-          {/*<Chatbox/>*/}
+
+        <ToastContainer position="bottom-left" />
+          <Chatbox/>
           <Header/>
           <Routes>
               <Route path="/" element={<BodyMainPage/>}/>
@@ -63,4 +67,5 @@ function App() {
       </>
   );
 }
+
 export default App;

@@ -65,10 +65,8 @@ body{
 }
 
 .profile-cover__info .nav {
-    margin-right: 28px;
-    padding: 15px 0 10px 170px;
     color: #999;
-    font-size: 16px;
+    font-size: 5px;
     line-height: 50px;
     font-weight: 300;
     text-align: center;
@@ -76,6 +74,7 @@ body{
     -ms-flex-pack: end;
     -webkit-box-pack: end;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .profile-cover__info .nav li {
