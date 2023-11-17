@@ -32,7 +32,6 @@ export default function InvitedList() {
         if (res.status === 200) {
             toast.success("thành công")
             findAll(1)
-            setReset(reset + 1)
         }
     }
 
