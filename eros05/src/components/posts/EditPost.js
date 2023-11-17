@@ -73,7 +73,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                               }}
                             />
                             <div className="info">
-                              <h5>{postUpdate.account.userName}</h5>
+                              <h5>{postUpdate.account.name}</h5>
                               <Field
                               name = "privacyPostId"
                                 as="select"

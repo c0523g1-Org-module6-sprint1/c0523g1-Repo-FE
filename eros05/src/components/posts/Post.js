@@ -2,20 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import "./post.css";
 import { getListPublic } from "../../service/posts/PostService";
 import EditPost from "./EditPost";
-import {getRoleByJwt,getIdByJwt,getUsernameByJwt}  from "../../service/login/securityService";
+import {getIdByJwt, getUsernameByJwt}  from "../../service/login/securityService";
 import { Link } from "react-router-dom";
-
-
 
 export default function Post() {
   const [listPublic, setListPublic] = useState();
   const [showModal,setShowModal] = useState(false);
   const [postUpdate,setPostUpdate] = useState();
 
-
-
 const username = getUsernameByJwt();
 console.log(username);
+
+const idLogin = getIdByJwt ();
+console.log(idLogin);
 
   const fetchDataListPublic = async () => {
     const listPublic = await getListPublic();
@@ -33,8 +32,23 @@ console.log(username);
   const handleHideModal = () => {
     setShowModal(false);
   }
-
-  if (!listPublic) {
+  const getTime = (dateStr) => {
+    let dateTime = new Date(dateStr);
+    let year = dateTime.getFullYear();
+    let month = dateTime.getMonth() + 1;
+    let day = dateTime.getDate();
+    let hour = dateTime.getHours();
+    let minute = dateTime.getMinutes();
+    return `${hour}h-${minute}m ${day}/${month}/${year}`
+  }
+  // if (username == null){
+  //   return (
+  //     <div>
+  //       <button>Đăng nhập ngay</button>
+  //     </div>
+  //   )
+  // }
+  if (!listPublic || !idLogin) {
     return null;
   }
 
@@ -75,8 +89,8 @@ console.log(username);
                               }}
                             />
                             <div className="info">
-                              <h5><Link to = {`/personal-page/${item.account.id}`}>{item.account.userName}</Link></h5>
-                              <small>{item.date}</small>
+                              <h5><Link to = {`/personal-page/${item.account.id}`}>{item.account.name}</Link></h5>
+                              <small>{getTime(item.date)}</small>
                             </div>
                           </div>
                           <div className="post-options">
