@@ -5,6 +5,8 @@ import * as personalService from "../../service/personalPage/PersonalpageService
 import Post from "./DatG/Post";
 import {toast} from "react-toastify";
 import {Button} from "react-bootstrap";
+import * as loginService from "../../service/login/securityService";
+import {getIdByJwt} from "../../service/login/securityService";
 
 
 export function PersonalPage() {
@@ -13,10 +15,12 @@ export function PersonalPage() {
     let idLogin =1;
     const [statusRelation, setStatusRelation] = useState({});
 
+    const idUserLogin = loginService.getIdByJwt();
+
+
 
     useEffect(() => {
         getInfoAccount();
-
     },[]);
 
     const getInfoAccount = async () => {
@@ -33,7 +37,7 @@ export function PersonalPage() {
       }
     }
     const value = {
-        sendAccount : idLogin,
+        sendAccount : idUserLogin,
         receiverAccount: accountVisit.id
     }
 
@@ -41,9 +45,12 @@ export function PersonalPage() {
         console.log(idLogin);
         console.log(accVisit.id);
         if(accountVisit){
-           const result = await personalService.getStatus(idLogin,accVisit.id);
+           const result = await personalService.getStatus(idUserLogin,accVisit.id);
+            console.log(result)
             if(result){
-                setStatusRelation(result.data);
+                setStatusRelation(result.data.relationshipStatus);
+
+
             }
         }
     }
@@ -56,12 +63,12 @@ export function PersonalPage() {
                     <div className="col-lg-6">
                         <div className="panel profile-cover">
                             <div className="profile-cover__img">
-                                <div className="ig" style={{
+                                <div  style={{
                                     backgroundImage : `url(${accountVisit.avatar})`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
                                     aspectRatio: '1/1',
-                                    width: '70%',
+                                    backgroundRepeat: 'no-repeat',
                                     borderRadius: '100%',
                                     marginLeft: '25px'}} >
 
@@ -78,10 +85,10 @@ export function PersonalPage() {
                                 data-overlay="0.3"
                             ></div>
                             <div className="profile-cover__info" style={{ height: '120px' }}>
-                                {idLogin !== accountVisit.id ?
+                                {idUserLogin !== accountVisit.id ?
                                     (<ul className="nav">
                                         <li>
-                                            {idLogin === 2 ?
+                                            {(statusRelation.id === 2 )  ?
                                                 (<button className="btn btn-rounded btn-info"
                                                          style={{ backgroundColor: "#a36acb", borderRadius: 20 }}>
                                                     <i className="fa-solid fa-user-group bt"/>
@@ -165,9 +172,6 @@ export function PersonalPage() {
                                         </div>
 
                                     </div>) }
-
-
-
                             </div>
                         </div>
                         <div className="panel">

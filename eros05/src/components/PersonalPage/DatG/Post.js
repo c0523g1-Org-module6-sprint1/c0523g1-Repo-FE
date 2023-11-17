@@ -1,20 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./post.css";
 import EditPost from "./EditPost";
-import {getListPublic} from "../../../service/posts/PostService";
+import {getListOfAnAccount} from "../../../service/posts/PostService";
+import {getUsernameByJwt} from "../../../service/login/securityService"
 
 
 export default function Post() {
-  const [listPublic, setListPublic] = useState();
+  const [listPostOfAnAccount, setListPostOfAnAccount] = useState();
   const [showModal,setShowModal] = useState(false);
   const [postUpdate,setPostUpdate] = useState();
+  const username = getUsernameByJwt();
 
-  const fetchDataListPublic = async () => {
-    const listPublic = await getListPublic();
-    setListPublic(listPublic);
+  const fetchDataListOfAnAccount = async () => {
+    const listPublic = await getListOfAnAccount(username);
+    setListPostOfAnAccount(listPublic);
   };
   useEffect(() => {
-    fetchDataListPublic();
+    fetchDataListOfAnAccount();
   }, [showModal]);
 
   const handleShowModal = (postUpdate) => {
@@ -25,9 +27,18 @@ export default function Post() {
   const handleHideModal = () => {
     setShowModal(false);
   }
+  const getTime = (dateStr) => {
+    let dateTime = new Date(dateStr);
+    let year = dateTime.getFullYear();
+    let month = dateTime.getMonth() + 1;
+    let day = dateTime.getDate();
+    let hour = dateTime.getHours();
+    let minute = dateTime.getMinutes();
+    return `${hour}h-${minute}m ${day}/${month}/${year}`
+  }
 
 
-  if (!listPublic) {
+  if (!listPostOfAnAccount) {
     return null;
   }
 
@@ -35,9 +46,9 @@ export default function Post() {
       <div>
         <div
             className="container-fluid"
-            style={{ marginTop: 150, position: "relative" }}
+
         >
-          {listPublic.map((item) => {
+          {listPostOfAnAccount.map((item) => {
             return (
                 <div className="row" key={item.id} style={{marginBottom:"50px"}}>
                   <div className="col-12 col-lg-3"></div>
@@ -58,7 +69,7 @@ export default function Post() {
                                 <div
                                     style={{
                                       backgroundImage:
-                                          'url("https://images.kienthuc.net.vn/zoom/800/uploaded/ctvkhoahoc/2020_04_29/khong-chi-la-co-may-nhay-lisa-blackpink-con-co-so-thich-dac-biet-nay.jpg")',
+                                          `url(${item.account.avatar})`,
                                       backgroundSize: "cover",
                                       backgroundPosition: "center",
                                       aspectRatio: "1/1",
@@ -68,8 +79,8 @@ export default function Post() {
                                     }}
                                 />
                                 <div className="info">
-                                  <h5>Lisa Black Pink</h5>
-                                  <small>{item.date}</small>
+                                  <h5>{item.account.name}</h5>
+                                  <small>{getTime(item.date)}</small>
                                 </div>
                               </div>
                               <div className="post-options">
