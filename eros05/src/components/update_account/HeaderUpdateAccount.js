@@ -6,8 +6,8 @@ export function HeaderUpdateAccount(props){
 
 
     return(
-        <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-card">
-            <Link to="/updateAccount/eros+" className="card">
+        <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-updateaccount-card">
+            <Link to="/updateAccount/eros+" className="updateaccount-card">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701">
@@ -28,7 +28,7 @@ export function HeaderUpdateAccount(props){
                 <p className="text">Tặng quà nhiều hơn & hơn thế nữa!</p>
             </Link>
 
-            <Link to="/updateAccount/gold" className="card">
+            <Link to="/updateAccount/gold" className="updateaccount-card">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701">
@@ -49,7 +49,7 @@ export function HeaderUpdateAccount(props){
                 <p className="text">Nhiều người biết đến bạn hơn & hơn thế nữa!</p>
             </Link>
 
-            <Link className="card" to="/updateAccount/platinum">
+            <Link className="updateaccount-card" to="/updateAccount/platinum">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701" >

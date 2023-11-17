@@ -1,4 +1,5 @@
 .header {
+
     position: fixed;
     /*z-index: 9999;*/
     top: 0;
@@ -10,178 +11,180 @@
     height: 75px;
     display: flex;
     align-items: center;
+
 }
 
 .navbar {
-    background-color: rgba(0, 0, 0, 0) !important;
-    --bs-navbar-brand-margin-end: 100%;
+  background-color: rgba(0, 0, 0, 0) !important;
+  --bs-navbar-brand-margin-end: 100%;
 }
 
 .navbar .container {
-    background-color: rgba(0, 0, 0, 0) !important;
+  background-color: rgba(0, 0, 0, 0) !important;
 }
 
 .navbar .container .navbar-brand {
-    color: rgb(173, 178, 203);
+  color: rgb(173, 178, 203);
 }
 
 .navbar .nav-link {
-    color: #fff;
-    font-weight: bolder;
-    border-radius: 18px;
-    padding: 8px 16px;
+  color: #fff;
+  font-weight: bolder;
+  border-radius: 18px;
+  padding: 8px 16px;
 }
 
 .navbar-middle .icon {
-    position: relative;
+  position: relative;
 }
 
 .navbar-middle .icon:hover .description-icon {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 .navbar-middle .navbar-login-items {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-    list-style: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  list-style: none;
 }
 
 .navbar-middle .description-icon {
-    position: absolute;
-    background: #f4f4f4cc;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: .8125rem;;
-    padding: 12px;
-    white-space: nowrap;
-    visibility: hidden;
-    opacity: 0;
-    color: #050505;
-    transition: ease 500ms;
-    border-radius: 8px;
-    font-weight: 400;
-    font-family: inherit;
-    line-height: 1.2308;
+  position: absolute;
+  background: #f4f4f4cc;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8125rem;
+  padding: 12px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  color: #050505;
+  transition: ease 500ms;
+  border-radius: 8px;
+  font-weight: 400;
+  font-family: inherit;
+  line-height: 1.2308;
 }
 
 .cus-avatar {
-    margin-bottom: 50px;
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 100%;
+  margin-bottom: 50px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 100%;
 }
 
 .navbar-middle form > div {
-    width: 250px;
+  width: 250px;
 }
 
 .navbar-middle form .search-btn span {
-    border-radius: 20px 0 0 20px;
-    font-size: 24px;
-    background: #fff;
-    height: 100%;
-    cursor: pointer;
+  border-radius: 20px 0 0 20px;
+  font-size: 24px;
+  background: #fff;
+  height: 100%;
+  cursor: pointer;
 }
 
 .navbar-middle form .search-btn span svg {
-    width: 1rem;
-    height: 1rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .navbar-middle form input {
-    border-radius: 0 20px 20px 0;
+  border-radius: 0 20px 20px 0;
 }
 
 .lien-login-btn {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .lien-login-btn button {
-    border: none;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    box-shadow: rgba(50, 50, 93, 0.25) 0 2px 5px -1px, rgba(0, 0, 0, 0.3) 0 1px 3px -1px;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0 1px 3px -1px;
 }
 
 .lien-login-btn button > span {
-    display: none;
+  display: none;
 }
 
 .lien-login-btn button svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
 }
 
 .lien-login-btn .user-menu {
-    position: absolute;
-    background: #fff;
-    right: 0;
-    top: 50px;
-    width: 150px;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  position: absolute;
+  background: #fff;
+  right: 0;
+  top: 50px;
+  width: 150px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .lien-login-btn .user-menu ul {
-    list-style: none;
-    text-align: left;
-    padding: 10px 0 5px 0;
-    margin: 0;
-
+  list-style: none;
+  text-align: left;
+  padding: 10px 0 5px 0;
+  margin: 0;
 }
 
 .lien-login-btn .user-menu ul li {
-    padding: 0;
-    transition: ease 300ms;
+  padding: 0;
+  transition: ease 300ms;
 }
 
 .lien-login-btn .user-menu ul li:hover {
-    background: rgba(149, 110, 175, 0.1);
+  background: rgba(149, 110, 175, 0.1);
 }
 
-.lien-login-btn .user-menu ul li a, .lien-login-btn .user-menu ul li p {
-    padding: 5px 0 5px 30px;
-    display: inline-block;
-    text-decoration: none;
-    color: #050505;
-    font-weight: 500;
-    width: 100%;
-    margin: 0;
-    cursor: pointer;
+.lien-login-btn .user-menu ul li a,
+.lien-login-btn .user-menu ul li p {
+  padding: 5px 0 5px 30px;
+  display: inline-block;
+  text-decoration: none;
+  color: #050505;
+  font-weight: 500;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
 }
 
 .lien-login-btn .user-menu ul hr {
-    margin: 0.5rem 10px;
+  margin: 0.5rem 10px;
 }
 
 .lien-login-btn .user-menu ul span {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #fff;
-    top: 0;
-    right: 0;
-    transform: translate(-120%, -50%) rotate(45deg);
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  top: 0;
+  right: 0;
+  transform: translate(-120%, -50%) rotate(45deg);
 }
 
 @media only screen and (min-width: 991px) {
-    .lien-login-btn button > span {
-        display: block;
-    }
+  .lien-login-btn button > span {
+    display: block;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
-    .navbar-middle .navbar-login-items {
-        margin-left: 180px;
-    }
+  .navbar-middle .navbar-login-items {
+    margin-left: 180px;
+  }
 }
