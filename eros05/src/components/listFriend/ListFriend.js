@@ -4,17 +4,56 @@ import { list } from "firebase/storage";
 import { getList, handleBlockFriend, handleDeleteFriend } from "../../service/listFriend/ListFriendService";
 import { Modal } from "react-bootstrap";
 import {Link} from "react-router-dom";
+import { getIdByJwt, getUsernameByJwt } from "../../service/login/securityService";
+import Gift from "../gift/Gift";
 
 function ListFriend() {
   const [list, setList] = useState([1, 2, 3, 4, 5]);
-  const [listFriend, setListFriend] = useState(null);
+ 
   const [friendDelete, setFriendDelete] = useState();
   const [friendBlock, setFriendBlock] = useState();
   const [showModal, setShowModal] = useState(false);
   const [nameSearch,setNameSearch] = useState("");
+  const [listFriend, setListFriend] = useState(null);
+  const [idLogin,setIdLogin] = useState(null);
+  const [usernameGift,setUsernameGift] = useState(null);
+  const [userNameLogin,setUserNameLogin] = useState(null);
+
+  const [showModaQuyNP, setShowModalQuyNP] = useState(false);
+  const handleModal = async (value) => {
+    setUsernameGift(value);
+    console.log("hi");
+    setShowModalQuyNP(true);
+  };
+  console.log("usernameGift" +usernameGift);
+  console.log("username: " +userNameLogin);
+
+  const closeModal = async () => {
+    setShowModalQuyNP(false);
+  };
+
+
   const getListFriend = async () => {
-    setListFriend(await getList(1,nameSearch))
+    if (idLogin !== null) {
+      setListFriend(await getList(idLogin,nameSearch))
+    } else{
+      setListFriend(null)
+    }
   }
+  const getUsername = async () => {
+    const res = await getUsernameByJwt();
+    if(res !== undefined){
+      setUserNameLogin(res)
+     }
+  }
+
+  const getIdLogin = async () => {
+         const res = await getIdByJwt()
+         if(res !== undefined){
+          setIdLogin(res)
+         }
+  }
+  console.log("đây là id login :" + idLogin);
 
   const handleSetNameSearch = () => {
     const specialCharsRegex = /[!#$%^&*(),?":{}|<>+_]/;
@@ -73,8 +112,10 @@ function ListFriend() {
   console.log(nameSearch);
 
   useEffect(() => {
+    getIdLogin()
     getListFriend();
-  }, [])
+    getUsername();
+  },[idLogin])
   return (
     <>
       <div style={{ background: 'linear-gradient(90deg, rgba(208,162,247,1) 0%, rgba(169,114,206,1) 0%, rgba(208,162,247,1) 26%, rgba(163,106,203,1) 100%, rgba(216,175,231,1) 100%, rgba(229,212,255,1) 100%, rgba(225,203,255,1) 100%)' }}>
@@ -100,9 +141,10 @@ function ListFriend() {
             return (
               <>
                 <div className="cardsThienPT">
-                  {/* <button className="btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
-    <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}} src="..//QuyNP/mau-thiet-ke-hop-qua-vector-06-removebg-preview.png" alt />
-  </button> */}
+                  <button  onClick={()=>handleModal(o.usernameAccount)} className="btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+                  <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}} 
+                    src="..//QuyNP/mau-thiet-ke-hop-qua-vector-06-removebg-preview.png" alt />
+                  </button>
                   <div className="iconThienPT">
                     <img className="cus-avatarThienPT" src="https://images.pexels.com/photos/2048716/pexels-photo-2048716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt />
                   </div>
@@ -140,10 +182,13 @@ function ListFriend() {
 
 
 
-
+      <Gift showModaQuyNP={showModaQuyNP} handleClose={closeModal} userNow={userNameLogin} userGift={usernameGift} />
+  
     </>
   )
 }
+
+
 
 function MyModalBlock({ action, data, deleteFunc }) {
   return (

@@ -11,8 +11,9 @@
     right: 0;
     bottom: 0;
     left: 0;
+    background-color: #ffffff;
+    /*background: radial-gradient(circle, rgba(208, 162, 247, 1) 0%, rgba(216, 175, 231, 1) 0%, rgba(241, 234, 255, 1) 0%, rgba(227, 206, 251, 1) 91%, rgba(229, 212, 255, 1) 100%, rgba(183, 132, 213, 1) 100%, rgba(163, 106, 203, 1) 100%);*/
 
-    background-image: linear-gradient(43deg, #3f426e 0%, #221c69 46%, #080942 100%);
 }
 
 /**/
@@ -25,7 +26,7 @@
     height: auto;
     border-radius: 25px;
     box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
-    background: linear-gradient(90deg, hsla(209, 75%, 28%, 1) 0%, hsla(257, 75%, 28%, 1) 100%);
+    background: radial-gradient(circle, rgba(208, 162, 247, 1) 0%, rgba(216, 175, 231, 1) 0%, rgba(241, 234, 255, 1) 0%, rgba(227, 206, 251, 1) 91%, rgba(229, 212, 255, 1) 100%, rgba(183, 132, 213, 1) 100%, rgba(163, 106, 203, 1) 100%);
 
     padding-top: 15px;
     padding-bottom: 15px;
@@ -35,7 +36,7 @@
 .thienbb-login-title {
     padding-top: 2%;
     text-align: center;
-    color: white;
+    color: #3f426e;
 }
 
 /**/
@@ -52,7 +53,7 @@
 }
 
 /*login, login with facebook button*/
-.thienbb-login-btn {
+.thienbb-login-btn, .fb-login-tag {
     color: white;
     margin-top: 1%;
     border: 1px solid #ffffff;
@@ -70,7 +71,7 @@
 
 }
 
-.thienbb-login-btn:hover {
+.thienbb-login-btn:hover, .fb-login-tag:hover {
     background: linear-gradient(90deg, hsla(216, 75%, 26%, 1) 0%, hsla(316, 75%, 26%, 1) 100%);
 }
 
@@ -103,7 +104,7 @@
 /*option*/
 .thienbb-a-link {
     font-weight: bold;
-    color: white;
+    color: #3f426e;
 }
 
 .thienbb-a-link:hover {
@@ -134,11 +135,13 @@
 .login-btn {
     padding-top: 3%;
 }
+
 .login-with-fb-btn {
     padding-top: 1%;
 }
+
 .thienbb-login-text {
-    color: white;
+    color: #3f426e;
 }
 
 /*facebook icon in login button*/
@@ -151,10 +154,11 @@
 }
 
 .remember-me-text {
-    color: white;
+    color: #3f426e;
 }
 
 /*error msg*/
 .thienbb-form-err-msg {
-    color: rgba(255,153,29,0.86);
+    color: rgba(255, 153, 29, 0.86);
 }
+
