@@ -41,14 +41,8 @@ console.log(idLogin);
     let minute = dateTime.getMinutes();
     return `${hour}h-${minute}m ${day}/${month}/${year}`
   }
-  // if (username == null){
-  //   return (
-  //     <div>
-  //       <button>Đăng nhập ngay</button>
-  //     </div>
-  //   )
-  // }
-  if (!listPublic || !idLogin) {
+
+  if (!listPublic) {
     return null;
   }
 
