@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { getPrivacyPost,update } from "../../service/posts/PostService";
+import { getPrivacyPost,update } from "../../../service/posts/PostService"
 import { Formik, Form, Field } from "formik";
 import{toast} from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import "./post.css";
 
 export default function EditPost({ showModal, handleHideModal, postUpdate }) {
   const [privacyPostList, setPrivacyPostList] = useState();
@@ -36,7 +35,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
   };
   return (
     <div>
-      <Modal style={{marginTop:"50px"}} show={showModal}>
+      <Modal show={showModal}>
         <div>
           <Formik initialValues={initValue}
             onSubmit={(values)=> {
@@ -52,7 +51,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                       Chỉnh sửa bài viết
                     </h1>
                   </div>
-                  <button type="button" className="btn-close" onClick={handleHideModal} />
+                  <button className="btn-close" onClick={handleHideModal} />
                 </div>
                 <div className="modal-body1" style={{ padding: 15 }}>
                   <div className="middle-column">
@@ -97,12 +96,10 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                         <div className="media-body">
                           <Field
                             name="content"
-                            as="textarea"
                             style={{
                               width: "100%",
                               border: "none",
                               marginBottom: "15px",
-                             whiteSpace: "normal"
                             }}
                             className="card-text text-justify"
                           ></Field>
@@ -115,7 +112,6 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                                     className="img-fluid mb-2"
                                   />
                                   <input
-                                  style={{width:"100%",marginTop:"15px"}}
                                     className="btn btn-primary"
                                     type="file"
                                     accept="image/*"
@@ -126,7 +122,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                                         form.setFieldValue(
                                           field.name,
                                           reader.result
-                                        ); 
+                                        ); // Cập nhật giá trị của trường
                                       };
                                       reader.readAsDataURL(file);
                                     }}
@@ -146,7 +142,6 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                       width: "100%",
                       backgroundColor: "#a36acb",
                       color: "white",
-                      marginBottom:"25px"
                     }}
                     type="submit"
                     className="btn "

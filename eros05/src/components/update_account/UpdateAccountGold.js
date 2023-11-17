@@ -31,14 +31,14 @@ export function UpdateAccountGold() {
             <HeaderUpdateAccount/>
 
             <div className="col-xs-12 col-6 col-md-12 col-lg-6 col-sm-12">
-                <div className="card-center">
+                <div className="updateaccount-card-center">
                     <div style={{display: "flex", margin: "-25px 0 0 -15px"}}>
                         <p className="title ">Eros</p>
                         <p className="title gold">Gold</p>
                     </div>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nâng cấp lượt thích</p>
                     <ul>
                         <li>
@@ -56,7 +56,7 @@ export function UpdateAccountGold() {
                     </ul>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nâng cấp trải nghiệm của bạn</p>
                     <ul>
                         <li>
@@ -86,7 +86,7 @@ export function UpdateAccountGold() {
                     </ul>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nắm quyền kiểm soát</p>
                     <ul>
                         <li>
@@ -106,12 +106,12 @@ export function UpdateAccountGold() {
             </div>
 
             <div className="col-xs-12 col-3 col-md-12 col-lg-3">
-                <div className="card-right">
+                <div className="updateaccount-card-right">
                     <p className="title ">Đăng ký Eros Gold</p>
                     <p style={{fontSize: "13px"}}>Bình luận vào bài viết & và nhiều quyền lợi khác</p>
                 </div>
 
-                <div className="radio-input">
+                <div className="updateaccount-radio-input">
                     {packageTypes.map(packageType => (
                         <>
                             <input onChange={(values) => setPricePay(packageType.price)}
@@ -124,7 +124,7 @@ export function UpdateAccountGold() {
                         </>
                     ))}
 
-                    <div className="radio-input-pay">
+                    <div className="updateaccount-radio-input-pay">
                         <input onChange={(values) => setPayEros(values.target.value)} value="vnpay" name="value-radio-pay"
                                id="value-4" type="radio"/>
                         <label htmlFor="value-4">Thanh toán VNPay</label>
@@ -136,7 +136,7 @@ export function UpdateAccountGold() {
                         <label htmlFor="value-6">Thanh toán Momo</label>
                     </div>
                     {payEros === '' && pricePay === 0 ? (
-                        <div className="card-right">
+                        <div className="updateaccount-card-right">
                             <p className="title" style={{fontSize: "13px"}}>Vui lòng chọn gói và chọn phương thức thanh
                                 toán</p>
                         </div>
@@ -144,10 +144,10 @@ export function UpdateAccountGold() {
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
-                        <button className="pushable">
-                            <span className="shadow"></span>
-                            <span className="edge"></span>
-                            <span className="front">
+                        <button className="updateaccount-pushable">
+                            <span className="updateaccount-shadow"></span>
+                            <span className="updateaccount-edge"></span>
+                            <span className="updateaccount-front">
                                     Thanh toán VNPay
                                     </span>
                         </button>

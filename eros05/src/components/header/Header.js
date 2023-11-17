@@ -4,17 +4,19 @@ import React, {useEffect, useRef, useState} from "react";
 import NavbarMobile from "../navbarMobile/NavbarMobile";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
+import * as SearchNameService from "../../service/searchName/searchNameService";
+import * as securityService from "../../service/login/securityService";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
     const [isShowUserMenu, setIsShowUserMenu] = useState(false)
-    const [isAuthentication, setIsAuthentication] = useState(true)
-
-    // const isAuthentication = localStorage.getItem("accessToken") !=null
-
+    const [isAuthentication, setIsAuthentication] = useState(false)
     const [name, setName] = useState("");
     const userMenuRef = useRef(null)
     const navigate = useNavigate()
+    // const [userName, setUserName] = useState("");
+    const [user, setUser] = useState();
+    const accessToken = localStorage.getItem('accessToken')
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -32,6 +34,7 @@ export default function Header() {
     const returnMainPage = () => {
         setIsAuthentication(false);
         navigate("/")
+        securityService.handleLogout();
     }
     const handleChangeInput = (event) => {
         setName(event.target.value);
@@ -51,24 +54,32 @@ export default function Header() {
         },
         [navigate, name]
     );
-    // const handleInputKeyPress = (event) => {
-    //     if (event.key === "Enter") {
-    //         handleSearch();
-    //     }
-    // };
     const goLoginPage = () => {
         navigate(`login`)
     }
-    // useEffect(() => {
-    // findUserName();
-    // },[]);
-    // const findUserName = async ()=>{
-    //     const res = await loginService.getUserName();
-    //     setUserName(res.data);
-    // }
-    // useEffect(()=>{
-    //     findUser();
-    // },[]);
+
+    useEffect(() => {
+        const test = async () => {
+            const resUsername = securityService.getUsernameByJwt();
+            console.log('resUserName >>>>' + resUsername)
+            // setUserName(resUsername)
+            if (resUsername !== null) {
+                const resUser = await SearchNameService.findByUserName(resUsername);
+                console.log("resUser >>> " + resUser)
+                if (resUser) {
+                    setUser(resUser.data);
+                }
+            }
+        }
+        test();
+    }, [accessToken]);
+
+    useEffect(() => {
+        if (user) {
+            console.log(user)
+            setIsAuthentication(true);
+        }
+    }, [user])
     return (
         <header className="header">
             <NavbarMobile isOpenNavbarMobile={isOpenNavbarMobile}
@@ -106,7 +117,8 @@ export default function Header() {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to="/invited_recommend_friend/RecommendList" className="nav-link icon" aria-current="page">
+                                        <Link to="/invited_recommend_friend/RecommendList" className="nav-link icon"
+                                              aria-current="page">
                                             <i className="fa-solid fa-user-plus fs-4 text-white"></i>
                                             <span className="description-icon">Gợi ý kết bạn</span>
                                         </Link>
@@ -123,6 +135,7 @@ export default function Header() {
                                             <span className="description-icon">Danh sách bạn bè</span>
                                         </Link>
                                     </li>
+                                    {/*Qúy code ở đây*/}
                                 </ul> :
                                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                     <li className="nav-item">
@@ -153,7 +166,6 @@ export default function Header() {
                                        placeholder="Nhập tên bạn bè" aria-label="Username"
                                        aria-describedby="addon-wrapping"
                                        onChange={handleChangeInput}
-                                    // onKeyUp={handleInputKeyPress}
                                        value={name}
                                 />
                             </div>
@@ -171,7 +183,7 @@ export default function Header() {
                                 <button ref={userMenuRef} className="position-relative"
                                         onClick={handleButtonClick}>
                                     <img
-                                        src={"https://images.pexels.com/photos/2048716/pexels-photo-2048716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+                                        src={user.avatar}
                                         alt="avatar"
                                         style={{
                                             width: "36px",
@@ -186,11 +198,14 @@ export default function Header() {
                                                 <li>
                                                     <Link to="/personal-page/${user.id}">Trang cá nhân</Link>
                                                 </li>
-                                                <li><Link to="/change_password">Đổi mật khẩu</Link>
-                                                </li>
                                                 <li>
-                                                    <Link to="/accounts">Quản lý</Link>
+                                                    <Link to="/change_password">Đổi mật khẩu</Link>
                                                 </li>
+                                                {user.role === 1 &&
+                                                    <li>
+                                                        <Link to="/accounts">Quản lý</Link>
+                                                    </li>
+                                                }
                                                 <hr/>
                                                 <li onClick={returnMainPage}>
                                                     <p>Đăng xuất</p>

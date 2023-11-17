@@ -14,6 +14,7 @@ import * as accountType from "../../service/update_account/accountTypeService";
 import {load, paySucces} from "./Pay";
 import {useParams} from "react-router-dom";
 import * as packageDetail from "../../service/update_account/packageDetailService";
+import * as accountTypesService from "../../service/update_account/accountTypeService";
 
 export function UpdateAccountEros() {
     const [pricePay, setPricePay] = useState(0);
@@ -23,7 +24,7 @@ export function UpdateAccountEros() {
     const [account, setAccount] = useState("");
     const {id} = useParams();
     const inputRef = useRef(1);
-
+    const {succesVnPay} = useParams();
 
 
     useEffect(() => {
@@ -36,6 +37,9 @@ export function UpdateAccountEros() {
         if (id) findById(id);
     }, [id]);
     const getAllAccountType = async () => {
+        if (succesVnPay){
+            console.log("Thanh toán vnPay thành công")
+        }
         let data = await accountType.getAll();
         setAccountTypes(data);
     }
@@ -60,6 +64,12 @@ export function UpdateAccountEros() {
             toast.error("Sửa thất bại");
         }
     }
+    const VnPayOnclick = async () => {
+        const link = await accountTypesService.checkVnPay(pricePay);
+        console.log("+++++++++")
+        console.log(link)
+        window.location.href = link;
+    }
 
 
     return (
@@ -67,14 +77,14 @@ export function UpdateAccountEros() {
             <HeaderUpdateAccount/>
 
             <div className="col-xs-12 col-6 col-md-12 col-lg-6 col-sm-12">
-                <div className="card-center">
+                <div className="updateaccount-card-center">
                     <div style={{display: "flex", margin: "-25px 0 0 -15px"}}>
                         <p className="title ">Eros</p>
                         <p className="title label" style={{color: "#da65fc"}}>+</p>
                     </div>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nâng cấp lượt thích</p>
                     <ul>
                         <li>
@@ -92,7 +102,7 @@ export function UpdateAccountEros() {
                     </ul>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nâng cấp trải nghiệm của bạn</p>
                     <ul>
                         <li>
@@ -122,7 +132,7 @@ export function UpdateAccountEros() {
                     </ul>
                 </div>
 
-                <div className="card-center-content">
+                <div className="updateaccount-card-center-content">
                     <p className="title ">Nắm quyền kiểm soát</p>
                     <ul>
                         <li>
@@ -142,12 +152,12 @@ export function UpdateAccountEros() {
             </div>
 
             <div className="col-xs-12 col-3 col-md-12 col-lg-3">
-                <div className="card-right">
+                <div className="updateaccount-card-right">
                     <p className="title ">Đăng ký Eros+</p>
                     <p style={{fontSize: "13px"}}>Cho phép bạn thích bài viết & nhiều quyền lợi khác</p>
                 </div>
 
-                <div className="radio-input">
+                <div className="updateaccount-radio-input">
                     {packageTypes.map(packageType => (
                         <>
                             <input
@@ -162,7 +172,7 @@ export function UpdateAccountEros() {
                         </>
                     ))}
 
-                    <div className="radio-input-pay">
+                    <div className="updateaccount-radio-input-pay">
                         <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
                                name="value-radio-pay"
                                id="value-4" type="radio"/>
@@ -177,7 +187,7 @@ export function UpdateAccountEros() {
                         <label htmlFor="value-6">Thanh toán Momo</label>
                     </div>
                     {payEros === '' && pricePay === 0 ? (
-                        <div className="card-right">
+                        <div className="updateaccount-card-right">
                             <p className="title" style={{fontSize: "13px"}}>Vui lòng chọn gói và chọn phương thức thanh
                                 toán</p>
                         </div>
@@ -185,10 +195,10 @@ export function UpdateAccountEros() {
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
-                        <button className="pushable">
-                            <span className="shadow"></span>
-                            <span className="edge"></span>
-                            <span className="front">
+                        <button className="updateaccount-pushable" onClick={VnPayOnclick}>
+                            <span className="updateaccount-shadow"></span>
+                            <span className="updateaccount-edge"></span>
+                            <span className="updateaccount-front">
                                     Thanh toán VNPay
                                     </span>
                         </button>

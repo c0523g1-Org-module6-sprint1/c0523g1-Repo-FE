@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./post.css";
-import { getListPublic } from "../../service/posts/PostService";
+import "./post.css"
+import { getListPublic } from "../../../service/posts/PostService";
 import EditPost from "./EditPost";
+
+
 
 
 export default function Post() {
@@ -35,7 +37,7 @@ export default function Post() {
     <div>
       <div
         className="container-fluid"
-        style={{ marginTop: 150, position: "relative" }}
+        style={{ marginTop: 100, position: "relative" }}
       >
         {listPublic.map((item) => {
           return (
@@ -82,7 +84,7 @@ export default function Post() {
                             <i className="fa fa-times close-icon" />
                           </div>
                         </div>
-                        <div style={{width:"100%"}} className="media-body">
+                        <div className="media-body">
                           <p className="card-text text-justify">
                             {item.content}
                           </p>
