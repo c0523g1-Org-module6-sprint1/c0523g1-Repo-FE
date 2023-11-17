@@ -4,17 +4,32 @@ import { list } from "firebase/storage";
 import { getList, handleBlockFriend, handleDeleteFriend } from "../../service/listFriend/ListFriendService";
 import { Modal } from "react-bootstrap";
 import {Link} from "react-router-dom";
+import { getIdByJwt } from "../../service/login/securityService";
 
 function ListFriend() {
   const [list, setList] = useState([1, 2, 3, 4, 5]);
-  const [listFriend, setListFriend] = useState(null);
+ 
   const [friendDelete, setFriendDelete] = useState();
   const [friendBlock, setFriendBlock] = useState();
   const [showModal, setShowModal] = useState(false);
   const [nameSearch,setNameSearch] = useState("");
+  const [listFriend, setListFriend] = useState(null);
+  const [idLogin,setIdLogin] = useState(null);
   const getListFriend = async () => {
-    setListFriend(await getList(1,nameSearch))
+    if (idLogin !== null) {
+      setListFriend(await getList(idLogin,nameSearch))
+    } else{
+      setListFriend(null)
+    }
   }
+
+  const getIdLogin = async () => {
+         const res = await getIdByJwt()
+         if(res !== undefined){
+          setIdLogin(res)
+         }
+  }
+  console.log("đây là id login :" + idLogin);
 
   const handleSetNameSearch = () => {
     const specialCharsRegex = /[!#$%^&*(),?":{}|<>+_]/;
@@ -73,8 +88,9 @@ function ListFriend() {
   console.log(nameSearch);
 
   useEffect(() => {
+    getIdLogin()
     getListFriend();
-  }, [])
+  },[idLogin])
   return (
     <>
       <div style={{ background: 'linear-gradient(90deg, rgba(208,162,247,1) 0%, rgba(169,114,206,1) 0%, rgba(208,162,247,1) 26%, rgba(163,106,203,1) 100%, rgba(216,175,231,1) 100%, rgba(229,212,255,1) 100%, rgba(225,203,255,1) 100%)' }}>
