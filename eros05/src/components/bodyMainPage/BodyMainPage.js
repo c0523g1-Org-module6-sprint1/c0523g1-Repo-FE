@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 const BodyMainPage = () => {
     const navigate = useNavigate();
     const goRegisterPage = ()=>{
-        navigate(`Sang`)
+        navigate(`register`)
     }
     return (
         <section className="body-main-page">
