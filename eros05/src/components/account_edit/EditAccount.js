@@ -21,16 +21,7 @@ function EditAccount() {
     const [hobbies, setHobbies] = useState([])
     const [location, setLocation] = useState([])
     const navigate = useNavigate();
-    const [account, setAccount] = useState(
-        {
-            name: "",
-            birthday: "",
-            gender: "",
-            job: "",
-            location: "",
-            hobbies: ""
-        }
-    )
+    const [account, setAccount] = useState(null);
     const [uploadAvatar, setUploadAvatar] = useState("");
 
     const getJobList = async () => {
@@ -48,10 +39,14 @@ function EditAccount() {
             alert("error")
         }
     }
-    const getHobbiesList = async () => {
-        const result = null;
-        setHobbies(result);
-    }
+    // const getHobbiesList = async () => {
+    //     try {
+    //     const result = await editAccountService.hobbiesService();
+    //     setHobbies(result);
+    //     }catch (e) {
+    //         alert("error")
+    //     }
+    // }
     const getGenderList = async () => {
         try {
             const result = await editAccountService.genderService();
@@ -61,14 +56,13 @@ function EditAccount() {
         }
     }
 
-    useEffect(() => {
-        // getLocationList();
-        // getJobList();
-        // getGenderList();
-    }, []);
 
     useEffect(() => {
         getAccount()
+        getLocationList();
+        getJobList();
+        getGenderList();
+        // getHobbiesList()
     }, []);
 
     const getAccount = async () => {
@@ -82,31 +76,38 @@ function EditAccount() {
                 toast("Not found account");
             }
             setAccount(res);
-            // setUploadAvatar(account.avatar)
         } catch (e) {
-            // navigate("/personal-page")
             toast("Error")
         }
     }
 
     const handleSubmit = async (id, account) => {
-        try {
-            await editAccountService(id, account)
-            navigate("/api/personal-page");
-            toast("Edit Successfully !!")
-        } catch (e) {
-            // navigate("/personal-page")
-            toast("Error")
-        }
+        // try {
+        //     await editAccountService(id, account)
+        //     navigate("/api/personal-page");
+        //     toast("Edit Successfully !!")
+        // } catch (e) {
+        //     // navigate("/personal-page")
+        //     toast("Error")
+        // }
     }
 
-    const initialValue = {
-        name: account?.name,
-        birthday: account?.birthday,
-        gender: account?.gender,
-        job: account?.job,
-        location: account?.location,
-        hobbies: account?.hobbies
+    const initialValue = account ? {
+        id: account.id,
+        name: account.name,
+        birthday: account.birthday,
+        gender: account.gender,
+        job: account.job,
+        location: account.location,
+        hobbies: account.hobbies
+    } : {
+        id: "",
+        name: "",
+        birthday: "",
+        gender: "",
+        job: "",
+        location: "",
+        hobbies: ""
     }
 
     const validateAccount = {
@@ -160,7 +161,7 @@ function EditAccount() {
                                             <span>Upload</span>
                                         </button>
                                         <br/>
-                                        <h6>{account.name}</h6>
+                                        <h4>{account.name}</h4>
                                     </div>
                                 </div>
                                 <div className="col-8">
@@ -204,14 +205,15 @@ function EditAccount() {
                                                         Giới Tính
                                                       </span>
                                                 <Field as="select" name="gender" className="form-select"
+                                                       value={account.gender.id}
                                                        style={{
                                                            height: "40px", borderTopRightRadius: "20px",
                                                            borderBottomRightRadius: "20px"
                                                        }}>
                                                     <option value=""> ---Select---</option>
-                                                    {genderList.map((gender, index) => (
-                                                        <option key={index}
-                                                                value={JSON.stringify(gender)}> {gender.name}</option>
+                                                    {genderList.map((gender) => (
+                                                        <option key={gender.id}
+                                                                value={gender.id}>{gender.name}</option>
                                                     ))}
                                                 </Field>
                                             </div>
@@ -244,6 +246,7 @@ function EditAccount() {
                                                         Địa chỉ
                                                       </span>
                                                 <Field as="select" name="location" className="form-select"
+                                                       value={account.location.id}
                                                        style={{
                                                            height: "40px",
                                                            borderTopRightRadius: "20px",
@@ -252,7 +255,7 @@ function EditAccount() {
                                                     <option value=""> ---Select---</option>
                                                     {location.map((address, index) => (
                                                         <option key={index}
-                                                                value={address.code}> {address.name}</option>
+                                                                value={address.id}> {address.name}</option>
                                                     ))}
                                                 </Field>
                                             </div>
@@ -268,14 +271,15 @@ function EditAccount() {
                                                 Nghề nghiệp
                                               </span>
                                                 <Field as="select" name="location" className="form-select"
+                                                       value={account.job.id}
                                                        style={{
                                                            borderTopRightRadius: "20px",
                                                            borderBottomRightRadius: "20px"
                                                        }}>
-                                                    <option value=""> ---Select---</option>
+                                                    <option value={account.job}> ---Select---</option>
                                                     {jobList.map((job, index) => (
                                                         <option key={index}
-                                                                value={JSON.stringify(job)}> {job.name}</option>
+                                                                value={job.id}> {job.name}</option>
                                                     ))}
                                                 </Field>
                                                 <br/>
@@ -293,6 +297,7 @@ function EditAccount() {
                                                     Sở thích
                                                   </span>
                                                 <Field as="select" name="hobbies" className="form-select"
+                                                       // value={account.hobby.id}
                                                        style={{
                                                            borderTopRightRadius: "20px",
                                                            borderBottomRightRadius: "20px"
@@ -300,7 +305,7 @@ function EditAccount() {
                                                     <option value=""> ---Select---</option>
                                                     {hobbies.map((list, index) => (
                                                         <option key={index}
-                                                                value={JSON.stringify(list)}> {list.name}</option>))}
+                                                                value={list.id}> {list.name}</option>))}
                                                 </Field>
                                                 <br/>
                                                 <small style={{color: "red", fontSize: 10}}/>
