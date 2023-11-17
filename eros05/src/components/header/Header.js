@@ -5,7 +5,7 @@ import NavbarMobile from "../navbarMobile/NavbarMobile";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import * as SearchNameService from "../../service/searchName/searchNameService";
-import getUsernameByJwt from "../../service/login/securityService";
+import * as securityService from "../../service/login/securityService";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
@@ -15,7 +15,8 @@ export default function Header() {
     const userMenuRef = useRef(null)
     const navigate = useNavigate()
     // const [userName, setUserName] = useState("");
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState();
+    const accessToken = localStorage.getItem('accessToken')
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -33,6 +34,7 @@ export default function Header() {
     const returnMainPage = () => {
         setIsAuthentication(false);
         navigate("/")
+        // xóa accessToken
     }
     const handleChangeInput = (event) => {
         setName(event.target.value);
@@ -55,25 +57,29 @@ export default function Header() {
     const goLoginPage = () => {
         navigate(`login`)
     }
+
     useEffect(() => {
-        findUserName();
-    }, []);
-    const findUserName = async () => {
-        const res = await getUsernameByJwt;
-        setUserName(res);
-    }
-    const userName = "liendtm";
+        const test = async () => {
+            const resUsername = securityService.getUsernameByJwt();
+            console.log('resUserName >>>>' + resUsername)
+            // setUserName(resUsername)
+            if (resUsername !== null) {
+                const resUser = await SearchNameService.findByUserName(resUsername);
+                console.log("resUser >>> " + resUser)
+                if (resUser) {
+                    setUser(resUser.data);
+                }
+            }
+        }
+        test();
+    }, [accessToken]);
+
     useEffect(() => {
-        findUser();
-    }, [userName]);
-    const findUser = async () => {
-        const res = await SearchNameService.findByUserName(userName);
-        setUser(res.data);
-        if (user.role !== null) {
+        if (user) {
+            console.log(user)
             setIsAuthentication(true);
         }
-    }
-
+    }, [user])
     return (
         <header className="header">
             <NavbarMobile isOpenNavbarMobile={isOpenNavbarMobile}
@@ -196,9 +202,9 @@ export default function Header() {
                                                     <Link to="/change_password">Đổi mật khẩu</Link>
                                                 </li>
                                                 {user.role === 1 &&
-                                                <li>
-                                                    <Link to="/accounts">Quản lý</Link>
-                                                </li>
+                                                    <li>
+                                                        <Link to="/accounts">Quản lý</Link>
+                                                    </li>
                                                 }
                                                 <hr/>
                                                 <li onClick={returnMainPage}>
