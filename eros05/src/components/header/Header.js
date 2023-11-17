@@ -117,6 +117,7 @@ export default function Header() {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
+
                                         <Link to="/invited_recommend_friend/RecommendList" className="nav-link icon"
                                               aria-current="page">
                                             <i className="fa-solid fa-user-plus fs-4 text-white"></i>

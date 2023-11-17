@@ -28,14 +28,13 @@ import HoTro from "./components/bodyMainPage/HoTro";
 import AnToan from "./components/bodyMainPage/AnToan";
 import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
-import {requestFilter} from "./service/login/requestFilter";
 function App() {
-    requestFilter();
+
   return (
       <>
-
+          requestFilter();
         <ToastContainer position="bottom-left" />
-          <Chatbox/>
+          {/*<Chatbox/>*/}
           <Header/>
           <Routes>
               <Route path="/" element={<BodyMainPage/>}/>
