@@ -20,15 +20,7 @@ export function Chatbox() {
     const [busymode, setBusymode] = useState(true);
     const [lastMessage, setLastMessage] = useState();
     const navigate = useNavigate();
-    const [idLoggin, setIdLoggin] = useState();
-    const getIdLogin = async () => {
-        const res = await getIdByJwt()
-        if(res !== undefined){
-            setIdLoggin(res)
-        }
-    }
-    console.log(111111)
-    console.log(idLoggin);
+
     const handleSelect = async (e) => {
         await setShowChatBox(-1);
         await setChatFriend(e);
@@ -38,8 +30,6 @@ export function Chatbox() {
         const data = await GetProfileApi();
         setProfile(data.data);
         setBusymode(data.data.messageStatus.name != "Busy");
-
-
     }
     const getFriendList = async () => {
         const data = await GetFriendsApi(searchName);
@@ -77,13 +67,14 @@ export function Chatbox() {
         }
     }
     useEffect(() => {
-        getIdLogin();
-        if (idLoggin) {
+        if (getIdByJwt()){
             getProfile();
-            handleResize();
             getDatabase();
+        } else {
+            setProfile(null);
         }
-    }, [])
+        handleResize();
+    }, [getIdByJwt()])
     useEffect(() => {
         getFriendList();
         getUnknowList();
@@ -95,7 +86,7 @@ export function Chatbox() {
         };
     }, [])
 
-    if (!profile || !lastMessage || !idLoggin){
+    if (!profile || !lastMessage){
         return null;
     } else {
         return (<>
