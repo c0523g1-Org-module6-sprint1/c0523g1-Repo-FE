@@ -27,7 +27,6 @@ export default function ChatDetail({element, closeChatBox, own}) {
     const [showEmoji, setShowEmoji] = useState(false);
     const [path, setPath] = useState();
     const [idDelete, setIdDelete] = useState("");
-    const [lastId, setLastId] = useState();
     const navigator = useNavigate();
     const chatBoxRef = useRef();
     const inputImgRef = useRef();
@@ -120,28 +119,29 @@ export default function ChatDetail({element, closeChatBox, own}) {
             type: typeArray[2]
         })
         setIdDelete("");
-        if (lastId == e.id){
-            update(refText(database, "lastmess"), {
-                [path]: {
-                    mess: "Tin nhắn thu hồi"
-                },
-            })
+        let check = await getLastMess();
+        if (check){
+            if (check.id == e.id){
+                update(refText(database, "lastmess"), {
+                    [path]: {
+                        mess: "Tin nhắn thu hồi"
+                    },
+                })
+            }
         }
     }
-    const getLastMess = () => {
+    const getLastMess = async () => {
         let finishpath = `lastmess`;
-        onValue(refText(database, finishpath), data => {
-            let dataId = data.val()[path];
-            if (dataId) {
-                setLastId(dataId.id);
-            }
+        let dataId;
+        await onValue(refText(database, finishpath), data => {
+            dataId = data.val()[path];
         });
+        return dataId;
     }
 
     useEffect(() => {
         getPath();
         getDatabase();
-        getLastMess();
     },[]);
     useEffect(() => {
         scrollToBottom();
