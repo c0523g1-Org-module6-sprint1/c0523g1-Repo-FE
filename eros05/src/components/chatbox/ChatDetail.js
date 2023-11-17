@@ -74,7 +74,9 @@ export default function ChatDetail({element, closeChatBox, own}) {
     };
     const getPath = async () => {
         const res = await GetChatBoxApi(element.id);
-        await setPath(res.path);
+        if (res){
+            await setPath(res.path);
+        }
     }
     const getDatabase = () => {
         let finishpath = `mess-${compareId(element.id, own.id)}`
@@ -124,7 +126,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
             if (check.id == e.id){
                 update(refText(database, "lastmess"), {
                     [path]: {
-                        mess: "Tin nhắn thu hồi"
+                        mess: "[Tin nhắn thu hồi]"
                     },
                 })
             }
