@@ -17,12 +17,12 @@ const BodyMainPage = () => {
                     <div className="description">
                         <h1 className="typeing-text">Thấy bạn ế hơi lâu?</h1>
                     </div>
-                    <div className="carousel-btn d-flex justify-content-center align-items-center">
+                    <div className="lien-carousel-btn d-flex justify-content-center align-items-center">
                         <button className="btn" onClick={goRegisterPage}>
                             Đăng Ký Ngay
                         </button>
                     </div>
-                </div>
+                </div>f
             </div>
             <div className="feedbacks">
                 <div className="feedback-list">

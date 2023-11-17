@@ -1,4 +1,4 @@
-.pushable {
+.updateaccount-pushable {
     position: relative;
     background: transparent;
     padding: 0px;
@@ -11,7 +11,7 @@
     margin: 25px 0;
 }
 
-.shadow {
+.updateaccount-shadow {
     position: absolute;
     top: 0;
     left: 0;
@@ -25,7 +25,7 @@
     transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
 }
 
-.edge {
+.updateaccount-edge {
     position: absolute;
     top: 0;
     left: 0;
@@ -35,7 +35,7 @@
     background: #b580fe
 }
 
-.front {
+.updateaccount-front {
     display: block;
     position: relative;
     border-radius: 8px;
@@ -52,31 +52,31 @@
     transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
 }
 
-.pushable:hover {
+.updateaccount-pushable:hover {
     filter: brightness(110%);
     cursor: pointer;
 }
 
-.pushable:hover .front {
+.updateaccount-pushable:hover .updateaccount-front {
     transform: translateY(-6px);
     transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
 }
 
-.pushable:active .front {
+.updateaccount-pushable:active .updateaccount-front {
     transform: translateY(-2px);
     transition: transform 34ms;
 }
 
-.pushable:hover .shadow {
+.updateaccount-pushable:hover .updateaccount-shadow {
     transform: translateY(4px);
     transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
 }
 
-.pushable:active .shadow {
+.updateaccount-pushable:active .updateaccount-shadow {
     transform: translateY(1px);
     transition: transform 34ms;
 }
 
-.pushable:focus:not(:focus-visible) {
+.updateaccount-pushable:focus:not(:focus-visible) {
     outline: none;
 }

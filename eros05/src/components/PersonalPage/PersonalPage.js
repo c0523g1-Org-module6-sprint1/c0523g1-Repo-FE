@@ -1,7 +1,50 @@
 import './PersonalPage.css'
-import './header.css'
+import {useEffect, useState} from "react";
+import {Link, useParams} from "react-router-dom";
+import * as personalService from "../../service/personalPage/PersonalpageService"
+import Post from "./DatG/Post";
+import {toast} from "react-toastify";
+import {Button} from "react-bootstrap";
+
 
 export function PersonalPage() {
+    const [accountVisit,setAccountVisit] = useState({});
+    const {id} = useParams();
+    let idLogin =1;
+    const [statusRelation, setStatusRelation] = useState({});
+
+
+    useEffect(() => {
+        getInfoAccount();
+        status()
+    },[statusRelation]);
+
+    const getInfoAccount = async () => {
+        let result =  await personalService.getInfoPersonal(id)
+        setAccountVisit(result.data);
+    }
+    
+    const handleSentInvite = async (relationships) => {
+      let result = await personalService.sentInvite(relationships);
+      if (result.status === 201){
+          toast.success("Lời mời kết bạn vừa gửi thành công ")
+      }else {
+          toast.error("Thất bại")
+      }
+    }
+    const value = {
+        sendAccount : idLogin,
+        receiverAccount: accountVisit.id
+    }
+
+    const status = async () => {
+        let result = await personalService.getStatus(idLogin,accountVisit.id);
+        console.log(result);
+        setStatusRelation(result.data);
+    }
+
+
+
     return(
         <>
             <div className="container-fluid" style={{ marginTop: 80 }}>
@@ -10,515 +53,125 @@ export function PersonalPage() {
                     <div className="col-lg-6">
                         <div className="panel profile-cover">
                             <div className="profile-cover__img">
-                                <div className="ig"></div>
-                                <h3 className="h3">
-                                    <b>Trương Nguyễn Đình Long </b>
+                                <div className="ig" style={{
+                                    backgroundImage : `url(${accountVisit.avatar})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    aspectRatio: '1/1',
+                                    width: '70%',
+                                    borderRadius: '100%',
+                                    marginLeft: '25px'}} >
+
+
+                                </div>
+                                <h3 className="h3" >
+                                    <b style={{padding:"45px"}}>{accountVisit.name}</b>
                                 </h3>
+
+
                             </div>
                             <div
                                 className="profile-cover__action bg--img"
                                 data-overlay="0.3"
                             ></div>
-                            <div className="profile-cover__info" style={{ height: 190 }}>
-                                <ul className="nav">
-                                    <li>
-                                        <button
-                                            className="btn btn-rounded btn-info"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal"
-                                            style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                        >
-                                            <i className="fa fa-plus bt" />
-                                            <span className="bt">Kết bạn</span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button
-                                            className="btn btn-rounded btn-info"
-                                            style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                        >
-                                            <i className="fa fa-comment bt" />
-                                            <span className="bt">Tin nhắn</span>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <div
-                                            data-bs-target="#exampleModalToggle"
-                                            data-bs-toggle="modal"
-                                        >
-                                            <div>
-                                                <button
+                            <div className="profile-cover__info" style={{ height: '120px' }}>
+                                {idLogin !== accountVisit.id ?
+                                    (<ul className="nav">
+                                        <li>
+                                            {idLogin === 2 ?
+                                                (<button className="btn btn-rounded btn-info"
+                                                         style={{ backgroundColor: "#a36acb", borderRadius: 20 }}>
+                                                    <i className="fa-solid fa-user-group bt"/>
+                                                    <span className="bt">Bạn bè</span>
+                                                </button>)
+                                                :
+                                                (<button
                                                     className="btn btn-rounded btn-info"
                                                     style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                                >
-                                                    <i className="fa-solid fa-gift bt" />
-                                                    <span className="bt">Tặng quà</span>
-                                                </button>
+                                                    onClick={() => handleSentInvite(value)}>
+                                                    <i className="fa fa-plus bt" />
+                                                    <span className="bt">Kết bạn</span>
+                                                </button>)}
+
+                                        </li>
+                                        <li>
+                                            <button
+                                                className="btn btn-rounded btn-info"
+                                                style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                            >
+                                                <i className="fa fa-comment bt" />
+                                                <span className="bt">Tin nhắn</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <div
+                                                data-bs-target="#exampleModalToggle"
+                                                data-bs-toggle="modal"
+                                            >
+                                                <div>
+                                                    <button
+                                                        className="btn btn-rounded btn-info"
+                                                        style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                                    >
+                                                        <i className="fa-solid fa-gift bt" />
+                                                        <span className="bt">Tặng quà</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="btn-group dropend"></div>
-                                    </li>
-                                </ul>
-                                <hr />
-                                <div
-                                    className="row"
-                                    style={{ color: "black", textAlign: "center" }}
-                                >
-                                    <div className="col-lg-2" style={{ marginLeft: 30 }}>
-                                        <small>
-                                            <i className="fa-solid fa-user-group"> </i> Bạn bè
-                                        </small>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="col-12">
-                                            <small>
-                                                <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="row">
-                                            <div className="col-12">
+                                        </li>
+                                        <li>
+                                            <div className="btn-group dropend"></div>
+                                        </li>
+                                    </ul>) :
+                                    (<div
+                                        className="row"
+                                        style={{ color: "black", textAlign: "center", paddingTop:"85px",margin:0 }}
+                                    >
+                                        <hr style={{padding:0, margin:0,opacity:1}}/>
+                                        <div className="col-lg-2" style={{ marginLeft: 30 }}>
+                                            <Link to={"/friend/list"} style={{textDecoration:"none"}}>
                                                 <small>
-                                                    <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
+                                                    <i className="fa-solid fa-user-group"/> Bạn bè
                                                 </small>
+                                            </Link>
+                                        </div>
+                                        <div className="col-lg-3">
+                                            <div className="col-12">
+                                                <Link to={"/invited_recommend_friend/InvitedList"} style={{textDecoration:"none"}}>
+                                                    <small>
+                                                        <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
+                                                    </small>
+                                                </Link>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="col-12">
-                                            <small>
-                                                <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
-                                            </small>
+                                        <div className="col-lg-3">
+
+                                                    <Link to={"/updateAccount/eros+"} style={{textDecoration:"none"}}>
+                                                        <small>
+                                                            <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
+                                                        </small>
+                                                    </Link>
+
                                         </div>
-                                    </div>
-                                </div>
+                                        <div className="col-lg-3">
+                                                <Link to={`/personal-page/edit/${accountVisit.id}`} style={{textDecoration:"none"}}>
+                                                    <small>
+                                                        <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
+                                                    </small>
+                                                </Link>
+                                        </div>
+
+                                    </div>) }
+
+
+
                             </div>
                         </div>
                         <div className="panel">
                             <div className="panel-heading">
                                 <h3 className="panel-title">Bài viết</h3>
                             </div>
-                            <div className="panel-content panel-activity">
-                                <form action="#" className="panel-activity__status">
-              <textarea
-                  name="user_activity"
-                  placeholder="Share what you've been up to..."
-                  className="form-control"
-                  style={{ background: "none" }}
-                  defaultValue={""}
-              />
-                                    <div className="actions">
-                                        <div className="btn-group">
-                                            <button
-                                                type="button"
-                                                className="btn-link"
-                                                title=""
-                                                data-toggle="tooltip"
-                                                data-original-title="Post an Image"
-                                            >
-                                                <i className="fa fa-image" />
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn-link"
-                                                title=""
-                                                data-toggle="tooltip"
-                                                data-original-title="Post an Video"
-                                            >
-                                                <i className="fa fa-video-camera" />
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn-link"
-                                                title=""
-                                                data-toggle="tooltip"
-                                                data-original-title="Post an Idea"
-                                            >
-                                                <i className="fa fa-lightbulb-o" />
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn-link"
-                                                title=""
-                                                data-toggle="tooltip"
-                                                data-original-title="Post an Question"
-                                            >
-                                                <i className="fa fa-question-circle-o" />
-                                            </button>
-                                        </div>
-                                        <button
-                                            type="submit"
-                                            className="btn btn-sm btn-rounded btn-info bt"
-                                            style={{ backgroundColor: "#a36acb" }}
-                                        >
-                                            Post
-                                        </button>
-                                    </div>
-                                </form>
-                                <ul className="panel-activity__list">
-                                    <li>
-                                        <div className="middle-column">
-                                            <div className="card" style={{ borderRadius: 0 }}>
-                                                <div className="card-body">
-                                                    <div className="media">
-                                                        <div className="media-header">
-                                                            <div className="media-left">
-                                                                <div
-                                                                    style={{
-                                                                        backgroundImage: 'url("img/img.png")',
-                                                                        backgroundSize: "cover",
-                                                                        backgroundPosition: "center",
-                                                                        aspectRatio: "1/1",
-                                                                        width: 50,
-                                                                        borderRadius: "100%",
-                                                                        marginRight: 10
-                                                                    }}
-                                                                />
-                                                                <div className="info">
-                                                                    <h5>Lisa Black Pink</h5>
-                                                                    <small>5 min</small>
-                                                                </div>
-                                                            </div>
-                                                            <div className="post-options">
-                                                                <a
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal"
-                                                                >
-                                                                    {" "}
-                                                                    <i className="fa fa-edit" />
-                                                                </a>
-                                                                <i className="fa fa-times close-icon" />
-                                                            </div>
-                                                        </div>
-                                                        <div className="media-body">
-                                                            <p className="card-text text-justify">
-                                                                Mấy cưng thấy chị xinh không ?
-                                                            </p>
-                                                            <div className="row no-gutters mb-3">
-                                                                <img
-                                                                    src="img/img.png"
-                                                                    alt=""
-                                                                    className="img-fluid mb-2"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className="post-actions">
-                                                            <div className="action-btn">
-                                                                <i className="fa-regular fa-heart" /> Thích
-                                                            </div>
-                                                            <div className="action-btn">
-                                                                <i className="fa-regular fa-comment" /> Bình luận
-                                                            </div>
-                                                            <div className="action-btn">
-                                                                <i className="fa-solid fa-gift" /> Tặng quà
-                                                            </div>
-                                                        </div>
-                                                        <hr />
-                                                        <div
-                                                            className=""
-                                                            style={{
-                                                                marginTop: 10,
-                                                                display: "flex",
-                                                                width: "100%"
-                                                            }}
-                                                        >
-                                                            <div className="" style={{ marginRight: 20 }}>
-                                                                <img
-                                                                    src="https://tse1.mm.bing.net/th?id=OIP.50MrZSvhlsGV4Qs6aklK-QHaE8&pid=Api&P=0&h=180"
-                                                                    alt="Avatar"
-                                                                    style={{
-                                                                        width: 50,
-                                                                        height: 50,
-                                                                        borderRadius: "50%",
-                                                                        position: "relative",
-                                                                        left: 12
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                            <div
-                                                                className=" w-auto"
-                                                                style={{
-                                                                    border: "1px solid #ccc",
-                                                                    padding: 5,
-                                                                    position: "relative",
-                                                                    borderRadius: 20
-                                                                }}
-                                                            >
-                                                                <div>
-                                                                    <b style={{ color: "black" }}>John Doe</b>
-                                                                </div>
-                                                                <p>
-                                                                    {" "}
-                                                                    Iam gonna make you beg for the gift of death{" "}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            className=""
-                                                            style={{
-                                                                marginTop: 10,
-                                                                display: "flex",
-                                                                width: "100%"
-                                                            }}
-                                                        >
-                                                            <div className="" style={{ marginRight: 20 }}>
-                                                                <img
-                                                                    src="https://tse3.mm.bing.net/th?id=OIP.D8CoO-WSDf93QJYB3mZ9aAHaEK&pid=Api&P=0&h=180"
-                                                                    alt="Avatar"
-                                                                    style={{
-                                                                        width: 50,
-                                                                        height: 50,
-                                                                        borderRadius: "50%",
-                                                                        position: "relative",
-                                                                        left: 12
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                            <div
-                                                                className=" w-auto"
-                                                                style={{
-                                                                    border: "1px solid #ccc",
-                                                                    padding: 5,
-                                                                    position: "relative",
-                                                                    borderRadius: 20
-                                                                }}
-                                                            >
-                                                                <div>
-                                                                    <b style={{ color: "black" }}>Keanu Reeves</b>
-                                                                </div>
-                                                                <p> Beautiful honey !!!!!!!! </p>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            className=""
-                                                            style={{
-                                                                marginTop: 10,
-                                                                display: "flex",
-                                                                width: "100%"
-                                                            }}
-                                                        >
-                                                            <div className="" style={{ marginRight: 20 }}>
-                                                                <img
-                                                                    src="https://tse3.mm.bing.net/th?id=OIP.GtqfauNI1Nd7Hwg74Wjw7wHaHa&pid=Api&P=0&h=180"
-                                                                    alt="Avatar"
-                                                                    style={{
-                                                                        width: 50,
-                                                                        height: 50,
-                                                                        borderRadius: "50%",
-                                                                        position: "relative",
-                                                                        left: 12
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                            <div
-                                                                className="d-flex"
-                                                                style={{
-                                                                    border: "1px solid #ccc",
-                                                                    padding: 5,
-                                                                    position: "relative",
-                                                                    borderRadius: 20,
-                                                                    width: "100%"
-                                                                }}
-                                                            >
-                                                                <input
-                                                                    style={{
-                                                                        width: "93%",
-                                                                        boxSizing: "border-box",
-                                                                        left: 5,
-                                                                        borderRadius: 20
-                                                                    }}
-                                                                    type="text"
-                                                                    id="new-input"
-                                                                    className="form-control"
-                                                                    placeholder="Nhập tiêu đề"
-                                                                />
-                                                                <a
-                                                                    href=""
-                                                                    style={{
-                                                                        textDecoration: "none",
-                                                                        color: "#000",
-                                                                        fontSize: "130%",
-                                                                        position: "relative",
-                                                                        left: 6,
-                                                                        top: 4
-                                                                    }}
-                                                                >
-                                                                    <i className="fa-regular fa-face-smile" />
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-question-circle-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Posted the question:{" "}
-                                            <a href="#">
-                                                How can I change my annual reports for the better effect?
-                                            </a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                    Voluptatibus ab a nostrum repudiandae dolorem ut quaerat
-                                                    veniam asperiores, rerum voluptatem magni dolores
-                                                    corporis! Molestiae commodi nesciunt a, repudiandae
-                                                    repellendus ea.
-                                                </p>
-                                            </blockquote>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-image" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Uploaded 4 Image:{" "}
-                                            <a href="#">Office Working Time</a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <ul className="gallery">
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                                <li>
-                                                    <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                                                        alt=""
-                                                    />
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-question-circle-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> Posted the question:{" "}
-                                            <a href="#">
-                                                How can I change my annual reports for the better effect?
-                                            </a>
-                                        </div>
-                                        <div className="activity__list__body entry-content">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                    Voluptatibus ab a nostrum repudiandae dolorem ut quaerat
-                                                    veniam asperiores, rerum voluptatem magni dolores
-                                                    corporis! Molestiae commodi nesciunt a, repudiandae
-                                                    repellendus ea.
-                                                </p>
-                                            </blockquote>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <i className="activity__list__icon fa fa-lightbulb-o" />
-                                        <div className="activity__list__header">
-                                            <img
-                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                alt=""
-                                            />
-                                            <a href="#">John Doe</a> bookmarked a page:{" "}
-                                            <a href="#">Awesome Idea</a>
-                                        </div>
-                                        <div className="activity__list__footer">
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-thumbs-up" />
-                                                123
-                                            </a>
-                                            <a href="#">
-                                                {" "}
-                                                <i className="fa fa-comments" />
-                                                23
-                                            </a>
-                                            <span>
-                    {" "}
-                                                <i className="fa fa-clock" />2 hours ago
-                  </span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                            <Post/>
                         </div>
                     </div>
                     <div className="col-lg-3"></div>

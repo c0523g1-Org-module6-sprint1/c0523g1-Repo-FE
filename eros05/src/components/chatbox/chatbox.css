@@ -33,6 +33,7 @@
     right: 20px;
     transition-duration: 0.2s;
     animation: ease-in-out switchChat 0.5s;
+    z-index: 1000;
 }
 .showListButton:hover {
     scale: 1.1;
@@ -51,6 +52,7 @@
     border: black 3px dashed;
 }
 .chatbox {
+    z-index: 1000;
     width: var(--width-box);
     height: calc(100% - 75px);
     display: grid;
@@ -268,6 +270,7 @@
     position: fixed;
     right: var(--width-box);
     animation: ease-in-out switchChatBox 0.5s;
+    z-index: 1000;
 }
 .chatdetail-profile {
     display: grid;
@@ -390,14 +393,35 @@
     margin: 5px;
     width: fit-content;
     cursor: context-menu;
+    word-wrap: break-word;
 }
-
+.mess-modal {
+    display: grid;
+    grid-template-columns: 1fr 100px 100px;
+}
+.mess-modal div {
+    height: 30px;
+    margin: 5px;
+    border-radius: 20px;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.2s;
+}
+.mess-modal div:hover {
+    transition-duration: 0.2s;
+    scale: 1.05;
+}
+.mess-revoke {
+    color: gray;
+}
 .option {
-
-    width: 30px;
+    width: 20px;
     height: 100%;
+    margin-top: 2.5px;
     background-image: url("image/select.png");
-    background-size: contain;
+    background-size: 30px;
     background-position: center;
     background-repeat: no-repeat;
 }
