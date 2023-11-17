@@ -36,7 +36,10 @@ function App() {
 
         <ToastContainer position="bottom-left" />
           <Chatbox/>
-          <Header/>
+          <Routes>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="*" element={<Header/>}/>
+          </Routes>
           <Routes>
               <Route path="/" element={<BodyMainPage/>}/>
               <Route path="/public/search-name/:name" element={<SearchPage/>}/>
@@ -44,7 +47,6 @@ function App() {
               <Route path="/top_hundered" element={<TopHundered/>}/>
               <Route path="/register" element={<Register/>}/>
               <Route path="/initial-information" element={<InitInfo/>}/>
-              <Route path="/login" element={<Login/>}/>
               <Route path="/friend/list" element={<ListFriend/>}/>
               <Route path="/invited_recommend_friend/InvitedList" element={<InvitedList/>}/>
               <Route path="/invited_recommend_friend/RecommendList" element={<RecommendList/>}/>
