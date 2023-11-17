@@ -7,6 +7,7 @@ import {jwtDecode} from "jwt-decode";
 import {useState} from "react";
 import * as yup from "yup";
 
+
 export default function Login() {
 
     const initLoginRequest = {
@@ -46,6 +47,7 @@ export default function Login() {
                     await securityService.addAccessToken(res.data.jwtToken);
                     console.log(localStorage.getItem("accessToken"));
                     console.log("http status: " + res.status)
+
                     toast("Đăng nhập thành công!!");
                     navigate("/newsfeed");
                     break;
