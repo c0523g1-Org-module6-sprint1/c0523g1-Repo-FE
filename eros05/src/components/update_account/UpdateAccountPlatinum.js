@@ -13,6 +13,7 @@ import {useParams} from "react-router-dom";
 import * as securityService from "../../service/login/securityService";
 import * as SearchNameService from "../../service/searchName/searchNameService";
 import * as payService from "../../service/update_account/payService";
+import * as accountTypesService from "../../service/update_account/accountTypeService";
 
 
 export function UpdateAccountPlatinum() {
@@ -23,6 +24,19 @@ export function UpdateAccountPlatinum() {
     const {succesVnPay} = useParams();
     const accessToken = localStorage.getItem('accessToken')
     const [user, setUser] = useState();
+    const [nameAccount, setNameAccount] = useState("")
+
+
+    useEffect(() => {
+        getAllAccountTypes()
+    }, []);
+    const getAllAccountTypes = async () => {
+        let data = await accountTypesService.getAll();
+        let dataAccountType = data.filter(data => data.id === 3);
+        console.log(dataAccountType)
+        setNameAccount(dataAccountType[0].name);
+        console.log(nameAccount)
+    }
 
 
     useEffect(() => {
@@ -79,7 +93,7 @@ export function UpdateAccountPlatinum() {
     }
 
     return (
-        <div className="row" style={{display: "flex"}}>
+        <div className="updateaccout-row" style={{display: "flex"}}>
             <HeaderUpdateAccount/>
 
             <div className="col-xs-12 col-6 col-md-12 col-lg-6 col-sm-12">
@@ -171,7 +185,7 @@ export function UpdateAccountPlatinum() {
                                 onChange={(values) => setPricePay(packageType.price)}
                                 type="radio" id={packageType.name}
                                 name="value-radio"/>
-                            <label htmlFor={packageType.name}>
+                            <label style={{minWidth: "100%"}} htmlFor={packageType.name}>
                                 {packageType.name}<br/>
                                 {formatPrice(packageType.price)} đ/tháng
                             </label>
@@ -215,7 +229,9 @@ export function UpdateAccountPlatinum() {
                                       amount={vndToUsd(pricePay)}
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
-                                          toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
+                                          toast.success(`Thanh toán thành công ${pricePay} vnđ bởi `
+                                              + details.payer.name.given_name
+                                              + ` bạn đã được thăng lên hạng ${nameAccount}`);
                                           onchange(callAsyncFunctions());
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
