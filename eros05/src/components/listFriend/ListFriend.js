@@ -15,6 +15,8 @@ function ListFriend() {
   const [nameSearch,setNameSearch] = useState("");
   const [listFriend, setListFriend] = useState(null);
   const [idLogin,setIdLogin] = useState(null);
+
+  
   const getListFriend = async () => {
     if (idLogin !== null) {
       setListFriend(await getList(idLogin,nameSearch))
