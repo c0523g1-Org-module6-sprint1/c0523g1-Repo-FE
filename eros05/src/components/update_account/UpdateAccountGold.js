@@ -8,7 +8,7 @@ import * as packageTypesService from "../../service/update_account/packageTypesS
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
 import {formatPrice, vndToUsd} from "./FormatPrice";
-import {load} from "./Pay";
+import {load, paySucces} from "./Pay";
 
 export function UpdateAccountGold() {
     const [pricePay, setPricePay] = useState(0);
@@ -159,7 +159,7 @@ export function UpdateAccountGold() {
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
-                                          load()
+                                          onchange(paySucces(1))
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",
