@@ -6,85 +6,81 @@ import '../update_account/HeaderUpdateAccount'
 import {HeaderUpdateAccount} from "./HeaderUpdateAccount";
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
 import React from 'react';
-import {formatPrice, usdToVnd, vndToUsd} from "./FormatPrice";
-import * as accountType from "../../service/update_account/accountTypeService";
-import {load, paySucces, resetRadioButtons, setMoneyToPaySuccess} from "./Pay";
+import {formatPrice, vndToUsd} from "./FormatPrice";
+import {paySucces, resetRadioButtons, setMoneyToPaySuccess} from "./Pay";
 import {useParams} from "react-router-dom";
-import * as packageDetail from "../../service/update_account/packageDetailService";
 import * as payService from "../../service/update_account/payService";
 import * as securityService from "../../service/login/securityService";
-import {getIdByJwt, getUsernameByJwt} from "../../service/login/securityService";
+import * as SearchNameService from "../../service/searchName/searchNameService";
+
 
 export function UpdateAccountEros() {
     const [pricePay, setPricePay] = useState(0);
     const [payEros, setPayEros] = useState("");
     const [packageTypes, setPackageTypes] = useState([]);
-    const [accountTypes, setAccountTypes] = useState([]);
-    const [account, setAccount] = useState("");
-    const {id} = useParams();
     const {succesVnPay} = useParams();
-
-    const initLoginRequest = {
-        username: null,
-        password: null
-    }
-    const [loginRequest, setLoginRequest] = useState(initLoginRequest);
-    /*Handle: username, password, submit */
-    const handleChangeUsername = (events) => {
-        setLoginRequest({
-            ...loginRequest,
-            username: events.target.value
-        })
-    }
-
-    const handleChangePassword = (events) => {
-        setLoginRequest({
-            ...loginRequest,
-            password: events.target.value
-        })
-    }
+    const accessToken = localStorage.getItem('accessToken')
+    const [user, setUser] = useState();
+    const [nameAccountType, setNameAccountType] = useState("")
 
 
-    useEffect(() => {
-        getAllAccountType()
-    }, []);
     useEffect(() => {
         getAllPackageTypes()
     }, []);
-    useEffect(() => {
-        if (id) findById(id);
-    }, [id]);
-    const getAllAccountType = async () => {
-        if (succesVnPay) {
-            console.log("Thanh toán vnPay thành công")
-        }
-        let data = await accountType.getAll();
-        setAccountTypes(data);
-    }
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
         let dataEros = data.filter(data => data.accountTypes.id === 1);
         console.log(dataEros)
         setPackageTypes(dataEros);
+        // setNameAccountType(packageTypes.accountTypes.name);
+        // console.log(dataEros.accountTypes.name)
     }
-    const findById = async (id) => {
-        let data = await packageDetail.findById(id);
-        setAccount(data);
-    }
+
+
+
+    useEffect(() => {
+        const test = async () => {
+            const resUsername = securityService.getUsernameByJwt();
+            console.log('resUserName >>>>' + resUsername)
+            // setUserName(resUsername)
+            if (resUsername !== null) {
+                const resUser = await SearchNameService.findByUserName(resUsername);
+                console.log("resUser >>> " + resUser)
+                if (resUser) {
+                    setUser(resUser.data);
+                    console.log("-------------------")
+                    // console.log(user)
+                    // console.log(user.id)
+                }
+            }
+        }
+        test();
+    }, []);
+    useEffect(() => {
+        if (user) {
+            console.log(user)
+        }
+    }, [user])
+
 
     const vnPayOnclick = async () => {
         const link = await payService.checkVnPay(pricePay);
+        console.log(link)
         window.location.href = link;
     }
 
+  
+
+
     async function callAsyncFunctions() {
         try {
-            await paySucces(1); // Hàm bất đồng bộ 1
-            await setMoneyToPaySuccess(pricePay); // Hàm bất đồng bộ 2
-            await resetRadioButtons(); // Hàm bất đồng bộ 3
+                await paySucces(user.id,1); // Hàm bất đồng bộ 1
+                await setMoneyToPaySuccess(user.id, pricePay); // Hàm bất đồng bộ 2
+                await resetRadioButtons(); // Hàm bất đồng bộ 3
+
         } catch (error) {
             console.log("có lỗi xảy ra khi gọi cả 3 hàm")
         }

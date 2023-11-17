@@ -1,10 +1,7 @@
 import {Link} from "react-router-dom";
 
 
-export function HeaderUpdateAccount(props){
-    const {data} = props;
-
-
+export function HeaderUpdateAccount(){
     return(
         <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-updateaccount-card">
             <Link to="/updateAccount/eros+" className="updateaccount-card">

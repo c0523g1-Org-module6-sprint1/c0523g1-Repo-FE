@@ -8,22 +8,72 @@ import * as packageTypesService from "../../service/update_account/packageTypesS
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
 import {formatPrice, vndToUsd} from "./FormatPrice";
-import {load, paySucces} from "./Pay";
+import {load, paySucces, resetRadioButtons, setMoneyToPaySuccess} from "./Pay";
+import {useParams} from "react-router-dom";
+import * as securityService from "../../service/login/securityService";
+import * as SearchNameService from "../../service/searchName/searchNameService";
+import * as payService from "../../service/update_account/payService";
 
 export function UpdateAccountGold() {
     const [pricePay, setPricePay] = useState(0);
     const [payEros, setPayEros] = useState("");
     const [packageTypes, setPackageTypes] = useState([]);
+    const {succesVnPay} = useParams();
+    const accessToken = localStorage.getItem('accessToken')
+    const [user, setUser] = useState();
 
     useEffect(() => {
-        getAll()
+        const test = async () => {
+            const resUsername = securityService.getUsernameByJwt();
+            console.log('resUserName >>>>' + resUsername)
+            // setUserName(resUsername)
+            if (resUsername !== null) {
+                const resUser = await SearchNameService.findByUserName(resUsername);
+                console.log("resUser >>> " + resUser)
+                if (resUser) {
+                    setUser(resUser.data);
+                    console.log("-------------------")
+                    // console.log(user)
+                    // console.log(user.id)
+                }
+            }
+        }
+        test();
     }, []);
 
-    const getAll = async () => {
+    useEffect(() => {
+        if (user) {
+            console.log(user)
+
+        }
+    }, [user])
+
+
+    useEffect(() => {
+        getAllPackageTypes()
+    }, []);
+    const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
         let dataEros = data.filter(data => data.accountTypes.id === 2)
         console.log(dataEros)
         setPackageTypes(dataEros);
+    }
+
+    const vnPayOnclick = async () => {
+        const link = await payService.checkVnPay(pricePay);
+        window.location.href = link;
+        callAsyncFunctions();
+    }
+
+    async function callAsyncFunctions() {
+        try {
+            await paySucces(user.id, 2); // Hàm bất đồng bộ 1
+            await setMoneyToPaySuccess(user.id, pricePay); // Hàm bất đồng bộ 2
+            await resetRadioButtons(); // Hàm bất đồng bộ 3
+
+        } catch (error) {
+            console.log("có lỗi xảy ra khi gọi cả 3 hàm")
+        }
     }
 
     return (
@@ -111,12 +161,14 @@ export function UpdateAccountGold() {
                     <p style={{fontSize: "13px"}}>Bình luận vào bài viết & và nhiều quyền lợi khác</p>
                 </div>
 
-                <div className="updateaccount-radio-input">
+                <div className="updateaccount-radio-input" id="myForm">
                     {packageTypes.map(packageType => (
                         <>
-                            <input onChange={(values) => setPricePay(packageType.price)}
-                                   type="radio" id={packageType.name}
-                                   name="value-radio"/>
+                            <input
+                                key={packageType.id}
+                                onChange={(values) => setPricePay(packageType.price)}
+                                type="radio" id={packageType.name}
+                                name="value-radio"/>
                             <label htmlFor={packageType.name}>
                                 {packageType.name}<br/>
                                 {formatPrice(packageType.price)} đ/tháng
@@ -125,13 +177,16 @@ export function UpdateAccountGold() {
                     ))}
 
                     <div className="updateaccount-radio-input-pay">
-                        <input onChange={(values) => setPayEros(values.target.value)} value="vnpay" name="value-radio-pay"
+                        <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
+                               name="value-radio-pay"
                                id="value-4" type="radio"/>
                         <label htmlFor="value-4">Thanh toán VNPay</label>
-                        <input onChange={(values) => setPayEros(values.target.value)} value="paypal" name="value-radio-pay"
+                        <input onChange={(values) => setPayEros(values.target.value)} value="paypal"
+                               name="value-radio-pay"
                                id="value-5" type="radio"/>
                         <label htmlFor="value-5">Thanh toán Paypal</label>
-                        <input onChange={(values) => setPayEros(values.target.value)} value="momo" name="value-radio-pay"
+                        <input onChange={(values) => setPayEros(values.target.value)} value="momo"
+                               name="value-radio-pay"
                                id="value-6" type="radio"/>
                         <label htmlFor="value-6">Thanh toán Momo</label>
                     </div>
@@ -144,7 +199,7 @@ export function UpdateAccountGold() {
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
-                        <button className="updateaccount-pushable">
+                        <button className="updateaccount-pushable" onClick={vnPayOnclick}>
                             <span className="updateaccount-shadow"></span>
                             <span className="updateaccount-edge"></span>
                             <span className="updateaccount-front">
@@ -159,7 +214,7 @@ export function UpdateAccountGold() {
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
-                                          onchange(paySucces(1))
+                                          onchange(callAsyncFunctions());
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",
@@ -176,7 +231,7 @@ export function UpdateAccountGold() {
 
                     ) : null}
 
-                    {payEros === 'momo' && pricePay !== 0 ?(
+                    {payEros === 'momo' && pricePay !== 0 ? (
                         <div>
                             <img src="../../public/pay-momo.jpg" alt=""/>
                         </div>

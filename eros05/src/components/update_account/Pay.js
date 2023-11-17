@@ -4,17 +4,18 @@ import {getIdByJwt} from "../../service/login/securityService";
 export const load = () => {
     window.location.reload();
 }
-export const paySucces = async (accountTypesId) => {
+export const paySucces = async (idAccount, accountTypesId) => {
     // let idAccount = getIdByJwt
     // console.log("id của account" + idAccount);
-    let status = await packageDetailService.setAccountTypesToAccount({"account": 2, "accountTypes": accountTypesId})
+    let status = await packageDetailService.setAccountTypesToAccount({"account": idAccount, "accountTypes": accountTypesId})
     // console.log(status)
     if (status === 200) {
         console.log("Thứ hạng đã thay đổi")
     }
 }
-export const setMoneyToPaySuccess = async (newMoney) => {
-    let status = await packageDetailService.setMoneyAccount({"idAccount": 2, "newMoney": newMoney})
+
+export const setMoneyToPaySuccess = async (idAccount, newMoney) => {
+    let status = await packageDetailService.setMoneyAccount({"idAccount": idAccount, "newMoney": newMoney})
     console.log(status)
     if (status === 200) {
         console.log("Tiền đã thay đổi");

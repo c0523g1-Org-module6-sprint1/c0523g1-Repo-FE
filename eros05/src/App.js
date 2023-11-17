@@ -32,6 +32,7 @@ function App() {
 
   return (
       <>
+          requestFilter();
         <ToastContainer position="bottom-left" />
           {/*<Chatbox/>*/}
           <Header/>
