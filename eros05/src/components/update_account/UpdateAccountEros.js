@@ -6,69 +6,84 @@ import '../update_account/HeaderUpdateAccount'
 import {HeaderUpdateAccount} from "./HeaderUpdateAccount";
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
 import React from 'react';
-import {formatPrice, usdToVnd, vndToUsd} from "./FormatPrice";
-import * as accountType from "../../service/update_account/accountTypeService";
-import {load, paySucces} from "./Pay";
+import {formatPrice, vndToUsd} from "./FormatPrice";
+import {paySucces, resetRadioButtons, setMoneyToPaySuccess} from "./Pay";
 import {useParams} from "react-router-dom";
-import * as packageDetail from "../../service/update_account/packageDetailService";
-import * as accountTypesService from "../../service/update_account/accountTypeService";
+import * as payService from "../../service/update_account/payService";
+import * as securityService from "../../service/login/securityService";
+import * as SearchNameService from "../../service/searchName/searchNameService";
+
 
 export function UpdateAccountEros() {
     const [pricePay, setPricePay] = useState(0);
     const [payEros, setPayEros] = useState("");
     const [packageTypes, setPackageTypes] = useState([]);
-    const [accountTypes, setAccountTypes] = useState([]);
-    const [account, setAccount] = useState("");
-    const {id} = useParams();
-    const inputRef = useRef(1);
     const {succesVnPay} = useParams();
+    const accessToken = localStorage.getItem('accessToken')
+    const [user, setUser] = useState();
+    const [nameAccountType, setNameAccountType] = useState("")
 
 
-    useEffect(() => {
-        getAllAccountType()
-    }, []);
     useEffect(() => {
         getAllPackageTypes()
     }, []);
-    useEffect(() => {
-        if (id) findById(id);
-    }, [id]);
-    const getAllAccountType = async () => {
-        if (succesVnPay){
-            console.log("Thanh toán vnPay thành công")
-        }
-        let data = await accountType.getAll();
-        setAccountTypes(data);
-    }
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
         let dataEros = data.filter(data => data.accountTypes.id === 1);
         console.log(dataEros)
         setPackageTypes(dataEros);
+        // setNameAccountType(packageTypes.accountTypes.name);
+        // console.log(dataEros.accountTypes.name)
     }
-    const findById = async (id) => {
-        let data = await packageDetail.findById(id);
-        setAccount(data);
-    }
-    const setMoneyAccount = async (values) => {
-        values.money = pricePay;
-        console.log(values.money);
-        let status = await packageDetail.setMoneyAccount(values);
-        console.log(status);
-        if (status === 200) {
-            toast.success("Sửa thành công");
-        } else {
-            toast.error("Sửa thất bại");
+
+
+
+    useEffect(() => {
+        const test = async () => {
+            const resUsername = securityService.getUsernameByJwt();
+            console.log('resUserName >>>>' + resUsername)
+            // setUserName(resUsername)
+            if (resUsername !== null) {
+                const resUser = await SearchNameService.findByUserName(resUsername);
+                console.log("resUser >>> " + resUser)
+                if (resUser) {
+                    setUser(resUser.data);
+                    console.log("-------------------")
+                    // console.log(user)
+                    // console.log(user.id)
+                }
+            }
         }
-    }
-    const VnPayOnclick = async () => {
-        const link = await accountTypesService.checkVnPay(pricePay);
-        console.log("+++++++++")
+        test();
+    }, []);
+    useEffect(() => {
+        if (user) {
+            console.log(user)
+        }
+    }, [user])
+
+
+    const vnPayOnclick = async () => {
+        const link = await payService.checkVnPay(pricePay);
         console.log(link)
         window.location.href = link;
+    }
+
+  
+
+
+    async function callAsyncFunctions() {
+        try {
+                await paySucces(user.id,1); // Hàm bất đồng bộ 1
+                await setMoneyToPaySuccess(user.id, pricePay); // Hàm bất đồng bộ 2
+                await resetRadioButtons(); // Hàm bất đồng bộ 3
+
+        } catch (error) {
+            console.log("có lỗi xảy ra khi gọi cả 3 hàm")
+        }
     }
 
 
@@ -157,7 +172,7 @@ export function UpdateAccountEros() {
                     <p style={{fontSize: "13px"}}>Cho phép bạn thích bài viết & nhiều quyền lợi khác</p>
                 </div>
 
-                <div className="updateaccount-radio-input">
+                <div className="updateaccount-radio-input" id="myForm">
                     {packageTypes.map(packageType => (
                         <>
                             <input
@@ -195,7 +210,7 @@ export function UpdateAccountEros() {
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
-                        <button className="updateaccount-pushable" onClick={VnPayOnclick}>
+                        <button className="updateaccount-pushable" onClick={vnPayOnclick}>
                             <span className="updateaccount-shadow"></span>
                             <span className="updateaccount-edge"></span>
                             <span className="updateaccount-front">
@@ -210,7 +225,7 @@ export function UpdateAccountEros() {
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
                                           toast.success(`Thanh toán thành công ${pricePay} vnđ bởi ` + details.payer.name.given_name);
-                                          onchange(paySucces(1))
+                                          onchange(callAsyncFunctions());
                                           // load()
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
@@ -230,7 +245,7 @@ export function UpdateAccountEros() {
 
                     {payEros === 'momo' && pricePay !== 0 ? (
                         <div>
-                            <img src="../../public/pay-momo.jpg" alt=""/>
+                            <img src="../../components/update_account/img/momoQR.jpg" alt=""/>
                         </div>
                     ) : null}
                 </div>
