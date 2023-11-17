@@ -1,41 +1,49 @@
-#h1 {
+#trivn-h1 {
     text-align: center;
     margin-top: 8%;
     font-family: Agbalumo, serif
 }
-a{
+
+a {
     text-decoration: none;
 }
-#tb-mana {
+
+#trivn-tb-mana {
     text-align: center;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    border-collapse: collapse;  /* để các ô trong bảng không có khoảng trống */
+    border-collapse: collapse; /* để các ô trong bảng không có khoảng trống */
 }
-#tb-mana td, #tb-mana th {
+
+#trivn-tb-mana td, #trivn-tb-mana th {
     padding: 8px; /* điều chỉnh khoảng cách giữa nội dung và đường viền */
 
     border-radius: 10px; /* đường bo tròn cho ô trong bảng */
 }
 
-#bt-mana{
+#trivn-bt-mana {
     border-radius: 20px;
 }
 
-#tb-th {
+#trivn-tb-th {
     background-color: #9E66C3;
     color: white
 }
 
-#bd-mana {
+#trivn-bd-mana {
     background-color: #CBD2D4;
     margin-top: 10px;
     font-family: Nunito Sans, sans-serif;
 
 }
-
-#gold {
+#trivn-p-a{
+    background-color: #CBD2D4;
+    font-family: Nunito Sans, sans-serif;
+    color: coral;
+    font-size: 200%;
+}
+#trivn-gold {
     background: linear-gradient(to right, #FFD93D, #F6F1E9);
     color: midnightblue;
     font-style: italic;
@@ -46,7 +54,7 @@ a{
     padding: 0 12%;
 }
 
-#platinum {
+#trivn-platinum {
     background: linear-gradient(to right, black, #d8afe7);
     color: white;
     font-style: italic;
@@ -58,7 +66,7 @@ a{
 
 }
 
-#thuong {
+#trivn-thuong {
     color: white;
     background: linear-gradient(to right, #5e6773, #9797ff);
     font-style: italic;
@@ -68,5 +76,6 @@ a{
     width: 125px;
     padding: 0 7%;
 }
+
 
 

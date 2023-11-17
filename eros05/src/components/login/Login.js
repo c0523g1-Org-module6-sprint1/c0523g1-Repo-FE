@@ -3,9 +3,7 @@ import * as securityService from '../../service/login/securityService';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-import {jwtDecode} from "jwt-decode";
 import {useState} from "react";
-import * as yup from "yup";
 
 export default function Login() {
 
@@ -13,8 +11,6 @@ export default function Login() {
         username: null,
         password: null
     }
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
 
     const [loginRequest, setLoginRequest] = useState(initLoginRequest);
     const navigate = useNavigate();
@@ -35,33 +31,23 @@ export default function Login() {
         })
     }
 
+
     const handleSubmit = async () => {
-        await console.log("username + password: " + loginRequest.username + " " + loginRequest.password)
         try {
             const res = await securityService.doLogin(loginRequest);
-            await console.log("http status: " + res.status);
+            const status = res.status;
 
-            switch (res.status) {
-                case 200:
-                    await securityService.addAccessToken(res.data.jwtToken);
-                    console.log(localStorage.getItem("accessToken"));
-                    toast("login success");
-                    navigate("/newsfeed");
-                    break;
-                case 404:
-                    toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
-                    break;
-                case 400:
-                    toast.error("Vui lòng thử lại!");
-                    break
-                default:
-                    toast.info("Lỗi không xác định, vui lòng liên hệ QTV để nhận hỗ trợ!")
+            if (status === 200) {
+                await securityService.addAccessToken(res.data.jwtToken);
+                toast("Đăng nhập thành công!!");
+                navigate("/newsfeed");
+            } else {
+                toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
             }
         } catch (e) {
-            console.log(e);
+            toast.error("Vui lòng thử lại!");
         }
     }
-
 
     return (
         <div id="wrapper">
@@ -110,7 +96,7 @@ export default function Login() {
                                     <Link to="/" className="thienbb-a-link"> Trang chủ! </Link>
                                 </p>
                                 <p className="thienbb-login-text">Bạn chưa có tài khoản?
-                                    <a href="#" className="thienbb-a-link">Đăng ký</a>
+                                    <Link to="/register" className="thienbb-a-link">Đăng ký</Link>
                                 </p>
                             </div>
                         </Form>

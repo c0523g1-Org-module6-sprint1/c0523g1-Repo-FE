@@ -15,7 +15,6 @@ export function Test() {
     const [img, setImg] = useState("");
     const [resetSuccess, setResetSuccess] = useState("");
 
-
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         const imagePath = URL.createObjectURL(file);

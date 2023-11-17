@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import './SearchPage.css'
-import * as accountService from "../../service/searchName/apiConnection"
+import * as accountService from "../../service/searchName/searchNameService"
 import {Link, useNavigate, useParams} from "react-router-dom";
-
-const SearchPage = ({isShowSearchPage,isAuthentication}) => {
+import * as SearchNameService from "../../service/searchName/searchNameService";
+const SearchPage = () => {
     const [accounts, setAccounts] = useState([]);
+    const [isAuthentication, setIsAuthentication] = useState(false)
     const navigate = useNavigate();
     const {name} = useParams();
-    console.log(isAuthentication)
+    // const [userName, setUserName] = useState("");
+    const [user, setUser] = useState({});
     useEffect(() => {
         searchByName()
     }, [name]);
@@ -27,7 +29,24 @@ const SearchPage = ({isShowSearchPage,isAuthentication}) => {
     const goPersonalPage = (id)=>{
         navigate(`personal-page/${id}`)
     }
-
+// useEffect(() => {
+    //     findUserName();
+    // }, []);
+    // const findUserName = async () => {
+    //     const res = await loginService.getUserNameByJwt();
+    //     setUserName(res.data);
+    // }
+    const userName = "liendtm";
+    useEffect(() => {
+        findUser();
+    }, [userName]);
+    const findUser = async () => {
+        const res = await SearchNameService.findByUserName(userName);
+        setUser(res.data);
+        if (user.role !== null) {
+            setIsAuthentication(true);
+        }
+    }
     return (
         <div className='search-page-container'>
             <h1>Kết quả tìm kiếm</h1>

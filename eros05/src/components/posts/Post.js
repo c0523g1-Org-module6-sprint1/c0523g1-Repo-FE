@@ -35,7 +35,7 @@ export default function Post() {
     <div>
       <div
         className="container-fluid"
-        style={{ marginTop: 100, position: "relative" }}
+        style={{ marginTop: 150, position: "relative" }}
       >
         {listPublic.map((item) => {
           return (
@@ -82,7 +82,7 @@ export default function Post() {
                             <i className="fa fa-times close-icon" />
                           </div>
                         </div>
-                        <div className="media-body">
+                        <div style={{width:"100%"}} className="media-body">
                           <p className="card-text text-justify">
                             {item.content}
                           </p>
