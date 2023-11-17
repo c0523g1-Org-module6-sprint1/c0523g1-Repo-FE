@@ -5,7 +5,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import * as SearchNameService from "../../service/searchName/searchNameService";
 import * as securityService from "../../service/login/securityService";
 
-const SearchPage = ({isShowSearchPage,isAuthentication}) => {
+const SearchPage = () => {
     const [accounts, setAccounts] = useState([]);
     const [isAuthentication, setIsAuthentication] = useState(false)
     const navigate = useNavigate();
