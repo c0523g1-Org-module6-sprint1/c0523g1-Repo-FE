@@ -22,7 +22,7 @@ const BodyMainPage = () => {
                             Đăng Ký Ngay
                         </button>
                     </div>
-                </div>
+                </div>f
             </div>
             <div className="feedbacks">
                 <div className="feedback-list">
