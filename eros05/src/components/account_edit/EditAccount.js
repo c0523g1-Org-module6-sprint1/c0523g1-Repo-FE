@@ -66,6 +66,7 @@ function EditAccount() {
         // getHobbiesList()
     }, []);
 
+
     const getAccount = async () => {
         try {
             const idAccount = securityService.getIdByJwt();

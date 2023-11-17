@@ -13,7 +13,7 @@ export function Chatbox() {
     const [searchName, setSearchName] = useState("");
     const [chatFriend, setChatFriend] = useState({});
     const [showChatBox, setShowChatBox] = useState(-1);
-    const [hideList, setHideList] = useState(false);
+    const [hideList, setHideList] = useState(true);
     const [messageUnseen, setMessageUnseen] = useState(100);
     const [chatlistHeight, setChatlistHeight] = useState(0);
     const [unknowMess, setUnknowMess] = useState(false);
