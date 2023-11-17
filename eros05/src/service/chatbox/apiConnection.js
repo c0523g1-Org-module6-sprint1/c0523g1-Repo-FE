@@ -1,12 +1,19 @@
 import axios from "axios";
+import {getIdByJwt} from "../login/securityService";
 
 export const GetProfileApi = async () => {
-
-    try {
-        const res = await axios.get(`http://localhost:8080/api/public/message/account`)
-        return res;
-    } catch (e) {
-        console.log(e);
+    let id = getIdByJwt();
+    if (id) {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/public/message/account`, {
+                params: {
+                    accountId: id
+                }
+            })
+            return res;
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 export const GetFriendsApi = async (name) => {
