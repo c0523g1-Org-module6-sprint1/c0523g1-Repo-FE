@@ -3,7 +3,12 @@ import "./upPost.css"
 import "./post.css";
 import {getListPublic} from "../../service/posts/PostService";
 import EditPost from "./EditPost";
+<<<<<<< HEAD
 import {ModalUpPost} from "./ModalUpPost";
+=======
+import {getRoleByJwt,getIdByJwt,getUsernameByJwt}  from "../../service/login/securityService";
+
+>>>>>>> fbf6bfec020b15771834e21edcba42db10cffd4c
 
 
 export default function Post() {
@@ -12,6 +17,21 @@ export default function Post() {
     const [showModalUpPost, setShowModalUpPost] = useState(false);
     const [postUpdate, setPostUpdate] = useState();
 
+<<<<<<< HEAD
+=======
+
+
+const username = getUsernameByJwt();
+console.log(username);
+
+  const fetchDataListPublic = async () => {
+    const listPublic = await getListPublic();
+    setListPublic(listPublic);
+  };
+  useEffect(() => {
+    fetchDataListPublic();
+  }, [showModal]);
+>>>>>>> fbf6bfec020b15771834e21edcba42db10cffd4c
 
     const fetchDataListPublic = async () => {
         const listPublic = await getListPublic();
@@ -30,6 +50,7 @@ export default function Post() {
         setShowModalUpPost(true);
     }
 
+<<<<<<< HEAD
     const handleHideModal = () => {
         setShowModal(false);
     }
@@ -146,6 +167,51 @@ export default function Post() {
                                         </div>
                                     </div>
                                 </div>
+=======
+  if (!listPublic) {
+    return null;
+  }
+
+  return (
+    <div>
+      <div
+        className="container-fluid"
+        style={{ marginTop: 150, position: "relative" }}
+      >
+        {listPublic.map((item) => {
+          return (
+            <div className="row" key={item.id} style={{marginBottom:"50px"}}>
+              <div className="col-12 col-lg-3"></div>
+              <div className="col-12 col-lg-6">
+                <div
+                  className="middle-column"
+                  style={{
+                    border: "#A36ACB 1px solid",
+                    borderRadius: 20,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div className="card" >
+                    <div className="card-body">
+                      <div className="media">
+                        <div className="media-header">
+                          <div className="media-left">
+                            <div
+                              style={{
+                                backgroundImage:
+                                  `url(${item.account.avatar})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                aspectRatio: "1/1",
+                                width: 50,
+                                borderRadius: "100%",
+                                marginRight: 10,
+                              }}
+                            />
+                            <div className="info">
+                              <h5>{item.account.userName}</h5>
+                              <small>{item.date}</small>
+>>>>>>> fbf6bfec020b15771834e21edcba42db10cffd4c
                             </div>
                             <div className="col-12 col-lg-3"/>
                         </div>
