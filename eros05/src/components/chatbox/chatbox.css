@@ -393,14 +393,35 @@
     margin: 5px;
     width: fit-content;
     cursor: context-menu;
+    word-wrap: break-word;
 }
-
+.mess-modal {
+    display: grid;
+    grid-template-columns: 1fr 100px 100px;
+}
+.mess-modal div {
+    height: 30px;
+    margin: 5px;
+    border-radius: 20px;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.2s;
+}
+.mess-modal div:hover {
+    transition-duration: 0.2s;
+    scale: 1.05;
+}
+.mess-revoke {
+    color: gray;
+}
 .option {
-
-    width: 30px;
+    width: 20px;
     height: 100%;
+    margin-top: 2.5px;
     background-image: url("image/select.png");
-    background-size: contain;
+    background-size: 30px;
     background-position: center;
     background-repeat: no-repeat;
 }
