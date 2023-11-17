@@ -171,12 +171,13 @@ export function PersonalPage() {
                             <div className="panel-heading">
                                 <h3 className="panel-title">Bài viết</h3>
                             </div>
-                            <Post/>
                         </div>
                     </div>
                     <div className="col-lg-3"></div>
                 </div>
+
             </div>
+            <Post/>
             {/*//modalquy*/}
             <div
                 style={{ borderRadius: 10, textAlign: "center", alignItems: "center" }}
