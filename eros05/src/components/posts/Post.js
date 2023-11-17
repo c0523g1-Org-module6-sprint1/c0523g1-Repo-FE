@@ -2,12 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import "./post.css";
 import { getListPublic } from "../../service/posts/PostService";
 import EditPost from "./EditPost";
+import {getRoleByJwt,getIdByJwt,getUsernameByJwt}  from "../../service/login/securityService";
+
 
 
 export default function Post() {
   const [listPublic, setListPublic] = useState();
   const [showModal,setShowModal] = useState(false);
   const [postUpdate,setPostUpdate] = useState();
+
+
+
+const username = getUsernameByJwt();
+console.log(username);
 
   const fetchDataListPublic = async () => {
     const listPublic = await getListPublic();
@@ -26,7 +33,6 @@ export default function Post() {
     setShowModal(false);
   }
 
- 
   if (!listPublic) {
     return null;
   }
@@ -58,7 +64,7 @@ export default function Post() {
                             <div
                               style={{
                                 backgroundImage:
-                                  'url("https://images.kienthuc.net.vn/zoom/800/uploaded/ctvkhoahoc/2020_04_29/khong-chi-la-co-may-nhay-lisa-blackpink-con-co-so-thich-dac-biet-nay.jpg")',
+                                  `url(${item.account.avatar})`,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
                                 aspectRatio: "1/1",
@@ -68,7 +74,7 @@ export default function Post() {
                               }}
                             />
                             <div className="info">
-                              <h5>Lisa Black Pink</h5>
+                              <h5>{item.account.userName}</h5>
                               <small>{item.date}</small>
                             </div>
                           </div>
