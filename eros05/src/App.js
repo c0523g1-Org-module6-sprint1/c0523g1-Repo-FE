@@ -35,7 +35,7 @@ function App() {
       <>
 
         <ToastContainer position="bottom-left" />
-          {/*<Chatbox/>*/}
+          <Chatbox/>
           <Header/>
           <Routes>
               <Route path="/" element={<BodyMainPage/>}/>
