@@ -14,8 +14,6 @@ export const searchByName = async (name)=>{
 export const findByUserName = async (userName)=>{
     try{
         const res = await axios.get(URL_USER+`/${userName}`)
-        console.log("++++++++++++")
-        console.log(res)
         return res;
     }catch (e){
         console.log("Tìm user lỗi")
