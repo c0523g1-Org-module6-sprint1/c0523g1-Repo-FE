@@ -1,8 +1,7 @@
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import * as changepasswordService from "../../service/changePassword/changepassword";
-import React, { useEffect, useState } from "react";
-
-export function Changepassword() {
+function Changepassword() {
   const [passwordNow, setPasswordNow] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
@@ -240,3 +239,5 @@ export function Changepassword() {
     </div>
   );
 }
+
+export default Changepassword;
