@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import Header from "../header/Header";
 import './editAccount.css'
-import {
-    editAccountService,
-    getAccountByIdService,
-    locationService
-} from "../../service/account_Edit/editAccountService";
+import * as securityService from '../../service/login/securityService'
+// import {
+//     editAccountService, genderService,
+//     getAccountByIdService, jobService,
+//     locationService
+// } from "../../service/account_Edit/editAccountService";
+import * as editAccountService from "../../service//account_Edit/editAccountService"
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import * as Yup from "yup";
@@ -18,7 +20,6 @@ function EditAccount() {
     const [genderList, setGenderList] = useState([])
     const [hobbies, setHobbies] = useState([])
     const [location, setLocation] = useState([])
-    const [id, setId] = useState()
     const navigate = useNavigate();
     const [account, setAccount] = useState(
         {
@@ -31,46 +32,51 @@ function EditAccount() {
         }
     )
     const [uploadAvatar, setUploadAvatar] = useState("");
-    console.log(id)
 
     const getJobList = async () => {
-        const result = null;
-        setJobList(result);
+        try {
+            const result = await editAccountService.jobService();
+            setJobList(result);
+        } catch (e) {
+            alert("error")
+        }
     }
     const getLocationList = async () => {
-        setLocation(await locationService());
+        try {
+            setLocation(await editAccountService.locationService());
+        } catch (e) {
+            alert("error")
+        }
     }
     const getHobbiesList = async () => {
         const result = null;
         setHobbies(result);
     }
     const getGenderList = async () => {
-        const result = null;
-        setGenderList(result);
+        try {
+            const result = await editAccountService.genderService();
+            setGenderList(result);
+        } catch (e) {
+            alert("error")
+        }
     }
 
     useEffect(() => {
         // getLocationList();
-        // getHobbiesList();
         // getJobList();
         // getGenderList();
     }, []);
 
     useEffect(() => {
-        getAccount(id)
-    }, [id]);
+        getAccount()
+    }, []);
 
-
-    const getIdJwt = () => {
-        const jwt = LocalStorage.getItem("accessToken");
-        if (jwt) {
-            return jwtDecode(jwt).id;
-        }
-        return null;
-    }
-    const getAccount = async (id) => {
+    const getAccount = async () => {
         try {
-            const res = await getAccountByIdService(id);
+            const idAccount = securityService.getIdByJwt();
+            console.log(idAccount)
+            const res = await editAccountService.getAccountByIdService(idAccount);
+            console.log(res)
             if (res == null) {
                 navigate("/api/personal-page");
                 toast("Not found account");
@@ -120,7 +126,7 @@ function EditAccount() {
         <>
             <Header/>
             <Formik initialValues={initialValue}
-                    onSubmit={(values => handleSubmit(id, values))}
+                    onSubmit={(values => handleSubmit(values))}
                     validationSchema={Yup.object(validateAccount)}>
                 <Form>
                     <div className="edit-account"
