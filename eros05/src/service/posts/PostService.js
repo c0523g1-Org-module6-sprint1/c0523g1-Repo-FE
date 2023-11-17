@@ -1,7 +1,7 @@
 import axios from "axios";
 export const getListPublic = async () => {
     try {
-        const respone = await axios.get("http://localhost:8080/api/member/newsfeed/post/public");
+        const respone = await axios.get("http://localhost:8080/api/public/newsfeed/post/public");
         console.log(respone.data);
         return respone.data; 
     } catch (error) {
@@ -11,7 +11,7 @@ export const getListPublic = async () => {
 
 export const getPostById = async (id) => {
     try {
-        const respone = await axios.get("http://localhost:8080/api/member/newsfeed/post/" + id);
+        const respone = await axios.get("http://localhost:8080/api/public/newsfeed/post/" + id);
         console.log(respone.data);
         return respone.data; 
     } catch (error) {
@@ -31,7 +31,7 @@ export const getPrivacyPost = async () => {
 
 export const update = async (id,values) => {
     try {
-        const respone = await axios.patch("http://localhost:8080/api/member/newsfeed/post/admin/" + id,values);
+        const respone = await axios.patch("http://localhost:8080/api/public/newsfeed/post/admin/" + id,values);
         console.log(respone.status);
         return respone.status; 
     } catch (error) {
@@ -41,7 +41,7 @@ export const update = async (id,values) => {
 
 export const getListOfAnAccount = async (userName) => {
     try {
-        const respone = await axios.get("http://localhost:8080/api/member/newsfeed/post/account/" + userName);
+        const respone = await axios.get("http://localhost:8080/api/public/newsfeed/post/account/" + userName);
         console.log(respone.data);
         return respone.data; 
     } catch (error) {
