@@ -1,4 +1,3 @@
-
 import './App.css';
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,48 +27,45 @@ import HoTro from "./components/bodyMainPage/HoTro";
 import AnToan from "./components/bodyMainPage/AnToan";
 import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
-function App() {
+import {requestFilter} from "./service/login/requestFilter";
 
-  return (
-      <>
-<<<<<<< HEAD
-          <ToastContainer position="bottom-left" />
-=======
-          requestFilter();
-        <ToastContainer position="bottom-left" />
->>>>>>> 90f6c45785d36817862b023123b1845f43134a97
-          <Chatbox/>
-          <Routes>
-              <Route path="/login" element={<Login/>}/>
-              <Route path="*" element={<Header/>}/>
-          </Routes>
-          <Routes>
-              <Route path="/" element={<BodyMainPage/>}/>
-              <Route path="/public/search-name/:name" element={<SearchPage/>}/>
-              <Route path="/search_advanced" element={<SearchAdvanced/>}/>
-              <Route path="/top_hundered" element={<TopHundered/>}/>
-              <Route path="/register" element={<Register/>}/>
-              <Route path="/initial-information" element={<InitInfo/>}/>
-              <Route path="/friend/list" element={<ListFriend/>}/>
-              <Route path="/invited_recommend_friend/InvitedList" element={<InvitedList/>}/>
-              <Route path="/invited_recommend_friend/RecommendList" element={<RecommendList/>}/>
-              <Route path="/personal-page/:id" element={<PersonalPage/>}/>
-              <Route path="/updateAccount/eros+" element={<UpdateAccountEros/>}/>
-              <Route path="/updateAccount/gold" element={<UpdateAccountGold/>}/>
-              <Route path="/updateAccount/platinum" element={<UpdateAccountPlatinum/>}/>
-              <Route path="/change_password" element={<ChangePassword/>}/>
-              <Route path="/accounts" element={<ListAccount/>}/>
-              <Route path="/tim-hieu" element={<TimHieu/>}/>
-              <Route path="/ho-tro" element={<HoTro/>}/>
-              <Route path="/an-toan" element={<AnToan/>}/>
-              <Route path="/personal-page/edit" element={<EditAccount/>}/>
-              <Route path="/newsfeed" element={<Post/>}/>
-          </Routes>
-          <Routes>
-              <Route path="/" element={<Footer/>}/>
-          </Routes>
-      </>
-  );
+function App() {
+    requestFilter();
+    return (
+        <>
+            <ToastContainer position="bottom-left"/>
+            <Chatbox/>
+            <Routes>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="*" element={<Header/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/" element={<BodyMainPage/>}/>
+                <Route path="/public/search-name/:name" element={<SearchPage/>}/>
+                <Route path="/search_advanced" element={<SearchAdvanced/>}/>
+                <Route path="/top_hundered" element={<TopHundered/>}/>
+                <Route path="/register" element={<Register/>}/>
+                <Route path="/initial-information" element={<InitInfo/>}/>
+                <Route path="/friend/list" element={<ListFriend/>}/>
+                <Route path="/invited_recommend_friend/InvitedList" element={<InvitedList/>}/>
+                <Route path="/invited_recommend_friend/RecommendList" element={<RecommendList/>}/>
+                <Route path="/personal-page/:id" element={<PersonalPage/>}/>
+                <Route path="/updateAccount/eros+" element={<UpdateAccountEros/>}/>
+                <Route path="/updateAccount/gold" element={<UpdateAccountGold/>}/>
+                <Route path="/updateAccount/platinum" element={<UpdateAccountPlatinum/>}/>
+                <Route path="/change_password" element={<ChangePassword/>}/>
+                <Route path="/accounts" element={<ListAccount/>}/>
+                <Route path="/tim-hieu" element={<TimHieu/>}/>
+                <Route path="/ho-tro" element={<HoTro/>}/>
+                <Route path="/an-toan" element={<AnToan/>}/>
+                <Route path="/personal-page/edit" element={<EditAccount/>}/>
+                <Route path="/newsfeed" element={<Post/>}/>
+            </Routes>
+            <Routes>
+                <Route path="/" element={<Footer/>}/>
+            </Routes>
+        </>
+    );
 }
 
 export default App;
