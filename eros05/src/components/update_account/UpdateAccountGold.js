@@ -92,7 +92,7 @@ export function UpdateAccountGold() {
     }
 
     return (
-        <div className="updateaccout-row" style={{display: "flex"}}>
+        <div className="updateaccout-row updateaccount-body" style={{display: "flex"}}>
             <HeaderUpdateAccount/>
 
             <div className="col-xs-12 col-6 col-md-12 col-lg-6 col-sm-12">
@@ -200,10 +200,6 @@ export function UpdateAccountGold() {
                                name="value-radio-pay"
                                id="value-5" type="radio"/>
                         <label htmlFor="value-5">Thanh toán Paypal</label>
-                        <input onChange={(values) => setPayEros(values.target.value)} value="momo"
-                               name="value-radio-pay"
-                               id="value-6" type="radio"/>
-                        <label htmlFor="value-6">Thanh toán Momo</label>
                     </div>
                     {payEros === '' && pricePay === 0 ? (
                         <div className="updateaccount-card-right">
@@ -246,12 +242,6 @@ export function UpdateAccountGold() {
                         />
 
 
-                    ) : null}
-
-                    {payEros === 'momo' && pricePay !== 0 ? (
-                        <div>
-                            <img src="../../public/pay-momo.jpg" alt=""/>
-                        </div>
                     ) : null}
                 </div>
             </div>

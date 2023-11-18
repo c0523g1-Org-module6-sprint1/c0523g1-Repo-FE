@@ -21,6 +21,7 @@ export const setMoneyToPaySuccess = async (idAccount, newMoney) => {
         console.log("Tiền đã thay đổi");
     }
 }
+
 export const resetRadioButtons = async () => {
     var form = await document.getElementById("myForm");
 
