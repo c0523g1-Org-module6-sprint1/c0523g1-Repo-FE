@@ -113,7 +113,6 @@ const NavbarMobile = ({isOpenNavbarMobile, setOpenNavbarMobile, isAuthentication
                             <input type="text" className="form-control"
                                    placeholder="Nhập tên bạn bè" aria-label="Username" aria-describedby="addon-wrapping"
                                    onChange={handleChangeInput}
-                                // onKeyUp={handleInputKeyPress}
                                    value={name}
                             />
                         </div>

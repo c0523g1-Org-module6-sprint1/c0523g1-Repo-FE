@@ -3,9 +3,10 @@ import * as securityService from '../../service/login/securityService';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-import {jwtDecode} from "jwt-decode";
-import {useState} from "react";
-import * as yup from "yup";
+import React, {useState} from "react";
+import ReactDOM from 'react-dom';
+import FacebookLogin from 'react-facebook-login';
+
 
 export default function Login() {
 
@@ -13,10 +14,22 @@ export default function Login() {
         username: null,
         password: null
     }
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
 
+    const initFacebookLoginReq = {
+        isLoggedIn: null,
+        userID: null,
+        name: null,
+        email: null,
+        picture: null
+    }
+
+    const [rememberChecked, setRememberChecked] = useState(false);
+    const [rememberedUser, setRememberedUser] = useState({
+        username: "",
+        password: ""
+    })
     const [loginRequest, setLoginRequest] = useState(initLoginRequest);
+    const [facebookLoginReq, setFacebookLoginReq] = useState()
     const navigate = useNavigate();
 
 
@@ -35,37 +48,42 @@ export default function Login() {
         })
     }
 
+    /*handle remember-account*/
+    const handleRememberMe = () => {
+        setRememberChecked(current => !current);
+    }
+
 
     const handleSubmit = async () => {
-        await console.log("username + password: " + loginRequest.username + " " + loginRequest.password)
         try {
             const res = await securityService.doLogin(loginRequest);
-
-            switch (res.status) {
-                case 200:
-                    await securityService.addAccessToken(res.data.jwtToken);
-                    console.log(localStorage.getItem("accessToken"));
-                    console.log("http status: " + res.status)
-                    toast("Đăng nhập thành công!!");
-                    navigate("/newsfeed");
-                    break;
-                case 404:
-                    console.log("http status: " + res.status);
-                    toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
-                    break;
-                case 400:
-                    console.log("http status: " + res.status);
-                    toast.error("Vui lòng thử lại!");
-                    break;
-                default:
-                    console.log("http status: " + res.status);
-                    toast.info("Lỗi không xác định, vui lòng liên hệ QTV để nhận hỗ trợ!");
-                    break;
+            const status = res.status;
+            if (status === 200) {
+                await securityService.addAccessToken(res.data.jwtToken);
+                toast("Đăng nhập thành công!!");
+                navigate("/newsfeed");
+            } else {
+                toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
             }
         } catch (e) {
-            console.log(e);
+            toast.error("Vui lòng thử lại!");
         }
     }
+
+    const componentClicked = () => {
+
+    };
+    const responseFacebook = (response) => {
+        console.log(response)
+        setFacebookLoginReq({
+            isLoggedIn: true,
+            userID: response.userID,
+            name: response.name,
+            email: response.clientSecret,
+            picture: response.picture.data.url
+        })
+    };
+
 
 
     return (
@@ -94,7 +112,7 @@ export default function Login() {
                             </div>
                             <div className="form-child-remember">
                                 <label htmlFor="remember-me">
-                                    <input type="checkbox" id="remember-me"/>
+                                    <input type="checkbox" onChange={handleRememberMe} id="remember-me"/>
                                     <span className="remember-me-text"> Ghi nhớ tài khoản</span>
                                 </label>
                             </div>
@@ -105,17 +123,25 @@ export default function Login() {
                                     </button>
                                 </div>
                                 <div className="login-with-fb-btn">
-                                    <button type="button" className="thienbb-login-btn" id="fb-login">
-                                        <i className="fab fa-facebook thienbb-fb-icon"/> Đăng nhập với Facebook
-                                    </button>
+                                    <FacebookLogin
+                                        appId="1068795897729860"
+                                        autoLoad={true}
+                                        fields="name,email,picture"
+                                        onClick={componentClicked}
+                                        callback={responseFacebook}
+                                        cssClass="fb-login-tag"
+                                        icon=<i className="fa-brands fa-facebook" style={{color: "#ffffff"}}/>
+                                        textButton=" Đăng nhập bằng Facebook"
+                                    />
                                 </div>
+
                             </div>
                             <div className="form-child-option">
                                 <p className="thienbb-login-text"> Quay về
                                     <Link to="/" className="thienbb-a-link"> Trang chủ! </Link>
                                 </p>
                                 <p className="thienbb-login-text">Bạn chưa có tài khoản?
-                                    <Link to="/register" className="thienbb-a-link">Đăng ký</Link>
+                                    <Link to="/register" className="thienbb-a-link"> Đăng ký</Link>
                                 </p>
                             </div>
                         </Form>

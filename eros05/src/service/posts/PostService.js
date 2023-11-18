@@ -38,6 +38,14 @@ export const update = async (id,values) => {
         console.log(error);
     }
 }
+// export const upPost = async (values) => {
+//     try {
+//         let response = await axios.post(URL_POST, values);
+//         return response.status;
+//     } catch (e) {
+//         console.log("lỗi hàm thêm mới");
+//     }
+// }
 
 export const getListOfAnAccount = async (userName) => {
     try {

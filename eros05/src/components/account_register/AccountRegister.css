@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+}
+html {
+    height: 100%;
+    background: linear-gradient(225deg, #2e2748  0%, #2e2748  15%, #584d96 100%);
+    background-size: cover;
+}
+
+.sang_wrapper {
+    width: 45%;
+    height: auto;
+    margin: 3% auto;
+    padding-left: 2%;
+    padding-right: 2%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 30px;
+    /*background-image: linear-gradient(to right, #d8afe7, #ca86ef)*/
+    background:  radial-gradient(circle, rgba(208,162,247,1) 0%, rgba(216,175,231,1) 0%, rgba(241,234,255,1) 0%, rgba(227,206,251,1) 91%, rgba(229,212,255,1) 100%, rgba(183,132,213,1) 100%, rgba(163,106,203,1) 100%)
+}
+
+.sang_title {
+    text-align: center;
+    padding-bottom: 5%;
+    font-family: AgbaLumo, serif;
+    margin-top: -20px;
+    margin-bottom: -10px
+}
+
+.sang_form {
+    height: auto;
+}
+
+.form-unit {
+    display: flex;
+    flex-direction: row;
+}
+.form-unit .form-check-inline{
+    margin-right: 10px;
+}
+.form-unit .gender{
+    width: 23%;
+}
+.form-unit .form-label{
+    padding: 1% 0
+}
+
+label {
+    width: 30%;
+}
+
+.form-rules label {
+    width: 100%;
+}
+
+.agree-label {
+    width: 100%;
+}
+
+.privacy-link {
+    text-decoration: none;
+}
+
+.privacy-link:hover {
+    text-decoration: underline;
+}
+
+.form-rules {
+    font-weight: bold;
+}
+
+
+.btn-div {
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+    width: 100%;
+    padding-bottom: 3%;
+}
+
+.btn-div-child {
+    width: 50%;
+}
+
+.sang_btn_cancel {
+    height: 35px;
+    width: 100%;
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid #a36acb;
+    border-radius: 9px;
+}
+
+.sang_btn_submit {
+    height: 35px;
+    width: 100%;
+    background-color: #a36acb;
+    color: white;
+    border: none;
+    border-radius: 9px;
+}
+.form-unit-init {
+    display: flex;
+    flex-direction: row;
+}
+.form-unit-init-left {
+    width: 30%;
+}
+.mucDich {
+    width: 100%;
+}
+
+.form-unit-init-right {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.test {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.test-child {
+    width: 50%;
+}
+
+.tinhTrang2 {
+    width: 80px;
+}
+.sothich2{
+
+}
