@@ -48,8 +48,9 @@
     position: absolute;
     left: 55%;
     top: 10%;
-    padding: 5px 5px;
-    border: black 3px dashed;
+    padding: 5px 15px;
+    border: black 3px solid;
+    font-weight: bold;
 }
 .chatbox {
     z-index: 1000;
@@ -80,7 +81,6 @@
     border-radius: 50%;
     background-position: center;
     background-size: cover;
-    border: white 2px solid;
 }
 .chatbox-feature-info{
     display: grid;
@@ -252,7 +252,7 @@
 }
 .alertMess {
     margin-left: 10px;
-    padding: 5px;
+    padding: 5px 10px;
     font-weight: normal;
     font-size: 14px;
 }
