@@ -94,7 +94,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
             let getMessage = [];
             data.forEach((mess) => {
                 let item = {...mess.val(), pathId: mess.key};
-                getMessage.push(item);
+                getMessage.unshift(item);
             });
             setContent(getMessage);
         });
@@ -152,12 +152,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
     useEffect(() => {
         getPath();
         getDatabase();
-        scrollToBottom();
     },[]);
-    useEffect(() => {
-        scrollToBottom();
-    }, [content]);
-
     if (!path) {
         return null;
     }
@@ -239,6 +234,10 @@ export default function ChatDetail({element, closeChatBox, own}) {
                     previewPosition="none"
                     theme="light"
                     onEmojiSelect={(e) => handlePickEmoji(e)}
+                    maxFrequentRows="2"
+                    navPosition="bottom"
+                    perLine="8"
+                    searchPosition="static"
                 />
             </div>}
         </>
