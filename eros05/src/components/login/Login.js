@@ -98,6 +98,9 @@ export default function Login() {
         })
     };
 
+    const onFailure = (err) => {
+        console.log(err);
+    }
     const handleSubmit = async () => {
         if (loginRequest.username === undefined && loginRequest.password === undefined) {
             toast("Vui lòng điền tài khoản và mật khẩu!");
@@ -132,6 +135,7 @@ export default function Login() {
 
     return (
         <div id="thienbb-wrapper">
+            <Link to="/401">Test 401</Link>
             <div className="thienbb-main-form">
                 <div className="thienbb-login-title">
                     <span className="thienbb-login-title">ĐĂNG NHẬP</span>
@@ -174,14 +178,10 @@ export default function Login() {
                                 </div>
                                 <div className="thienbb-login-with-fb-btn">
                                     <FacebookLogin
-                                        appId="1068795897729860"
-                                        onResult={(response) => {
-                                            console.log(response);
-                                        }}
-                                        onReject={(error) => {
-                                            console.log(error);
-                                        }}
+                                        appId="277886178584824"
                                         fields="name,email,picture"
+                                        callback={responseFacebook}
+                                        onFailure={(err) => onFailure(err)}
                                         cssClass="thienbb-fb-login-tag"
                                         icon=<i className="fa-brands fa-facebook" style={{color: "#ffffff"}}/>
                                     textButton=" Đăng nhập bằng Facebook"

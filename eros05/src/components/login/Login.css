@@ -11,7 +11,8 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: #ffffff;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #383896 100%);
 }
 
 /**/
@@ -23,9 +24,8 @@
     width: 36%;
     height: auto;
     border-radius: 25px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
-    background: radial-gradient(circle, rgba(208, 162, 247, 1) 0%, rgba(216, 175, 231, 1) 0%, rgba(241, 234, 255, 1) 0%, rgba(227, 206, 251, 1) 91%, rgba(229, 212, 255, 1) 100%, rgba(183, 132, 213, 1) 100%, rgba(163, 106, 203, 1) 100%);
-
+    background-color: #8BC6EC;
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #784BA0 100%);
     padding-top: 15px;
     padding-bottom: 15px;
 }
@@ -105,11 +105,12 @@
 /*option*/
 .thienbb-a-link {
     font-weight: bold;
-    color: #3f426e;
+    color: #ffffff;
 }
 
 .thienbb-a-link:hover {
     text-decoration: underline;
+    color: #ffffff;
 }
 
 /*remember me*/
@@ -143,7 +144,7 @@
 }
 
 .thienbb-login-text {
-    color: #3f426e;
+    color: #ffffff;
 }
 
 /*facebook icon in login button*/
@@ -156,7 +157,7 @@
 }
 
 .thienbb-remember-me-text {
-    color: #3f426e;
+    color: #ffffff;
 }
 
 /*error msg*/
