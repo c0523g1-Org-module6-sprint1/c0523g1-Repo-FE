@@ -1,4 +1,3 @@
-import './Login.css'
 import * as securityService from '../../service/login/securityService';
 import * as yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
@@ -6,7 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import React, {useEffect, useState} from "react";
 import FacebookLogin from 'react-facebook-login';
-import {LogoutConfirmModal} from "./LogoutConfirmModal";
+import './Login.css'
 
 
 export default function Login() {
@@ -27,15 +26,6 @@ export default function Login() {
         username: yup.string().min(4, wrongLengthFormatMsg)
             .matches(/^[a-zA-Z0-9]+$/, wrongFormatMsg),
         password: yup.string().min(4, wrongLengthFormatMsg)
-    }
-
-    /*logout*/
-    const [isModalShow, setModalShow] = useState(false);
-    const handleCloseLogoutModalFn = () => {
-        setModalShow(false);
-    }
-    const handleShowLogoutModalFn = () => {
-        setModalShow(true);
     }
 
     /**/
@@ -141,17 +131,10 @@ export default function Login() {
     }
 
     return (
-        <div id="wrapper">
-
-            <LogoutConfirmModal
-                show={isModalShow}
-                handleCloseFn={handleCloseLogoutModalFn}
-            />
-            <button onClick={handleShowLogoutModalFn}>Modal test</button>
-
-            <div className="main-form">
-                <div className="login-title">
-                    <h1 className="thienbb-login-title">ĐĂNG NHẬP</h1>
+        <div id="thienbb-wrapper">
+            <div className="thienbb-main-form">
+                <div className="thienbb-login-title">
+                    <span className="thienbb-login-title">ĐĂNG NHẬP</span>
                 </div>
                 <div className="login-form">
                     <Formik
@@ -174,13 +157,13 @@ export default function Login() {
                                        className="input-tag"/>
                                 <ErrorMessage name="password" component="div" className="thienbb-form-err-msg"/>
                             </div>
-                            <div className="form-child-remember">
+                            <div className="thienbb-form-child-remember">
                                 <label htmlFor="remember-me">
                                     <input type="checkbox"
                                            id="remember-me"
                                            onChange={(events) => handleRememberMe(events)}
                                            checked={rememberChecked}/>
-                                    <span className="remember-me-text"> Ghi nhớ tài khoản</span>
+                                    <span className="thienbb-remember-me-text"> Ghi nhớ tài khoản</span>
                                 </label>
                             </div>
                             <div className="form-child-btn" id="login-btn-div">
@@ -189,18 +172,21 @@ export default function Login() {
                                         Đăng nhập
                                     </button>
                                 </div>
-                                <div className="login-with-fb-btn">
+                                <div className="thienbb-login-with-fb-btn">
                                     <FacebookLogin
                                         appId="1068795897729860"
+                                        onResult={(response) => {
+                                            console.log(response);
+                                        }}
+                                        onReject={(error) => {
+                                            console.log(error);
+                                        }}
                                         fields="name,email,picture"
-                                        onClick={componentClicked}
-                                        callback={responseFacebook}
-                                        cssClass="fb-login-tag"
+                                        cssClass="thienbb-fb-login-tag"
                                         icon=<i className="fa-brands fa-facebook" style={{color: "#ffffff"}}/>
                                     textButton=" Đăng nhập bằng Facebook"
                                     />
                                 </div>
-
                             </div>
                             <div className="form-child-option">
                                 <p className="thienbb-login-text"> Quay về
