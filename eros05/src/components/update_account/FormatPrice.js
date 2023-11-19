@@ -11,3 +11,7 @@ export function vndToUsd(vnd) {
     console.log(numberUsd)
     return numberUsd;
 }
+export function formatDay(date) {
+    let arrDate = date.split("-");
+    return arrDate[2] + "/" + arrDate[1] + "/" + arrDate[0]
+}
