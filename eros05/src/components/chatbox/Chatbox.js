@@ -27,9 +27,24 @@ export function Chatbox() {
         await setShowChatBox(e.id);
     }
     const getProfile = async () => {
-        const data = await GetProfileApi();
-        setProfile(data.data);
-        setBusymode(data.data.messageStatus.name != "Busy");
+        const dataProfile = await GetProfileApi();
+        setProfile(dataProfile.data);
+        setBusymode(dataProfile.data.messageStatus.name != "Busy");
+
+        await onValue(refText(database, `lastmess`), data => {
+            let item = data.val();
+            setLastMessage(item);
+            let count = 0;
+            for (let key in item) {
+                let recordMess = item[key];
+                    if (recordMess.hasOwnProperty(dataProfile.data.id)){
+                        if (recordMess[dataProfile.data.id]) {
+                            count++;
+                        }
+                    }
+            }
+            setMessageUnseen(count);
+        });
     }
     const getFriendList = async () => {
         const data = await GetFriendsApi(searchName);
@@ -47,24 +62,6 @@ export function Chatbox() {
     }
     const changeUnknowMessage = () => {
         setUnknowMess(!unknowMess);
-    }
-    const getDatabase = () => {
-        let finishpath = `lastmess`
-        onValue(refText(database, finishpath), data => {
-            let item = data.val();
-            console.log(item)
-            setLastMessage(item);
-            let count = 0;
-            for (let key in item) {
-                let recordMess = item[key];
-                if (recordMess.hasOwnProperty(profile.id)){
-                    if (recordMess[profile.id]) {
-                        count++;
-                    }
-                }
-            }
-            setMessageUnseen(count);
-        });
     }
     const setBusy = async () => {
         const res = await SetBusyApi(!busymode);
@@ -94,7 +91,6 @@ export function Chatbox() {
     useEffect(() => {
         if (getIdByJwt()){
             getProfile();
-            getDatabase();
         } else {
             setProfile(null);
         }
@@ -118,8 +114,12 @@ export function Chatbox() {
             {hideList ?
                 <div onClick={() => setHideList(false)}
                             className="showListButton color5 borderRadius cursorPoint">
-                    {messageUnseen != 0 && <span className="showListButton-numbermessage color5 borderRadius">
-                        {numberOfUnseenMess(messageUnseen)}</span>}
+                    {!busymode ?
+                        <span className="showListButton-numbermessage color0 borderRadius">
+                        🔇</span>
+                        :
+                        <>{messageUnseen != 0 && <span className="showListButton-numbermessage color5 borderRadius">
+                        {numberOfUnseenMess(messageUnseen)}</span>}</>}
                 </div> :
                 <div>
                     {showChatBox != -1 && <ChatDetail
