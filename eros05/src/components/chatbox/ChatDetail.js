@@ -28,7 +28,6 @@ export default function ChatDetail({element, closeChatBox, own}) {
     const navigator = useNavigate();
     const chatBoxRef = useRef();
     const inputImgRef = useRef();
-
     const typeArray = ["text", "image", "revoke"];
     const pushFireBase = async (type, textData) => {
         if (textData != "") {
@@ -153,6 +152,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
     useEffect(() => {
         getPath();
         getDatabase();
+        scrollToBottom();
     },[]);
     useEffect(() => {
         scrollToBottom();
