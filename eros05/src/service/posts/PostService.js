@@ -1,7 +1,8 @@
 import axios from "axios";
-export const getListPublic = async () => {
+import { async } from "q";
+export const getListNewsfeed = async (loggedInAccountId) => {
     try {
-        const respone = await axios.get("http://localhost:8080/api/public/newsfeed/post/public");
+        const respone = await axios.get("http://localhost:8080/api/public/post/newsfeed/" +loggedInAccountId);
         console.log(respone.data);
         return respone.data; 
     } catch (error) {
@@ -38,24 +39,21 @@ export const update = async (id,values) => {
         console.log(error);
     }
 }
-// export const upPost = async (values) => {
-//     try {
-//         let response = await axios.post(URL_POST, values);
-//         return response.status;
-//     } catch (e) {
-//         console.log("lỗi hàm thêm mới");
-//     }
-// }
 
 export const getListOfAnAccount = async (userName) => {
     try {
-        const respone = await axios.get("http://localhost:8080/api/public/newsfeed/post/account/" + userName);
+        const respone = await axios.get("http://localhost:8080/api/public/post/account/" + userName);
         console.log(respone.data);
         return respone.data; 
     } catch (error) {
         console.log(error);
     }
 }
+
+
+
+
+
 
 
 

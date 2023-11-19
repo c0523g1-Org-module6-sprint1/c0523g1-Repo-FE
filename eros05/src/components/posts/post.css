@@ -80,5 +80,13 @@ input[type="file"]::placeholder {
   display: none;
 }
 
+.liked {
+  background-color: red;
+}
+
+.not-liked {
+  color: black;
+}
+
 
 
