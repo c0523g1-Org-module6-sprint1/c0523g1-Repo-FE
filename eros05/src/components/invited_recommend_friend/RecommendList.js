@@ -19,37 +19,48 @@ export default function RecommendList() {
     return (
         <>
             <div>
-                <h1>Lời mời kết bạn</h1>
-                <div className="dropdown" style={{margin: "0 10px"}}>
-                    <button className="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        Type
-                    </button>
-                    <ul className="dropdown-menu">
-                        <li className="dropdown-item" >Theo lời mời mới nhất</li>
-                        <li className="dropdown-item">Theo lời mời cũ nhất</li>
-                    </ul>
-                </div>
-                <button className="btn btn-success" type="submit">Reset</button>
-            </div>
-            {recommend.map((recommend) =>
-                <div className="d-flex">
-                    <div className="cards">
-                        <div className="icon">
-                            <img className="cus-avatar"
-                                 src={recommend.avatar}
-                                 alt=""/>
-                        </div>
-                        <p className="title mb-4">${recommend.name}</p>
-                        <p className="text">
-                            <button id="confirm" className="btn ">Xác nhận</button>
-                            <button id="delete" className="btn text-dark mt-1"
-                                    type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Xóa
+                <div id="bg" style={{marginTop: "75px"}}>
+                    <div>
+                        <h1>Gợi ý kết bạn</h1>
+                        <div className="dropdown">
+                            <button className="btn btn-dark dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    style={{
+                                        cursor: "pointer", border: "none", background: "#a36acb"
+                                    }}>
+                                Sắp xếp
                             </button>
-                        </p>
+                            <ul className="dropdown-menu"
+                                style={{backgroundColor: "#d0a8de", cursor: "pointer"}}>
+                                <li className="dropdown-item ">Theo lời mời mới nhất</li>
+                                <li className="dropdown-item ">Theo lời mời cũ nhất</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            )}
+                <div style={{backgroundColor: "white"}}>
+                    {recommend.map((recommend) =>
+                        <div className="d-flex" style={{float: "left", backgroundColor: "white"}}>
+                            <div className="hlpcards">
+                                <div className="hlpicon">
+                                    <img className="hlpcus-avatar"
+                                         src={recommend.avatarAccount}
+                                         alt=""/>
+                                </div>
+                                <p className="hlptitle mb-4">{recommend.nameAccount}</p>
+                                <p className="hlptext">
+                                    <button id="confirm" className="btn "
+                                            style={{width: "100%", background: "#d0a8de", color: "white"}}
+                                           >Xác
+                                        nhận
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
         </>
     )
 }
