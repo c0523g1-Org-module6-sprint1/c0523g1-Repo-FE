@@ -84,18 +84,14 @@ function ListFriend() {
     getListFriend();
   }
   const blockFriend = async () => {
-    const result = await handleBlockFriend(1, friendBlock);
+    const result = await handleBlockFriend(idLogin, friendBlock);
     console.log(result);
     handleCloseModal()
   }
 
   const deleteFriend = async () => {
-    const result = await handleDeleteFriend(1, friendDelete);
+    const result = await handleDeleteFriend(idLogin,friendDelete);
     console.log(result);
-    handleCloseModal()
-  }
-
-  const unFriend = async () => {
     handleCloseModal()
   }
 
@@ -157,7 +153,7 @@ function ListFriend() {
                     </button>
                     <button style={{ width: '100%', backgroundColor: '#a36acb', color: 'white' }} className="btn btn-secondary mt-1"
                       type="button"
-                      onClick={() => takeFriendDelete(o)}  >
+                      onClick={() => takeFriendDelete(o)}>
                       Hủy kết bạn
                     </button>
                     <Modal show={showModal} onHide={handleCloseModal} >
@@ -165,7 +161,7 @@ function ListFriend() {
                         <MyModalDelete action={handleCloseModal} data={friendDelete} deleteFunc={deleteFriend} />
                       )}
                       {friendBlock && (
-                        <MyModalBlock action={handleCloseModal} data={friendBlock} deleteFunc={blockFriend} />
+                        <MyModalBlock action={handleCloseModal} data={friendBlock} blockFunc={blockFriend} />
                       )}
                     </Modal>
 
@@ -190,17 +186,17 @@ function ListFriend() {
 
 
 
-function MyModalBlock({ action, data, deleteFunc }) {
+function MyModalBlock({ action, data, blockFunc }) {
   return (
     <>
-      <Modal.Header>
+    <Modal.Header >
         <h5 className="modal-title" id="deleteModalLabel">Thông báo!</h5>
       </Modal.Header>
       <Modal.Body>
         <p>Bạn có muốn chặn {data.nameAccount}</p>
       </Modal.Body>
       <Modal.Footer>
-        <button type="button" className="btn btn-outline-primary" onClick={() => deleteFunc()} >Xác nhận</button>
+        <button type="button" className="btn btn-outline-primary" onClick={() => blockFunc()} >Xác nhận</button>
         <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal" onClick={() => action()}>Hủy</button>
       </Modal.Footer>
     </>
