@@ -17,7 +17,7 @@ export function ListAccount() {
     const display = async () => {
         const res = await getAll(name, page);
         setTotalPage(res.data.totalPages);
-        // console.log(res)
+        console.log(res)
         setAccount(res.data.content);
     }
 
@@ -190,9 +190,9 @@ export function ListAccount() {
                                 </tbody> :
                                 <tr>
                                     <td colSpan="8" >
-                                        <p id="trivn-p-a">
+                                        <span id="trivn-p-a">
                                             Không Có Dữ Liệu. Vui Lòng Nhập Lại !!!
-                                        </p>
+                                        </span>
                                     </td>
                                 </tr>
                         }
@@ -208,9 +208,9 @@ export function ListAccount() {
                                     onClick={() => prevPage()}>
                                 Prev
                             </button>
-                            <p className="btn btn-outline-primary">
+                            <span className="btn btn-outline-primary">
                                 {page + 1}/{totalPage}
-                            </p>
+                            </span>
                             <button className="btn btn-outline-primary" onClick={() => nextPage()}>
                                 Next
                             </button>
