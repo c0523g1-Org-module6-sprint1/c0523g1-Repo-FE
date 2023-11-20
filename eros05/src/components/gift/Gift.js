@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as giftService from "../../service/gift/giftService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
   const [listGift, setListGift] = useState([]);
   const [getMoney, setgetMoney] = useState(0);
@@ -15,6 +16,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
     const res = await giftService.getAll();
     const resMoney = await giftService.getMoney(userNow);
     const result = resMoney / 1000;
+    console.log(res);
     setgetMoney(result);
     setListGift(res);
     console.log();
@@ -112,7 +114,8 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                 >
                   <div className="title">Số dư tài khoản: {getMoney} 💎</div>
 
-                  <div
+                  <Link
+                    to="/updateAccount/eros+"
                     tabIndex="0"
                     className="plusButton"
                     style={{
@@ -130,7 +133,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                         <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
                       </g>
                     </svg>
-                  </div>
+                  </Link>
                 </div>
                 {moneyStatus ? (
                   <div
@@ -277,7 +280,12 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                   )}
                 </div>
               </div>
-              <div className="modal-footer">
+              <div
+                className="modal-footer"
+                style={{
+                  backgroundColor: "whitesmoke",
+                }}
+              >
                 <button
                   className="btn btn-primary"
                   data-bs-target="#exampleModalToggle2"
