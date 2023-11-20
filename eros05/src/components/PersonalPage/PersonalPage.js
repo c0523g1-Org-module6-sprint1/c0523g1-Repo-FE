@@ -5,6 +5,8 @@ import * as personalService from "../../service/personalPage/PersonalpageService
 import Post from "./DatG/Post";
 import {toast} from "react-toastify";
 import {Button} from "react-bootstrap";
+import * as loginService from "../../service/login/securityService";
+import {getIdByJwt} from "../../service/login/securityService";
 
 
 export function PersonalPage() {
@@ -13,17 +15,19 @@ export function PersonalPage() {
     let idLogin =1;
     const [statusRelation, setStatusRelation] = useState({});
 
+    const idUserLogin = loginService.getIdByJwt();
+
+
 
     useEffect(() => {
         getInfoAccount();
-        status()
-    },[statusRelation]);
+    },[]);
 
     const getInfoAccount = async () => {
         let result =  await personalService.getInfoPersonal(id)
         setAccountVisit(result.data);
+        status(result.data)
     }
-    
     const handleSentInvite = async (relationships) => {
       let result = await personalService.sentInvite(relationships);
       if (result.status === 201){
@@ -33,17 +37,23 @@ export function PersonalPage() {
       }
     }
     const value = {
-        sendAccount : idLogin,
+        sendAccount : idUserLogin,
         receiverAccount: accountVisit.id
     }
 
-    const status = async () => {
-        let result = await personalService.getStatus(idLogin,accountVisit.id);
-        console.log(result);
-        setStatusRelation(result.data);
+    const status = async (accVisit) => {
+        console.log(idLogin);
+        console.log(accVisit.id);
+        if(accountVisit){
+           const result = await personalService.getStatus(idUserLogin,accVisit.id);
+            console.log(result)
+            if(result){
+                setStatusRelation(result.data.relationshipStatus);
+
+
+            }
+        }
     }
-
-
 
     return(
         <>
@@ -53,12 +63,12 @@ export function PersonalPage() {
                     <div className="col-lg-6">
                         <div className="panel profile-cover">
                             <div className="profile-cover__img">
-                                <div className="ig" style={{
+                                <div  style={{
                                     backgroundImage : `url(${accountVisit.avatar})`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
                                     aspectRatio: '1/1',
-                                    width: '70%',
+                                    backgroundRepeat: 'no-repeat',
                                     borderRadius: '100%',
                                     marginLeft: '25px'}} >
 
@@ -75,10 +85,10 @@ export function PersonalPage() {
                                 data-overlay="0.3"
                             ></div>
                             <div className="profile-cover__info" style={{ height: '120px' }}>
-                                {idLogin !== accountVisit.id ?
+                                {idUserLogin !== accountVisit.id ?
                                     (<ul className="nav">
                                         <li>
-                                            {idLogin === 2 ?
+                                            {(statusRelation.id === 2 )  ?
                                                 (<button className="btn btn-rounded btn-info"
                                                          style={{ backgroundColor: "#a36acb", borderRadius: 20 }}>
                                                     <i className="fa-solid fa-user-group bt"/>
@@ -154,7 +164,7 @@ export function PersonalPage() {
 
                                         </div>
                                         <div className="col-lg-3">
-                                                <Link to={`/personal-page/edit/${accountVisit.id}`} style={{textDecoration:"none"}}>
+                                                <Link to={`/personal-page/edit/${idLogin}`} style={{textDecoration:"none"}}>
                                                     <small>
                                                         <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
                                                     </small>
@@ -162,21 +172,19 @@ export function PersonalPage() {
                                         </div>
 
                                     </div>) }
-
-
-
                             </div>
                         </div>
                         <div className="panel">
                             <div className="panel-heading">
                                 <h3 className="panel-title">Bài viết</h3>
                             </div>
-                            <Post/>
                         </div>
                     </div>
                     <div className="col-lg-3"></div>
                 </div>
+
             </div>
+            <Post/>
             {/*//modalquy*/}
             <div
                 style={{ borderRadius: 10, textAlign: "center", alignItems: "center" }}

@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import * as changepasswordService from "../../service/changePassword/changepassword";
+import { getUsernameByJwt } from "../../service/login/securityService";
 function Changepassword() {
   const [passwordNow, setPasswordNow] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [status, setStatus] = useState(false);
   const [buttonStatus, setButtonStatuss] = useState(false);
-  const [flag, setFlag] = useState(false);
+  const [userName, setuserName] = useState(null);
+
+  const getUserName = async () => {
+    const result = await getUsernameByJwt();
+    if (result !== null) {
+      setuserName(result);
+    }
+  };
 
   useEffect(() => {
+    getUserName();
     checkPassword();
     checkempty();
   }, [password2]);
@@ -21,29 +30,31 @@ function Changepassword() {
       setStatus(false);
     }
   };
-
   const handleSaveChanges = async () => {
     if (status || passwordNow === "" || password1 === "" || password2 === "") {
       setStatus(true);
       setButtonStatuss(true);
     } else {
       const account = {
-        userName: "2",
+        userName: userName,
         password: passwordNow,
         newPassword: password2,
       };
       const flag = await changepasswordService.changepassword(account);
       if (flag === 200) {
-        setPassword1("");
-        setPassword2("");
-        setPasswordNow("");
         toast.success("đổi mật khẩu thành công");
-        setFlag(true);
+        close();
       }
       if (flag === undefined) {
-        buttonStatus(true);
+        setButtonStatuss(true);
+        toast.error("sai mật khẩu vui lòng nhập lại");
       }
     }
+  };
+  const close = () => {
+    setPassword1("");
+    setPassword2("");
+    setPasswordNow("");
   };
   const checkempty = () => {};
   const checkpassNow = (value) => {
@@ -96,16 +107,12 @@ function Changepassword() {
                       status && passwordNow === "" ? "red" : "#a36acb"
                     }`,
                   }}
+                  value={passwordNow}
                   className="input-change"
                   type="password"
                 />
-                {status && passwordNow === "" ? (
-                  <div style={{ color: "red" }}>Vui lòng nhập vào</div>
-                ) : (
-                  ""
-                )}
                 {buttonStatus ? (
-                  <div style={{ color: "red" }}>Mật khẩu không trùng</div>
+                  <div style={{ color: "red" }}>Mật khẩu không đúng!</div>
                 ) : (
                   ""
                 )}
@@ -131,6 +138,7 @@ function Changepassword() {
               </div>
               <div>
                 <input
+                  value={password1}
                   onChange={(event) => checkpass(event.target.value)}
                   style={{
                     padding: "0.5rem 2rem",
@@ -163,6 +171,7 @@ function Changepassword() {
               </div>
               <div>
                 <input
+                  value={password2}
                   onChange={(event) => checkpass2(event.target.value)}
                   style={{
                     padding: "0.5rem 2rem",
@@ -173,7 +182,7 @@ function Changepassword() {
                   type="password"
                 />
                 {status ? (
-                  <div style={{ color: "red" }}>Mật khẩu không trùng</div>
+                  <div style={{ color: "red" }}>Mật khẩu không trùng khớp</div>
                 ) : (
                   ""
                 )}
@@ -194,6 +203,7 @@ function Changepassword() {
                 }}
               >
                 <div
+                  onClick={close}
                   style={{
                     // color: "white",
                     padding: "0.8rem 2rem",

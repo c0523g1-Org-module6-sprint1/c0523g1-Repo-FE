@@ -4,7 +4,8 @@ import { list } from "firebase/storage";
 import { getList, handleBlockFriend, handleDeleteFriend } from "../../service/listFriend/ListFriendService";
 import { Modal } from "react-bootstrap";
 import {Link} from "react-router-dom";
-import { getIdByJwt } from "../../service/login/securityService";
+import { getIdByJwt, getUsernameByJwt } from "../../service/login/securityService";
+import Gift from "../gift/Gift";
 
 function ListFriend() {
   const [list, setList] = useState([1, 2, 3, 4, 5]);
@@ -15,12 +16,35 @@ function ListFriend() {
   const [nameSearch,setNameSearch] = useState("");
   const [listFriend, setListFriend] = useState(null);
   const [idLogin,setIdLogin] = useState(null);
+  const [usernameGift,setUsernameGift] = useState(null);
+  const [userNameLogin,setUserNameLogin] = useState(null);
+
+  const [showModaQuyNP, setShowModalQuyNP] = useState(false);
+  const handleModal = async (value) => {
+    setUsernameGift(value);
+    console.log("hi");
+    setShowModalQuyNP(true);
+  };
+  console.log("usernameGift" +usernameGift);
+  console.log("username: " +userNameLogin);
+
+  const closeModal = async () => {
+    setShowModalQuyNP(false);
+  };
+
+
   const getListFriend = async () => {
     if (idLogin !== null) {
       setListFriend(await getList(idLogin,nameSearch))
     } else{
       setListFriend(null)
     }
+  }
+  const getUsername = async () => {
+    const res = await getUsernameByJwt();
+    if(res !== undefined){
+      setUserNameLogin(res)
+     }
   }
 
   const getIdLogin = async () => {
@@ -60,18 +84,14 @@ function ListFriend() {
     getListFriend();
   }
   const blockFriend = async () => {
-    const result = await handleBlockFriend(1, friendBlock);
+    const result = await handleBlockFriend(idLogin, friendBlock);
     console.log(result);
     handleCloseModal()
   }
 
   const deleteFriend = async () => {
-    const result = await handleDeleteFriend(1, friendDelete);
+    const result = await handleDeleteFriend(idLogin,friendDelete);
     console.log(result);
-    handleCloseModal()
-  }
-
-  const unFriend = async () => {
     handleCloseModal()
   }
 
@@ -90,6 +110,7 @@ function ListFriend() {
   useEffect(() => {
     getIdLogin()
     getListFriend();
+    getUsername();
   },[idLogin])
   return (
     <>
@@ -116,9 +137,10 @@ function ListFriend() {
             return (
               <>
                 <div className="cardsThienPT">
-                  {/* <button className="btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
-    <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}} src="..//QuyNP/mau-thiet-ke-hop-qua-vector-06-removebg-preview.png" alt />
-  </button> */}
+                  <button  onClick={()=>handleModal(o.usernameAccount)} className="btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+                  <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}} 
+                    src="..//QuyNP/mau-thiet-ke-hop-qua-vector-06-removebg-preview.png" alt />
+                  </button>
                   <div className="iconThienPT">
                     <img className="cus-avatarThienPT" src="https://images.pexels.com/photos/2048716/pexels-photo-2048716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt />
                   </div>
@@ -131,7 +153,7 @@ function ListFriend() {
                     </button>
                     <button style={{ width: '100%', backgroundColor: '#a36acb', color: 'white' }} className="btn btn-secondary mt-1"
                       type="button"
-                      onClick={() => takeFriendDelete(o)}  >
+                      onClick={() => takeFriendDelete(o)}>
                       Hủy kết bạn
                     </button>
                     <Modal show={showModal} onHide={handleCloseModal} >
@@ -139,7 +161,7 @@ function ListFriend() {
                         <MyModalDelete action={handleCloseModal} data={friendDelete} deleteFunc={deleteFriend} />
                       )}
                       {friendBlock && (
-                        <MyModalBlock action={handleCloseModal} data={friendBlock} deleteFunc={blockFriend} />
+                        <MyModalBlock action={handleCloseModal} data={friendBlock} blockFunc={blockFriend} />
                       )}
                     </Modal>
 
@@ -156,22 +178,25 @@ function ListFriend() {
 
 
 
-
+      <Gift showModaQuyNP={showModaQuyNP} handleClose={closeModal} userNow={userNameLogin} userGift={usernameGift} />
+  
     </>
   )
 }
 
-function MyModalBlock({ action, data, deleteFunc }) {
+
+
+function MyModalBlock({ action, data, blockFunc }) {
   return (
     <>
-      <Modal.Header>
+    <Modal.Header >
         <h5 className="modal-title" id="deleteModalLabel">Thông báo!</h5>
       </Modal.Header>
       <Modal.Body>
         <p>Bạn có muốn chặn {data.nameAccount}</p>
       </Modal.Body>
       <Modal.Footer>
-        <button type="button" className="btn btn-outline-primary" onClick={() => deleteFunc()} >Xác nhận</button>
+        <button type="button" className="btn btn-outline-primary" onClick={() => blockFunc()} >Xác nhận</button>
         <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal" onClick={() => action()}>Hủy</button>
       </Modal.Footer>
     </>

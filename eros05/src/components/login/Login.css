@@ -5,18 +5,18 @@
 }
 
 /**/
-#wrapper {
+#thienbb-wrapper {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-
-    background-image: linear-gradient(43deg, #3f426e 0%, #221c69 46%, #080942 100%);
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #383896 100%);
 }
 
 /**/
-.main-form {
+.thienbb-main-form {
     position: relative;
     left: 50%;
     top: 14%;
@@ -24,9 +24,8 @@
     width: 36%;
     height: auto;
     border-radius: 25px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
-    background: linear-gradient(90deg, hsla(209, 75%, 28%, 1) 0%, hsla(257, 75%, 28%, 1) 100%);
-
+    background-color: #8BC6EC;
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #784BA0 100%);
     padding-top: 15px;
     padding-bottom: 15px;
 }
@@ -35,7 +34,10 @@
 .thienbb-login-title {
     padding-top: 2%;
     text-align: center;
-    color: white;
+    color: #3f426e;
+    font-size: 36px;
+    font-weight: bold;
+    font-family: Agbalumo, sans-serif;;
 }
 
 /**/
@@ -52,7 +54,7 @@
 }
 
 /*login, login with facebook button*/
-.thienbb-login-btn {
+.thienbb-login-btn, .thienbb-fb-login-tag {
     color: white;
     margin-top: 1%;
     border: 1px solid #ffffff;
@@ -70,7 +72,7 @@
 
 }
 
-.thienbb-login-btn:hover {
+.thienbb-login-btn:hover, .thienbb-fb-login-tag:hover {
     background: linear-gradient(90deg, hsla(216, 75%, 26%, 1) 0%, hsla(316, 75%, 26%, 1) 100%);
 }
 
@@ -103,15 +105,17 @@
 /*option*/
 .thienbb-a-link {
     font-weight: bold;
-    color: white;
+    color: #ffffff;
 }
 
 .thienbb-a-link:hover {
     text-decoration: underline;
+    color: #ffffff;
 }
 
 /*remember me*/
-.form-child-remember {
+.thienbb-form-child-remember {
+    width: 100%;
     padding-top: 2%;
     float: right;
 }
@@ -119,14 +123,14 @@
 
 /*responsive*/
 @media screen and (max-width: 992px) {
-    .main-form {
-        width: 70%;
+    .thienbb-main-form {
+        width: 90%;
     }
 }
 
 @media screen and (max-width: 1280px) {
-    .form-parent {
-        width: 70%;
+    .thienbb-main-form {
+        width: 90%;
     }
 }
 
@@ -134,11 +138,13 @@
 .login-btn {
     padding-top: 3%;
 }
-.login-with-fb-btn {
+
+.thienbb-login-with-fb-btn {
     padding-top: 1%;
 }
+
 .thienbb-login-text {
-    color: white;
+    color: #ffffff;
 }
 
 /*facebook icon in login button*/
@@ -150,11 +156,14 @@
     padding-top: 3%;
 }
 
-.remember-me-text {
-    color: white;
+.thienbb-remember-me-text {
+    color: #ffffff;
 }
 
 /*error msg*/
 .thienbb-form-err-msg {
-    color: rgba(255,153,29,0.86);
+    color: rgba(255, 153, 29, 0.86);
+}
+
+#thienbb-remember-me {
 }

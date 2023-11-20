@@ -1,4 +1,3 @@
-
 import './App.css';
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,6 +29,7 @@ import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
 import {Test} from "./components/update_account/Test";
 import {Test2} from "./components/update_account/Test2";
+import {requestFilter} from "./service/login/requestFilter";
 function App() {
 
   return (

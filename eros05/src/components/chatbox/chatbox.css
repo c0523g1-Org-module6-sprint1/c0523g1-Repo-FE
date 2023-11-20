@@ -30,7 +30,7 @@
     background-repeat: no-repeat;
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    right: 30px;
     transition-duration: 0.2s;
     animation: ease-in-out switchChat 0.5s;
     z-index: 1000;
@@ -48,8 +48,9 @@
     position: absolute;
     left: 55%;
     top: 10%;
-    padding: 5px 5px;
-    border: black 3px dashed;
+    padding: 5px 15px;
+    border: black 3px solid;
+    font-weight: bold;
 }
 .chatbox {
     z-index: 1000;
@@ -80,7 +81,6 @@
     border-radius: 50%;
     background-position: center;
     background-size: cover;
-    border: white 2px solid;
 }
 .chatbox-feature-info{
     display: grid;
@@ -252,7 +252,7 @@
 }
 .alertMess {
     margin-left: 10px;
-    padding: 5px;
+    padding: 5px 10px;
     font-weight: normal;
     font-size: 14px;
 }
@@ -367,7 +367,7 @@
 .chatdetail-box {
     padding: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     overflow: auto;
     background-image: url("image/background-chatbox.png");
     background-size: contain;
@@ -393,14 +393,35 @@
     margin: 5px;
     width: fit-content;
     cursor: context-menu;
+    word-wrap: break-word;
 }
-
+.mess-modal {
+    display: grid;
+    grid-template-columns: 1fr 100px 100px;
+}
+.mess-modal div {
+    height: 30px;
+    margin: 5px;
+    border-radius: 20px;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.2s;
+}
+.mess-modal div:hover {
+    transition-duration: 0.2s;
+    scale: 1.05;
+}
+.mess-revoke {
+    color: gray;
+}
 .option {
-
-    width: 30px;
+    width: 20px;
     height: 100%;
+    margin-top: 2.5px;
     background-image: url("image/select.png");
-    background-size: contain;
+    background-size: 30px;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -503,4 +524,17 @@
     right: calc(var(--width-box) * 2);
     bottom: 0;
     z-index: 1;
+    width: var(--width-box);
+}
+
+@media screen and (max-width: 960px) {
+    .emoji-table {
+        right: var(--width-box);
+        bottom: 450px;
+    }
+}
+@media screen and (max-width: 640px) {
+    :root {
+        --width-box: 50%;
+    }
 }

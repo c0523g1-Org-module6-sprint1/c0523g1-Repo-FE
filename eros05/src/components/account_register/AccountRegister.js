@@ -49,37 +49,37 @@ export function Register() {
 
 
     const validationSchema = {
-        // userName: Yup.string()
-        //     .required("Không được để trống tên tài khoản !")
-        //     // .test('check-userName', 'Không để trống tên tài khoản !', (value) => value.trim().length !== 0)
-        //     .min(6, "Tên đăng nhập phải lớn hơn hoặc bằng 6 kí tự !")
-        //     .max(100, "Tên đăng nhập phải ít hơn hoặc bằng 100 kí tự"),
-        // password: Yup.string()
-        //     .required("Không được để trống mật khẩu !")
-        //     // .test('check-password', "Không được để trống mật khẩu", (value) => value.trim().length !== 0)
-        //     .min(6, "Mật khẩu phải lớn hơn hoặc bằng 6 kí tự !")
-        //     .max(100, "Mật khẩu phải ít hơn hoặc bằng 100 kí tự"),
-        // confirmPassword: Yup.string()
-        //     .required("Không được để trống xác nhận mật khẩu !")
-        //     // .test("check-confirmPassword", "Không được để trống xác nhận mật khẩu !", (value) => value.trim().length !== 0)
-        //     .min(6, "Xác nhận mật khẩu phải lớn hơn hoặc bằng 6 kí tự !")
-        //     .max(100, "Xác nhận mật khẩu phải ít hơn hoặc bằng 100 kí tự !")
-        //     .oneOf([Yup.ref('password'), null], "Mật khẩu không trùng khớp 1"),
-        // birthday: Yup.date()
-        //     .required("Không được để trống ngày sinh !")
-        //     .max(new Date(), "Vui lòng nhập trước ngày hiện tại"),
-        // // .min(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18), "Vui lòng phải đủ 18 tuổi !"),
-        // email: Yup.string()
-        //     .required("Không được để trống email !")
-        //     // .test("check-email", "Không được bỏ trống email !", (value) => value.trim().length !== 0)
-        //     .min(6, "Email phải lớn hơn hoặc bằng 6 kí tự !")
-        //     .max(100, "Email phải ít hơn hoặc bằng 100 kí tự !"),
-        // confirmEmail: Yup.string()
-        //     .required("Không được để trống xác nhận email !")
-        //     // .test("check-confirmEmail", "Không được bỏ trống xác nhận email !", (value) => value.trim().length !== 0)
-        //     .min(6, "Xác nhận email phải lớn hơn hoặc bằng 6 kí tự !")
-        //     .max(100, "Xác nhận email phải ít hơn hoặc bằng 100 kí tự !")
-        //     .oneOf([Yup.ref('email'), null], "Email không trùng khớp !")
+        userName: Yup.string()
+            .required("Không được để trống tên tài khoản !")
+            // .test('check-userName', 'Không để trống tên tài khoản !', (value) => value.trim().length !== 0)
+            .min(6, "Tên đăng nhập phải lớn hơn hoặc bằng 6 kí tự !")
+            .max(100, "Tên đăng nhập phải ít hơn hoặc bằng 100 kí tự"),
+        password: Yup.string()
+            .required("Không được để trống mật khẩu !")
+            // .test('check-password', "Không được để trống mật khẩu", (value) => value.trim().length !== 0)
+            .min(6, "Mật khẩu phải lớn hơn hoặc bằng 6 kí tự !")
+            .max(100, "Mật khẩu phải ít hơn hoặc bằng 100 kí tự"),
+        confirmPassword: Yup.string()
+            .required("Không được để trống xác nhận mật khẩu !")
+            // .test("check-confirmPassword", "Không được để trống xác nhận mật khẩu !", (value) => value.trim().length !== 0)
+            .min(6, "Xác nhận mật khẩu phải lớn hơn hoặc bằng 6 kí tự !")
+            .max(100, "Xác nhận mật khẩu phải ít hơn hoặc bằng 100 kí tự !")
+            .oneOf([Yup.ref('password'), null], "Mật khẩu không trùng khớp 1"),
+        birthday: Yup.date()
+            .required("Không được để trống ngày sinh !")
+            .max(new Date(), "Vui lòng nhập trước ngày hiện tại"),
+        // .min(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18), "Vui lòng phải đủ 18 tuổi !"),
+        email: Yup.string()
+            .required("Không được để trống email !")
+            // .test("check-email", "Không được bỏ trống email !", (value) => value.trim().length !== 0)
+            .min(6, "Email phải lớn hơn hoặc bằng 6 kí tự !")
+            .max(100, "Email phải ít hơn hoặc bằng 100 kí tự !"),
+        confirmEmail: Yup.string()
+            .required("Không được để trống xác nhận email !")
+            // .test("check-confirmEmail", "Không được bỏ trống xác nhận email !", (value) => value.trim().length !== 0)
+            .min(6, "Xác nhận email phải lớn hơn hoặc bằng 6 kí tự !")
+            .max(100, "Xác nhận email phải ít hơn hoặc bằng 100 kí tự !")
+            .oneOf([Yup.ref('email'), null], "Email không trùng khớp !")
     }
 
     const handleRegister = async (data) => {

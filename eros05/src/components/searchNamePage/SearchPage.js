@@ -20,6 +20,7 @@ const SearchPage = () => {
         setAccounts(res.data);
     };
     const goRegisterPage = () => {
+
         navigate(`/register`);
     }
     const goSearchAdvanced = () => {
