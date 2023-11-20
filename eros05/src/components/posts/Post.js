@@ -2,33 +2,24 @@ import React, { useEffect, useState } from "react";
 import "./post.css";
 import { getListNewsfeed } from "../../service/posts/PostService";
 import EditPost from "./EditPost";
-import {
-  getIdByJwt,
-  getUsernameByJwt,
-} from "../../service/login/securityService";
+import {getIdByJwt} from "../../service/login/securityService";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 
-export default function Post({postId,id}) {
+export default function Post() {
   const [listNewsfeed, setListNewsfeed] = useState();
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState();
   const [postUpdate, setPostUpdate] = useState();
-
-  const username = getUsernameByJwt();
-  console.log(username);
-
   const idLogin = getIdByJwt();
-  console.log(idLogin);
 
   const fetchDataListNewsfeed = async () => {
     const listNewsfeed = await getListNewsfeed(idLogin);
     setListNewsfeed(listNewsfeed);
   };
- 
 
   useEffect(() => {
     fetchDataListNewsfeed();
-  }, [showModal]);
+  }, [showModal,idLogin]);
 
   const handleShowModal = (postUpdate) => {
     setShowModal(true);
@@ -38,6 +29,7 @@ export default function Post({postId,id}) {
   const handleHideModal = () => {
     setShowModal(false);
   };
+
   const getTime = (dateStr) => {
     let dateTime = new Date(dateStr);
     let year = dateTime.getFullYear();
@@ -55,8 +47,8 @@ export default function Post({postId,id}) {
   return (
     <div>
       <div
-        className="container-fluid"
-        style={{ marginTop: 150, position: "relative" }}
+        className="container-fluid my-post"
+        style={{ marginTop: "150px", position: "relative", paddingTop:"70px" }}
       >
         {listNewsfeed.map((item) => {
           return (
@@ -112,7 +104,7 @@ export default function Post({postId,id}) {
                         </div>
                         <div style={{ width: "100%" }} className="media-body">
                           <p className="card-text text-justify">
-                            {item.content}
+                          <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
                           </p>
                           <div className="row no-gutters mb-3">
                             <img src={item.image} className="img-fluid mb-2" />
@@ -120,7 +112,9 @@ export default function Post({postId,id}) {
                         </div>
                         <div className="post-actions">
                           <div className="action-btn">
-                            <LikeButton id = {idLogin} postId = {item.id}></LikeButton>
+                            <LikeButton 
+                            id = {idLogin} postId = {item.id}>
+                            </LikeButton>
                           </div>
                           <div className="action-btn">
                             <i className="fa-regular fa-comment"></i> Bình luận

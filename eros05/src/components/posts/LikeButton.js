@@ -8,35 +8,54 @@ import {
 import "./post.css";
 
 export default function LikeButton({ id, postId }) {
+  const handleCheckIsLiked = async (postId, id) => {
+    const isLiked = await checkIsLiked(postId, id);
+    return isLiked.data;
+  };
+
   const [amountLike, setAmountLike] = useState();
   const [isLiked, setIsLiked] = useState(false);
 
+  useEffect(() => {
+    const fetchDataPostIsLiked = async () => {
+      const result = await handleCheckIsLiked(postId, id);
+      setIsLiked(result);
+    };
+    fetchDataPostIsLiked();
+  }, [postId, id]);
+  
+  useEffect(() => {
+    const initializeIsLiked = async () => {
+      const result = await handleCheckIsLiked(postId, id);
+      setIsLiked(result);
+    };
+  
+    initializeIsLiked();
+  }, []);
+
   const fetchAmountLikeOfPost = async (postId) => {
     const amountLike = await getAmountLike(postId);
-    console.log("Amount like of post " + postId + "is:" + amountLike);
     setAmountLike(amountLike);
-  };
-
-  const fetchIsLikedStatus = async (id, postId) => {
-    const liked = await checkIsLiked(id, postId);
-    setIsLiked(liked);
   };
 
   useEffect(() => {
     fetchAmountLikeOfPost(postId);
-    fetchIsLikedStatus(id, postId);
   }, [postId]);
 
   const handleInsertLike = async (id, postId) => {
-    await insertLike(id, postId);
-    setAmountLike(amountLike + 1)
-    setIsLiked(true);
+    if (!isLiked) {
+      await insertLike(id, postId);
+      setAmountLike(amountLike + 1);
+      setIsLiked(true);
+    }
   };
 
   const handleUnlike = async (id, postId) => {
-    await unlike(postId, id);
-    setAmountLike(amountLike - 1);
-    setIsLiked(false);
+    if (isLiked) {
+      await unlike(postId, id);
+      setAmountLike(amountLike - 1);
+      setIsLiked(false);
+    }
   };
 
   return (
@@ -51,7 +70,7 @@ export default function LikeButton({ id, postId }) {
           {amountLike}{" "}
           <i
             className={`fa-regular fa-heart ${isLiked ? "liked" : "not-liked"}`}
-          />{" "}
+          />
           Thích
         </button>
       </div>
