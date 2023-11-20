@@ -104,8 +104,8 @@ export function ListAccount() {
 
         <>
             <div id="trivn-bd-mana">
-                <h1 id="trivn-h1">Quản Lý Thành Viên</h1>
                 <div className="container-fluid px-5 my-5">
+                    <h1 id="trivn-h1">Quản Lý Thành Viên</h1>
                     <div className="input-group" style={{width: "300px"}}>
                     <span style={{borderRadius: "20px 0px 0px 20px "}} className="input-group-text" id="addon-wrapping"><i
                         className="fa-solid fa-magnifying-glass"></i></span>
@@ -170,7 +170,7 @@ export function ListAccount() {
                     </div>
                 </div>
                 <div className="container-fluid">
-                    <table id="trivn-tb-mana" className="table table-hover">
+                    <table id="" className="table table-hover">
                         <thead>
                         <tr>
                             <th id="trivn-tb-th">STT</th>
@@ -191,7 +191,7 @@ export function ListAccount() {
                                     account.map((account, index) => (
                                         <tr key={account.id}>
                                             <td>{index + 1}</td>
-                                            <td><Link to={`/personal-page/${account.userName}`}>
+                                            <td><Link to={`/personal-page/${account.id}`}>
                                                 {account.userName}
                                             </Link>
                                             </td>
