@@ -538,3 +538,6 @@
         --width-box: 50%;
     }
 }
+.text-smoke {
+    color: gray;
+}
