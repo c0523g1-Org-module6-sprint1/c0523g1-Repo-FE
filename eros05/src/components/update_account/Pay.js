@@ -1,5 +1,6 @@
 import * as packageDetailService from "../../service/update_account/packageDetailService";
 import {getIdByJwt} from "../../service/login/securityService";
+import * as payService from "../../service/update_account/payService";
 
 export const load = () => {
     window.location.reload();
@@ -15,6 +16,7 @@ export const paySucces = async (idAccount, accountTypesId) => {
 }
 
 export const setMoneyToPaySuccess = async (idAccount, newMoney) => {
+    console.log("setMoneyToPaySuccess" + newMoney)
     let status = await packageDetailService.setMoneyAccount({"idAccount": idAccount, "newMoney": newMoney})
     console.log(status)
     if (status === 200) {
@@ -34,4 +36,10 @@ export const resetRadioButtons = async () => {
             inputs[i].checked = false;
         }
     }
+}
+
+export const vnPayOnclick = async (pricePay) => {
+    const link = await payService.checkVnPay(pricePay);
+    console.log(link)
+    window.location.href = link;
 }
