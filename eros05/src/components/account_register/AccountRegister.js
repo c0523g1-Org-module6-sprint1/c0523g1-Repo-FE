@@ -11,6 +11,18 @@ export function Register() {
     const navigate = useNavigate();
     const [job, setJob] = useState([]);
     const [location, setLocation] = useState([]);
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+
+
+    const togglePasswordVisibility1 = () => {
+        setShowPassword1(!showPassword1);
+    };
+
+
+    const togglePasswordVisibility2 = () => {
+        setShowPassword2(!showPassword2);
+    };
 
     useEffect(() => {
         getJob()
@@ -64,7 +76,7 @@ export function Register() {
             // .test("check-confirmPassword", "Không được để trống xác nhận mật khẩu !", (value) => value.trim().length !== 0)
             .min(6, "Xác nhận mật khẩu phải lớn hơn hoặc bằng 6 kí tự !")
             .max(100, "Xác nhận mật khẩu phải ít hơn hoặc bằng 100 kí tự !")
-            .oneOf([Yup.ref('password'), null], "Mật khẩu không trùng khớp 1"),
+            .oneOf([Yup.ref('password'), null], "Mật khẩu không trùng khớp !"),
         birthday: Yup.date()
             .required("Không được để trống ngày sinh !")
             .max(new Date(), "Vui lòng nhập trước ngày hiện tại"),
@@ -99,119 +111,136 @@ export function Register() {
     return (
         <>
             {/*job && location &&*/}
-                <div className="sang_wrapper">
-                    <h1 className="mt-3 sang_title">Đăng ký</h1>
-                    <div>
-                        <Formik initialValues={initValuesRegister}
-                                onSubmit={(values => handleRegister(values))}
-                                validationSchema={Yup.object(validationSchema)}
-                        >
-                            <Form className="sang_form">
-                                <div className='mb-3'>
-                                    <label htmlFor="userName" className='form-label'>Tên đăng nhập</label>
-                                    <Field type='text' name="userName" className='form-control' id='userName'/>
-                                    <ErrorMessage name="userName" component="span" style={{color: "red"}}/>
-                                </div>
-                                <div className='mb-3'>
-                                    <label htmlFor="password" className='form-label'>Mật khẩu</label>
-                                    <Field type='text' name="password" className='form-control' id='password'/>
-                                    <ErrorMessage name="password" component="span" style={{color: "red"}}/>
-                                </div>
-                                <div className='mb-3'>
-                                    <label htmlFor="confirmPassword" className='form-label'>Nhập lại mật khẩu</label>
-                                    <Field type='text' name="confirmPassword" className='form-control'
-                                           id='confirmPassword'/>
-                                    <ErrorMessage name="confirmPassword" component="span" style={{color: "red"}}/>
-                                </div>
-                                <div className='mb-3'>
-                                    <label htmlFor="birthday" className='form-label'>Ngày sinh</label>
-                                    <Field type='date' name="birthday" className='form-control' id='birthday'/>
-                                    <ErrorMessage name="birthday" component="span" style={{color: "red"}}/>
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label gender" htmlFor="gioiTinh">
-                                        Giới tính :
-                                    </label>
-                                    <div className="form-check form-check-inline">
-                                        <Field
-                                            className="form-check-input"
-                                            id="optionA"
-                                            type="radio"
-                                            name="newField1"
-                                        />
-                                        <label className="form-check-label" htmlFor="optionA">
-                                            Nam
-                                        </label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <Field
-                                            className="form-check-input"
-                                            id="optionB"
-                                            type="radio"
-                                            name="newField1"
-                                        />
-                                        <label className="form-check-label" htmlFor="optionB">
-                                            Nữ
-                                        </label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <Field
-                                            className="form-check-input"
-                                            id="optionC"
-                                            type="radio"
-                                            name="newField1"
-                                        />
-                                        <label className="form-check-label" htmlFor="optionC">
-                                            LGBT
-                                        </label>
+            <div className="sang_wrapper">
+                <h1 className="mt-3 sang_title">Đăng ký</h1>
+                <div>
+                    <Formik initialValues={initValuesRegister}
+                            onSubmit={(values => handleRegister(values))}
+                            validationSchema={Yup.object(validationSchema)}
+                    >
+                        <Form className="sang_form">
+                            <div className='mb-3'>
+                                <label htmlFor="userName" className='form-label'>Tên đăng nhập</label>
+                                <Field type='text' name="userName" className='form-control' id='userName'/>
+                                <ErrorMessage name="userName" component="span" style={{color: "red"}}/>
+                            </div>
+                            <div className='mb-3'>
+                                <label htmlFor="password" className='form-label'>Mật khẩu</label>
+                                <div className='input-group'>
+                                    <Field type={showPassword1 ? 'text' : 'password'} name="password"
+                                           className='form-control' id='password'/>
+                                    <div className='input-group-append'>
+                                        <span className='input-group-text' onClick={togglePasswordVisibility1}>
+                                            <i className={`fa-solid ${showPassword1 ? 'fa-eye-slash' : 'fa-eye'}`}/>
+                                        </span>
                                     </div>
                                 </div>
-                                <div className='mb-3'>
-                                    <label>Nghề nghiệp</label>
-                                    <Field as="select" className='form-control' name="job" style={{
-                                        textAlign: 'center'
-                                    }}>
-                                        <option className="option" value="">--Select--</option>
-                                        {
-                                            job.map(type => (
-                                                <option key={type.id} value={type.id}>{type.name}</option>
-                                            ))
-                                        }
-                                    </Field>
+                                <ErrorMessage name="password" component="span" style={{color: "red"}}/>
+                            </div>
+                            <div className='mb-3'>
+                                <label htmlFor="confirmPassword" className='form-label'>Nhập lại mật khẩu</label>
+                                {/*<Field type='password' name="confirmPassword" className='form-control'*/}
+                                {/*       id='confirmPassword'/>*/}
+                                <div className='input-group'>
+                                    <Field type={showPassword2 ? 'text' : 'password'} name="confirmPassword"
+                                           className='form-control' id='confirmPassword'/>
+                                    <div className='input-group-append'>
+                                        <span className='input-group-text' onClick={togglePasswordVisibility2}>
+                                            <i className={`fa-solid ${showPassword2 ? 'fa-eye-slash' : 'fa-eye'}`}/>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className='mb-3'>
-                                    <label>Địa chỉ</label>
-                                    <Field as="select" className='form-control' name="location" style={{
-                                        textAlign: 'center'
-                                    }}>
-                                        <option className="option" value="">--Select--</option>
-                                        {
-                                            location.map(type => (
-                                                <option key={type.id} value={type.id}>{type.name}</option>
-                                            ))
-                                        }
-                                    </Field>
-                                </div>
-                                <div className='mb-3'>
-                                    <label htmlFor="email" className='form-label'>Email</label>
-                                    <Field type='text' name="email" className='form-control' id='email'/>
-                                    <ErrorMessage name="email" component="span" style={{color: "red"}}/>
-                                </div>
-                                <div className='mb-3'>
-                                    <label htmlFor="confirmEmail" className='form-label'>Xác nhận email</label>
-                                    <Field type='text' name="confirmEmail" className='form-control' id='confirmEmail'/>
-                                    <ErrorMessage name="confirmEmail" component="span" style={{color: "red"}}/>
-                                </div>
-
-
-                                <div className="mb-3 form-rules">
-                                    <label className="form-label" htmlFor="rule">
-                                        {" "}
-                                        <span className="forum-rules">Nội quy diễn đàn : </span>
-                                        Bạn cần đọc và chấp nhận đồng ý theo điều khoản khi đăng kí
+                                <ErrorMessage name="confirmPassword" component="span" style={{color: "red"}}/>
+                            </div>
+                            <div className='mb-3'>
+                                <label htmlFor="birthday" className='form-label'>Ngày sinh</label>
+                                <Field type='date' name="birthday" className='form-control' id='birthday'/>
+                                <ErrorMessage name="birthday" component="span" style={{color: "red"}}/>
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label gender" htmlFor="gioiTinh">
+                                    Giới tính :
+                                </label>
+                                <div className="form-check form-check-inline">
+                                    <Field
+                                        className="form-check-input"
+                                        id="optionA"
+                                        type="radio"
+                                        name="newField1"
+                                    />
+                                    <label className="form-check-label" htmlFor="optionA">
+                                        Nam
                                     </label>
                                 </div>
-                                <div className="mb-3 form-unit">
+                                <div className="form-check form-check-inline">
+                                    <Field
+                                        className="form-check-input"
+                                        id="optionB"
+                                        type="radio"
+                                        name="newField1"
+                                    />
+                                    <label className="form-check-label" htmlFor="optionB">
+                                        Nữ
+                                    </label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <Field
+                                        className="form-check-input"
+                                        id="optionC"
+                                        type="radio"
+                                        name="newField1"
+                                    />
+                                    <label className="form-check-label" htmlFor="optionC">
+                                        LGBT
+                                    </label>
+                                </div>
+                            </div>
+                            <div className='mb-3'>
+                                <label>Nghề nghiệp</label>
+                                <Field as="select" className='form-control' name="job" style={{
+                                    textAlign: 'center'
+                                }}>
+                                    <option className="option" value="">--Select--</option>
+                                    {
+                                        job.map(type => (
+                                            <option key={type.id} value={type.id}>{type.name}</option>
+                                        ))
+                                    }
+                                </Field>
+                            </div>
+                            <div className='mb-3'>
+                                <label>Địa chỉ</label>
+                                <Field as="select" className='form-control' name="location" style={{
+                                    textAlign: 'center'
+                                }}>
+                                    <option className="option" value="">--Select--</option>
+                                    {
+                                        location.map(type => (
+                                            <option key={type.id} value={type.id}>{type.name}</option>
+                                        ))
+                                    }
+                                </Field>
+                            </div>
+                            <div className='mb-3'>
+                                <label htmlFor="email" className='form-label'>Email</label>
+                                <Field type='text' name="email" className='form-control' id='email'/>
+                                <ErrorMessage name="email" component="span" style={{color: "red"}}/>
+                            </div>
+                            <div className='mb-3'>
+                                <label htmlFor="confirmEmail" className='form-label'>Xác nhận email</label>
+                                <Field type='text' name="confirmEmail" className='form-control' id='confirmEmail'/>
+                                <ErrorMessage name="confirmEmail" component="span" style={{color: "red"}}/>
+                            </div>
+
+
+                            <div className="mb-3 form-rules">
+                                <label className="form-label" htmlFor="rule">
+                                    {" "}
+                                    <span className="forum-rules">Nội quy diễn đàn : </span>
+                                    Bạn cần đọc và chấp nhận đồng ý theo điều khoản khi đăng kí
+                                </label>
+                            </div>
+                            <div className="mb-3 form-unit">
         <textarea
             className="form-control"
             id="rule"
@@ -219,36 +248,36 @@ export function Register() {
                 "C05Cupid cung cấp dịch vụ theo điều khoản dịch vụ này. truy cập hoặc đăng ký tài khoản trong hệ thống của chúng tôi bằng bất kỳ cách nào có nghĩa là bạn đồng ý và cam kết tuân thủ nghiêm ngặt điều khoản dịch vụ này. chúng tôi có quyền sửa đổi nội dung của điều khoản dịch vụ theo quyết định riêng của mình mà không cần thông báo trước cho người dùng.\n                "
             }
         />
+                            </div>
+                            <div className="mb-3">
+                                <div className="form-check">
+                                    <label className="form-check-label agree-label" htmlFor="agree">
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            name="optionA"
+                                            id="agree"
+                                        />
+                                        Tôi đã đọc và đồng ý tuân theo điều khoản đăng ký của diễn đàn
+                                    </label>
                                 </div>
-                                <div className="mb-3">
-                                    <div className="form-check form-check-inline">
-                                        <label className="form-check-label agree-label" htmlFor="agree">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                name="optionA"
-                                                id="agree"
-                                            />
-                                            Tôi đã đọc và đồng ý tuân theo điều khoản đăng ký của diễn đàn
-                                        </label>
-                                    </div>
+                            </div>
+                            <div className=" btn-div">
+                                <div className="btn-div-child">
+                                    <Link to="/">
+                                        <button className="sang_btn_cancel">Hủy bỏ</button>
+                                    </Link>
                                 </div>
-                                <div className=" btn-div">
-                                    <div className="btn-div-child">
-                                        <Link to="/">
-                                            <button className="sang_btn_cancel">Hủy bỏ</button>
-                                        </Link>
-                                    </div>
-                                    <div className="btn-div-child">
-                                        <button className="sang_btn_submit" type="submit">
-                                            Xác nhận
-                                        </button>
-                                    </div>
+                                <div className="btn-div-child">
+                                    <button className="sang_btn_submit" type="submit">
+                                        Xác nhận
+                                    </button>
                                 </div>
-                            </Form>
-                        </Formik>
-                    </div>
+                            </div>
+                        </Form>
+                    </Formik>
                 </div>
+            </div>
 
         </>
     )

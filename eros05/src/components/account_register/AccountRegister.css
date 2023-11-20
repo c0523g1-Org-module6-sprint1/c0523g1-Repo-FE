@@ -52,8 +52,11 @@
     padding: 1% 0
 }
 
-label {
-    width: 30%;
+/*label {*/
+/*    width: 30%;*/
+/*}*/
+.form-check-inline{
+    margin-left: 10%;
 }
 
 .form-rules label {
