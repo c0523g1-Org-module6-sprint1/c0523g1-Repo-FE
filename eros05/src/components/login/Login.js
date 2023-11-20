@@ -1,37 +1,46 @@
 import './Login.css'
 import * as securityService from '../../service/login/securityService';
+import * as yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-import React, {useState} from "react";
-import ReactDOM from 'react-dom';
+import React, {useEffect, useState} from "react";
 import FacebookLogin from 'react-facebook-login';
+import {LogoutConfirmModal} from "./LogoutConfirmModal";
 
 
 export default function Login() {
 
-    const initLoginRequest = {
-        username: null,
-        password: null
-    }
-
-    const initFacebookLoginReq = {
-        isLoggedIn: null,
-        userID: null,
-        name: null,
-        email: null,
-        picture: null
-    }
-
-    const [rememberChecked, setRememberChecked] = useState(false);
-    const [rememberedUser, setRememberedUser] = useState({
+    /**/
+    const initLoginReq = {
         username: "",
         password: ""
-    })
-    const [loginRequest, setLoginRequest] = useState(initLoginRequest);
+    }
+
+    const [loginRequest, setLoginRequest] = useState({initLoginReq});
     const [facebookLoginReq, setFacebookLoginReq] = useState()
     const navigate = useNavigate();
 
+    const wrongFormatMsg = "Trường này không được chứa ký tự đặc biệt";
+    const wrongLengthFormatMsg = "Trường này phải có ít nhất 4 ký tự";
+    const loginValidator = {
+        username: yup.string().min(4, wrongLengthFormatMsg)
+            .matches(/^[a-zA-Z0-9]+$/, wrongFormatMsg),
+        password: yup.string().min(4, wrongLengthFormatMsg)
+    }
+
+    /*logout*/
+    const [isModalShow, setModalShow] = useState(false);
+    const handleCloseLogoutModalFn = () => {
+        setModalShow(false);
+    }
+    const handleShowLogoutModalFn = () => {
+        setModalShow(true);
+    }
+
+    /**/
+    const flag = localStorage.getItem("rememberChecked") !== null;
+    const [rememberChecked, setRememberChecked] = useState(flag);
 
     /*Handle: username, password, submit */
     const handleChangeUsername = (events) => {
@@ -51,25 +60,40 @@ export default function Login() {
     /*handle remember-account*/
     const handleRememberMe = () => {
         setRememberChecked(current => !current);
-    }
-
-
-    const handleSubmit = async () => {
-        try {
-            const res = await securityService.doLogin(loginRequest);
-            const status = res.status;
-            if (status === 200) {
-                await securityService.addAccessToken(res.data.jwtToken);
-                toast("Đăng nhập thành công!!");
-                navigate("/newsfeed");
-            } else {
-                toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
-            }
-        } catch (e) {
-            toast.error("Vui lòng thử lại!");
+        if (!rememberChecked) {
+            localStorage.setItem("rememberChecked", "checked");
+        } else {
+            localStorage.removeItem("rememberChecked");
+            localStorage.removeItem("rememberedUsername");
+            localStorage.removeItem("rememberedPassword");
         }
     }
 
+    useEffect(() => {
+        if (rememberChecked) {
+            const storedUsername = localStorage.getItem("rememberedUsername");
+            const storedPassword = localStorage.getItem("rememberedPassword");
+            if (storedUsername) {
+                setLoginRequest({
+                    ...loginRequest,
+                    username: storedUsername,
+                    password: storedPassword
+                });
+            }
+        }
+    }, [rememberChecked]);
+
+    /**/
+    const initFacebookLoginReq = {
+        isLoggedIn: null,
+        userID: null,
+        name: null,
+        email: null,
+        picture: null
+    }
+
+
+    /*handle facebook login*/
     const componentClicked = () => {
 
     };
@@ -84,10 +108,47 @@ export default function Login() {
         })
     };
 
-
+    const handleSubmit = async () => {
+        if (loginRequest.username === undefined && loginRequest.password === undefined) {
+            toast("Vui lòng điền tài khoản và mật khẩu!");
+        } else if (loginRequest.password === undefined) {
+            toast("Vui lòng điền mật khẩu!");
+        } else if (loginRequest.username === undefined) {
+            toast("Vui lòng điền tài khoản!");
+        } else if (loginRequest.username.length === 0 && loginRequest.password.length === 0) {
+            toast("Vui lòng điền tài khoản và mật khẩu!");
+        } else if (loginRequest.password.length === 0) {
+            toast("Vui lòng điền mật khẩu!");
+        } else if (loginRequest.username.length === 0) {
+            toast("Vui lòng điền tài khoản!");
+        } else {
+            try {
+                const res = await securityService.doLogin(loginRequest);
+                const status = res.status;
+                if (status === 200) {
+                    if (rememberChecked) {
+                        localStorage.setItem("rememberedUsername", loginRequest.username);
+                        localStorage.setItem("rememberedPassword", loginRequest.password);
+                    }
+                    await securityService.addAccessToken(res.data.jwtToken);
+                    toast("Đăng nhập thành công!!");
+                    navigate("/newsfeed");
+                }
+            } catch (e) {
+                toast.error("Đăng nhập thất bại, sai tài khoản hoặc mật khẩu!");
+            }
+        }
+    }
 
     return (
         <div id="wrapper">
+
+            <LogoutConfirmModal
+                show={isModalShow}
+                handleCloseFn={handleCloseLogoutModalFn}
+            />
+            <button onClick={handleShowLogoutModalFn}>Modal test</button>
+
             <div className="main-form">
                 <div className="login-title">
                     <h1 className="thienbb-login-title">ĐĂNG NHẬP</h1>
@@ -95,24 +156,30 @@ export default function Login() {
                 <div className="login-form">
                     <Formik
                         initialValues={loginRequest}
+                        validationSchema={yup.object(loginValidator)}
                         onSubmit={handleSubmit}
                     >
                         <Form>
                             <div className="form-child-unit">
                                 <Field onChange={(events) => handleChangeUsername(events)}
+                                       value={loginRequest.username}
                                        name="username" type="text" placeholder="Tên tài khoản"
                                        className="input-tag"/>
                                 <ErrorMessage name="username" component="div" className="thienbb-form-err-msg"/>
                             </div>
                             <div className="form-child-unit">
                                 <Field onChange={(events) => handleChangePassword(events)}
+                                       value={loginRequest.password}
                                        name="password" type="password" placeholder="Mật khẩu"
                                        className="input-tag"/>
                                 <ErrorMessage name="password" component="div" className="thienbb-form-err-msg"/>
                             </div>
                             <div className="form-child-remember">
                                 <label htmlFor="remember-me">
-                                    <input type="checkbox" onChange={handleRememberMe} id="remember-me"/>
+                                    <input type="checkbox"
+                                           id="remember-me"
+                                           onChange={(events) => handleRememberMe(events)}
+                                           checked={rememberChecked}/>
                                     <span className="remember-me-text"> Ghi nhớ tài khoản</span>
                                 </label>
                             </div>
@@ -125,13 +192,12 @@ export default function Login() {
                                 <div className="login-with-fb-btn">
                                     <FacebookLogin
                                         appId="1068795897729860"
-                                        autoLoad={true}
                                         fields="name,email,picture"
                                         onClick={componentClicked}
                                         callback={responseFacebook}
                                         cssClass="fb-login-tag"
                                         icon=<i className="fa-brands fa-facebook" style={{color: "#ffffff"}}/>
-                                        textButton=" Đăng nhập bằng Facebook"
+                                    textButton=" Đăng nhập bằng Facebook"
                                     />
                                 </div>
 
