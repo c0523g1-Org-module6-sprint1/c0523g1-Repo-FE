@@ -10,3 +10,21 @@ export const getAll = async () => {
         console.log("lỗi hàm getAll");
     }
 }
+
+export const getAllPackageAccount = async () => {
+    try {
+        let response = await axios.get(URL_PACKAGE_TYPES + "/packageAccount");
+        console.log(response.data)
+        return response.data;
+    } catch (e) {
+        console.log("lỗi hàm getAllPackageAccount");
+    }
+}
+export const findPackageAccount = async (idAccount) => {
+    try {
+        let response = await axios.get(URL_PACKAGE_TYPES + `/packageAccount/` + idAccount);
+        return response.data;
+    } catch (e) {
+        console.log("lỗi hàm findPackageAccount");
+    }
+}

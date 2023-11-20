@@ -8,8 +8,7 @@ import {
     refImage,
     uploadBytes,
     getDownloadURL,
-    update,
-    set
+    update, set,
 } from "../../service/chatbox/firebase";
 import ImageDetail from "./ImageDetail";
 import {compareId, dateFormatSendMessage, IdByNow, sliceString} from "../../service/chatbox/util";
@@ -17,7 +16,6 @@ import {useNavigate} from "react-router-dom";
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import {GetChatBoxApi} from "../../service/chatbox/apiConnection";
-import {getIdByJwt} from "../../service/login/securityService";
 
 export default function ChatDetail({element, closeChatBox, own}) {
     const [content, setContent] = useState();
@@ -27,35 +25,43 @@ export default function ChatDetail({element, closeChatBox, own}) {
     const [showEmoji, setShowEmoji] = useState(false);
     const [path, setPath] = useState();
     const [idDelete, setIdDelete] = useState("");
-    const [lastId, setLastId] = useState();
     const navigator = useNavigate();
     const chatBoxRef = useRef();
     const inputImgRef = useRef();
-
     const typeArray = ["text", "image", "revoke"];
-    const pushFireBase = (type, textData) => {
+    const pushFireBase = async (type, textData) => {
         if (textData != "") {
+            let last = sliceString(textData, 15);
+            let countUnseenElement;
+            if (type == 1) {
+                last = "[hình ảnh]"
+            }
+
             const idMessage = IdByNow();
-            push(refText(database, path), {
+            await push(refText(database, path), {
                 id: idMessage,
                 sender: own.id,
                 receive: element.id,
-                // receive: own.id,
-                // sender: element.id,
                 context: textData,
                 type: typeArray[type],
                 release: new Date() + "",
                 seen: false
             })
-            let last = sliceString(textData, 15);
-            if (type == 1) {
-                last = "[hình ảnh]"
-            }
-            update(refText(database, "lastmess"), {
-                [path]: {
-                    mess: last,
-                    id: idMessage
-                },
+
+            await onValue(refText(database, `lastmess/${path}`), data => {
+                let count = data.val()[element.id];
+                if (count) {
+                    countUnseenElement = count + 1;
+                } else {
+                    countUnseenElement = 1;
+                }
+            });
+
+            await update(refText(database, `lastmess/${path}`), {
+                mess: last,
+                id: idMessage,
+                [element.id]: countUnseenElement,
+                [own.id]: 0
             })
             setInputMess("");
             setShowEmoji(false);
@@ -75,7 +81,12 @@ export default function ChatDetail({element, closeChatBox, own}) {
     };
     const getPath = async () => {
         const res = await GetChatBoxApi(element.id);
-        await setPath(res.path);
+        if (res){
+            await setPath(res.path);
+            await update(refText(database, `lastmess/${res.path}`), {
+                [own.id]: 0
+            })
+        }
     }
     const getDatabase = () => {
         let finishpath = `mess-${compareId(element.id, own.id)}`
@@ -83,7 +94,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
             let getMessage = [];
             data.forEach((mess) => {
                 let item = {...mess.val(), pathId: mess.key};
-                getMessage.push(item);
+                getMessage.unshift(item);
             });
             setContent(getMessage);
         });
@@ -120,33 +131,28 @@ export default function ChatDetail({element, closeChatBox, own}) {
             type: typeArray[2]
         })
         setIdDelete("");
-        if (lastId == e.id){
-            update(refText(database, "lastmess"), {
-                [path]: {
-                    mess: "Tin nhắn thu hồi"
-                },
-            })
+        let check = await getLastMess();
+        if (check){
+            if (check.id == e.id){
+                update(refText(database, `lastmess/${path}`), {
+                    mess: "[Tin nhắn thu hồi]"
+                })
+            }
         }
     }
-    const getLastMess = () => {
-        let finishpath = `lastmess`;
-        onValue(refText(database, finishpath), data => {
-            let dataId = data.val()[path];
-            if (dataId) {
-                setLastId(dataId.id);
-            }
+    const getLastMess = async () => {
+        let finishpath = `lastmess/${path}`;
+        let dataId;
+        await onValue(refText(database, finishpath), data => {
+            dataId = data.val();
         });
+        return dataId;
     }
 
     useEffect(() => {
         getPath();
         getDatabase();
-        getLastMess();
     },[]);
-    useEffect(() => {
-        scrollToBottom();
-    }, [content]);
-
     if (!path) {
         return null;
     }
@@ -175,12 +181,12 @@ export default function ChatDetail({element, closeChatBox, own}) {
                     content && content.map((e, index) => {
                         return (
                             idDelete != e.pathId ?
-                                <div key={index}
+                                <div
                                    className={`mess ${e.sender == own.id ? "ownMess" : "friendsMess"}`}>
                                     {(e.sender == own.id && e.type != "revoke") && <div className="option cursorPoint"
                                          onClick={() => setIdDelete(e.pathId)}/>}
                                     {e.type == "text" &&
-                                        <p className="color2 borderRadius"
+                                        <p className={`${e.sender == own.id ? 'color5' : 'color2'} borderRadius`}
                                                             title={dateFormatSendMessage(e.release)}>{e.context}</p>}
                                     {e.type == "image" &&
                                         <img className="image-content color2 borderRadius cursorPoint"
@@ -228,6 +234,10 @@ export default function ChatDetail({element, closeChatBox, own}) {
                     previewPosition="none"
                     theme="light"
                     onEmojiSelect={(e) => handlePickEmoji(e)}
+                    maxFrequentRows="2"
+                    navPosition="bottom"
+                    perLine="8"
+                    searchPosition="static"
                 />
             </div>}
         </>

@@ -2,13 +2,13 @@ export default function AnToan(){
     return(
         <div className="container"
              style={{margin: "100px 5%", alignItems: "center", fontFamily: "Nunito Sans, sans-serif"}}>
-            <h1 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "2rem"}}>Bí quyết an toàn khi hẹn hò</h1>
+            <h1 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "2rem", color: "black"}}>Bí quyết an toàn khi hẹn hò</h1>
             <p>Gặp gỡ những người mới rất thú vị, nhưng bạn luôn cần thận trọng khi tương tác với người mà bạn không
                 biết. Sử dụng phán đoán nhạy bén nhất của mình và đặt sự an toàn của bản thân lên hàng đầu, cho dù bạn
                 đang trao đổi những tin nhắn ban đầu hay gặp mặt trực tiếp. Mặc dù bạn không thể kiểm soát hành động của
                 người khác, nhưng có những điều bạn có thể làm để giúp chính bạn được an toàn trong quá trình trải
-                nghiệm Tinder.</p>
-            <p>An toàn trực tuyến</p>
+                nghiệm Eros05.</p>
+            <h2>An toàn trực tuyến</h2>
             <ul>
                 <li>
                     <p><strong>Không bao giờ gửi tiền hoặc chia sẻ thông tin tài chính</strong></p>
@@ -32,7 +32,7 @@ export default function AnToan(){
                 </li>
                 <li>
                     <p><strong>Ở lại trên nền tảng</strong></p>
-                    <p>Tiếp tục trò chuyện trên nền tảng Tinder khi bạn làm quen với ai đó. Người dùng có ý định xấu
+                    <p>Tiếp tục trò chuyện trên nền tảng Eros05 khi bạn làm quen với ai đó. Người dùng có ý định xấu
                         thường cố gắng chuyển cuộc hội thoại sang văn bản, ứng dụng nhắn tin, thư điện tử hoặc điện
                         thoại ngay lập tức.</p>
                 </li>
@@ -52,7 +52,7 @@ export default function AnToan(){
                         hành vi vi phạm:</p>
                     <ul>
                         <li>Yêu cầu tiền hoặc quyên góp</li>
-                        <li>Người dùng chưa đủ tuổi</li>
+                        <li>Người dùng chưa đủ tuổi (dưới 18 tuổi)</li>
                         <li>Quấy rối, đe dọa và tin nhắn xúc phạm</li>
                         <li>Hành vi không phù hợp hoặc có hại trong hoặc sau khi gặp mặt trực tiếp</li>
                         <li>Hồ sơ giả mạo</li>
@@ -69,7 +69,7 @@ export default function AnToan(){
                 <li>
                     <p><strong>Bảo vệ tài khoản của bạn</strong></p>
                     <p>Hãy đảm bảo chọn một mật khẩu mạnh và luôn cẩn thận khi đăng nhập vào tài khoản của bạn từ máy
-                        tính công cộng hoặc dùng chung. Tinder sẽ không bao giờ gửi cho bạn email yêu cầu thông tin tên
+                        tính công cộng hoặc dùng chung. Eros05 sẽ không bao giờ gửi cho bạn email yêu cầu thông tin tên
                         người dùng và mật khẩu của bạn — nếu bạn nhận được email yêu cầu thông tin tài khoản, hãy báo
                         cáo ngay lập tức.</p>
                 </li>
@@ -79,7 +79,7 @@ export default function AnToan(){
                 <li>
                     <p><strong>Đừng vội vàng</strong></p>
                     <p>Cứ bình tĩnh dành thời gian và&nbsp;làm quen với người khác trước khi đồng ý gặp gỡ hoặc trò
-                        chuyện ngoài Tinder. Đừng ngại đặt câu hỏi nhằm loại bỏ mọi dấu hiệu nguy hiểm hoặc những kẻ phá
+                        chuyện ngoài Eros05. Đừng ngại đặt câu hỏi nhằm loại bỏ mọi dấu hiệu nguy hiểm hoặc những kẻ phá
                         hoại cá nhân. Một cuộc gọi điện thoại hoặc video có thể là một công cụ sàng lọc hữu ích trước
                         khi gặp mặt.</p>
                 </li>
@@ -128,9 +128,9 @@ export default function AnToan(){
                         tiềm tàng và một số quốc gia có luật cụ thể nhắm vào những người LGBTQ +.</p>
                     <p>Hãy kiểm tra luật phát quanh bạn khi bạn du lịch tới một địa điểm mới và tìm kiếm các hình thức
                         bảo vệ bằng pháp luật, nếu cần, có sẵn cho bạn theo xu hướng giới tính. Trong trường hợp bạn đến
-                        một lãnh thổ không an toàn, chúng tôi khuyên bạn nên tắt chế độ "Hiển thị tôi trên Tinder" mà
+                        một lãnh thổ không an toàn, chúng tôi khuyên bạn nên tắt chế độ "Hiển thị tôi trên Eros05" mà
                         bạn có thể tìm thấy trong trang cài đặt.</p>
-                    <p>Nếu bạn đã thêm xu hướng giới tính vào hồ sơ của mình và chọn hiển thị trên Tinder, chúng tôi sẽ
+                    <p>Nếu bạn đã thêm xu hướng giới tính vào hồ sơ của mình và chọn hiển thị trên Eros05, chúng tôi sẽ
                         ẩn xu hướng giới tính của bạn khỏi hồ sơ cho đến khi bạn rời khỏi khu vực đó.</p>
                     <p>Điều quan trọng là phải hết sức thận trọng nếu bạn chọn làm quen với những người mới ở các quốc
                         gia này - vì một số cơ quan thực thi pháp luật đã biết sử dụng các ứng dụng hẹn hò làm công cụ

@@ -1,51 +1,58 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./post.css";
-import { getListPublic } from "../../service/posts/PostService";
+import { getListNewsfeed } from "../../service/posts/PostService";
 import EditPost from "./EditPost";
-import {getRoleByJwt,getIdByJwt,getUsernameByJwt}  from "../../service/login/securityService";
-
-
+import {getIdByJwt} from "../../service/login/securityService";
+import { Link } from "react-router-dom";
+import LikeButton from "./LikeButton";
 
 export default function Post() {
-  const [listPublic, setListPublic] = useState();
-  const [showModal,setShowModal] = useState(false);
-  const [postUpdate,setPostUpdate] = useState();
+  const [listNewsfeed, setListNewsfeed] = useState();
+  const [showModal, setShowModal] = useState();
+  const [postUpdate, setPostUpdate] = useState();
+  const idLogin = getIdByJwt();
 
-
-
-const username = getUsernameByJwt();
-console.log(username);
-
-  const fetchDataListPublic = async () => {
-    const listPublic = await getListPublic();
-    setListPublic(listPublic);
+  const fetchDataListNewsfeed = async () => {
+    const listNewsfeed = await getListNewsfeed(idLogin);
+    setListNewsfeed(listNewsfeed);
   };
+
   useEffect(() => {
-    fetchDataListPublic();
-  }, [showModal]);
+    fetchDataListNewsfeed();
+  }, [showModal,idLogin]);
 
   const handleShowModal = (postUpdate) => {
     setShowModal(true);
     setPostUpdate(postUpdate);
-  }
+  };
 
   const handleHideModal = () => {
     setShowModal(false);
-  }
+  };
 
-  if (!listPublic) {
+  const getTime = (dateStr) => {
+    let dateTime = new Date(dateStr);
+    let year = dateTime.getFullYear();
+    let month = dateTime.getMonth() + 1;
+    let day = dateTime.getDate();
+    let hour = dateTime.getHours();
+    let minute = dateTime.getMinutes();
+    return `${hour}h-${minute}m ${day}/${month}/${year}`;
+  };
+
+  if (!listNewsfeed) {
     return null;
   }
 
   return (
     <div>
       <div
-        className="container-fluid"
-        style={{ marginTop: 150, position: "relative" }}
+        className="container-fluid my-post"
+        style={{ marginTop: "150px", position: "relative", paddingTop:"70px" }}
       >
-        {listPublic.map((item) => {
+        {listNewsfeed.map((item) => {
           return (
-            <div className="row" key={item.id} style={{marginBottom:"50px"}}>
+            <div className="row" key={item.id} style={{ marginBottom: "50px" }}>
               <div className="col-12 col-lg-3"></div>
               <div className="col-12 col-lg-6">
                 <div
@@ -56,15 +63,14 @@ console.log(username);
                     overflow: "hidden",
                   }}
                 >
-                  <div className="card" >
+                  <div className="card">
                     <div className="card-body">
                       <div className="media">
                         <div className="media-header">
                           <div className="media-left">
                             <div
                               style={{
-                                backgroundImage:
-                                  `url(${item.account.avatar})`,
+                                backgroundImage: `url(${item.account.avatar})`,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
                                 aspectRatio: "1/1",
@@ -74,13 +80,21 @@ console.log(username);
                               }}
                             />
                             <div className="info">
-                              <h5>{item.account.userName}</h5>
-                              <small>{item.date}</small>
+                              <h5>
+                                <Link to={`/personal-page/${item.account.id}`}>
+                                  {item.account.name}
+                                </Link>
+                              </h5>
+                              <small>{getTime(item.date)}</small>
                             </div>
                           </div>
                           <div className="post-options">
-                            <button style={{border:"none", backgroundColor:"white"}}
-                             onClick={() => handleShowModal(item)}
+                            <button
+                              style={{
+                                border: "none",
+                                backgroundColor: "white",
+                              }}
+                              onClick={() => handleShowModal(item)}
                             >
                               {" "}
                               <i className="fa fa-edit" />
@@ -88,20 +102,19 @@ console.log(username);
                             <i className="fa fa-times close-icon" />
                           </div>
                         </div>
-                        <div style={{width:"100%"}} className="media-body">
+                        <div style={{ width: "100%" }} className="media-body">
                           <p className="card-text text-justify">
-                            {item.content}
+                          <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
                           </p>
                           <div className="row no-gutters mb-3">
-                            <img
-                              src={item.image}
-                              className="img-fluid mb-2"
-                            />
+                            <img src={item.image} className="img-fluid mb-2" />
                           </div>
                         </div>
                         <div className="post-actions">
                           <div className="action-btn">
-                            <i className="fa-regular fa-heart" /> Thích
+                            <LikeButton 
+                            id = {idLogin} postId = {item.id}>
+                            </LikeButton>
                           </div>
                           <div className="action-btn">
                             <i className="fa-regular fa-comment"></i> Bình luận
@@ -122,14 +135,18 @@ console.log(username);
                       </div>
                     </div>
                   </div>
-                </div> 
+                </div>
               </div>
               <div className="col-12 col-lg-3" />
             </div>
           );
         })}
       </div>
-      <EditPost showModal = {showModal} handleHideModal = {handleHideModal} postUpdate = {postUpdate}/>
+      <EditPost
+        showModal={showModal}
+        handleHideModal={handleHideModal}
+        postUpdate={postUpdate}
+      />
     </div>
   );
 }

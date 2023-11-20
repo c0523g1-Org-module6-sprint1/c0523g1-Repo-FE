@@ -11,7 +11,7 @@
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 20px;
 }
-.search-page-container .list-cards .cards {
+.search-page-container .list-cards .lien-cards {
     width: auto;
     height: 350px;
     background: radial-gradient(circle, rgba(201, 174, 229, 1) 29%, rgba(212, 195, 237, 1) 67%, rgba(216, 175, 231, 1) 85%);
@@ -30,11 +30,11 @@
     transform: scale(1); /* Đặt tỷ lệ phóng to là 1.2 */
 }
 
-.search-page-container .list-cards .cards .user-name {
+.search-page-container .list-cards .lien-cards .user-name {
     font-family: Nunito Sans, sans-serif;
 }
 
-.search-page-container .list-cards .cards .text {
+.search-page-container .list-cards .lien-cards .text {
     width: 80%;
     font-size: 13px;
     text-align: center;
@@ -47,7 +47,7 @@
     transition: all 0.3s ease;
 }
 
-.search-page-container .list-cards .cards .text button {
+.search-page-container .list-cards .lien-cards .text button {
     background-color: #956eaf;
     color: white;
     border-radius: 20px;
@@ -56,7 +56,7 @@
     width: 100%;
 }
 
-.search-page-container .list-cards .cards .icon {
+.search-page-container .list-cards .lien-cards .icon {
     margin: 0 auto;
     width: 100%;
     height: 80px;
@@ -69,7 +69,7 @@
     background-size: 200px;
 }
 
-.search-page-container .list-cards .cards .icon .cus-avatar {
+.search-page-container .list-cards .lien-cards .icon .cus-avatar {
     margin-bottom: 50px;
     width: 100px;
     height: 100px;
@@ -77,29 +77,29 @@
     border-radius: 100%;
 }
 
-.search-page-container .list-cards .cards:hover {
+.search-page-container .list-cards .lien-cards:hover {
     transform: scale(1.1); /* Khi rê chuột vào, đặt tỷ lệ phóng to là 1.4 */
     background: whitesmoke;
 }
 
-.search-page-container .list-cards .cards:hover .text {
+.search-page-container .list-cards .lien-cards:hover .text {
     transition: all 0.3s ease;
     opacity: 1;
     /*max-height: 40px;*/
 }
-.search-page-container .list-cards .cards:hover span {
+.search-page-container .list-cards .lien-cards:hover span {
     color: #222222;
 }
-.search-page-container .list-cards .cards span {
+.search-page-container .list-cards .lien-cards span {
     font-size: 14px;
 }
-.search-page-container .list-cards .cards:hover .icon {
+.search-page-container .list-cards .lien-cards:hover .icon {
     background-position: -120px;
     transition: all 0.3s ease;
 }
 
 
-.search-page-container .list-cards .cards span {
+.search-page-container .list-cards .lien-cards span {
     margin-top: -30px;
     margin-bottom: 50px;
     color: rgb(255, 255, 255);
@@ -117,6 +117,11 @@
     background-color: #956eaf;
     color: white;
     border-radius: 20px;
+    margin-bottom: 2%;
+    transition: ease 300ms;
+}
+.search-page-container .search-advance button:hover {
+    transform: scale(1.05);
 }
 .viewmore{
     display: flex; /* Sử dụng flexbox */
@@ -131,12 +136,12 @@
     color: #9D66C3;
 }
 @media only screen and (min-width: 320px){
-    .search-page-container .list-cards .cards {
+    .search-page-container .list-cards .lien-cards {
         margin: 0 30px;
     }
 }
 @media only screen and (min-width: 420px){
-    .search-page-container .list-cards .cards {
+    .search-page-container .list-cards .lien-cards {
         margin: 0 80px;
     }
 }
@@ -145,7 +150,7 @@
     .search-page-container .list-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .search-page-container .list-cards .cards {
+    .search-page-container .list-cards .lien-cards {
         margin: 0;
     }
 }
@@ -174,7 +179,7 @@
     padding-left: 20%;
 }
 
-.list-cards-login .cards {
+.list-cards-login .lien-cards {
     width: auto;
     height: 350px;
     background: radial-gradient(circle, rgba(201, 174, 229, 1) 29%, rgba(212, 195, 237, 1) 67%, rgba(216, 175, 231, 1) 85%);
@@ -193,11 +198,11 @@
     transform: scale(1); /* Đặt tỷ lệ phóng to là 1.2 */
 }
 
-.search-page-container .list-cards-login .cards .user-name {
+.search-page-container .list-cards-login .lien-cards .user-name {
     font-family: Nunito Sans, sans-serif;
 }
 
-.search-page-container .list-cards-login .cards .text {
+.search-page-container .list-cards-login .lien-cards .text {
     width: 80%;
     font-size: 13px;
     text-align: center;
@@ -210,7 +215,7 @@
     transition: all 0.3s ease;
 }
 
-.search-page-container .list-cards-login .cards .text button {
+.search-page-container .list-cards-login .lien-cards .text button {
     background-color: #956eaf;
     color: white;
     border-radius: 20px;
@@ -219,7 +224,7 @@
     width: 100%;
 }
 
-.search-page-container .list-cards-login .cards .icon {
+.search-page-container .list-cards-login .lien-cards .icon {
     margin: 0 auto;
     width: 100%;
     height: 80px;
@@ -232,7 +237,7 @@
     background-size: 200px;
 }
 
-.search-page-container .list-cards-login .cards .icon .cus-avatar {
+.search-page-container .list-cards-login .lien-cards .icon .cus-avatar {
     margin-bottom: 50px;
     width: 100px;
     height: 100px;
@@ -240,27 +245,27 @@
     border-radius: 100%;
 }
 
-.search-page-container .list-cards-login .cards:hover {
+.search-page-container .list-cards-login .lien-cards:hover {
     transform: scale(1.1); /* Khi rê chuột vào, đặt tỷ lệ phóng to là 1.4 */
     background: whitesmoke;
 }
 
-.search-page-container .list-cards-login .cards:hover .text {
+.search-page-container .list-cards-login .lien-cards:hover .text {
     transition: all 0.3s ease;
     opacity: 1;
     /*max-height: 40px;*/
 }
-.search-page-container .list-cards-login .cards:hover span {
+.search-page-container .list-cards-login .lien-cards:hover span {
     color: #222222;
 }
-.search-page-container .list-cards-login .cards span {
+.search-page-container .list-cards-login .lien-cards span {
     font-size: 14px;
 }
-.search-page-container .list-cards-login .cards:hover .icon {
+.search-page-container .list-cards-login .lien-cards:hover .icon {
     background-position: -120px;
     transition: all 0.3s ease;
 }
-.search-page-container .list-cards-login .cards span {
+.search-page-container .list-cards-login .lien-cards span {
     margin-top: -30px;
     margin-bottom: 50px;
     color: rgb(255, 255, 255);
