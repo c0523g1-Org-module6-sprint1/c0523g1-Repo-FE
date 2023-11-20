@@ -45,25 +45,26 @@ export default function InvitedList() {
 
     if (!invited) return null;
     return (
-        <>
+        <div style={{backgroundColor:"white"}}>
             <div>
                 <div style={{marginTop: "75px"}}>
                     <div>
                         <p className="hat1">Lời mời kết bạn</p>
                         <div className="dropdown">
-                            <button className="btn btn-dark " type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            <button className="btn btn-dark " type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false"
                                     style={{
                                         cursor: "pointer", border: "none", background: "#a36acb"
                                     }}>
-                                Sắp xếp <i className="fa fa-sliders text-light" />
+                                Sắp xếp <i className="fa fa-sliders text-light"/>
                             </button>
                             <ul className="dropdown-menu"
                                 style={{backgroundColor: "#d0a8de", cursor: "pointer"}}>
                                 <li className="dropdown-item " onClick={(values) => setSort(true)}>
-                                    <i className="fa fa-sort-amount-desc" />Theo lời mời mới nhất
+                                    <i className="fa fa-sort-amount-desc"/>Theo lời mời mới nhất
                                 </li>
                                 <li className="dropdown-item " onClick={(values) => setSort(false)}>
-                                    <i className="fa fa-sort-amount-asc" />Theo lời mời cũ nhất
+                                    <i className="fa fa-sort-amount-asc"/>Theo lời mời cũ nhất
                                 </li>
                             </ul>
                         </div>
@@ -79,8 +80,10 @@ export default function InvitedList() {
                                              alt=""/>
                                     </div>
                                     <p className="hlptitle mb-4"
-                                       onClick={() => {alert(invited.id)
-                                        navigate(`personal-page/${invited.id}`)}}>{invited.nameAccount}</p>
+                                       onClick={() => {
+                                           alert(invited.id)
+                                           navigate(`personal-page/${invited.id}`)
+                                       }}>{invited.nameAccount}</p>
                                     <p>{FormartDateRequest(invited.dateRequest)}</p>
                                     <p className="hlptext">
                                         <button id="confirm" className="btn "
@@ -100,7 +103,7 @@ export default function InvitedList() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
