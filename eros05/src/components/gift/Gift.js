@@ -76,7 +76,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
             display: "block",
             zIndex: "9999",
           }}
-          className="modal"
+          className=" modal"
           id="exampleModalToggle"
           aria-hidden="true"
           aria-labelledby="exampleModalToggleLabel"
