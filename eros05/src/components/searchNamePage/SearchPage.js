@@ -35,11 +35,8 @@ const SearchPage = () => {
     useEffect(() => {
         const test = async () => {
             const resUsername = securityService.getUsernameByJwt();
-            console.log('resUserName >>>>' + resUsername)
-            // setUserName(resUsername)
             if (resUsername !== null) {
                 const resUser = await SearchNameService.findByUserName(resUsername);
-                console.log("resUser >>> " + resUser)
                 if (resUser) {
                     setUser(resUser.data);
                 }
@@ -50,7 +47,6 @@ const SearchPage = () => {
 
     useEffect(() => {
         if (user) {
-            console.log(user)
             setIsAuthentication(true);
         }
     }, [user])
