@@ -1,10 +1,9 @@
 import './PersonalPage.css'
 import {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import * as personalService from "../../service/personalPage/PersonalpageService"
 import Post from "./DatG/Post";
 import {toast} from "react-toastify";
-import {Button} from "react-bootstrap";
 import * as loginService from "../../service/login/securityService";
 import {getIdByJwt} from "../../service/login/securityService";
 
@@ -13,11 +12,9 @@ export function PersonalPage() {
     const [accountVisit,setAccountVisit] = useState({});
     const {id} = useParams();
     let idLogin =1;
-    const [statusRelation, setStatusRelation] = useState({});
-
+    const [statusRelation, setStatusRelation] = useState('');
+    const navigate = useNavigate();
     const idUserLogin = loginService.getIdByJwt();
-
-
 
     useEffect(() => {
         getInfoAccount();
@@ -32,6 +29,7 @@ export function PersonalPage() {
       let result = await personalService.sentInvite(relationships);
       if (result.status === 201){
           toast.success("Lời mời kết bạn vừa gửi thành công ")
+          await status(accountVisit);
       }else {
           toast.error("Thất bại")
       }
@@ -70,6 +68,7 @@ export function PersonalPage() {
                                     aspectRatio: '1/1',
                                     backgroundRepeat: 'no-repeat',
                                     borderRadius: '100%',
+                                    height:"180px",
                                     marginLeft: '25px'}} >
 
 
@@ -84,25 +83,47 @@ export function PersonalPage() {
                                 className="profile-cover__action bg--img"
                                 data-overlay="0.3"
                             ></div>
-                            <div className="profile-cover__info" style={{ height: '120px' }}>
+                            <div className="profile-cover__info" style={{ height: '130px' }}>
                                 {idUserLogin !== accountVisit.id ?
                                     (<ul className="nav">
                                         <li>
-                                            {(statusRelation.id === 2 )  ?
-                                                (<button className="btn btn-rounded btn-info"
-                                                         style={{ backgroundColor: "#a36acb", borderRadius: 20 }}>
-                                                    <i className="fa-solid fa-user-group bt"/>
-                                                    <span className="bt">Bạn bè</span>
-                                                </button>)
-                                                :
-                                                (<button
-                                                    className="btn btn-rounded btn-info"
-                                                    style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
-                                                    onClick={() => handleSentInvite(value)}>
-                                                    <i className="fa fa-plus bt" />
-                                                    <span className="bt">Kết bạn</span>
-                                                </button>)}
-
+                                            <li>
+                                                {(() => {
+                                                    switch (statusRelation.id) {
+                                                        case 0:
+                                                            return (
+                                                                <button
+                                                                    className="btn btn-rounded btn-info"
+                                                                    style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                                                    onClick={() => handleSentInvite(value)}
+                                                                >
+                                                                    <i className="fa fa-plus bt" />
+                                                                    <span className="bt">Kết bạn</span>
+                                                                </button>
+                                                            );
+                                                        case 1:
+                                                            return (
+                                                                <button
+                                                                    className="btn btn-rounded btn-info"
+                                                                    style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                                                >
+                                                                    <i className="fa-solid fa-user-plus bt"></i>
+                                                                    <span className="bt">Đã gửi lời mời kết bạn</span>
+                                                                </button>
+                                                            );
+                                                        case 2:
+                                                            return (
+                                                                <button
+                                                                    className="btn btn-rounded btn-info"
+                                                                    style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                                                >
+                                                                    <i className="fa-solid fa-user-group bt" />
+                                                                    <span className="bt">Bạn bè</span>
+                                                                </button>
+                                                            );
+                                                    }
+                                                })()}
+                                            </li>
                                         </li>
                                         <li>
                                             <button
@@ -137,7 +158,7 @@ export function PersonalPage() {
                                         className="row"
                                         style={{ color: "black", textAlign: "center", paddingTop:"85px",margin:0 }}
                                     >
-                                        <hr style={{padding:0, margin:0,opacity:1}}/>
+                                        <hr style={{padding:0, marginBottom:"6px",opacity:1}}/>
                                         <div className="col-lg-2" style={{ marginLeft: 30 }}>
                                             <Link to={"/friend/list"} style={{textDecoration:"none"}}>
                                                 <small>

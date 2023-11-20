@@ -1,7 +1,7 @@
 import {initializeApp} from "firebase/app";
 import {getAnalytics} from "firebase/analytics";
 import 'firebase/firestore'
-import firebase from "firebase/compat";
+import { getDatabase,ref,push,onValue} from "firebase/database";
 
 
 
@@ -18,8 +18,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const database = getDatabase(app);
 
-const db = firebase.firestore();
-
-export default {db}
+export {database,ref,push,onValue}
 
