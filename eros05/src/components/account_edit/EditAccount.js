@@ -61,13 +61,14 @@ function EditAccount() {
     }, [id]);
 
 
-    const getIdJwt = () => {
-        const jwt = LocalStorage.getItem("accessToken");
-        if (jwt) {
-            return jwtDecode(jwt).id;
-        }
-        return null;
-    }
+    // const getIdJwt = () => {
+    //     const jwt = LocalStorage.getItem("accessToken");
+    //     if (jwt) {
+    //         return jwtDecode(jwt).id;
+    //     }
+    //     return null;
+    // }
+
     const getAccount = async (id) => {
         try {
             const res = await getAccountByIdService(id);

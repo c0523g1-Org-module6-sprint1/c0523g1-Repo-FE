@@ -28,6 +28,8 @@ import HoTro from "./components/bodyMainPage/HoTro";
 import AnToan from "./components/bodyMainPage/AnToan";
 import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
+import {Test} from "./components/update_account/Test";
+import {Test2} from "./components/update_account/Test2";
 function App() {
 
   return (
@@ -58,6 +60,8 @@ function App() {
               <Route path="/an-toan" element={<AnToan/>}/>
               <Route path="/personal-page/edit" element={<EditAccount/>}/>
               <Route path="/newsfeed" element={<Post/>}/>
+              <Route path="/test" element={<Test/>}/>
+              <Route path="/test2" element={<Test2/>}/>
           </Routes>
           <Routes>
               <Route path="/" element={<Footer/>}/>
