@@ -2,15 +2,31 @@ import React, { useEffect, useState } from "react";
 import "./post.css";
 import { getListNewsfeed } from "../../service/posts/PostService";
 import EditPost from "./EditPost";
-import {getIdByJwt} from "../../service/login/securityService";
+import { getIdByJwt, getRoleByJwt,getUsernameByJwt } from "../../service/login/securityService";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
+import Gift from "../gift/Gift";
+
 
 export default function Post() {
   const [listNewsfeed, setListNewsfeed] = useState();
   const [showModal, setShowModal] = useState();
   const [postUpdate, setPostUpdate] = useState();
   const idLogin = getIdByJwt();
+  const userName = getUsernameByJwt();
+  console.log("ID login:" + idLogin);
+  const role = getRoleByJwt();
+  console.log("Role đang đăng nhập:" + role);
+
+  const [showModaQuyNP, setShowModalQuyNP] = useState(false);
+  const handleModal = async () => {
+    console.log("hi");
+    setShowModalQuyNP(true);
+  };
+
+  const closeModal = async () => {
+    setShowModalQuyNP(false);
+  };
 
   const fetchDataListNewsfeed = async () => {
     const listNewsfeed = await getListNewsfeed(idLogin);
@@ -19,7 +35,7 @@ export default function Post() {
 
   useEffect(() => {
     fetchDataListNewsfeed();
-  }, [showModal,idLogin]);
+  }, [showModal, idLogin]);
 
   const handleShowModal = (postUpdate) => {
     setShowModal(true);
@@ -48,7 +64,7 @@ export default function Post() {
     <div>
       <div
         className="container-fluid my-post"
-        style={{ marginTop: "150px", position: "relative", paddingTop:"70px" }}
+        style={{ marginTop: "150px", position: "relative", paddingTop: "70px" }}
       >
         {listNewsfeed.map((item) => {
           return (
@@ -89,22 +105,30 @@ export default function Post() {
                             </div>
                           </div>
                           <div className="post-options">
-                            <button
-                              style={{
-                                border: "none",
-                                backgroundColor: "white",
-                              }}
-                              onClick={() => handleShowModal(item)}
-                            >
-                              {" "}
-                              <i className="fa fa-edit" />
-                            </button>
+                            {(role === "ADMIN" ||
+                              idLogin === item.account.id) && (
+                              <button
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "white",
+                                }}
+                                onClick={() => handleShowModal(item)}
+                              >
+                                <i className="fa fa-edit" />
+                              </button>
+                            )}
+                            {
+                            ((role === "ADMIN" ||idLogin === item.account.id) &&
+                            (
                             <i className="fa fa-times close-icon" />
+                            ))}
                           </div>
                         </div>
                         <div style={{ width: "100%" }} className="media-body">
                           <p className="card-text text-justify">
-                          <div dangerouslySetInnerHTML={{ __html: item.content }}></div>
+                            <div
+                              dangerouslySetInnerHTML={{ __html: item.content }}
+                            ></div>
                           </p>
                           <div className="row no-gutters mb-3">
                             <img src={item.image} className="img-fluid mb-2" />
@@ -112,23 +136,24 @@ export default function Post() {
                         </div>
                         <div className="post-actions">
                           <div className="action-btn">
-                            <LikeButton 
-                            id = {idLogin} postId = {item.id}>
-                            </LikeButton>
+                            <LikeButton
+                              id={idLogin}
+                              postId={item.id}
+                            ></LikeButton>
                           </div>
                           <div className="action-btn">
                             <i className="fa-regular fa-comment"></i> Bình luận
                           </div>
                           <div className="action-btn">
                             <button
-                              data-bs-toggle="modal"
-                              data-bs-target="#giftModal"
+                       onClick={handleModal}
                               style={{
                                 border: "none",
                                 backgroundColor: "white",
                               }}
                             >
                               <i className="fa-solid fa-gift"></i> Tặng quà
+                              <Gift showModaQuyNP={showModaQuyNP} userNow = {userName} userGift = {item.account.userName} handleClose={closeModal} />
                             </button>
                           </div>
                         </div>
@@ -148,5 +173,6 @@ export default function Post() {
         postUpdate={postUpdate}
       />
     </div>
+    
   );
 }

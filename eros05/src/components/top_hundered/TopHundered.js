@@ -19,14 +19,15 @@ function TopHundered() {
     useEffect(() => {
         displayTop()
     }, [])
+
     return (account &&
         <div>
             <h1 style={{marginTop: "90px", textAlign: "center", fontFamily: "Agbalumo", marginLeft: "40px"}}>
                 Bảng xếp hạng top 100</h1>
             <div className="container" style={{marginTop:"50px"}}>
-                <div>
-                    <img style={{marginLeft: "44%", width: "165px", borderRadius:"50%"}} src="../img/crown.png"/>
-                </div>
+                {/*<div>*/}
+                {/*    <img style={{marginLeft: "44%", width: "165px", borderRadius:"50%"}} src="../img/crown.png"/>*/}
+                {/*</div>*/}
                 <div className="img_top" style={{marginTop: "-65px"}}>
                     <img style={{border: " 5px solid gold", marginLeft: "40px",borderRadius:"50%"}} src={account[1].avatar}/>
                         <img style={{width: "250px", border: "5px solid darkred", marginLeft: "40px"}} src={account[0].avatar}/>

@@ -70,6 +70,7 @@ export function Chatbox() {
     const getLastMess = (e) => {
         let item = lastMessage[`mess-${compareId(e.id, profile.id)}`];
         if (item) {
+
             return item.mess;
         } else {
             return "";
@@ -157,7 +158,7 @@ export function Chatbox() {
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
                                                             {getUnseen(e) && <small className="alertMess color5 borderRadius">{getUnseen(e)}</small>}
                                                         </h4>
-                                                        <p className="chatbox-friendList-board-detail-mess">{getLastMess(e)}</p>
+                                                        <p className="chatbox-friendList-board-detail-mess text-smoke">{getLastMess(e)}</p>
                                                     </div>
                                                 </div>
                                             )
@@ -178,7 +179,7 @@ export function Chatbox() {
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
                                                             {getUnseen(e) && <small className="alertMess color5 borderRadius">{getUnseen(e)}</small>}
                                                         </h4>
-                                                        <p className="chatbox-friendList-board-detail-mess">{getLastMess(e)}</p>
+                                                        <p className="chatbox-friendList-board-detail-mess text-smoke">{getLastMess(e)}</p>
                                                     </div>
                                                 </div>
                                             )

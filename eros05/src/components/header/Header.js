@@ -6,6 +6,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import * as SearchNameService from "../../service/searchName/searchNameService";
 import * as securityService from "../../service/login/securityService";
+import {LogoutConfirmModal} from "../searchNamePage/LogoutConfirmModal";
+import {getRoleByJwt} from "../../service/login/securityService";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
@@ -14,9 +16,9 @@ export default function Header() {
     const [name, setName] = useState("");
     const userMenuRef = useRef(null)
     const navigate = useNavigate()
-    // const [userName, setUserName] = useState("");
     const [user, setUser] = useState();
     const accessToken = localStorage.getItem('accessToken')
+    const [isShowModal, setShowModal] = useState(false);
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -31,23 +33,21 @@ export default function Header() {
     const handleButtonClick = () => {
         setIsShowUserMenu((prevState) => !prevState);
     };
-    const returnMainPage = () => {
-        setIsAuthentication(false);
-        navigate("/")
-        securityService.handleLogout();
-    }
     const handleChangeInput = (event) => {
         setName(event.target.value);
     };
     const handleSearch = React.useCallback(
         (event) => {
             event.preventDefault();
-            var regex = /^[a-zA-Z0-9\s]+$/;
+            var regex = /^[a-zA-Z0-9\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]+$/;
             if (!name) {
                 toast.error("Mời bạn nhập tên cần tìm!");
                 return;
             } else if (!regex.test(name)) {
                 toast.error("Tên không chứa ký tự đặc biệt!");
+                return;
+            } else if (name.length > 255) {
+                toast.error("Tên vượt quá độ dài cho phép!");
                 return;
             }
             navigate(`public/search-name/${name}`);
@@ -61,11 +61,8 @@ export default function Header() {
     useEffect(() => {
         const test = async () => {
             const resUsername = securityService.getUsernameByJwt();
-            console.log('resUserName >>>>' + resUsername)
-            // setUserName(resUsername)
             if (resUsername !== null) {
                 const resUser = await SearchNameService.findByUserName(resUsername);
-                console.log("resUser >>> " + resUser)
                 if (resUser) {
                     setUser(resUser.data);
                 }
@@ -80,12 +77,25 @@ export default function Header() {
             setIsAuthentication(true);
         }
     }, [user])
+    const handleModal = async () => {
+        setShowModal(true);
+    }
+    const closeModal = async () => {
+        setShowModal(false);
+    }
+    useEffect(() => {
+        if (!accessToken) {
+            setIsAuthentication(false);
+        }
+    }, [accessToken])
+    const currentRole = getRoleByJwt();
     return (
-        <header className="header">
+        <header className="lien-header">
             <NavbarMobile isOpenNavbarMobile={isOpenNavbarMobile}
                           setOpenNavbarMobile={setOpenNavbarMobile}
                           isAuthentication={isAuthentication}/>
-
+            <LogoutConfirmModal show={isShowModal}
+                                handleCloseFn={closeModal}/>
             <div className="container">
                 <nav className="navbar navbar-expand-lg navbar-light">
                     <button
@@ -202,14 +212,14 @@ export default function Header() {
                                                 <li>
                                                     <Link to="/change_password">Đổi mật khẩu</Link>
                                                 </li>
-                                                {user.role === 1 &&
+                                                {currentRole === "ADMIN" &&
                                                     <li>
                                                         <Link to="/accounts">Quản lý</Link>
                                                     </li>
                                                 }
                                                 <hr/>
-                                                <li onClick={returnMainPage}>
-                                                    <p>Đăng xuất</p>
+                                                <li onClick={() => handleModal()}>
+                                                    <p style={{fontFamily: "Nunito Sans, sans-serif"}}>Đăng xuất</p>
                                                 </li>
                                                 <span></span>
                                             </ul>

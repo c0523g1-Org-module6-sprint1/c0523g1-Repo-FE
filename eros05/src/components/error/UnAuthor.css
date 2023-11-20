@@ -1,9 +1,4 @@
-#thienbb-not-author-wrapper {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-#thienbb-not-author-wrapper {
+#thienbb-notfound {
     position: absolute;
     top: 0;
     right: 0;
@@ -79,7 +74,7 @@
     margin-bottom: 15px;
 }
 
-.thienbb-notfound .thienbb-home-btn {
+.thienbb-home-btn {
     font-family: 'Montserrat', sans-serif;
     display: inline-block;
     font-weight: 700;
@@ -95,13 +90,14 @@
     transition: 0.2s all;
 }
 
-.thienbb-notfound .thienbb-home-btn:hover {
+.thienbb-home-btn:hover {
     opacity: 0.9;
     background: linear-gradient(90deg, hsla(216, 75%, 26%, 1) 0%, hsla(316, 75%, 26%, 1) 100%);
     color: white;
+    text-decoration: none;
 }
 
-.thienbb-notfound .thienbb-home-btn {
+.thienbb-home-btn {
     color: #3f426e;
     background: #fff;
 }

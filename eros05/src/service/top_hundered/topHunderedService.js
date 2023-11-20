@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL_TOP = "http://localhost:8080/api/public/top_hundered"
+const URL_TOP = "http://localhost:8080/api/member/top_hundered"
 
 export const display= async ()=>{
     try {
