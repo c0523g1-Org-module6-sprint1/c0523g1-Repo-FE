@@ -22,8 +22,8 @@ export const dateFormat = (str) => {
     const minute = date.getMinutes();
     const second = date.getSeconds();
 
-    return `Thời gian: ${addZero(hour)}:${addZero(minute)}:${addZero(second)}
-     (${addZero(day)}-${addZero(month)}-${year})`;
+    return `Thời gian: ${hour}:${minute}:${second}
+     (${day}-${month}-${year})`;
 }
 export const dateFormatSendMessage = (str) => {
     const date = new Date(str);
@@ -32,29 +32,22 @@ export const dateFormatSendMessage = (str) => {
     const day = date.getDate();
     const hour = date.getHours();
     const minute = date.getMinutes();
-
-    const now = new Date();
-
-    if (now.getFullYear() - year >= 1) {
-        return `${addZero(hour)}:${addZero(minute)} - ${addZero(day)} tháng ${addZero(month)}, ${year}`;
-    } else if (now.getMonth() + 1 - month >= 1) {
-        return `${now.getMonth() + 1 - month} tháng trước`;
-    } else if (now.getDate() - day >= 1) {
-        return `${now.getDate() - day} ngày trước`;
-    } else if (now.getMinutes() - minute >= 1) {
-        return `${now.getMinutes() - minute} phút trước`;
-    } else {
-        return `Mới đây`;
-    }
-
+    return `${hour}:${minute} - ${day} tháng ${month}, ${year}`;
 }
-export const addZero = (str) => {
-    str += "";
-    if (str.length == 1){
-        return "0" + str;
+export const dateFormatChatbox = (str) => {
+    console.log(str)
+    if (str.hasOwnProperty("release")){
+        const date = new Date(str.release);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        return `${hour}:${minute} ${day}/${month}/${year}`;
     } else {
-        return str;
+        return "";
     }
+
 }
 export const compareId = (id1, id2) => {
     let name = id1 + "-" + id2;

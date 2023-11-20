@@ -1,7 +1,13 @@
 import "./chatbox.css"
 import {useEffect, useState} from "react";
 import {GetFriendsApi, GetProfileApi, GetUnknowApi, SetBusyApi} from "../../service/chatbox/apiConnection";
-import {compareId, numberOfUnseenMess, sliceString} from "../../service/chatbox/util";
+import {
+    compareId,
+    dateFormatChatbox,
+    dateFormatSendMessage,
+    numberOfUnseenMess,
+    sliceString
+} from "../../service/chatbox/util";
 import ChatDetail from "./ChatDetail";
 import {database, onValue, refText} from "../../service/chatbox/firebase";
 import {useNavigate} from "react-router-dom";
@@ -70,10 +76,15 @@ export function Chatbox() {
     const getLastMess = (e) => {
         let item = lastMessage[`mess-${compareId(e.id, profile.id)}`];
         if (item) {
-
-            return item.mess;
+            return {
+                mess: item.mess,
+                time: dateFormatChatbox(item)
+            };
         } else {
-            return "";
+            return {
+                mess: "",
+                time: ""
+            };
         }
     }
     const getUnseen = (e) => {
@@ -110,7 +121,7 @@ export function Chatbox() {
         };
     }, [])
 
-    if (!profile || !lastMessage || !friendList || !unknowList){
+    if (!profile || !lastMessage){
         return null;
     } else {
         return (<>
@@ -145,7 +156,7 @@ export function Chatbox() {
                         <div className="chatbox-friendList color0 borderRadius" style={{height: chatlistHeight}}>
                             {unknowMess ?
                                 <div className="chatbox-friendList-board">
-                                    {unknowList.length == 0 ? <h3>Không có kết quả</h3> :
+                                    {(unknowList.length == 0) ? <h3>Không có kết quả</h3> :
                                         unknowList.map((e) => {
                                             return (
                                                 <div className={`chatbox-friendList-board-detail cursorPoint borderRadius
@@ -158,7 +169,8 @@ export function Chatbox() {
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
                                                             {getUnseen(e) && <small className="alertMess color5 borderRadius">{getUnseen(e)}</small>}
                                                         </h4>
-                                                        <p className="chatbox-friendList-board-detail-mess text-smoke">{getLastMess(e)}</p>
+                                                        <p className="chatbox-friendList-board-detail-mess text-smoke">{getLastMess(e).mess}</p>
+                                                        <p className="chatbox-friendList-board-detail-time text-smoke">{getLastMess(e).time}</p>
                                                     </div>
                                                 </div>
                                             )
@@ -166,7 +178,7 @@ export function Chatbox() {
                                     }
                                 </div>
                                 : <div className="chatbox-friendList-board">
-                                    {friendList.length == 0 ? <h3>Không có kết quả</h3> :
+                                    {(friendList.length == 0) ? <h3>Không có kết quả</h3> :
                                         friendList.map((e) => {
                                             return (
                                                 <div className={`chatbox-friendList-board-detail cursorPoint borderRadius
@@ -179,7 +191,8 @@ export function Chatbox() {
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
                                                             {getUnseen(e) && <small className="alertMess color5 borderRadius">{getUnseen(e)}</small>}
                                                         </h4>
-                                                        <p className="chatbox-friendList-board-detail-mess text-smoke">{getLastMess(e)}</p>
+                                                        <p className="chatbox-friendList-board-detail-mess text-smoke">{getLastMess(e).mess}</p>
+                                                        <p className="chatbox-friendList-board-detail-time text-smoke">{getLastMess(e).time}</p>
                                                     </div>
                                                 </div>
                                             )
