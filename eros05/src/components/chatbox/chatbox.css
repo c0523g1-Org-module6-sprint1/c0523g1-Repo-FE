@@ -138,8 +138,8 @@
     display: grid;
     height: 80px;
     grid-template-columns: 80px 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: "avata name" "avata mess";
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "avata name" "avata mess" "avata time";
     transition-duration: 0.2s;
 }
 .chatbox-friendList-board-detail-avata {
@@ -152,15 +152,19 @@
 }
 .chatbox-friendList-board-detail-name {
     grid-area: name;
-    margin: 10px;
+    margin: 0;
 }
 .chatbox-friendList-board-detail-name-name {
     font-size: 16px;
+    margin: 0 10px 0 10px;
 }
 .chatbox-friendList-board-detail-mess {
     grid-area: mess;
-    margin: 10px;
-    color: rgba(0, 0, 0, 0.8);
+    margin: 0 0 0 10px;
+}
+.chatbox-friendList-board-detail-time {
+    grid-area: time;
+    text-align: right;
 }
 .online {
     border: limegreen 2px solid;
