@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./post.css";
 import {getListOfAnAccount} from "../../../service/posts/PostService";
 import EditPost from "./EditPost";
-import {getIdByJwt,getUsernameByJwt} from "../../../service/login/securityService";
+import {getIdByJwt,getUsernameByJwt,getRoleByJwt} from "../../../service/login/securityService";
 import { Link } from "react-router-dom";
 import LikeButton from "../../posts/LikeButton";
 
@@ -12,9 +12,11 @@ export default function Post() {
   const [postUpdate, setPostUpdate] = useState();
   const idLogin = getIdByJwt();
   const username = getUsernameByJwt();
+  const role = getRoleByJwt();
+
 
   const fetchDataListOfAnAccount = async () => {
-    const listNewsfeed = await getListOfAnAccount(username);
+    const listNewsfeed = await getListOfAnAccount(idLogin);
     setListNewsfeed(listNewsfeed);
   };
 
@@ -90,17 +92,23 @@ export default function Post() {
                                 </div>
                               </div>
                               <div className="post-options">
-                                <button
-                                    style={{
-                                      border: "none",
-                                      backgroundColor: "white",
-                                    }}
-                                    onClick={() => handleShowModal(item)}
-                                >
-                                  {" "}
-                                  <i className="fa fa-edit" />
-                                </button>
-                                <i className="fa fa-times close-icon" />
+                                {
+                                  ((role === "ADMIN" ||idLogin === item.account.id) && (
+                                      <button
+                                          style={{
+                                            border: "none",
+                                            backgroundColor: "white",
+                                          }}
+                                          onClick={() => handleShowModal(item)}
+                                      >
+                                        <i className="fa fa-edit"/>
+                                      </button>
+                                  ))}
+                                {
+                                  ((role === "ADMIN" ||idLogin === item.account.id) && (
+                                      <i className="fa fa-times close-icon" />
+
+                                  ))}
                               </div>
                             </div>
                             <div style={{ width: "100%" }} className="media-body">
