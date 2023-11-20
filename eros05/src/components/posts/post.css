@@ -74,7 +74,7 @@ body {
 }
 
 .liked {
-  background-color: red;
+  color: red;
 }
 
 .not-liked {

@@ -70,6 +70,7 @@ export function Chatbox() {
     const getLastMess = (e) => {
         let item = lastMessage[`mess-${compareId(e.id, profile.id)}`];
         if (item) {
+
             return item.mess;
         } else {
             return "";
@@ -91,6 +92,8 @@ export function Chatbox() {
     useEffect(() => {
         if (getIdByJwt()){
             getProfile();
+            getFriendList();
+            getUnknowList();
         } else {
             setProfile(null);
         }
@@ -107,7 +110,7 @@ export function Chatbox() {
         };
     }, [])
 
-    if (!profile || !lastMessage){
+    if (!profile || !lastMessage || !friendList || !unknowList){
         return null;
     } else {
         return (<>
@@ -145,7 +148,7 @@ export function Chatbox() {
                                     {unknowList.length == 0 ? <h3>Không có kết quả</h3> :
                                         unknowList.map((e) => {
                                             return (
-                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
+                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius
                                                 ${e.id == showChatBox ? "chatSelected" : ""}`}
                                                      onClick={() => {handleSelect(e)}}>
                                                     <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.messageStatus.id - 1]}`}
@@ -155,7 +158,7 @@ export function Chatbox() {
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
                                                             {getUnseen(e) && <small className="alertMess color5 borderRadius">{getUnseen(e)}</small>}
                                                         </h4>
-                                                        <p className="chatbox-friendList-board-detail-mess">{getLastMess(e)}</p>
+                                                        <p className="chatbox-friendList-board-detail-mess text-smoke">{getLastMess(e)}</p>
                                                     </div>
                                                 </div>
                                             )
@@ -166,7 +169,7 @@ export function Chatbox() {
                                     {friendList.length == 0 ? <h3>Không có kết quả</h3> :
                                         friendList.map((e) => {
                                             return (
-                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
+                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius
                                                 ${e.id == showChatBox ? "chatSelected" : ""}`}
                                                      onClick={() => {handleSelect(e)}}>
                                                     <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.messageStatus.id - 1]}`}
@@ -176,7 +179,7 @@ export function Chatbox() {
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
                                                             {getUnseen(e) && <small className="alertMess color5 borderRadius">{getUnseen(e)}</small>}
                                                         </h4>
-                                                        <p className="chatbox-friendList-board-detail-mess">{getLastMess(e)}</p>
+                                                        <p className="chatbox-friendList-board-detail-mess text-smoke">{getLastMess(e)}</p>
                                                     </div>
                                                 </div>
                                             )

@@ -1,6 +1,8 @@
 import "./UnAuthor.css";
+import {Link} from "react-router-dom";
 
-export default function UnAuthor() {
+
+export function UnAuthor() {
     return (
         <div id="thienbb-notfound">
             <div className="thienbb-notfound-bg">
@@ -10,7 +12,9 @@ export default function UnAuthor() {
                     <span className="thienbb-notfound-title">Oops!</span>
                 </div>
                 <span className="thienbb-notfound-title-2">Bạn không có quyền truy cập vào trang này!</span>
-                <a href="" className="thienbb-home-btn">Trang chủ</a>
+                <div>
+                    <Link to={"/"} className="thienbb-home-btn" >Trang chủ</Link>
+                </div>
             </div>
         </div>
     );

@@ -13,7 +13,7 @@ import "./post.css";
 
 export default function EditPost({ showModal, handleHideModal, postUpdate }) {
   const [privacyPostList, setPrivacyPostList] = useState();
-  const [isUploading,setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const fetchDataPrivacyPost = async () => {
     const privacyPostList = await getPrivacyPost();
@@ -49,9 +49,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
     privacyPostId: postUpdate.privacyPostId,
   };
   const validatePost = {
-    content: Yup.string().max(
-      6000,
-      "Tình yêu có thể viết ngắn lại được không ?"
+    content: Yup.string().max(6000,"Tình yêu có thể viết ngắn lại được không ?"
     ),
     privacyPostId: Yup.string().required(
       "Tình yêu xin hãy chọn quyền riêng tư"
@@ -75,9 +73,11 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
               Chỉnh sửa bài viết
             </h1>
           </div>
-          <Button className="my-btn btn-close"
-          type="button"
-          onClick={handleHideModal}></Button>
+          <Button
+            className="my-btn btn-close"
+            type="button"
+            onClick={handleHideModal}
+          ></Button>
         </Modal.Header>
         <Formik
           initialValues={initValue}
@@ -175,34 +175,32 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                                         Xóa ảnh
                                       </button>
                                       <label
-                                      htmlFor="image-upload"
-                                      className="upload-button"
-                                    >
-                                      Thay đổi
-                                      <input
-                                        id="image-upload"
-                                        className="hidden-input"
-                                        type="file"
-                                        accept="image/*"
-                                        disabled = {isUploading}
-                                        onChange={async (event) => {
-                                          setIsUploading(true)
-                                          const file =
-                                            event.currentTarget.files[0];
-                                          const imageURL =
-                                            await uploadImageToFirebase(file);
-                                          form.setFieldValue(
-                                            field.name,
-                                            imageURL
-                                          );
-                                        }}
-                                      />
-                                    </label>
+                                        htmlFor="image-upload"
+                                        className="upload-button"
+                                      >
+                                        Thay đổi
+                                        <input
+                                          id="image-upload"
+                                          className="hidden-input"
+                                          type="file"
+                                          accept="image/*"
+                                          onChange={async (event) => {
+                                            const file =
+                                              event.currentTarget.files[0];
+                                            const imageURL =
+                                              await uploadImageToFirebase(file);
+                                            form.setFieldValue(
+                                              field.name,
+                                              imageURL
+                                            );
+                                          }}
+                                        />
+                                      </label>
                                     </div>
                                   </div>
                                 )}
                                 {!field.value && (
-                                  <div style={{textAlign:"center"}}>
+                                  <div style={{ textAlign: "center" }}>
                                     <label
                                       htmlFor="image-upload"
                                       className="upload-button"
@@ -213,9 +211,7 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                                         className="hidden-input"
                                         type="file"
                                         accept="image/*"
-                                        disabled = {isUploading}
                                         onChange={async (event) => {
-                                          setIsUploading(true)
                                           const file =
                                             event.currentTarget.files[0];
                                           const imageURL =
