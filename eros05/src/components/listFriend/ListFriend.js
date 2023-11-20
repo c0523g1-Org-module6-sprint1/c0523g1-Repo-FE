@@ -3,12 +3,13 @@ import "./ListFriend.css"
 import { list } from "firebase/storage";
 import { getList, handleBlockFriend, handleDeleteFriend } from "../../service/listFriend/ListFriendService";
 import { Modal } from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { getIdByJwt, getUsernameByJwt } from "../../service/login/securityService";
 import Gift from "../gift/Gift";
 
 function ListFriend() {
   const [list, setList] = useState([1, 2, 3, 4, 5]);
+  const navigate = useNavigate();
  
   const [friendDelete, setFriendDelete] = useState();
   const [friendBlock, setFriendBlock] = useState();
@@ -96,6 +97,7 @@ function ListFriend() {
   }
 
 
+
   const getGenderIcon = (value) => {
     if (value === "female") {
       return <i className="fa-solid fa-venus" style={{ color: '#f08ee8' }}></i>;
@@ -106,6 +108,9 @@ function ListFriend() {
     }
   }
   console.log(nameSearch);
+  const goToPersonalPage = async (id) => {
+    await navigate(`/personal-page/${id}`);
+  }
 
   useEffect(() => {
     getIdLogin()
@@ -141,8 +146,21 @@ function ListFriend() {
                   <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}} 
                     src="https://firebasestorage.googleapis.com/v0/b/cupid-project-439b5.appspot.com/o/img-quy%2Fbox.png?alt=media&token=f991f1b6-fd6b-45e4-9b61-df5ae995e43f" alt />
                   </button>
-                  <div className="iconThienPT">
-                    <img className="cus-avatarThienPT" src="https://images.pexels.com/photos/2048716/pexels-photo-2048716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt />
+                  <div className="iconThienPT" onClick={()=>goToPersonalPage(o.id)}>
+                    
+                    {/* <Link  to={o.avatarAccount} >
+                      <img className="cus-avatarThienPT" src="" alt />
+                    </Link> */}
+                    <div  style={{
+                                    backgroundImage : `url(${o.avatarAccount})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    aspectRatio: '1/1',
+                                    backgroundRepeat: 'no-repeat',
+                                }}  
+                            className="cus-avatarThienPT"         
+                                    >
+                                </div>
                   </div>
                   <p className="titleThienPT">{o.nameAccount} {getGenderIcon(o.nameGender)}</p>
                   <p className="titleThienPT" style={{ opacity: '0.5' }}>{o.nameLocation}</p>
