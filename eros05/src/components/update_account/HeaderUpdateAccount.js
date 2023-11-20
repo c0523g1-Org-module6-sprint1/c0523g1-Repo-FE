@@ -14,8 +14,8 @@ export function HeaderUpdateAccount() {
     const [user, setUser] = useState();
     const currentDate = moment().format('YYYY-MM-DD');
     const [packageTypes, setPackageTypes] = useState([]);
+    const [packageAccount, setPackageAccount] = useState([{name: "", money: "", expire: "", regisDate: ""}]);
 
-    const [packageAccount, setPackageAccount] = useState([{name:"",money:"",expire:"",regisDate:""}]);
 
     useEffect(() => {
         const test = async () => {
@@ -27,7 +27,6 @@ export function HeaderUpdateAccount() {
                 console.log("resUser >>> " + resUser)
                 if (resUser) {
                     setUser(resUser.data);
-                    console.log("-------------------")
 
                 }
             }
@@ -43,39 +42,35 @@ export function HeaderUpdateAccount() {
 
 
     const findPackageAccount = () => {
-        if (user){
+        if (user) {
             packageTypesService.findPackageAccount(user.id).then(res => {
                 console.log(res)
                 setPackageAccount(res);
-                console.log("++++++++++++++++++++++")
-                console.log(packageAccount[0])
             });
         }
     }
 
 
-    const calculateDate = (date,expirationDate) => {
-        const newDate1 = expirationDate.split("-");
-        const result1 = newDate1.join("");
-        const number1 = Number(result1);
+    const calculateDate = (expirationDate) => {
+        const endDate  = moment(expirationDate)
+        let startDate = moment(currentDate);
 
-        let newDate2 = date.split("-");
-        let result2 = newDate2.join("");
-        let number2 = Number(result2);
-
-        return number1-number2;
+        const remainingDays = endDate.diff(startDate , 'days');
+        return remainingDays
     }
 
-
-
+    UpdateAccountEros(calculateDate(packageAccount[0].regisDate))
+    UpdateAccountGold(calculateDate(packageAccount[0].regisDate))
 
     return (
         <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-updateaccount-card updateaccount-body">
             {packageAccount[0].name === "Member" ? (
                 <div className="updateaccount-card-info">
                     <div className="updateaccount-img">
-                        <img style={{ maxWidth: "100%",
-                            maxHeight: "100%"}} src="" alt=""/>
+                        <img style={{
+                            maxWidth: "100%",
+                            maxHeight: "100%"
+                        }} src="" alt=""/>
                     </div>
                     <div className="updateaccount-textBox">
                         <div className="updateaccount-textContent">
@@ -85,24 +80,28 @@ export function HeaderUpdateAccount() {
                         </div>
                     </div>
                 </div>
-            ):(
+            ) : (
                 <div className="updateaccount-card-info">
                     <div className="updateaccount-img">
-                        <img style={{ maxWidth: "100%",
-                            maxHeight: "100%"}} src="" alt=""/>
+                        <img style={{
+                            maxWidth: "100%",
+                            maxHeight: "100%"
+                        }} src="" alt=""/>
                     </div>
                     <div className="updateaccount-textBox">
                         <div className="updateaccount-textContent">
                             <p className="updateaccount-h1">Hạng hiện tại: {packageAccount[0].name}</p>
                         </div>
-                        <p className="updateaccount-p">{packageAccount[0].money} <i style={{color:"snow"}} className="fa-regular fa-gem"></i></p>
-                        <p style={{margin: "-13px 0px 11px 0"}} className="updateaccount-p">Thời hạn gói còn: {calculateDate(packageAccount[0].expire, packageAccount[0].regisDate)} ngày</p>
+                        <p className="updateaccount-p">{packageAccount[0].money} <i style={{color: "snow"}}
+                                                                                    className="fa-regular fa-gem"></i>
+                        </p>
+                        <p style={{margin: "-13px 0px 11px 0"}} className="updateaccount-p">Thời hạn gói
+                            còn: {calculateDate(packageAccount[0].regisDate)} ngày</p>
                         <div>
                         </div>
                     </div>
                 </div>
             )}
-
 
 
             <Link to="/updateAccount/eros+" className="updateaccount-card">
@@ -168,10 +167,6 @@ export function HeaderUpdateAccount() {
                 <p className="text">lên cấp mọi hành động bạn thực hiện trên Eros</p>
             </Link>
 
-            <UpdateAccountEros calculateDate={calculateDate(packageAccount[0].expire, packageAccount[0].regisDate)} />;
-            <UpdateAccountGold calculateDate={calculateDate(packageAccount[0].expire, packageAccount[0].regisDate)} />;
         </div>
     )
-
-
 }

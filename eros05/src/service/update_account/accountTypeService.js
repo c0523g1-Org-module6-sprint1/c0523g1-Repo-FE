@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const URL_ACCOUNT_TYPES = "http://localhost:8080/api/public/accountTypes"
-const URL_POST = "http://localhost:8080/post"
+const URL_POST = "http://localhost:8080/api/public/newsfeed/post/new"
 export const getAll = async () => {
     try {
         let response = await axios.get(URL_ACCOUNT_TYPES);
