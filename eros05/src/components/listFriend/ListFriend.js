@@ -114,7 +114,7 @@ function ListFriend() {
   },[idLogin])
   return (
     <>
-      <div style={{ background: 'linear-gradient(90deg, rgba(208,162,247,1) 0%, rgba(169,114,206,1) 0%, rgba(208,162,247,1) 26%, rgba(163,106,203,1) 100%, rgba(216,175,231,1) 100%, rgba(229,212,255,1) 100%, rgba(225,203,255,1) 100%)' }}>
+      <div style={{ background: 'linear-gradient(135deg, #8BC6EC 0%, #784BA0 100%)' }}>
         <h1 style={{ textAlign: 'center', marginBottom: 50, fontFamily: "Agbalumo" }}>Xem danh sách bạn bè</h1>
         <div className="row" style={{ marginBottom: 30, marginRight: 30 }}>
           <div className="d-flex justify-content-end">
@@ -139,7 +139,7 @@ function ListFriend() {
                 <div className="cardsThienPT">
                   <button  onClick={()=>handleModal(o.usernameAccount)} className="btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
                   <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}} 
-                    src="..//QuyNP/mau-thiet-ke-hop-qua-vector-06-removebg-preview.png" alt />
+                    src="https://firebasestorage.googleapis.com/v0/b/cupid-project-439b5.appspot.com/o/img-quy%2Fbox.png?alt=media&token=f991f1b6-fd6b-45e4-9b61-df5ae995e43f" alt />
                   </button>
                   <div className="iconThienPT">
                     <img className="cus-avatarThienPT" src="https://images.pexels.com/photos/2048716/pexels-photo-2048716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt />

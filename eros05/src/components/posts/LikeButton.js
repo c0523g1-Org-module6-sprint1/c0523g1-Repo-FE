@@ -23,13 +23,13 @@ export default function LikeButton({ id, postId }) {
     };
     fetchDataPostIsLiked();
   }, [postId, id]);
-  
+
   useEffect(() => {
     const initializeIsLiked = async () => {
       const result = await handleCheckIsLiked(postId, id);
       setIsLiked(result);
     };
-  
+
     initializeIsLiked();
   }, []);
 
@@ -69,7 +69,9 @@ export default function LikeButton({ id, postId }) {
         >
           {amountLike}{" "}
           <i
-            className={`fa-regular fa-heart ${isLiked ? "liked" : "not-liked"}`}
+            className={`fa-regular fa-heart ${
+              isLiked ? "fa-solid fa-heart liked" : "not-liked"
+            }`}
           />
           Thích
         </button>

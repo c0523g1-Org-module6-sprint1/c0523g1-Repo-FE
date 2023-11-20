@@ -36,9 +36,9 @@ export const update = async (id,values) => {
     }
 }
 
-export const getListOfAnAccount = async (userName) => {
+export const getListOfAnAccount = async (accountId) => {
     try {
-        const respone = await axios.get("http://localhost:8080/api/public/post/account/" + userName);
+        const respone = await axios.get("http://localhost:8080/api/public/post/account/" + accountId);
         console.log(respone.data);
         return respone.data; 
     } catch (error) {

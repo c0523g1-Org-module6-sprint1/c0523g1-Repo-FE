@@ -28,7 +28,9 @@ import AnToan from "./components/bodyMainPage/AnToan";
 import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
 import {requestFilter} from "./service/login/requestFilter";
-
+import {HandleAuthor} from "./service/authorization/Authorization";
+import {EnumRole} from "./service/authorization/EnumRole";
+import {UnAuthor} from "./components/error/UnAuthor";
 function App() {
     requestFilter();
     return (
@@ -38,28 +40,48 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="*" element={<Header/>}/>
+                <Route path="/401" element={<UnAuthor/>}/>
             </Routes>
             <Routes>
                 <Route path="/" element={<BodyMainPage/>}/>
+            </Routes>
+            <Routes>
+                <Route
+                    element={<HandleAuthor
+                        allowedRole={[
+                            EnumRole.ADMIN
+                        ]}/>}>
+                    <Route path="/accounts" element={<ListAccount/>}/>
+                </Route>
+            </Routes>
+            <Routes>
                 <Route path="/public/search-name/:name" element={<SearchPage/>}/>
                 <Route path="/search_advanced" element={<SearchAdvanced/>}/>
-                <Route path="/top_hundered" element={<TopHundered/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/initial-information" element={<InitInfo/>}/>
-                <Route path="/friend/list" element={<ListFriend/>}/>
-                <Route path="/invited_recommend_friend/InvitedList" element={<InvitedList/>}/>
-                <Route path="/invited_recommend_friend/RecommendList" element={<RecommendList/>}/>
-                <Route path="/personal-page/:id" element={<PersonalPage/>}/>
-                <Route path="/updateAccount/eros+" element={<UpdateAccountEros/>}/>
-                <Route path="/updateAccount/gold" element={<UpdateAccountGold/>}/>
-                <Route path="/updateAccount/platinum" element={<UpdateAccountPlatinum/>}/>
-                <Route path="/change_password" element={<ChangePassword/>}/>
-                <Route path="/accounts" element={<ListAccount/>}/>
                 <Route path="/tim-hieu" element={<TimHieu/>}/>
-                <Route path="/ho-tro" element={<HoTro/>}/>
                 <Route path="/an-toan" element={<AnToan/>}/>
-                <Route path="/personal-page/edit" element={<EditAccount/>}/>
-                <Route path="/newsfeed" element={<Post/>}/>
+                <Route path="/ho-tro" element={<HoTro/>}/>
+                <Route path="/top_hundered" element={<TopHundered/>}/>
+            </Routes>
+            <Routes>
+                <Route
+                    element={<HandleAuthor
+                        allowedRole={[
+                            EnumRole.ADMIN,
+                            EnumRole.MEMBER
+                        ]}/>}>
+                    <Route path="/friend/list" element={<ListFriend/>}/>
+                    <Route path="/personal-page/:id" element={<PersonalPage/>}/>
+                    <Route path="/invited_recommend_friend/InvitedList" element={<InvitedList/>}/>
+                    <Route path="/invited_recommend_friend/RecommendList" element={<RecommendList/>}/>
+                    <Route path="/updateAccount/eros+" element={<UpdateAccountEros/>}/>
+                    <Route path="/updateAccount/gold" element={<UpdateAccountGold/>}/>
+                    <Route path="/updateAccount/platinum" element={<UpdateAccountPlatinum/>}/>
+                    <Route path="/change_password" element={<ChangePassword/>}/>
+                    <Route path="/newsfeed" element={<Post/>}/>
+                    <Route path="/personal-page/edit" element={<EditAccount/>}/>
+                </Route>
             </Routes>
             <Routes>
                 <Route path="/" element={<Footer/>}/>
@@ -67,5 +89,4 @@ function App() {
         </>
     );
 }
-
 export default App;
