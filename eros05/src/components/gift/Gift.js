@@ -14,7 +14,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
   const display = async () => {
     const res = await giftService.getAll();
     const resMoney = await giftService.getMoney(userNow);
-    const result = resMoney / 100;
+    const result = resMoney / 1000;
     setgetMoney(result);
     setListGift(res);
     console.log();
