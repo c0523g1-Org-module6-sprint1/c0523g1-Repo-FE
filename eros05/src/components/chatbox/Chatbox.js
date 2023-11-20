@@ -91,6 +91,8 @@ export function Chatbox() {
     useEffect(() => {
         if (getIdByJwt()){
             getProfile();
+            getFriendList();
+            getUnknowList();
         } else {
             setProfile(null);
         }
@@ -107,7 +109,7 @@ export function Chatbox() {
         };
     }, [])
 
-    if (!profile || !lastMessage){
+    if (!profile || !lastMessage || !friendList || !unknowList){
         return null;
     } else {
         return (<>
@@ -145,7 +147,7 @@ export function Chatbox() {
                                     {unknowList.length == 0 ? <h3>Không có kết quả</h3> :
                                         unknowList.map((e) => {
                                             return (
-                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
+                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius
                                                 ${e.id == showChatBox ? "chatSelected" : ""}`}
                                                      onClick={() => {handleSelect(e)}}>
                                                     <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.messageStatus.id - 1]}`}
@@ -166,7 +168,7 @@ export function Chatbox() {
                                     {friendList.length == 0 ? <h3>Không có kết quả</h3> :
                                         friendList.map((e) => {
                                             return (
-                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
+                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius
                                                 ${e.id == showChatBox ? "chatSelected" : ""}`}
                                                      onClick={() => {handleSelect(e)}}>
                                                     <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.messageStatus.id - 1]}`}
