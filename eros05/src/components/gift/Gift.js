@@ -17,7 +17,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
     const result = resMoney / 1000;
     setgetMoney(result);
     setListGift(res);
-    console.log();
   };
   useEffect(() => {
     display();
@@ -33,7 +32,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
 
   const choiceProduct = (value) => {
     setProduct(value);
-    console.log(value);
     setFlagChoice(true);
   };
   const up = () => {
@@ -59,7 +57,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
       accountReceiverId: userGift,
     };
     const flag = await giftService.giveaGive(GiveDto);
-    console.log(flag);
     if (flag === undefined) {
       setMoneyStatus(true);
     }
@@ -277,7 +274,15 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                   )}
                 </div>
               </div>
-              <div className="modal-footer">
+              <div
+                className="modal-footer"
+                style={{
+                  backgroundColor: "whitesmoke",
+                  // borderRadius: "7px",
+                  // color: "black",
+                  // border: "#a36acb solid 1px",
+                }}
+              >
                 <button
                   className="btn btn-primary"
                   data-bs-target="#exampleModalToggle2"
@@ -295,8 +300,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                 {flagChoice ? (
                   <button
                     className="btn btn-primary"
-                    data-bs-target="#exampleModalToggle2"
-                    data-bs-toggle="modal"
                     style={{
                       backgroundColor: "#a36acb",
                       borderRadius: "7px",

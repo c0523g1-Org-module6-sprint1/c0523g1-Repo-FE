@@ -55,6 +55,7 @@ function Changepassword() {
     setPassword1("");
     setPassword2("");
     setPasswordNow("");
+    setButtonStatuss(false);
   };
   const checkempty = () => {};
   const checkpassNow = (value) => {
