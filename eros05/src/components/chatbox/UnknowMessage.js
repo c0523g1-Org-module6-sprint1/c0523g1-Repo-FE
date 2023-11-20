@@ -1,19 +1,15 @@
 import {IdByNow, sliceString} from "../../service/chatbox/util";
-import {database, onValue, push, refText, update} from "../../service/chatbox/firebase";
+import {database, onValue, push, refText, set, update} from "../../service/chatbox/firebase";
 import {useEffect, useState} from "react";
 import {GetChatBoxApi} from "../../service/chatbox/apiConnection";
 
 export default function UnknowMessage({profile, element}) {
     const [inputMess, setInputMess] = useState("");
     const [path, setPath] = useState();
-    const pushFireBase = async (type, textData) => {
+    const pushFireBase = async (textData) => {
         if (textData != "") {
             let last = sliceString(textData, 15);
             let countUnseenElement;
-            if (type == 1) {
-                last = "[hình ảnh]"
-            }
-
             const idMessage = IdByNow();
             await push(refText(database, path), {
                 id: idMessage,
@@ -24,7 +20,6 @@ export default function UnknowMessage({profile, element}) {
                 release: new Date() + "",
                 seen: false
             })
-
             await onValue(refText(database, `lastmess/${path}`), data => {
                 let count = data.val()[element.id];
                 if (count) {
@@ -33,7 +28,6 @@ export default function UnknowMessage({profile, element}) {
                     countUnseenElement = 1;
                 }
             });
-
             await update(refText(database, `lastmess/${path}`), {
                 mess: last,
                 id: idMessage,
@@ -53,27 +47,29 @@ export default function UnknowMessage({profile, element}) {
         const res = await GetChatBoxApi(element.id);
         if (res){
             await setPath(res.path);
-            await update(refText(database, `lastmess/${res.path}`), {
-                [profile.id]: 0
-            })
+            await set(refText(database, `lastmess/${res.path}/${profile.id}`), 0)
         }
     }
     useEffect(() => {
         getPath();
     },[]);
     const handleSendMessage = async () => {
-        await pushFireBase(0, inputMess);
+        await pushFireBase(inputMess);
     }
     return (
         <div className="unknowMessageTable color3 borderRadius">
             <input className="unknowMessageTable-input borderRadius"
                    type="text"
                    placeholder="Gửi tin nhắn..."
+                   onKeyDown={(e) => {enterButton(e.key)}}
+                   onChange={(e) => {setInputMess(e.target.value)}}
             />
             <div className="unknowMessageTable-close borderRadius color0"/>
-            <div className="unknowMessageTable-send borderRadius color0"/>
+            <div className="unknowMessageTable-send borderRadius color0"
+                 onClick={handleSendMessage}
+            />
             <span className="unknowMessageTable-note">
-                Kết bạn với nhau để gửi tin được nhiều hơn
+                --- Kết bạn với nhau để có thể nhắn tin được nhiều hơn ---
             </span>
         </div>
     )
