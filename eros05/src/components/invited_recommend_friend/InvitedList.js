@@ -40,25 +40,17 @@ export default function InvitedList() {
 
     if (!invited) return null;
     return (
-
         <>
             <div>
                 <div style={{marginTop: "75px"}}>
-                    <h1>Lời mời kết bạn</h1>
-                    <div className="d-flex">
+                    <div>
+                        <h1>Lời mời kết bạn</h1>
                         <div className="dropdown">
                             <button className="btn btn-dark dropdown-toggle" type="button"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                     style={{
-                                        position: "relative",
-                                        cursor: "pointer",
-                                        textTransform: "none",
-                                        height: "40px",
-                                        width: "100px",
-                                        border: "none",
-                                        left: "-1380px",
-                                        background: "#a36acb"
+                                        cursor: "pointer", border: "none", background: "#a36acb"
                                     }}>
                                 Sắp xếp
                             </button>
@@ -69,32 +61,35 @@ export default function InvitedList() {
                             </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-            {invited.map((invited) =>
-                <div className="d-flex" style={{float: "left"}}>
-                    <div className="hlpcards">
-                        <div className="hlpicon">
-                            <img className="hlpcus-avatar"
-                                 src={invited.avatarAccount}
-                                 alt=""/>
-                        </div>
-                        <p className="hlptitle mb-4">{invited.nameAccount}</p>
-                        <p className="hlptext">
-                            <button id="confirm" className="btn "
-                                    style={{width: "100%", background: "#d0a8de", color: "white"}}
-                                    onClick={() => acceptFriend(invited.id)}>Xác
-                                nhận
-                            </button>
-                            <button id="delete" className="btn text-dark mt-1"
-                                    style={{width: "100%", background: "#cbd2d4", color: "white"}}
-                                    onClick={() => deleteInvited(invited.id)}
-                                    type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Xóa
-                            </button>
-                        </p>
+
+                    <div>
+                        {invited.map((invited) =>
+                            <div className="d-flex" style={{float: "left"}}>
+                                <div className="hlpcards">
+                                    <div className="hlpicon">
+                                        <img className="hlpcus-avatar"
+                                             src={invited.avatarAccount}
+                                             alt=""/>
+                                    </div>
+                                    <p className="hlptitle mb-4">{invited.nameAccount}</p>
+                                    <p className="hlptext">
+                                        <button id="confirm" className="btn "
+                                                style={{width: "100%", background: "#d0a8de", color: "white"}}
+                                                onClick={() => acceptFriend(invited.id)}>Xác
+                                            nhận
+                                        </button>
+                                        <button id="delete" className="btn text-dark mt-1"
+                                                style={{width: "100%", background: "#cbd2d4", color: "white"}}
+                                                onClick={() => deleteInvited(invited.id)}
+                                                type="button">Xóa
+                                        </button>
+                                    </p>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
-            )}
+            </div>
         </>
     )
 }

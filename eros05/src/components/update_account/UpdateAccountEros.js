@@ -10,22 +10,41 @@ import {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
 import React from 'react';
 import {formatPrice, vndToUsd} from "./FormatPrice";
-import {paySucces, resetRadioButtons, setMoneyToPaySuccess} from "./Pay";
+import {load, paySucces, resetRadioButtons, setMoneyToPaySuccess, vnPayOnclick} from "./Pay";
 import {useParams} from "react-router-dom";
 import * as payService from "../../service/update_account/payService";
 import * as securityService from "../../service/login/securityService";
 import * as SearchNameService from "../../service/searchName/searchNameService";
 import * as accountTypesService from "../../service/update_account/accountTypeService";
-
+import Swal from "sweetalert2";
+import moment from "moment";
+import {registrationDate} from "../../service/update_account/packageDetailService";
+import * as AlertModal from "../update_account/AlertModal"
+import {handlePackage} from "./AlertModal";
+import {calculateDate} from "./CaculateDate";
 
 export function UpdateAccountEros() {
+
     const [pricePay, setPricePay] = useState(0);
     const [payEros, setPayEros] = useState("");
     const [packageTypes, setPackageTypes] = useState([]);
     const {succesVnPay} = useParams();
     const accessToken = localStorage.getItem('accessToken')
     const [user, setUser] = useState();
-    const [nameAccount, setNameAccount] = useState("")
+    const [nameAccount, setNameAccount] = useState("");
+    const [packageAccount, setPackageAccount] = useState([{name: "", money: "", expire: "", regisDate: ""}]);
+    const currentDate = moment();
+    const currentDate2 = moment().format('YYYY-MM-DD');
+    const [datePackage, setDatePackage] = useState(0)
+    const [newFutureDate, setNewFutureDate] = useState("");
+    const [comfirmChange, setComfirmChange] = useState(false);
+
+
+    const packageClick = (days) => {
+        setDatePackage(days);
+        let futureDate = currentDate.add(datePackage, 'days');
+        setNewFutureDate(futureDate.format('YYYY-MM-DD'));
+    }
 
     useEffect(() => {
         getAllAccountTypes()
@@ -39,6 +58,14 @@ export function UpdateAccountEros() {
     }
 
     useEffect(() => {
+        getAllPackageAccount()
+    }, []);
+    const getAllPackageAccount = async () => {
+        let data = await packageTypesService.getAllPackageAccount();
+        setPackageAccount(data);
+    }
+
+    useEffect(() => {
         getAllPackageTypes()
     }, []);
     const getAllPackageTypes = async () => {
@@ -46,60 +73,59 @@ export function UpdateAccountEros() {
         let dataEros = data.filter(data => data.accountTypes.id === 1);
         console.log(dataEros)
         setPackageTypes(dataEros);
-        // setNameAccountType(packageTypes.accountTypes.name);
-        // console.log(dataEros.accountTypes.name)
     }
-
 
 
     useEffect(() => {
         const test = async () => {
             const resUsername = securityService.getUsernameByJwt();
-            console.log('resUserName >>>>' + resUsername)
             // setUserName(resUsername)
             if (resUsername !== null) {
                 const resUser = await SearchNameService.findByUserName(resUsername);
-                console.log("resUser >>> " + resUser)
                 if (resUser) {
                     setUser(resUser.data);
-                    console.log("-------------------")
-                    // console.log(user)
-                    // console.log(user.id)
                 }
             }
         }
         test();
     }, []);
+    const findPackageAccount = () => {
+        if (user) {
+            packageTypesService.findPackageAccount(user.id).then(res => {
+                console.log(res)
+                setPackageAccount(res);
+            });
+        }
+    }
     useEffect(() => {
         if (user) {
             console.log(user)
+            findPackageAccount()
         }
     }, [user])
 
-
-    const vnPayOnclick = async () => {
-        const link = await payService.checkVnPay(pricePay);
-        console.log(link)
-        window.location.href = link;
-    }
-
-  
-
-
     async function callAsyncFunctions() {
         try {
-                await paySucces(user.id,1); // Hàm bất đồng bộ 1
-                await setMoneyToPaySuccess(user.id, pricePay); // Hàm bất đồng bộ 2
-                await resetRadioButtons(); // Hàm bất đồng bộ 3
-
+            await paySucces(user.id, 1); // Hàm bất đồng bộ 1
+            console.log(comfirmChange)
+            if (comfirmChange === true) {
+                console.log("dk 1")
+                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money + calculateDate(packageAccount[0].regisDate)); // Hàm bất đồng bộ 2
+            } else {
+                console.log("dk 2")
+                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money); // Hàm bất đồng bộ 2
+            }
+            await resetRadioButtons(); // Hàm bất đồng bộ 3
+            await registrationDate(currentDate2, newFutureDate, user.id);
+            await load();
         } catch (error) {
-            console.log("có lỗi xảy ra khi gọi cả 3 hàm")
+            console.log("có lỗi xảy ra khi gọi cả 4 hàm")
         }
     }
 
 
     return (
-        <div className="updateaccout-row" style={{display: "flex"}}>
+        <div className="updateaccout-row updateaccount-body" style={{display: "flex"}}>
             <HeaderUpdateAccount/>
 
             <div className="col-xs-12 col-6 col-md-12 col-lg-6 col-sm-12">
@@ -179,13 +205,14 @@ export function UpdateAccountEros() {
 
             <div className="col-xs-12 col-3 col-md-12 col-lg-3">
                 <div className="updateaccount-card-right">
-                    <p className="title ">Đăng ký Eros+</p>
+                    <p className="title">Đăng ký Eros+</p>
                     <p style={{fontSize: "13px"}}>Cho phép bạn thích bài viết & nhiều quyền lợi khác</p>
                 </div>
 
                 <div className="updateaccount-radio-input" id="myForm">
-                    {packageTypes.map(packageType => (
-                        <>
+                    {packageTypes.map(packageType =>
+                        <div
+                            onClick={() => packageClick(packageType.days)}>
                             <input
                                 onChange={() => setPricePay(packageType.price)}
                                 type="radio" id={packageType.name}
@@ -194,23 +221,26 @@ export function UpdateAccountEros() {
                                 {packageType.name}<br/>
                                 {formatPrice(packageType.price)} đ/tháng
                             </label>
-                        </>
-                    ))}
+                        </div>
+                    )}
+
 
                     <div className="updateaccount-radio-input-pay">
-                        <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
-                               name="value-radio-pay"
-                               id="value-4" type="radio"/>
-                        <label htmlFor="value-4">Thanh toán VNPay</label>
-                        <input onChange={(values) => setPayEros(values.target.value)} value="paypal"
-                               name="value-radio-pay"
-                               id="value-5" type="radio"/>
-                        <label htmlFor="value-5">Thanh toán Paypal</label>
-                        <input onChange={(values) => setPayEros(values.target.value)} value="momo"
-                               name="value-radio-pay"
-                               id="value-6" type="radio"/>
-                        <label htmlFor="value-6">Thanh toán Momo</label>
+                        <div className="updateaccount-radio-input-pay"
+                             onClick={(event) => handlePackage(packageAccount[0].name, nameAccount)}
+                             onChange={() => setComfirmChange(true)}>
+                            <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
+                                   name="value-radio-pay"
+                                   id="value-4" type="radio"/>
+                            <label htmlFor="value-4">Thanh toán VNPay</label>
+                            <input onChange={(values) => setPayEros(values.target.value)} value="paypal"
+                                   name="value-radio-pay"
+                                   id="value-5" type="radio"/>
+                            <label htmlFor="value-5">Thanh toán Paypal</label>
+                        </div>
                     </div>
+
+
                     {payEros === '' && pricePay === 0 ? (
                         <div className="updateaccount-card-right">
                             <p className="title" style={{fontSize: "13px"}}>Vui lòng chọn gói và chọn phương thức thanh
@@ -220,7 +250,7 @@ export function UpdateAccountEros() {
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
-                        <button className="updateaccount-pushable" onClick={vnPayOnclick}>
+                        <button className="updateaccount-pushable" onClick={() => vnPayOnclick(pricePay)}>
                             <span className="updateaccount-shadow"></span>
                             <span className="updateaccount-edge"></span>
                             <span className="updateaccount-front">
@@ -234,11 +264,8 @@ export function UpdateAccountEros() {
                                       amount={vndToUsd(pricePay)}
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
-                                          toast.success(`Thanh toán thành công ${pricePay} vnđ bởi `
-                                              + details.payer.name.given_name
-                                              + ` bạn đã được thăng lên hạng ${nameAccount}`);
+                                          AlertModal.alert(pricePay, nameAccount)
                                           onchange(callAsyncFunctions());
-                                          // load()
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",
@@ -253,12 +280,6 @@ export function UpdateAccountEros() {
                         />
 
 
-                    ) : null}
-
-                    {payEros === 'momo' && pricePay !== 0 ? (
-                        <div>
-                            <img src="../../components/update_account/img/momoQR.jpg" alt=""/>
-                        </div>
                     ) : null}
                 </div>
             </div>

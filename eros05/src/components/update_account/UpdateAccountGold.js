@@ -8,12 +8,18 @@ import * as packageTypesService from "../../service/update_account/packageTypesS
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
 import {formatPrice, vndToUsd} from "./FormatPrice";
-import {load, paySucces, resetRadioButtons, setMoneyToPaySuccess} from "./Pay";
+import {load, paySucces, resetRadioButtons, setMoneyToPaySuccess, vnPayOnclick} from "./Pay";
 import {useParams} from "react-router-dom";
 import * as securityService from "../../service/login/securityService";
 import * as SearchNameService from "../../service/searchName/searchNameService";
 import * as payService from "../../service/update_account/payService";
 import * as accountTypesService from "../../service/update_account/accountTypeService";
+import moment from "moment/moment";
+import Swal from "sweetalert2";
+import {registrationDate} from "../../service/update_account/packageDetailService";
+import * as AlertModal from "./AlertModal";
+import {handlePackage} from "./AlertModal";
+import {calculateDate} from "./CaculateDate";
 
 export function UpdateAccountGold() {
     const [pricePay, setPricePay] = useState(0);
@@ -23,34 +29,18 @@ export function UpdateAccountGold() {
     const accessToken = localStorage.getItem('accessToken')
     const [user, setUser] = useState();
     const [nameAccount, setNameAccount] = useState("")
+    const [packageAccount, setPackageAccount] = useState([{name: "", money: "", expire: "", regisDate: ""}]);
+    const currentDate = moment();
+    const currentDate2 = moment().format('YYYY-MM-DD');
+    const [datePackage, setDatePackage] = useState(0)
+    const [newFutureDate, setNewFutureDate] = useState("");
+    const [comfirmChange, setComfirmChange] = useState(false);
 
-
-    useEffect(() => {
-        const test = async () => {
-            const resUsername = securityService.getUsernameByJwt();
-            console.log('resUserName >>>>' + resUsername)
-            // setUserName(resUsername)
-            if (resUsername !== null) {
-                const resUser = await SearchNameService.findByUserName(resUsername);
-                console.log("resUser >>> " + resUser)
-                if (resUser) {
-                    setUser(resUser.data);
-                    console.log("-------------------")
-                    // console.log(user)
-                    // console.log(user.id)
-                }
-            }
-        }
-        test();
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            console.log(user)
-
-        }
-    }, [user])
-
+    const packageClick = (days) => {
+        setDatePackage(days);
+        let futureDate = currentDate.add(datePackage, 'days');
+        setNewFutureDate(futureDate.format('YYYY-MM-DD'));
+    }
 
     useEffect(() => {
         getAllAccountTypes()
@@ -63,36 +53,74 @@ export function UpdateAccountGold() {
         console.log(nameAccount)
     }
 
+    useEffect(() => {
+        getAllPackageAccount()
+    }, []);
+    const getAllPackageAccount = async () => {
+        let data = await packageTypesService.getAllPackageAccount();
+        setPackageAccount(data);
+    }
 
     useEffect(() => {
         getAllPackageTypes()
     }, []);
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountTypes.id === 2)
+        let dataEros = data.filter(data => data.accountTypes.id === 2);
         console.log(dataEros)
         setPackageTypes(dataEros);
     }
 
-    const vnPayOnclick = async () => {
-        const link = await payService.checkVnPay(pricePay);
-        window.location.href = link;
-        callAsyncFunctions();
+
+    useEffect(() => {
+        const test = async () => {
+            const resUsername = securityService.getUsernameByJwt();
+            // setUserName(resUsername)
+            if (resUsername !== null) {
+                const resUser = await SearchNameService.findByUserName(resUsername);
+                if (resUser) {
+                    setUser(resUser.data);
+                }
+            }
+        }
+        test();
+    }, []);
+    const findPackageAccount = () => {
+        if (user) {
+            packageTypesService.findPackageAccount(user.id).then(res => {
+                console.log(res)
+                setPackageAccount(res);
+            });
+        }
     }
+    useEffect(() => {
+        if (user) {
+            console.log(user)
+            findPackageAccount()
+        }
+    }, [user])
 
     async function callAsyncFunctions() {
         try {
-            await paySucces(user.id, 2); // Hàm bất đồng bộ 1
-            await setMoneyToPaySuccess(user.id, pricePay); // Hàm bất đồng bộ 2
+            await paySucces(user.id, 1); // Hàm bất đồng bộ 1
+            console.log(comfirmChange)
+            if (comfirmChange === true){
+                console.log("dk 1")
+                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money + calculateDate(packageAccount[0].regisDate)); // Hàm bất đồng bộ 2
+            } else {
+                console.log("dk 2")
+                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money); // Hàm bất đồng bộ 2
+            }
             await resetRadioButtons(); // Hàm bất đồng bộ 3
-
+            await registrationDate(currentDate2, newFutureDate, user.id);
+            await load();
         } catch (error) {
-            console.log("có lỗi xảy ra khi gọi cả 3 hàm")
+            console.log("có lỗi xảy ra khi gọi cả 4 hàm")
         }
     }
 
     return (
-        <div className="updateaccout-row" style={{display: "flex"}}>
+        <div className="updateaccout-row updateaccount-body" style={{display: "flex"}}>
             <HeaderUpdateAccount/>
 
             <div className="col-xs-12 col-6 col-md-12 col-lg-6 col-sm-12">
@@ -178,7 +206,8 @@ export function UpdateAccountGold() {
 
                 <div className="updateaccount-radio-input" id="myForm">
                     {packageTypes.map(packageType => (
-                        <>
+                        <div
+                            onClick={() => packageClick(packageType.days)}>
                             <input
                                 key={packageType.id}
                                 onChange={(values) => setPricePay(packageType.price)}
@@ -188,10 +217,12 @@ export function UpdateAccountGold() {
                                 {packageType.name}<br/>
                                 {formatPrice(packageType.price)} đ/tháng
                             </label>
-                        </>
+                        </div>
                     ))}
 
-                    <div className="updateaccount-radio-input-pay">
+                    <div className="updateaccount-radio-input-pay"
+                         onClick={(event) => handlePackage(packageAccount[0].name, nameAccount)}
+                         onChange={() => setComfirmChange(true)}>
                         <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
                                name="value-radio-pay"
                                id="value-4" type="radio"/>
@@ -200,11 +231,8 @@ export function UpdateAccountGold() {
                                name="value-radio-pay"
                                id="value-5" type="radio"/>
                         <label htmlFor="value-5">Thanh toán Paypal</label>
-                        <input onChange={(values) => setPayEros(values.target.value)} value="momo"
-                               name="value-radio-pay"
-                               id="value-6" type="radio"/>
-                        <label htmlFor="value-6">Thanh toán Momo</label>
                     </div>
+
                     {payEros === '' && pricePay === 0 ? (
                         <div className="updateaccount-card-right">
                             <p className="title" style={{fontSize: "13px"}}>Vui lòng chọn gói và chọn phương thức thanh
@@ -214,7 +242,7 @@ export function UpdateAccountGold() {
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
-                        <button className="updateaccount-pushable" onClick={vnPayOnclick}>
+                        <button className="updateaccount-pushable" onClick={() => vnPayOnclick(pricePay)}>
                             <span className="updateaccount-shadow"></span>
                             <span className="updateaccount-edge"></span>
                             <span className="updateaccount-front">
@@ -228,9 +256,7 @@ export function UpdateAccountGold() {
                                       amount={vndToUsd(pricePay)}
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
-                                          toast.success(`Thanh toán thành công ${pricePay} vnđ bởi `
-                                              + details.payer.name.given_name
-                                              + ` bạn đã được thăng lên hạng ${nameAccount}`);
+                                          AlertModal.alert(pricePay, nameAccount)
                                           onchange(callAsyncFunctions());
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
@@ -244,14 +270,6 @@ export function UpdateAccountGold() {
                                           toast.error("Giao dịch thất bại, vui lòng thử lại");
                                       }}
                         />
-
-
-                    ) : null}
-
-                    {payEros === 'momo' && pricePay !== 0 ? (
-                        <div>
-                            <img src="../../public/pay-momo.jpg" alt=""/>
-                        </div>
                     ) : null}
                 </div>
             </div>

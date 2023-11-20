@@ -13,8 +13,8 @@ export function Chatbox() {
     const [searchName, setSearchName] = useState("");
     const [chatFriend, setChatFriend] = useState({});
     const [showChatBox, setShowChatBox] = useState(-1);
-    const [hideList, setHideList] = useState(false);
-    const [messageUnseen, setMessageUnseen] = useState(100);
+    const [hideList, setHideList] = useState(true);
+    const [messageUnseen, setMessageUnseen] = useState(0);
     const [chatlistHeight, setChatlistHeight] = useState(0);
     const [unknowMess, setUnknowMess] = useState(false);
     const [busymode, setBusymode] = useState(true);
@@ -27,9 +27,24 @@ export function Chatbox() {
         await setShowChatBox(e.id);
     }
     const getProfile = async () => {
-        const data = await GetProfileApi();
-        setProfile(data.data);
-        setBusymode(data.data.messageStatus.name != "Busy");
+        const dataProfile = await GetProfileApi();
+        setProfile(dataProfile.data);
+        setBusymode(dataProfile.data.messageStatus.name != "Busy");
+
+        await onValue(refText(database, `lastmess`), data => {
+            let item = data.val();
+            setLastMessage(item);
+            let count = 0;
+            for (let key in item) {
+                let recordMess = item[key];
+                    if (recordMess.hasOwnProperty(dataProfile.data.id)){
+                        if (recordMess[dataProfile.data.id]) {
+                            count++;
+                        }
+                    }
+            }
+            setMessageUnseen(count);
+        });
     }
     const getFriendList = async () => {
         const data = await GetFriendsApi(searchName);
@@ -48,12 +63,6 @@ export function Chatbox() {
     const changeUnknowMessage = () => {
         setUnknowMess(!unknowMess);
     }
-    const getDatabase = () => {
-        let finishpath = `lastmess`
-        onValue(refText(database, finishpath), data => {
-            setLastMessage(data.val());
-        });
-    }
     const setBusy = async () => {
         const res = await SetBusyApi(!busymode);
         setBusymode(!busymode);
@@ -66,10 +75,24 @@ export function Chatbox() {
             return "";
         }
     }
+    const getUnseen = (e) => {
+        let item = lastMessage[`mess-${compareId(e.id, profile.id)}`];
+        if (item) {
+            let count = item[profile.id];
+            if (count != 0){
+                return numberOfUnseenMess(count);
+            } else {
+                return ;
+            }
+        } else {
+            return ;
+        }
+    }
     useEffect(() => {
         if (getIdByJwt()){
             getProfile();
-            getDatabase();
+            getFriendList();
+            getUnknowList();
         } else {
             setProfile(null);
         }
@@ -86,15 +109,19 @@ export function Chatbox() {
         };
     }, [])
 
-    if (!profile || !lastMessage){
+    if (!profile || !lastMessage || !friendList || !unknowList){
         return null;
     } else {
         return (<>
             {hideList ?
                 <div onClick={() => setHideList(false)}
                             className="showListButton color5 borderRadius cursorPoint">
-                    {messageUnseen != 0 && <span className="showListButton-numbermessage color0 borderRadius">
-                        {numberOfUnseenMess(messageUnseen)}</span>}
+                    {!busymode ?
+                        <span className="showListButton-numbermessage color0 borderRadius">
+                        🔇</span>
+                        :
+                        <>{messageUnseen != 0 && <span className="showListButton-numbermessage color5 borderRadius">
+                        {numberOfUnseenMess(messageUnseen)}</span>}</>}
                 </div> :
                 <div>
                     {showChatBox != -1 && <ChatDetail
@@ -105,13 +132,13 @@ export function Chatbox() {
                     <div className="chatbox color4">
                         <div className="chatbox-feature cursorPoint"
                              onClick={() => {navigate(`/personal-page/${profile.id}`)}}>
-                            <div className="chatbox-feature-avata"
+                            <div className={`chatbox-feature-avata ${busymode ? "online" : "busy"}`}
                                  style={{backgroundImage: `url(${profile.avatar})`}}
                             />
                             <div/>
                             <div className="chatbox-feature-info">
                                 <p className="border-text-white">{profile.name}</p>
-                                <p>💵 {profile.money}</p>
+                                <p>💎 {profile.money}</p>
                             </div>
                         </div>
                         <div className="chatbox-friendList color0 borderRadius" style={{height: chatlistHeight}}>
@@ -120,7 +147,7 @@ export function Chatbox() {
                                     {unknowList.length == 0 ? <h3>Không có kết quả</h3> :
                                         unknowList.map((e) => {
                                             return (
-                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
+                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius
                                                 ${e.id == showChatBox ? "chatSelected" : ""}`}
                                                      onClick={() => {handleSelect(e)}}>
                                                     <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.messageStatus.id - 1]}`}
@@ -128,7 +155,7 @@ export function Chatbox() {
                                                     <div>
                                                         <h4 className="chatbox-friendList-board-detail-name">
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
-                                                            {/*{e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}*/}
+                                                            {getUnseen(e) && <small className="alertMess color5 borderRadius">{getUnseen(e)}</small>}
                                                         </h4>
                                                         <p className="chatbox-friendList-board-detail-mess">{getLastMess(e)}</p>
                                                     </div>
@@ -141,7 +168,7 @@ export function Chatbox() {
                                     {friendList.length == 0 ? <h3>Không có kết quả</h3> :
                                         friendList.map((e) => {
                                             return (
-                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius 
+                                                <div className={`chatbox-friendList-board-detail cursorPoint borderRadius
                                                 ${e.id == showChatBox ? "chatSelected" : ""}`}
                                                      onClick={() => {handleSelect(e)}}>
                                                     <div className={`chatbox-friendList-board-detail-avata ${["online", "busy", "offline"][e.messageStatus.id - 1]}`}
@@ -149,7 +176,7 @@ export function Chatbox() {
                                                     <div>
                                                         <h4 className="chatbox-friendList-board-detail-name">
                                                             <small className="chatbox-friendList-board-detail-name-name border-text-black">{sliceString(e.name, 15)}</small>
-                                                            {/*{e.unseen != 0 && <small className="alertMess color5 borderRadius">{numberOfUnseenMess(e.unseen)}</small>}*/}
+                                                            {getUnseen(e) && <small className="alertMess color5 borderRadius">{getUnseen(e)}</small>}
                                                         </h4>
                                                         <p className="chatbox-friendList-board-detail-mess">{getLastMess(e)}</p>
                                                     </div>

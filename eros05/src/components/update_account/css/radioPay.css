@@ -19,11 +19,12 @@
     border: 1px solid #ccc;
     background-color: transparent;
     border-radius: 5px;
-    margin: 5% 3%;
+    margin: 9% 3% 16px 2%;
     cursor: pointer;
     position: relative;
     transition: all 0.3s ease-in-out;
     text-align: center;
+    width: 45%;
 }
 
 .updateaccount-radio-input-pay label:before {

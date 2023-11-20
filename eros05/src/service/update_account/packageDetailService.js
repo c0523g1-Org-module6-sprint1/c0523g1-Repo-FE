@@ -34,11 +34,14 @@ export const setMoneyAccount = async (values) => {
         console.log("Sửa thất bại !");
     }
 }
-export const findById = async (id) => {
-    try {
-        let response = await axios.get(`http://localhost:8080/accounts + \`/${id}\``);
-        return response.data;
-    } catch (e) {
 
+export const registrationDate = async (date, futureDate, idAccount) => {
+    console.log("Ngày mua mới")
+    console.log(date + "+" + idAccount)
+    try {
+        let response = await axios.patch(URL_PACKAGE_DETAIL + `/registrationDate/${date}/${futureDate}/${idAccount}`);
+        return response.status;
+    } catch (e) {
+        console.log("Sửa thất bại !");
     }
 }
