@@ -1,11 +1,11 @@
 import './PersonalPage.css'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import * as personalService from "../../service/personalPage/PersonalpageService"
 import Post from "./DatG/Post";
 import {toast} from "react-toastify";
 import * as loginService from "../../service/login/securityService";
-import {getIdByJwt} from "../../service/login/securityService";
+import Gift from "../gift/Gift";
 
 
 export function PersonalPage() {
@@ -15,10 +15,22 @@ export function PersonalPage() {
     const [statusRelation, setStatusRelation] = useState('');
     const navigate = useNavigate();
     const idUserLogin = loginService.getIdByJwt();
+    const userNameLogin = loginService.getUsernameByJwt();
+
+
+    const [showModaQuyNP, setShowModalQuyNP] = useState(false);
+    const handleModal = async () => {
+        console.log("hi");
+        setShowModalQuyNP(true);
+    };
+
+    const closeModal = async () => {
+        setShowModalQuyNP(false);
+    };
 
     useEffect(() => {
         getInfoAccount();
-    },[]);
+    },[id]);
 
     const getInfoAccount = async () => {
         let result =  await personalService.getInfoPersonal(id)
@@ -143,6 +155,7 @@ export function PersonalPage() {
                                                     <button
                                                         className="btn btn-rounded btn-info"
                                                         style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
+                                                        onClick={handleModal}
                                                     >
                                                         <i className="fa-solid fa-gift bt" />
                                                         <span className="bt">Tặng quà</span>
@@ -167,13 +180,12 @@ export function PersonalPage() {
                                             </Link>
                                         </div>
                                         <div className="col-lg-3">
-                                            <div className="col-12">
                                                 <Link to={"/invited_recommend_friend/InvitedList"} style={{textDecoration:"none"}}>
                                                     <small>
                                                         <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
                                                     </small>
                                                 </Link>
-                                            </div>
+
                                         </div>
                                         <div className="col-lg-3">
 
@@ -206,160 +218,11 @@ export function PersonalPage() {
 
             </div>
             <Post/>
-            {/*//modalquy*/}
-            <div
-                style={{ borderRadius: 10, textAlign: "center", alignItems: "center" }}
-                className="modal fade"
-                id="exampleModalToggle"
-                aria-hidden="true"
-                aria-labelledby="exampleModalToggleLabel"
-                tabIndex={-1}
-            >
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content" style={{ borderRadius: 20 }}>
-                        <div className="" style={{ textAlign: "center" }}>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                                <h4 style={{ marginTop: "1rem" }}>Lựa chọn quà tặng</h4>
-                            </div>
-                            <div style={{ fontSize: "1.2rem" }}>
-                                <div className="title">Số dư tài khoản: 8000 💎</div>
-                            </div>
-                            <div style={{ fontSize: 18 }}>
-                                <div className="title" style={{ marginTop: "0.2rem" }}>
-                                    Lựa chọn quà tặng:
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-body">
-                            <div
-                                className="content-body"
-                                style={{
-                                    display: "grid",
-                                    gridTemplateColumns: "repeat(4, 1fr)",
-                                    gap: "0.2rem"
-                                }}
-                            >
-                                <div style={{ border: "#a36acb 1px solid", borderRadius: 10 }}>
-                                    <div style={{ paddingTop: "0.2rem" }}>
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="pngtree-beautiful-rose-flowers-barbed-rose-love-confession-png-image_3898999 Background Removed.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div style={{ fontSize: 14 }}>Hoa Tươi</div>
-                                    <div style={{ marginTop: "0, 8rem" }}>50 💎</div>
-                                </div>
-                                <div style={{ border: "#a36acb 1px solid", borderRadius: 10 }}>
-                                    <div style={{ marginTop: "0.2rem" }}>
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="pngtree-bear-toy-bear-doll-teddy-bear-png-image_3828904 Background Removed.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div style={{ fontSize: 14 }}>Gấu bông cute</div>
-                                    <div style={{ marginTop: "0, 8rem" }}>200 💎</div>
-                                </div>
-                                <div style={{ border: "#a36acb 1px solid", borderRadius: 10 }}>
-                                    <div style={{ marginTop: "0.2rem" }}>
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="fashion-2030046_1280 Background Removed.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div style={{ fontSize: 14 }}>Guốc</div>
-                                    <div style={{ marginTop: "0, 8rem" }}>400 💎</div>
-                                </div>
-                                <div style={{ border: "#a36acb 1px solid", borderRadius: 10 }}>
-                                    <div style={{ marginTop: "0.2rem" }}>
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="pngtree-3d-silver-diamond-ring-isolated-png-image_13325081 Background Removed.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div style={{ fontSize: 14 }}>Nhẫn kim cương</div>
-                                    <div style={{ marginTop: "0, 8rem" }}>800 💎</div>
-                                </div>
-                                <div style={{ border: "#a36acb 1px solid", borderRadius: 10 }}>
-                                    <div style={{ marginTop: "0.2rem" }}>
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="pngtree-3d-silver-diamond-ring-isolated-png-image_13325081 Background Removed.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div style={{ fontSize: 14 }}>Nhẫn kim Cương</div>
-                                    <div style={{ marginTop: "0.8rem" }}>800 💎</div>
-                                </div>
-                                <div style={{ border: "#a36acb 1px solid", borderRadius: 10 }}>
-                                    <div style={{ marginTop: "0.2rem" }}>
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="pngtree-bear-toy-bear-doll-teddy-bear-png-image_3828904 Background Removed.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div style={{ fontSize: 14 }}>Gấu bông cute</div>
-                                    <div style={{ marginTop: "0, 8rem" }}>300 💎</div>
-                                </div>
-                                <div style={{ border: "#a36acb 1px solid", borderRadius: 10 }}>
-                                    <div style={{ marginTop: "0.2rem" }}>
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="pngtree-beautiful-rose-flowers-barbed-rose-love-confession-png-image_3898999 Background Removed.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div style={{ fontSize: 14 }}>Hoa tươi</div>
-                                    <div style={{ marginTop: "0, 8rem" }}>100 💎</div>
-                                </div>
-                                <div style={{ border: "#a36acb 1px solid", borderRadius: 10 }}>
-                                    <div style={{ marginTop: "0.2rem" }}>
-                                        <img
-                                            style={{ width: "50%" }}
-                                            src="fashion-2030046_1280 Background Removed.png"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div style={{ fontSize: 14 }}>Gốc</div>
-                                    <div style={{ marginTop: "0, 8rem" }}>600 💎</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button
-                                className="btn btn-primary"
-                                data-bs-target="#exampleModalToggle2"
-                                data-bs-toggle="modal"
-                                style={{
-                                    backgroundColor: "whitesmoke",
-                                    borderRadius: 7,
-                                    color: "black",
-                                    border: "#a36acb solid 1px"
-                                }}
-                            >
-                                Huỷ
-                            </button>
-                            <button
-                                className="btn btn-primary"
-                                data-bs-target="#exampleModalToggle2"
-                                data-bs-toggle="modal"
-                                style={{
-                                    backgroundColor: "#a36acb",
-                                    borderRadius: 7,
-                                    border: "#a36acb solid 1px",
-                                    color: "white"
-                                }}
-                            >
-                                Tặng quà
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Gift showModaQuyNP={showModaQuyNP} handleClose={closeModal}
+                userNow={userNameLogin}
+                  userGift={accountVisit.username}
+            />
+
             {/*///modal Long*/}
             <div
                 className="modal fade"
