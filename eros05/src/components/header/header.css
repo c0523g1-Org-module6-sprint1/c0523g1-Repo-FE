@@ -33,6 +33,9 @@
   border-radius: 18px;
   padding: 8px 16px;
 }
+.navbar-light .navbar-nav .nav-link {
+  color: #fff;
+}
 
 .navbar-middle .icon {
   position: relative;
