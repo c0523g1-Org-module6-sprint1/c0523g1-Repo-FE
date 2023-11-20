@@ -56,7 +56,7 @@ const SearchPage = () => {
     }, [user])
     return (
         <div className='search-page-container'>
-            <h1>Kết quả tìm kiếm</h1>
+            <h1 style={{color: "black"}}>Kết quả tìm kiếm</h1>
             {!isAuthentication ?
                 <div className='container'>
                     {accounts.length > 0 ? (
@@ -64,7 +64,7 @@ const SearchPage = () => {
                             {
                                 accounts.map((item, index) => {
                                     return (
-                                        <div key={index} className="cards">
+                                        <div key={index} className="lien-cards">
                                             <div className="icon">
                                                 <img className="cus-avatar"
                                                      src={item.avatar}
@@ -87,9 +87,6 @@ const SearchPage = () => {
                                     )
                                 })
                             }
-                            <Link to="/register" className="nav-link viewmore" aria-current="page">
-                                <span>...Xem thêm</span>
-                            </Link>
                         </div>
                     ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
                 </div>
@@ -100,7 +97,7 @@ const SearchPage = () => {
                             {
                                 accounts.map((item, index) => {
                                     return (
-                                        <div key={index} className="cards">
+                                        <div key={index} className="lien-cards">
                                             <div className="icon">
                                                 <img className="cus-avatar"
                                                      src={item.avatar}
