@@ -27,10 +27,7 @@ import HoTro from "./components/bodyMainPage/HoTro";
 import AnToan from "./components/bodyMainPage/AnToan";
 import EditAccount from "./components/account_edit/EditAccount";
 import Post from "./components/posts/Post";
-import {Test} from "./components/update_account/Test";
-import {Test2} from "./components/update_account/Test2";
 import {requestFilter} from "./service/login/requestFilter";
-
 import {HandleAuthor} from "./service/authorization/Authorization";
 import {EnumRole} from "./service/authorization/EnumRole";
 import {UnAuthor} from "./components/error/UnAuthor";
@@ -84,8 +81,6 @@ function App() {
                     <Route path="/change_password" element={<ChangePassword/>}/>
                     <Route path="/newsfeed" element={<Post/>}/>
                     <Route path="/personal-page/edit" element={<EditAccount/>}/>
-                    <Route path="/test" element={<Test/>}/>
-                    <Route path="/test2" element={<Test2/>}/>
                 </Route>
             </Routes>
             <Routes>
