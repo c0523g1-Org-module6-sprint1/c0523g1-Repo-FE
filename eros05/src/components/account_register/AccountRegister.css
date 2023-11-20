@@ -51,6 +51,11 @@
 .form-unit .form-label{
     padding: 1% 0
 }
+.form-check-input[type=radio] {
+    border-radius: 50%;
+    position: relative;
+    top: 3px;
+}
 
 /*label {*/
 /*    width: 30%;*/
@@ -98,7 +103,7 @@
     background-color: #ffffff;
     color: black;
     border: 1px solid #a36acb;
-    border-radius: 9px;
+    border-radius: 20px;
 }
 
 .sang_btn_submit {
@@ -107,7 +112,7 @@
     background-color: #a36acb;
     color: white;
     border: none;
-    border-radius: 9px;
+    border-radius: 20px;
 }
 .form-unit-init {
     display: flex;
