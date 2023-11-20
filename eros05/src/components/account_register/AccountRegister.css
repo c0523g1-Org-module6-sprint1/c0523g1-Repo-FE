@@ -1,11 +1,4 @@
-* {
-    box-sizing: border-box;
-}
-/*html {*/
-/*    height: 100%;*/
-/*    background: linear-gradient(225deg, #2e2748  0%, #2e2748  15%, #584d96 100%);*/
-/*    background-size: cover;*/
-/*}*/
+
 
 .sang_wrapper {
     width: 45%;
@@ -18,7 +11,10 @@
     box-sizing: border-box;
     border-radius: 30px;
     /*background-image: linear-gradient(to right, #d8afe7, #ca86ef)*/
-    background:  radial-gradient(circle, rgba(208,162,247,1) 0%, rgba(216,175,231,1) 0%, rgba(241,234,255,1) 0%, rgba(227,206,251,1) 91%, rgba(229,212,255,1) 100%, rgba(183,132,213,1) 100%, rgba(163,106,203,1) 100%)
+    background:  radial-gradient(circle, rgba(208,162,247,1) 0%, rgba(216,175,231,1) 0%, rgba(241,234,255,1) 0%, rgba(227,206,251,1) 91%, rgba(229,212,255,1) 100%, rgba(183,132,213,1) 100%, rgba(163,106,203,1) 100%);
+    position: relative;
+    top: 20px;
+    bottom: 40px;
 }
 
 .sang_title {
@@ -26,7 +22,9 @@
     padding-bottom: 5%;
     font-family: AgbaLumo, serif;
     margin-top: -20px;
-    margin-bottom: -10px
+    margin-bottom: -10px;
+    position: relative;
+    top: 20px;
 }
 
 .sang_form {
@@ -46,9 +44,17 @@
 .form-unit .form-label{
     padding: 1% 0
 }
+.form-check-input[type=radio] {
+    border-radius: 50%;
+    position: relative;
+    top: 3px;
+}
 
-label {
-    width: 30%;
+/*label {*/
+/*    width: 30%;*/
+/*}*/
+.form-check-inline{
+    margin-left: 10%;
 }
 
 .form-rules label {
@@ -90,7 +96,7 @@ label {
     background-color: #ffffff;
     color: black;
     border: 1px solid #a36acb;
-    border-radius: 9px;
+    border-radius: 20px;
 }
 
 .sang_btn_submit {
@@ -99,7 +105,7 @@ label {
     background-color: #a36acb;
     color: white;
     border: none;
-    border-radius: 9px;
+    border-radius: 20px;
 }
 .form-unit-init {
     display: flex;

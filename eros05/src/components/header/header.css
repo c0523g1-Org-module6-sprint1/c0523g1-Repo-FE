@@ -1,4 +1,4 @@
-.header {
+.lien-header {
 
     position: fixed;
     /*z-index: 9999;*/
@@ -32,6 +32,9 @@
   font-weight: bolder;
   border-radius: 18px;
   padding: 8px 16px;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: #fff;
 }
 
 .navbar-middle .icon {
@@ -140,6 +143,7 @@
   text-align: left;
   padding: 10px 0 5px 0;
   margin: 0;
+  font-family: Nunito Sans, sans-serif
 }
 
 .lien-login-btn .user-menu ul li {

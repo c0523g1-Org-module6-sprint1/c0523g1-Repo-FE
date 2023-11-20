@@ -11,6 +11,18 @@ export function Register() {
     const navigate = useNavigate();
     const [job, setJob] = useState([]);
     const [location, setLocation] = useState([]);
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+
+
+    const togglePasswordVisibility1 = () => {
+        setShowPassword1(!showPassword1);
+    };
+
+
+    const togglePasswordVisibility2 = () => {
+        setShowPassword2(!showPassword2);
+    };
 
     useEffect(() => {
         getJob()
@@ -40,9 +52,9 @@ export function Register() {
         password: "",
         confirmPassword: "",
         birthday: "",
-        gender: 1,
-        job: 1,
-        location: 1,
+        gender: 2,
+        // job: 1,
+        // location: 1,
         email: "",
         confirmEmail: ""
     }
@@ -64,7 +76,7 @@ export function Register() {
             // .test("check-confirmPassword", "Không được để trống xác nhận mật khẩu !", (value) => value.trim().length !== 0)
             .min(6, "Xác nhận mật khẩu phải lớn hơn hoặc bằng 6 kí tự !")
             .max(100, "Xác nhận mật khẩu phải ít hơn hoặc bằng 100 kí tự !")
-            .oneOf([Yup.ref('password'), null], "Mật khẩu không trùng khớp 1"),
+            .oneOf([Yup.ref('password'), null], "Mật khẩu không trùng khớp !"),
         birthday: Yup.date()
             .required("Không được để trống ngày sinh !")
             .max(new Date(), "Vui lòng nhập trước ngày hiện tại"),
@@ -87,8 +99,9 @@ export function Register() {
             const response = await accountRegisterService.register(data);
             if (response.status === 202) {
                 toast.success("Bạn đã tạo mới tài khoản thành công !")
+                navigate("/login")
             } else if (response.status === 200) {
-                toast.error(response.data);
+                toast.error(response.data)
             }
         } catch (e) {
             toast.error("Tạo tài khoản thất bại !");
@@ -97,32 +110,50 @@ export function Register() {
 
     return (
         <>
+            {/*job && location &&*/}
             <div className="sang_wrapper">
                 <h1 className="mt-3 sang_title">Đăng ký</h1>
                 <div>
                     <Formik initialValues={initValuesRegister}
                             onSubmit={(values => handleRegister(values))}
-                            // validationSchema={Yup.object(validationSchema)}
+                            validationSchema={Yup.object(validationSchema)}
                     >
                         <Form className="sang_form">
                             <div className='mb-3'>
-                                <label htmlFor="userName" className='form-label'>Tên đăng nhập</label>
+                                <label htmlFor="userName" className='form-label'>Tên đăng nhập :</label>
                                 <Field type='text' name="userName" className='form-control' id='userName'/>
                                 <ErrorMessage name="userName" component="span" style={{color: "red"}}/>
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor="password" className='form-label'>Mật khẩu</label>
-                                <Field type='text' name="password" className='form-control' id='password'/>
+                                <label htmlFor="password" className='form-label'>Mật khẩu :</label>
+                                <div className='input-group'>
+                                    <Field type={showPassword1 ? 'text' : 'password'} name="password"
+                                           className='form-control' id='password'/>
+                                    <div className='input-group-append'>
+                                        <span className='input-group-text' onClick={togglePasswordVisibility1}>
+                                            <i className={`fa-solid ${showPassword1 ? 'fa-eye-slash' : 'fa-eye'}`}/>
+                                        </span>
+                                    </div>
+                                </div>
                                 <ErrorMessage name="password" component="span" style={{color: "red"}}/>
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor="confirmPassword" className='form-label'>Nhập lại mật khẩu</label>
-                                <Field type='text' name="confirmPassword" className='form-control'
-                                       id='confirmPassword'/>
+                                <label htmlFor="confirmPassword" className='form-label'>Nhập lại mật khẩu :</label>
+                                {/*<Field type='password' name="confirmPassword" className='form-control'*/}
+                                {/*       id='confirmPassword'/>*/}
+                                <div className='input-group'>
+                                    <Field type={showPassword2 ? 'text' : 'password'} name="confirmPassword"
+                                           className='form-control' id='confirmPassword'/>
+                                    <div className='input-group-append'>
+                                        <span className='input-group-text' onClick={togglePasswordVisibility2}>
+                                            <i className={`fa-solid ${showPassword2 ? 'fa-eye-slash' : 'fa-eye'}`}/>
+                                        </span>
+                                    </div>
+                                </div>
                                 <ErrorMessage name="confirmPassword" component="span" style={{color: "red"}}/>
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor="birthday" className='form-label'>Ngày sinh</label>
+                                <label htmlFor="birthday" className='form-label'>Ngày sinh :</label>
                                 <Field type='date' name="birthday" className='form-control' id='birthday'/>
                                 <ErrorMessage name="birthday" component="span" style={{color: "red"}}/>
                             </div>
@@ -135,7 +166,8 @@ export function Register() {
                                         className="form-check-input"
                                         id="optionA"
                                         type="radio"
-                                        name="newField1"
+                                        name="gender"
+                                        value="1"
                                     />
                                     <label className="form-check-label" htmlFor="optionA">
                                         Nam
@@ -146,7 +178,8 @@ export function Register() {
                                         className="form-check-input"
                                         id="optionB"
                                         type="radio"
-                                        name="newField1"
+                                        name="gender"
+                                        value="2"
                                     />
                                     <label className="form-check-label" htmlFor="optionB">
                                         Nữ
@@ -157,7 +190,8 @@ export function Register() {
                                         className="form-check-input"
                                         id="optionC"
                                         type="radio"
-                                        name="newField1"
+                                        name="gender"
+                                        value="3"
                                     />
                                     <label className="form-check-label" htmlFor="optionC">
                                         LGBT
@@ -165,7 +199,7 @@ export function Register() {
                                 </div>
                             </div>
                             <div className='mb-3'>
-                                <label>Nghề nghiệp</label>
+                                <label>Nghề nghiệp :</label>
                                 <Field as="select" className='form-control' name="job" style={{
                                     textAlign: 'center'
                                 }}>
@@ -178,7 +212,7 @@ export function Register() {
                                 </Field>
                             </div>
                             <div className='mb-3'>
-                                <label>Địa chỉ</label>
+                                <label>Địa chỉ :</label>
                                 <Field as="select" className='form-control' name="location" style={{
                                     textAlign: 'center'
                                 }}>
@@ -191,12 +225,12 @@ export function Register() {
                                 </Field>
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor="email" className='form-label'>Email</label>
+                                <label htmlFor="email" className='form-label'>Email :</label>
                                 <Field type='text' name="email" className='form-control' id='email'/>
                                 <ErrorMessage name="email" component="span" style={{color: "red"}}/>
                             </div>
                             <div className='mb-3'>
-                                <label htmlFor="confirmEmail" className='form-label'>Xác nhận email</label>
+                                <label htmlFor="confirmEmail" className='form-label'>Xác nhận email :</label>
                                 <Field type='text' name="confirmEmail" className='form-control' id='confirmEmail'/>
                                 <ErrorMessage name="confirmEmail" component="span" style={{color: "red"}}/>
                             </div>
@@ -213,14 +247,13 @@ export function Register() {
         <textarea
             className="form-control"
             id="rule"
-            type="text"
             defaultValue={
                 "C05Cupid cung cấp dịch vụ theo điều khoản dịch vụ này. truy cập hoặc đăng ký tài khoản trong hệ thống của chúng tôi bằng bất kỳ cách nào có nghĩa là bạn đồng ý và cam kết tuân thủ nghiêm ngặt điều khoản dịch vụ này. chúng tôi có quyền sửa đổi nội dung của điều khoản dịch vụ theo quyết định riêng của mình mà không cần thông báo trước cho người dùng.\n                "
             }
         />
                             </div>
                             <div className="mb-3">
-                                <div className="form-check form-check-inline">
+                                <div className="form-check">
                                     <label className="form-check-label agree-label" htmlFor="agree">
                                         <input
                                             className="form-check-input"
@@ -248,6 +281,7 @@ export function Register() {
                     </Formik>
                 </div>
             </div>
+
         </>
     )
 

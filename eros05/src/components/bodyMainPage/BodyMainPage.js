@@ -15,7 +15,7 @@ const BodyMainPage = () => {
             <div className="carousel">
                 <div className="carousel-content">
                     <div className="description">
-                        <h1 className="typeing-text">Thấy bạn ế hơi lâu?</h1>
+                        <h2 className="typeing-text">Thấy bạn ế hơi lâu?</h2>
                     </div>
                     <div className="lien-carousel-btn d-flex justify-content-center align-items-center">
                         <button className="btn" onClick={goRegisterPage}>
@@ -55,7 +55,7 @@ const BodyMainPage = () => {
                     <section id="card3" className="card">
                         <img alt={''} src={feedbackImg3}/>
                         <div className="card__content">
-                            <p className="card__title">Mỹ Hạnh & Đình Thôi</p>
+                            <p className="card__title">Adam & Eva</p>
                             <p className="card__description">
                                 Bọn tôi đều rất con nít, nên định lên đây để trap thôi. Ai dè dính luôn hì hì. Anh ấy
                                 cũng dần trưởng thành hơn, yêu tôi hơn, và tôi cũng rất yêu anh ấy!!!

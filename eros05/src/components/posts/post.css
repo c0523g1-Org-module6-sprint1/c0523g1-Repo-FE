@@ -1,7 +1,3 @@
-* {
-  box-sizing: border-box;
-  font-family: Nunito Sans, sans-serif;
-}
 
 body {
   margin: 0;
@@ -76,17 +72,87 @@ body {
   font-size: 16px;
   padding: 5px;
 }
-input[type="file"]::placeholder {
-  display: none;
-}
 
 .liked {
-  background-color: red;
+  color: red;
 }
 
 .not-liked {
   color: black;
 }
+
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.upload-button {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.upload-button input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.modal-edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-height: 80vh;
+}
+
+.modal-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+
+}
+
+.modal-footer {
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+
+
 
 
 

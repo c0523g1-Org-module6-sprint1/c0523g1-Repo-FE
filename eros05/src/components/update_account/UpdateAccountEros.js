@@ -10,7 +10,7 @@ import {useEffect, useState} from "react";
 import * as packageTypesService from "../../service/update_account/packageTypesService";
 import React from 'react';
 import {formatPrice, vndToUsd} from "./FormatPrice";
-import {load, paySucces, removeZeros, resetRadioButtons, setMoneyToPaySuccess} from "./Pay";
+import {load, paySucces, resetRadioButtons, setMoneyToPaySuccess, vnPayOnclick} from "./Pay";
 import {useParams} from "react-router-dom";
 import * as payService from "../../service/update_account/payService";
 import * as securityService from "../../service/login/securityService";
@@ -19,9 +19,12 @@ import * as accountTypesService from "../../service/update_account/accountTypeSe
 import Swal from "sweetalert2";
 import moment from "moment";
 import {registrationDate} from "../../service/update_account/packageDetailService";
+import * as AlertModal from "../update_account/AlertModal"
+import {handlePackage} from "./AlertModal";
+import {calculateDate} from "./CaculateDate";
 
+export function UpdateAccountEros() {
 
-export function UpdateAccountEros(props) {
     const [pricePay, setPricePay] = useState(0);
     const [payEros, setPayEros] = useState("");
     const [packageTypes, setPackageTypes] = useState([]);
@@ -34,11 +37,8 @@ export function UpdateAccountEros(props) {
     const currentDate2 = moment().format('YYYY-MM-DD');
     const [datePackage, setDatePackage] = useState(0)
     const [newFutureDate, setNewFutureDate] = useState("");
-    const [comfirmChange, setComfirmChange] = useState(0);
+    const [comfirmChange, setComfirmChange] = useState(false);
 
-
-    console.log(currentDate)
-    console.log(newFutureDate)
 
     const packageClick = (days) => {
         setDatePackage(days);
@@ -57,7 +57,6 @@ export function UpdateAccountEros(props) {
         console.log(nameAccount)
     }
 
-
     useEffect(() => {
         getAllPackageAccount()
     }, []);
@@ -65,7 +64,6 @@ export function UpdateAccountEros(props) {
         let data = await packageTypesService.getAllPackageAccount();
         setPackageAccount(data);
     }
-
 
     useEffect(() => {
         getAllPackageTypes()
@@ -75,24 +73,17 @@ export function UpdateAccountEros(props) {
         let dataEros = data.filter(data => data.accountTypes.id === 1);
         console.log(dataEros)
         setPackageTypes(dataEros);
-        // setNameAccountType(packageTypes.accountTypes.name);
-        // console.log(dataEros.accountTypes.name)
     }
 
 
     useEffect(() => {
         const test = async () => {
             const resUsername = securityService.getUsernameByJwt();
-            console.log('resUserName >>>>' + resUsername)
             // setUserName(resUsername)
             if (resUsername !== null) {
                 const resUser = await SearchNameService.findByUserName(resUsername);
-                console.log("resUser >>> " + resUser)
                 if (resUser) {
                     setUser(resUser.data);
-                    console.log("-------------------")
-                    // console.log(user)
-                    // console.log(user.id)
                 }
             }
         }
@@ -113,51 +104,36 @@ export function UpdateAccountEros(props) {
         }
     }, [user])
 
-
-    const vnPayOnclick = async () => {
-        const link = await payService.checkVnPay(pricePay);
-        console.log(link)
-        window.location.href = link;
-    }
-
-    const alert = async () => {
-        Swal.fire({
-            title: "Thông báo!",
-            text: `Thanh toán thành công ${pricePay} vnđ bạn đã thay đổi thành hạng ${nameAccount}`,
-            icon: "success"
-        });
-    }
-
     async function callAsyncFunctions() {
         try {
             await paySucces(user.id, 1); // Hàm bất đồng bộ 1
-            if (comfirmChange !== 0){
-                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money + comfirmChange); // Hàm bất đồng bộ 2
+            console.log(comfirmChange)
+            if (comfirmChange === true) {
+                console.log("dk 1")
+                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money + calculateDate(packageAccount[0].regisDate)); // Hàm bất đồng bộ 2
             } else {
+                console.log("dk 2")
                 await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money); // Hàm bất đồng bộ 2
             }
             await resetRadioButtons(); // Hàm bất đồng bộ 3
-            await registrationDate(currentDate2, newFutureDate, user.id);
+
+
+            if (packageAccount[0].name === nameAccount) {
+                const endDate  = moment(packageAccount[0].regisDate)
+                let startDate = moment(currentDate2);
+                const partFutureDate = endDate.diff(startDate , 'days');
+                const dateNow = datePackage;
+                const totalDate = partFutureDate + dateNow;
+                const newDate = currentDate.add(totalDate, 'days').format('YYYY-MM-DD');
+
+                await registrationDate(currentDate2, newDate, user.id);
+            } else {
+                await registrationDate(currentDate2, newFutureDate, user.id);
+            }
+
             // await load();
         } catch (error) {
             console.log("có lỗi xảy ra khi gọi cả 4 hàm")
-        }
-    }
-
-
-    const handlePackage = async () => {
-        console.log("ok")
-        if (packageAccount[0].name === "Eros Gold" || packageAccount[0].name === "Eros Platinum"){
-            console.log("ok")
-            Swal.fire({
-                title: "Thông báo thay đổi thứ hạng",
-                text: `Hiện tại thứ hạng của bạn đang là ${packageAccount[0].name}, nếu bạn mua gói Eros+ thì thứ hạng sẽ bị thay đổi. Thay vào đó nếu bạn thanh toán gói này chúng tôi sẽ hoàn lại kim cương dựa vào số ngày còn lại của gói cũ`,
-                icon: "warning",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Tôi đã hiểu"
-            })
-            setComfirmChange(props.calculateDate);
         }
     }
 
@@ -250,7 +226,6 @@ export function UpdateAccountEros(props) {
                 <div className="updateaccount-radio-input" id="myForm">
                     {packageTypes.map(packageType =>
                         <div
-                            onChange={() => setDatePackage(packageType.days)}
                             onClick={() => packageClick(packageType.days)}>
                             <input
                                 onChange={() => setPricePay(packageType.price)}
@@ -265,7 +240,9 @@ export function UpdateAccountEros(props) {
 
 
                     <div className="updateaccount-radio-input-pay">
-                        <div className="updateaccount-radio-input-pay" onChange={handlePackage}>
+                        <div className="updateaccount-radio-input-pay"
+                             onClick={(event) => handlePackage(packageAccount[0].name, nameAccount)}
+                             onChange={() => setComfirmChange(true)}>
                             <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
                                    name="value-radio-pay"
                                    id="value-4" type="radio"/>
@@ -287,7 +264,7 @@ export function UpdateAccountEros(props) {
 
 
                     {payEros === 'vnpay' && pricePay !== 0 ? (
-                        <button className="updateaccount-pushable" onClick={vnPayOnclick}>
+                        <button className="updateaccount-pushable" onClick={() => vnPayOnclick(pricePay)}>
                             <span className="updateaccount-shadow"></span>
                             <span className="updateaccount-edge"></span>
                             <span className="updateaccount-front">
@@ -301,9 +278,8 @@ export function UpdateAccountEros(props) {
                                       amount={vndToUsd(pricePay)}
                             // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                       onSuccess={(details, data) => {
-                                          alert()
+                                          AlertModal.alert(pricePay, nameAccount)
                                           onchange(callAsyncFunctions());
-                                          load()
                                           // OPTIONAL: Call your server to save the transaction
                                           return fetch("/paypal-transaction-complete", {
                                               method: "post",

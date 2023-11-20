@@ -3,12 +3,13 @@ import "./ListFriend.css"
 import { list } from "firebase/storage";
 import { getList, handleBlockFriend, handleDeleteFriend } from "../../service/listFriend/ListFriendService";
 import { Modal } from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { getIdByJwt, getUsernameByJwt } from "../../service/login/securityService";
 import Gift from "../gift/Gift";
 
 function ListFriend() {
   const [list, setList] = useState([1, 2, 3, 4, 5]);
+  const navigate = useNavigate();
  
   const [friendDelete, setFriendDelete] = useState();
   const [friendBlock, setFriendBlock] = useState();
@@ -84,20 +85,17 @@ function ListFriend() {
     getListFriend();
   }
   const blockFriend = async () => {
-    const result = await handleBlockFriend(1, friendBlock);
+    const result = await handleBlockFriend(idLogin, friendBlock);
     console.log(result);
     handleCloseModal()
   }
 
   const deleteFriend = async () => {
-    const result = await handleDeleteFriend(1, friendDelete);
+    const result = await handleDeleteFriend(idLogin,friendDelete);
     console.log(result);
     handleCloseModal()
   }
 
-  const unFriend = async () => {
-    handleCloseModal()
-  }
 
 
   const getGenderIcon = (value) => {
@@ -110,6 +108,9 @@ function ListFriend() {
     }
   }
   console.log(nameSearch);
+  const goToPersonalPage = async (id) => {
+    await navigate(`/personal-page/${id}`);
+  }
 
   useEffect(() => {
     getIdLogin()
@@ -118,7 +119,7 @@ function ListFriend() {
   },[idLogin])
   return (
     <>
-      <div style={{ background: 'linear-gradient(90deg, rgba(208,162,247,1) 0%, rgba(169,114,206,1) 0%, rgba(208,162,247,1) 26%, rgba(163,106,203,1) 100%, rgba(216,175,231,1) 100%, rgba(229,212,255,1) 100%, rgba(225,203,255,1) 100%)' }}>
+      <div style={{ background: 'linear-gradient(135deg, #8BC6EC 0%, #784BA0 100%)' }}>
         <h1 style={{ textAlign: 'center', marginBottom: 50, fontFamily: "Agbalumo" }}>Xem danh sách bạn bè</h1>
         <div className="row" style={{ marginBottom: 30, marginRight: 30 }}>
           <div className="d-flex justify-content-end">
@@ -143,10 +144,23 @@ function ListFriend() {
                 <div className="cardsThienPT">
                   <button  onClick={()=>handleModal(o.usernameAccount)} className="btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
                   <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}} 
-                    src="..//QuyNP/mau-thiet-ke-hop-qua-vector-06-removebg-preview.png" alt />
+                    src="https://firebasestorage.googleapis.com/v0/b/cupid-project-439b5.appspot.com/o/img-quy%2Fbox.png?alt=media&token=f991f1b6-fd6b-45e4-9b61-df5ae995e43f" alt />
                   </button>
-                  <div className="iconThienPT">
-                    <img className="cus-avatarThienPT" src="https://images.pexels.com/photos/2048716/pexels-photo-2048716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt />
+                  <div className="iconThienPT" onClick={()=>goToPersonalPage(o.id)}>
+                    
+                    {/* <Link  to={o.avatarAccount} >
+                      <img className="cus-avatarThienPT" src="" alt />
+                    </Link> */}
+                    <div  style={{
+                                    backgroundImage : `url(${o.avatarAccount})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    aspectRatio: '1/1',
+                                    backgroundRepeat: 'no-repeat',
+                                }}  
+                            className="cus-avatarThienPT"         
+                                    >
+                                </div>
                   </div>
                   <p className="titleThienPT">{o.nameAccount} {getGenderIcon(o.nameGender)}</p>
                   <p className="titleThienPT" style={{ opacity: '0.5' }}>{o.nameLocation}</p>
@@ -157,7 +171,7 @@ function ListFriend() {
                     </button>
                     <button style={{ width: '100%', backgroundColor: '#a36acb', color: 'white' }} className="btn btn-secondary mt-1"
                       type="button"
-                      onClick={() => takeFriendDelete(o)}  >
+                      onClick={() => takeFriendDelete(o)}>
                       Hủy kết bạn
                     </button>
                     <Modal show={showModal} onHide={handleCloseModal} >
@@ -165,7 +179,7 @@ function ListFriend() {
                         <MyModalDelete action={handleCloseModal} data={friendDelete} deleteFunc={deleteFriend} />
                       )}
                       {friendBlock && (
-                        <MyModalBlock action={handleCloseModal} data={friendBlock} deleteFunc={blockFriend} />
+                        <MyModalBlock action={handleCloseModal} data={friendBlock} blockFunc={blockFriend} />
                       )}
                     </Modal>
 
@@ -190,17 +204,17 @@ function ListFriend() {
 
 
 
-function MyModalBlock({ action, data, deleteFunc }) {
+function MyModalBlock({ action, data, blockFunc }) {
   return (
     <>
-      <Modal.Header>
+    <Modal.Header >
         <h5 className="modal-title" id="deleteModalLabel">Thông báo!</h5>
       </Modal.Header>
       <Modal.Body>
         <p>Bạn có muốn chặn {data.nameAccount}</p>
       </Modal.Body>
       <Modal.Footer>
-        <button type="button" className="btn btn-outline-primary" onClick={() => deleteFunc()} >Xác nhận</button>
+        <button type="button" className="btn btn-outline-primary" onClick={() => blockFunc()} >Xác nhận</button>
         <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal" onClick={() => action()}>Hủy</button>
       </Modal.Footer>
     </>
