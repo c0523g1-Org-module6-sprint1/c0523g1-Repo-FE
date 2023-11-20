@@ -45,7 +45,7 @@ export default function InvitedList() {
 
     if (!invited) return null;
     return (
-        <div style={{backgroundColor:"white"}}>
+        <div>
             <div>
                 <div style={{marginTop: "75px"}}>
                     <div>
@@ -59,12 +59,12 @@ export default function InvitedList() {
                                 Sắp xếp <i className="fa fa-sliders text-light"/>
                             </button>
                             <ul className="dropdown-menu"
-                                style={{backgroundColor: "#d0a8de", cursor: "pointer"}}>
-                                <li className="dropdown-item " onClick={(values) => setSort(true)}>
-                                    <i className="fa fa-sort-amount-desc"/>Theo lời mời mới nhất
+                                style={{cursor: "pointer"}}>
+                                <li className="dropdown-item hlpdropitem " onClick={(values) => setSort(true)}>
+                                    <i className="fa fa-sort-amount-desc hlpdropitem"/>Theo lời mời mới nhất
                                 </li>
-                                <li className="dropdown-item " onClick={(values) => setSort(false)}>
-                                    <i className="fa fa-sort-amount-asc"/>Theo lời mời cũ nhất
+                                <li className="dropdown-item hlpdropitem " onClick={(values) => setSort(false)}>
+                                    <i className="fa fa-sort-amount-asc hlpdropitem"/>Theo lời mời cũ nhất
                                 </li>
                             </ul>
                         </div>
@@ -73,7 +73,7 @@ export default function InvitedList() {
                     <div>
                         {invited.map((invited) =>
                             <div className="d-flex" style={{float: "left"}}>
-                                <div className="hlpcards">
+                                <div className="hlpcards" >
                                     <div className="hlpicon">
                                         <img className="hlpcus-avatar"
                                              src={invited.avatarAccount}
@@ -81,8 +81,7 @@ export default function InvitedList() {
                                     </div>
                                     <p className="hlptitle mb-4"
                                        onClick={() => {
-                                           alert(invited.id)
-                                           navigate(`personal-page/${invited.id}`)
+                                           navigate(`/personal-page/${invited.id}`)
                                        }}>{invited.nameAccount}</p>
                                     <p>{FormartDateRequest(invited.dateRequest)}</p>
                                     <p className="hlptext">

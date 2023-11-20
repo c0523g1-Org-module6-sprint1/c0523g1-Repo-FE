@@ -12,6 +12,7 @@
     bottom: 50px;
 }
 
+
 .hlpcards {
     max-width: 300px;
     width: 300px;
@@ -70,6 +71,9 @@
     opacity: 0;
     max-height: 0;
     transition: all 0.3s ease;
+}
+.hlpdropitem{
+    color: #a36acb;
 }
 
 .hlpcards:hover {
