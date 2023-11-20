@@ -99,9 +99,9 @@ function ListFriend() {
 
 
   const getGenderIcon = (value) => {
-    if (value === "female") {
+    if (value === "Female") {
       return <i className="fa-solid fa-venus" style={{ color: '#f08ee8' }}></i>;
-    } else if (value === "male") {
+    } else if (value === "Male") {
       return <i className="fa-solid fa-mars" style={{ color: '#4567ed' }}></i>;
     } else {
       return <i className="fa-solid fa-rainbow" style={{ color: '#fc90fe' }}></i>;
