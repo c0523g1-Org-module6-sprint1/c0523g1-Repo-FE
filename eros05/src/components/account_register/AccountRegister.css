@@ -1,11 +1,4 @@
-/** {*/
-/*    box-sizing: border-box;*/
-/*}*/
-/*html {*/
-/*    height: 100%;*/
-/*    background: linear-gradient(225deg, #2e2748  0%, #2e2748  15%, #584d96 100%);*/
-/*    background-size: cover;*/
-/*}*/
+
 
 .sang_wrapper {
     width: 45%;
@@ -50,6 +43,11 @@
 }
 .form-unit .form-label{
     padding: 1% 0
+}
+.form-check-input[type=radio] {
+    border-radius: 50%;
+    position: relative;
+    top: 3px;
 }
 
 /*label {*/
@@ -98,7 +96,7 @@
     background-color: #ffffff;
     color: black;
     border: 1px solid #a36acb;
-    border-radius: 9px;
+    border-radius: 20px;
 }
 
 .sang_btn_submit {
@@ -107,7 +105,7 @@
     background-color: #a36acb;
     color: white;
     border: none;
-    border-radius: 9px;
+    border-radius: 20px;
 }
 .form-unit-init {
     display: flex;

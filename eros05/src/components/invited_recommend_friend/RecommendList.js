@@ -19,11 +19,11 @@ export default function RecommendList() {
 
     if (!recommend) return null;
     return (
-        <div style={{backgroundColor: "white"}}>
+        <div >
             <div>
                 <div id="bg" style={{marginTop: "75px"}}>
                     <div>
-                        <h1 className="hat1">Gợi ý kết bạn</h1>
+                        <p className="hat1">Gợi ý kết bạn</p>
                         <div className="dropdown" style={{border: "none"}}>
                             <button className="btn btn-dark" type="button"
                                     data-bs-toggle="dropdown"
@@ -32,13 +32,13 @@ export default function RecommendList() {
                                 Lọc <i className="fa fa-sliders text-light" />
                             </button>
                             <ul className="dropdown-menu"
-                                style={{backgroundColor: "#d0a8de",cursor:"pointer"}}>
-                                <li className="dropdown-item " onClick={(values) => setRole(1)}>
-                                    <i className="fa fa-home "/> Cùng thành phố</li>
-                                <li className="dropdown-item "  onClick={(values) => setRole(2)}>
-                                    <i className="fa fa-briefcase  "/> Cùng nghề nghiệp</li>
-                                <li className="dropdown-item " onClick={(values) => setRole(3)}>
-                                    <i className="fa fa-smile-o "/> Cùng sở thích</li>
+                                style={{cursor:"pointer", color:"#a36acb"}}>
+                                <li className="dropdown-item  hlpdropitem"    onClick={(values) => setRole(1)}>
+                                    <i  className="fa fa-home hlpdropitem "/> Cùng thành phố</li>
+                                <li className="dropdown-item hlpdropitem"  onClick={(values) => setRole(2)}>
+                                    <i className="fa fa-briefcase hlpdropitem "/> Cùng nghề nghiệp</li>
+                                <li className="dropdown-item hlpdropitem" onClick={(values) => setRole(3)}>
+                                    <i className="fa fa-smile-o hlpdropitem"/> Cùng sở thích</li>
                             </ul>
                         </div>
                     </div>
@@ -88,11 +88,10 @@ export default function RecommendList() {
                                                     alignSelf: "center",
                                                     background: "#a36acb",
                                                     color: "white",
-                                                    marginTop: "150px"
+                                                    marginTop: "100px"
                                                 }}
                                                 onClick={() => {
-                                                    alert(recommend.id)
-                                                    navigate(`personal-page/${recommend.id}`)
+                                                    navigate(`/personal-page/${recommend.id}`)
                                                 }}>Xem trang cá nhân
                                         </button>
                                     </div>

@@ -103,7 +103,12 @@ export function UpdateAccountEros() {
             findPackageAccount()
         }
     }, [user])
-
+     const vnPayOnclick = async (pricePay) => {
+        const link = await payService.checkVnPay(pricePay);
+        console.log(link)
+        window.location.href = link;
+        callAsyncFunctions()
+    }
     async function callAsyncFunctions() {
         try {
             await paySucces(user.id, 1); // Hàm bất đồng bộ 1
