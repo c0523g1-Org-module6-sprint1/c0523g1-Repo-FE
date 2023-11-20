@@ -33,7 +33,20 @@ export const dateFormatSendMessage = (str) => {
     const hour = date.getHours();
     const minute = date.getMinutes();
 
-    return `${addZero(hour)}:${addZero(minute)} - ${addZero(day)} tháng ${addZero(month)}, ${year}`;
+    const now = new Date();
+
+    if (now.getFullYear() - year >= 1) {
+        return `${addZero(hour)}:${addZero(minute)} - ${addZero(day)} tháng ${addZero(month)}, ${year}`;
+    } else if (now.getMonth() + 1 - month >= 1) {
+        return `${now.getMonth() + 1 - month} tháng trước`;
+    } else if (now.getDate() - day >= 1) {
+        return `${now.getDate() - day} ngày trước`;
+    } else if (now.getMinutes() - minute >= 1) {
+        return `${now.getMinutes() - minute} phút trước`;
+    } else {
+        return `Mới đây`;
+    }
+
 }
 export const addZero = (str) => {
     str += "";

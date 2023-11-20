@@ -18,6 +18,6 @@ const HandleAuthor = ({allowedRole}) => {
         userRole = securityService.getRoleByJwt();
     }
     return userRole && hasAuthorization(allowedRole, userRole)
-        ? (<Outlet/>) : <Navigate to={`/UnAuthor`}/>
+        ? (<Outlet/>) : <Navigate to={`/401`}/>
 }
 export {HandleAuthor}
