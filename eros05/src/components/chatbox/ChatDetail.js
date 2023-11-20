@@ -181,7 +181,7 @@ export default function ChatDetail({element, closeChatBox, own}) {
                     content && content.map((e, index) => {
                         return (
                             idDelete != e.pathId ?
-                                <div key={index}
+                                <div
                                    className={`mess ${e.sender == own.id ? "ownMess" : "friendsMess"}`}>
                                     {(e.sender == own.id && e.type != "revoke") && <div className="option cursorPoint"
                                          onClick={() => setIdDelete(e.pathId)}/>}
