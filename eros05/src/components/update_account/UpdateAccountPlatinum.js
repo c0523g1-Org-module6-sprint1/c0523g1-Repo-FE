@@ -101,6 +101,12 @@ export function UpdateAccountPlatinum() {
             findPackageAccount()
         }
     }, [user])
+    const vnPayOnclick = async (pricePay) => {
+        const link = await payService.checkVnPay(pricePay);
+        console.log(link)
+        window.location.href = link;
+        callAsyncFunctions()
+    }
 
     async function callAsyncFunctions() {
         try {

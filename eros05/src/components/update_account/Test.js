@@ -143,7 +143,7 @@ export function Test() {
 
     return (
         <div>
-            <div style={{display: "flex", margin: "12% 0 0 0"}}>
+            <div style={{display: "flex", margin: "-10% 0px 15px 21%", width:"55%"}}>
                 <div
                     style={{
                         backgroundImage:
@@ -167,14 +167,6 @@ export function Test() {
                     Lisa ơi, bạn đang nghĩ gì ?
                 </button>
             </div>
-
-
-            <br/><h1>Đây là nội dung</h1>
-            <div className="preview"
-                 dangerouslySetInnerHTML={{__html: contents}}
-            />
-            <img style={{width: "300px"}} src={img}/>
-
 
             <div
                 className="modal fade"
