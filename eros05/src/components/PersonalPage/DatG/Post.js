@@ -3,7 +3,7 @@ import "./post.css";
 import {getListOfAnAccount} from "../../../service/posts/PostService";
 import EditPost from "./EditPost";
 import {getIdByJwt,getUsernameByJwt,getRoleByJwt} from "../../../service/login/securityService";
-import { Link } from "react-router-dom";
+import { Link,useParams} from "react-router-dom";
 import LikeButton from "../../posts/LikeButton";
 
 export default function Post() {
@@ -13,10 +13,11 @@ export default function Post() {
   const idLogin = getIdByJwt();
   const username = getUsernameByJwt();
   const role = getRoleByJwt();
+  const {id} = useParams();
 
 
   const fetchDataListOfAnAccount = async () => {
-    const listNewsfeed = await getListOfAnAccount(idLogin);
+    const listNewsfeed = await getListOfAnAccount(id);
     setListNewsfeed(listNewsfeed);
   };
 
