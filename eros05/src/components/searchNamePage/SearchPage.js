@@ -53,73 +53,51 @@ const SearchPage = () => {
     return (
         <div className='search-page-container'>
             <h1 style={{color: "black"}}>Kết quả tìm kiếm</h1>
-            {!isAuthentication ?
-                <div className='container'>
-                    {accounts.length > 0 ? (
-                        <div className="list-cards">
-                            {
-                                accounts.map((item, index) => {
-                                    return (
-                                        <div key={index} className="lien-cards">
-                                            <div className="icon">
-                                                <img className="cus-avatar"
-                                                     src={item.avatar}
-                                                     alt=""/>
-                                            </div>
-                                            <p className="user-name">{item.name}</p>
+
+            <div className='container'>
+                {accounts.length > 0 ? (
+                    <div className="list-cards">
+                        {
+                            accounts.map((item, index) => {
+                                return (
+                                    <div key={index} className="lien-cards">
+                                        <div className="icon">
+                                            <img className="cus-avatar"
+                                                 src={item.avatar}
+                                                 alt=""/>
+                                        </div>
+                                        <p className="user-name">{item.name}</p>
+                                        {!isAuthentication ?
                                             <p className="text">
+                                                {/*<button className="btn btn-secondary border-0 py-2"*/}
+                                                {/*        type="submit" onClick={goRegisterPage}*/}
+                                                {/*        style={{marginTop: "40px"}}>Kết bạn*/}
+                                                {/*</button>*/}
                                                 <button className="btn btn-secondary border-0 py-2"
-                                                        type="submit" onClick={goRegisterPage}
-                                                        style={{marginTop: "40px"}}>Kết bạn
-                                                </button>
-                                                <button className="btn btn-secondary border-0 py-2"
-                                                        type="submit" onClick={goRegisterPage}
-                                                        style={{marginTop: "10px"}}>Xem trang cá nhân
+                                                        type="submit" onClick={goRegisterPage}>Xem trang cá nhân
                                                 </button>
                                             </p>
-                                            <span>Sống tại: {item.location}<br></br>
-                                                Nghề nghiệp: {item.job}</span>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
-                </div>
-                :
-                <div className='container'>
-                    {accounts.length > 0 ? (
-                        <div className="list-cards-login">
-                            {
-                                accounts.map((item, index) => {
-                                    return (
-                                        <div key={index} className="lien-cards">
-                                            <div className="icon">
-                                                <img className="cus-avatar"
-                                                     src={item.avatar}
-                                                     alt=""/>
-                                            </div>
-                                            <p className="user-name">{item.name}</p>
+                                            :
                                             <p className="text">
-                                                <button className="btn btn-secondary border-0 py-2"
-                                                        type="submit" onClick={goAddFriendPage}
-                                                        style={{marginTop: "40px"}}>Kết bạn
-                                                </button>
-                                                <button className="btn btn-secondary border-0 py-2"
+                                                <button className="btn btn-secondary border-0 py-2 "
                                                         type="submit" onClick={() => goPersonalPage(item.id)}
-                                                        style={{marginTop: "10px"}}>Xem trang cá nhân
+                                                >Xem trang cá nhân
                                                 </button>
                                             </p>
-                                            <span>Sống tại: {item.location}<br></br>
+                                        }
+                                        <span>Sống tại: {item.location}<br></br>
+                                                Giới tính: {item.gender}<br></br>
                                                 Nghề nghiệp: {item.job}</span>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
-                </div>
-            }
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                ) : (<h5 style={{
+                    textAlign: "center",
+                    fontStyle: "italic"
+                }}>Không có kết quả!!!</h5>)}
+            </div>
             <div className="search-advance">
                 <button className="btn btn-secondary border-0 py-2"
                         type="submit" onClick={goSearchAdvanced}>Tìm kiếm nâng cao
