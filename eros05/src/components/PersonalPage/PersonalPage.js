@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 import * as loginService from "../../service/login/securityService";
 import Gift from "../gift/Gift";
 import UnknowMessage from "../chatbox/UnknowMessage";
+import {database,ref,push,onValue} from "./LongTND"
 
 export function PersonalPage() {
     const [accountVisit,setAccountVisit] = useState({});
@@ -59,6 +60,8 @@ export function PersonalPage() {
     const status = async (accVisit) => {
         console.log(idLogin);
         console.log(accVisit.id);
+        console.log(accVisit.userName)
+        console.log(userNameLogin)
         if(accountVisit){
            const result = await personalService.getStatus(idUserLogin,accVisit.id);
             console.log(result)
@@ -251,7 +254,7 @@ export function PersonalPage() {
             <Post/>
             <Gift showModaQuyNP={showModaQuyNP} handleClose={closeModal}
                 userNow={userNameLogin}
-                  userGift={accountVisit.username}
+                  userGift={accountVisit.userName}
             />
 
             {/*///modal Long*/}
