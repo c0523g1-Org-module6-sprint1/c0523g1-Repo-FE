@@ -10,7 +10,6 @@ function TopHundered() {
 
     const displayTop = async () => {
         let res = await topHundered.display();
-        // console.log(res)
         setAccount(res)
     }
 
@@ -22,21 +21,25 @@ function TopHundered() {
 
     return (account &&
         <div>
-            <h1 style={{marginTop: "90px", textAlign: "center", fontFamily: "Agbalumo", marginLeft: "40px"}}>
-                Bảng xếp hạng top 100</h1>
-            <div className="container" style={{marginTop:"50px"}}>
-                {/*<div>*/}
-                {/*    <img style={{marginLeft: "44%", width: "165px", borderRadius:"50%"}} src="../img/crown.png"/>*/}
-                {/*</div>*/}
-                <div className="img_top" style={{marginTop: "-65px"}}>
-                    <img style={{border: " 5px solid gold", marginLeft: "40px",borderRadius:"50%"}} src={account[1].avatar}/>
-                        <img style={{width: "250px", border: "5px solid darkred", marginLeft: "40px"}} src={account[0].avatar}/>
-                            <img style={{border: "5px solid darkgreen", marginLeft: "50px"}} src={account[2].avatar}/>
-                </div>
-                <div style={{display: "flex"}} className="top">
-                    <h1 className="top-left" style={{marginLeft: "40px"}}>Hạng 2</h1>
-                    <h1 className="" style={{marginLeft: "11%", marginRight: "13%"}}>Hạng 1</h1>
-                    <h1 className="top-right">Hạng 3</h1>
+            <h2 style={{marginTop: "90px", textAlign: "center", fontFamily: "Agbalumo", marginLeft: "40px",fontSize:"300%"}}>
+                Bảng xếp hạng top 100</h2>
+            <div className="container" style={{marginTop: "50px"}}>
+                <div className="top-container" >
+                    <div className="top-avatar-container">
+                        <h2 className="top-title" style={{fontWeight: "bold"}} >Hạng 2</h2>
+                        <img className="avatar-img" src={account[1].avatar}/>
+                        {account[1].name}
+                    </div>
+                    <div className="top-avatar-container">
+                        <h2 className="top-title" style={{fontWeight: "bold"}}>Hạng 1</h2>
+                        <img className="avatar-img" src={account[0].avatar}/>
+                        {account[0].name}
+                    </div>
+                    <div className="top-avatar-container">
+                        <h2 className="top-title" style={{fontWeight: "bold"}}>Hạng 3</h2>
+                        <img className="avatar-img" src={account[2].avatar}/>
+                        {account[2].name}
+                    </div>
                 </div>
                 <table className="table table-bordered table-hover"
                        style={{marginTop: "70px", verticalAlign: "middle"}}>
@@ -50,9 +53,9 @@ function TopHundered() {
                     </tr>
                     </thead>
                     <tbody>
-                    {account.map((account, index) => (
+                    {account.slice(3).map((account, index) => (
                         <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td>{index + 4}</td>
                             <td>{account.name}</td>
                             <td>{account.accountTypes}</td>
                             <td>{account.money}</td>
@@ -64,7 +67,7 @@ function TopHundered() {
                 </table>
             </div>
         </div>
-)
+    )
 }
 
 export default TopHundered;
