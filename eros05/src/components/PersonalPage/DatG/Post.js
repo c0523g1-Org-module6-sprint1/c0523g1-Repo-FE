@@ -23,7 +23,7 @@ export default function Post() {
 
   useEffect(() => {
     fetchDataListOfAnAccount();
-  }, [showModal,idLogin]);
+  }, [showModal,idLogin,id]);
 
   const handleShowModal = (postUpdate) => {
     setShowModal(true);

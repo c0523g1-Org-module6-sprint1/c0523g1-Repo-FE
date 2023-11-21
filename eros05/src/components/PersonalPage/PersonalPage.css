@@ -835,6 +835,31 @@ header {
     padding: 8px 16px;
 }
 
+.iconLongTND {
+    margin-top:5%;
+    width: 100%;
+    height: 80px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: 0;
+    background-size: 200px;
+    position: static;
+    color: black;
+    font-size: 50px;
+    font-family: Agbalumo, serif;
+    padding: 0;
 
+}
 
-
+.badge {
+    position: absolute;
+    top: -5px;
+    right: 15%;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    /* padding: 5px; */
+    font-size: 11px;
+}
