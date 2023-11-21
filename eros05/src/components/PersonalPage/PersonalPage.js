@@ -7,9 +7,10 @@ import {toast} from "react-toastify";
 import * as loginService from "../../service/login/securityService";
 import Gift from "../gift/Gift";
 
-
 export function PersonalPage() {
     const [accountVisit,setAccountVisit] = useState({});
+    const [isClicked, setIsClicked] = useState(false);
+
     const {id} = useParams();
     let idLogin =1;
     const [statusRelation, setStatusRelation] = useState('');
@@ -38,13 +39,17 @@ export function PersonalPage() {
         status(result.data)
     }
     const handleSentInvite = async (relationships) => {
-      let result = await personalService.sentInvite(relationships);
-      if (result.status === 201){
-          toast.success("Lời mời kết bạn vừa gửi thành công ")
-          await status(accountVisit);
-      }else {
-          toast.error("Thất bại")
-      }
+        if(!isClicked){
+            let result = await personalService.sentInvite(relationships);
+            if (result.status === 201){
+                toast.success("Lời mời kết bạn vừa gửi thành công ")
+                await status(accountVisit);
+            }else {
+                toast.error("Thất bại")
+            }
+            setIsClicked(true);
+        }
+
     }
     const value = {
         sendAccount : idUserLogin,
@@ -67,7 +72,8 @@ export function PersonalPage() {
 
     return(
         <>
-            <div className="container-fluid" style={{ marginTop: 80 }}>
+            {accountVisit ?
+                ( <div className="container-fluid" style={{ marginTop: 80 }}>
                 <div className="row">
                     <div className="col-lg-3"></div>
                     <div className="col-lg-6">
@@ -89,7 +95,6 @@ export function PersonalPage() {
                                     <b style={{padding:"45px"}}>{accountVisit.name}</b>
                                 </h3>
 
-
                             </div>
                             <div
                                 className="profile-cover__action bg--img"
@@ -109,8 +114,10 @@ export function PersonalPage() {
                                                                     style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
                                                                     onClick={() => handleSentInvite(value)}
                                                                 >
-                                                                    <i className="fa fa-plus bt" />
-                                                                    <span className="bt">Kết bạn</span>
+                                                                    <span className="bt">
+                                                                        <i className="fa-solid fa-user-plus bt"></i>
+                                                                         Kết bạn
+                                                                    </span>
                                                                 </button>
                                                             );
                                                         case 1:
@@ -119,8 +126,10 @@ export function PersonalPage() {
                                                                     className="btn btn-rounded btn-info"
                                                                     style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
                                                                 >
-                                                                    <i className="fa-solid fa-user-plus bt"></i>
-                                                                    <span className="bt">Đã gửi lời mời kết bạn</span>
+                                                                    <span className="bt">
+                                                                         <i className="fa-solid fa-paper-plane bt"></i>
+                                                                          Đã gửi lời mời kết bạn
+                                                                    </span>
                                                                 </button>
                                                             );
                                                         case 2:
@@ -129,8 +138,10 @@ export function PersonalPage() {
                                                                     className="btn btn-rounded btn-info"
                                                                     style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
                                                                 >
-                                                                    <i className="fa-solid fa-user-group bt" />
-                                                                    <span className="bt">Bạn bè</span>
+                                                                    <span className="bt">
+                                                                        <i className="fa-solid fa-user-group bt" />
+                                                                          Bạn bè
+                                                                    </span>
                                                                 </button>
                                                             );
                                                     }
@@ -142,8 +153,8 @@ export function PersonalPage() {
                                                 className="btn btn-rounded btn-info"
                                                 style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
                                             >
-                                                <i className="fa fa-comment bt" />
-                                                <span className="bt">Tin nhắn</span>
+
+                                                <span className="bt"><i className="fa fa-comment bt" /> Tin nhắn </span>
                                             </button>
                                         </li>
                                         <li>
@@ -157,8 +168,8 @@ export function PersonalPage() {
                                                         style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
                                                         onClick={handleModal}
                                                     >
-                                                        <i className="fa-solid fa-gift bt" />
-                                                        <span className="bt">Tặng quà</span>
+
+                                                        <span className="bt"><i className="fa-solid fa-gift bt" /> Tặng quà</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -180,28 +191,29 @@ export function PersonalPage() {
                                             </Link>
                                         </div>
                                         <div className="col-lg-3">
-                                                <Link to={"/invited_recommend_friend/InvitedList"} style={{textDecoration:"none"}}>
-                                                    <small>
-                                                        <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
-                                                    </small>
-                                                </Link>
+                                            <Link to={"/invited_recommend_friend/InvitedList"} style={{textDecoration:"none"}}>
+                                                <small>
+                                                    <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
+                                                    <div className="badge">3</div>
+                                                </small>
+                                            </Link>
 
                                         </div>
                                         <div className="col-lg-3">
 
-                                                    <Link to={"/updateAccount/eros+"} style={{textDecoration:"none"}}>
-                                                        <small>
-                                                            <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
-                                                        </small>
-                                                    </Link>
+                                            <Link to={"/updateAccount/eros+"} style={{textDecoration:"none"}}>
+                                                <small>
+                                                    <i className="fa-solid fa-rocket" /> Nâng cấp tài khoản
+                                                </small>
+                                            </Link>
 
                                         </div>
                                         <div className="col-lg-3">
-                                                <Link to={`/personal-page/edit/`} style={{textDecoration:"none"}}>
-                                                    <small>
-                                                        <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
-                                                    </small>
-                                                </Link>
+                                            <Link to={`/personal-page/edit/`} style={{textDecoration:"none"}}>
+                                                <small>
+                                                    <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
+                                                </small>
+                                            </Link>
                                         </div>
 
                                     </div>) }
@@ -213,10 +225,17 @@ export function PersonalPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-3"></div>
+                    <div className="col-lg-3">
+                    </div>
                 </div>
 
-            </div>
+            </div>)
+                :
+                (<div>
+                    <h1 className="iconLongTND">Không có dữ liệu để hiển thị</h1>
+                </div>)}
+
+
             <Post/>
             <Gift showModaQuyNP={showModaQuyNP} handleClose={closeModal}
                 userNow={userNameLogin}
