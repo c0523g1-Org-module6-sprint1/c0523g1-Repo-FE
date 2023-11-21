@@ -3,7 +3,7 @@ import {database, onValue, push, refText, set, update} from "../../service/chatb
 import {useEffect, useState} from "react";
 import {GetChatBoxApi} from "../../service/chatbox/apiConnection";
 
-export default function UnknowMessage({profile, element}) {
+export default function UnknowMessage({profile, element, close}) {
     const [inputMess, setInputMess] = useState("");
     const [path, setPath] = useState();
     const pushFireBase = async (textData) => {
@@ -34,8 +34,8 @@ export default function UnknowMessage({profile, element}) {
                 [element.id]: countUnseenElement,
                 [profile.id]: 0,
                 release: new Date() + ""
-
             })
+            close();
         }
     }
     const enterButton = (key) => {
@@ -56,6 +56,7 @@ export default function UnknowMessage({profile, element}) {
     const handleSendMessage = async () => {
         await pushFireBase(inputMess);
     }
+    if (!profile || !element) return null;
     return (
         <div className="unknowMessageTable color3 borderRadius">
             <input className="unknowMessageTable-input borderRadius"
@@ -64,7 +65,9 @@ export default function UnknowMessage({profile, element}) {
                    onKeyDown={(e) => {enterButton(e.key)}}
                    onChange={(e) => {setInputMess(e.target.value)}}
             />
-            <div className="unknowMessageTable-close borderRadius color0"/>
+            <div className="unknowMessageTable-close borderRadius color0"
+            onClick={close}
+            />
             <div className="unknowMessageTable-send borderRadius color0"
                  onClick={handleSendMessage}
             />
