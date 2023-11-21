@@ -1,249 +1,366 @@
 import React, {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as accountService from "../../service/search_advanced/accountService"
-
+import *as Yup from "yup"
+import "../searchAdvanced/searchAdvanced.css"
+import {Link, useNavigate, useParams} from "react-router-dom";
+import {toast} from "react-toastify";
 
 function SearchAdvanced() {
-    const [account, setAccount] = useState("");
 
-    // const [searchName, setSearchName] = useState("");
-    // const [searchBirthday, setSearchBirthday] = useState("");
-    // const [searchGender, setSearchGender] = useState("");
-    // const [searchLocation, setSearchLocation] = useState("");
-    // const [searchJob, setSearchJob] = useState("");
-    // const [searchHobby, setSearchHobby] = useState("");
-
-
-    const [names, setNames] = useState("");
-    const [nameType, setNameType] = useState([]);
-
-    const [birthdays, setBirthdays] = useState("");
-    const [birthdayType, setBirthdayType] = useState([]);
-
-    const [genders, setGenders] = useState("");
+    const [account, setAccount] = useState([]);
     const [genderType, setGenderType] = useState([]);
-
-    const [jobs, setJobs] = useState("");
     const [jobType, setJobType] = useState([]);
-
-    const [locations, setLocations] = useState("");
     const [locationType, setLocationType] = useState([]);
-
-    const [hobbies, setHobbies] = useState("");
     const [hobbyType, setHobbyType] = useState([]);
 
-    const searchByAdvanced = async () => {
-        const res = await accountService.searchAdvanced();
-        setAccount(res.data);
+    console.log(locationType)
+    const navigate = useNavigate();
+
+    const {name} = useParams();
+
+    const goRegisterPage = () => {
+        navigate(`register`);
+    }
+    const goSearchAdvanced = () => {
+        navigate(`search_advanced`);
+    }
+    const goAddFriendPage = () => {
+        navigate(`invited_recommend_friend/InvitedList`)
+    }
+    const goPersonalPage = (id) => {
+        navigate(`personal-page/${id}`)
+    }
+
+
+    const searchByAdvanced = async (value) => {
+        console.log(value)
+        const res = await accountService.searchAdvanced(value);
+        console.log(res)
+        setAccount(res.data)
+        console.log(account)
     };
 
     const displayGender = async () => {
-        setGenderType(await accountService.searchAdvanced())
-    }
-    const displayBirthday = async () => {
-        setBirthdayType(await accountService.searchAdvanced())
+        setGenderType(await accountService.displayGender())
     }
 
     const displayJob = async () => {
-        setJobType(await accountService.searchAdvanced())
+        setJobType(await accountService.displayJob())
     }
     const displayHobby = async () => {
-        setJobType(await accountService.searchAdvanced())
+        setHobbyType(await accountService.displayHobby())
     }
 
     const displayLocation = async () => {
-        setLocationType(await accountService.cities())
+        setLocationType(await accountService.location())
+        console.log(locationType)
     }
 
     useEffect(() => {
-
+        displayGender()
+        displayLocation()
+        displayHobby()
+        displayJob()
     }, [])
-
 
     const initValue = {
         name: "",
-        birthday: "",
-        gender: JSON.stringify(),
-        job: JSON.stringify(),
-        location: JSON.stringify(),
-        hobby: JSON.stringify(),
+        birthdayFrom: "",
+        birthdayEnd: "",
+        gender: "",
+        job: "",
+        location: "",
+        hobby: "",
     }
 
-    const validateObject = {}
+    const validateObject = {
+        name: Yup.string()
+            .required("Không được để trống")
+            .max(30, "Vui lòng không nhập quá 30 kí tự"),
+        birthdayFrom: Yup.string()
+            .required("Không được để trống"),
+        birthdayEnd: Yup.string()
+            .required("Không được để trống"),
+        // .max(new Date(), "Vui lòng nhập trước ngày hiện tại")
+        // .min(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18), "Vui lòng phải đủ 18 tuổi !"),
+        gender: Yup.string()
+            .required("Không được để trống"),
+        job: Yup.string()
+            .required("Không được để trống"),
+        location: Yup.string()
+            .required("Không được để trống"),
+        hobby: Yup.string()
+            .required("Không được để trống"),
+    }
 
     return (
-        <div>
-            <Formik initialValues={initValue}
-                    onSubmit={(values) => {
+        <>
+            {account.length == 0 ?
+                <div>
+                    <Formik initialValues={initValue}
+                            onSubmit={(values) => {
+                                searchByAdvanced(values)
+                            }}
+                            validationSchema={Yup.object(validateObject)}
+                    >
+                        <div align="center"
+                             style={{
+                                 border: "1px solid #d8afe7",
+                                 maxWidth: "40%",
+                                 margin: "0 auto",
+                                 backgroundImage: "linear-gradient(to right, #d8afe7, #ca86ef)",
+                                 marginTop: "140px",
+                                 borderRadius: "20px"
+                             }}>
+                            <div style={{margin: "7%"}}>
+                                <h2 className="mb-4"
+                                    style={{textAlign: "center", fontFamily: "Agbalumo", fontSize: "45px"}}>Tìm
+                                    kiếm nâng cao</h2>
+                                <Form>
+                                    <div className="input-group mb-3">
+                                 <span className="input-group-text"
+                                       style={{
+                                           width: "30%",
+                                           borderBottomLeftRadius: "20px",
+                                           borderTopLeftRadius: "20px",
+                                           display: "block"
+                                       }}>Tên</span>
+                                        <Field id="name" name="name" type="text" className="form-control"
+                                               style={{
+                                                   borderTopRightRadius: "20px",
+                                                   borderBottomRightRadius: "20px",
+                                               }}/><br/>
 
-                    }}
-                    validationSchema
-            >
+                                    </div>
+                                    <ErrorMessage name="name" component="span"
+                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                    <div className="input-group mb-3">
+                                <span className="input-group-text"
+                                      style={{
+                                          width: "30%",
+                                          borderBottomLeftRadius: "20px",
+                                          borderTopLeftRadius: "20px"
+                                      }}>Giới Tính</span>
+                                        <Field as="select" id="gender" name="gender" className="form-select"
+                                               style={{
+                                                   height: "40px",
+                                                   borderTopRightRadius: "20px",
+                                                   borderBottomRightRadius: "20px"
+                                               }}>
+                                            <option value="">Chọn giới tính</option>
+                                            {genderType.map((gender, index) => (
+                                                <option key={index} value={gender.id}> {gender.name}</option>
 
-            </Formik>
-            <div align="center"
-                 style={{
-                     border: "1px solid #d8afe7",
-                     maxWidth: "40%",
-                     margin: "0 auto",
-                     backgroundImage: "linear-gradient(to right, #d8afe7, #ca86ef)",
-                     marginTop: "60px",
-                     borderRadius: "20px"
-                 }}>
-                <div style={{margin: "7%"}}>
-                    <h2 className="mb-4" style={{textAlign: "center", fontFamily: "Agbalumo", fontSize: "45px"}}>Tìm
-                        kiếm nâng cao</h2>
-                    <Form method="post">
-                        <div className="input-group mb-3">
-                <span className="input-group-text"
-                      style={{width: "30%", borderBottomLeftRadius: "20px", borderTopLeftRadius: "20px"}}>Tên</span>
-                            <input onChange={(evt) => setNames(evt.target.value)} type="text" className="form-control"
-                                   style={{borderTopRightRadius: "20px", borderBottomRightRadius: "20px"}}/><br/><small
-                            style={{color: "red", fontSize: "10px"}}></small>
-                        </div>
-                        <div className="input-group mb-3">
-                <span className="input-group-text"
-                      style={{
-                          width: "30%",
-                          borderBottomLeftRadius: "20px",
-                          borderTopLeftRadius: "20px"
-                      }}>Giới Tính</span>
-                            <select onChange={(evt) => setGenders(evt.target.value)} className="form-select"
-                                    style="height: 40px;border-top-right-radius: 20px; border-bottom-right-radius: 20px">
-                                {genderType.map((gender, index) => (
-                                    <option key={index} value={JSON.stringify(gender)}> {gender.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="input-group mb-3">
-                <span className="input-group-text"
-                      style={{width: "30%", borderBottomLeftRadius: "20px", borderTopLeftRadius: "20px"}}>Độ tuổi</span>
-                            <div className="slider-container"
-                                 style={{marginTop: "17px", width: "70%", height: "7px", borderRadius: "20px"}}>
-                                <div id="ageSlider" className="slider-handle"></div>
-                                <span className="slider-value">18</span>
+                                            ))}
+                                        </Field>
+
+                                    </div>
+                                    <ErrorMessage name="gender" component="span"
+                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                    <div className="input-group mb-3">
+                                <span className="input-group-text"
+                                      style={{
+                                          width: "30%",
+                                          borderBottomLeftRadius: "20px",
+                                          borderTopLeftRadius: "20px"
+                                      }}>Độ tuổi từ</span>
+                                        <Field id="birthdayFrom" name="birthdayFrom" type="number"
+                                               className="form-control"
+                                               style={{
+                                                   borderTopRightRadius: "20px",
+                                                   borderBottomRightRadius: "20px"
+                                               }}/><br/>
+
+                                    </div>
+                                    <ErrorMessage name="birthdayFrom" component="span"
+                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                    <div className="input-group mb-3">
+                                <span className="input-group-text"
+                                      style={{
+                                          width: "30%",
+                                          borderBottomLeftRadius: "20px",
+                                          borderTopLeftRadius: "20px"
+                                      }}>Đến</span>
+                                        <Field id="birthdayEnd" name="birthdayEnd" type="number"
+                                               className="form-control"
+                                               style={{
+                                                   borderTopRightRadius: "20px",
+                                                   borderBottomRightRadius: "20px"
+                                               }}/><br/>
+
+                                    </div>
+                                    <ErrorMessage name="birthdayEnd" component="span"
+                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                    <div className="input-group mb-3">
+                                <span className="input-group-text"
+                                      style={{
+                                          width: "30%",
+                                          borderBottomLeftRadius: "20px",
+                                          borderTopLeftRadius: "20px"
+                                      }}>Nơi sống</span>
+                                        <Field as="select" id="location" name="location" className="form-select"
+                                               style={{
+                                                   height: "40px",
+                                                   borderTopRightRadius: "20px",
+                                                   borderBottomRightRadius: "20px"
+                                               }}>
+                                            <option value="">Chọn thành phố</option>
+                                            {locationType.map((location, index) => (
+                                                <option key={index} value={location.code}> {location.name}</option>
+                                            ))}
+                                        </Field>
+
+                                    </div>
+                                    <ErrorMessage name="location" component="span"
+                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                    <div className="input-group mb-3">
+                                <span className="input-group-text"
+                                      style={{
+                                          width: "30%",
+                                          borderBottomLeftRadius: "20px",
+                                          borderTopLeftRadius: "20px"
+                                      }}>Nghề Nghiệp</span>
+                                        <Field as="select" id="job" name="job" className="form-select"
+                                               style={{
+                                                   height: "40px",
+                                                   borderTopRightRadius: "20px",
+                                                   borderBottomRightRadius: "20px"
+                                               }}>
+                                            <option value="">Chọn nghề nghiệp</option>
+                                            {jobType.map((job, index) => (
+                                                <option key={index} value={job.id}> {job.name}</option>
+                                            ))}
+
+                                        </Field>
+                                    </div>
+                                    <ErrorMessage name="job" component="span" style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                    <div className="input-group mb-3">
+                                <span className="input-group-text" style={{
+                                    width: "30%",
+                                    borderBottomLeftRadius: "20px",
+                                    borderTopLeftRadius: "20px"
+                                }}
+                                >
+                                    Sở thích
+                                </span>
+                                        <Field as="select" id="hobby" name="hobby" className="form-select"
+                                               style={{
+                                                   height: "40px",
+                                                   borderTopRightRadius: "20px",
+                                                   borderBottomRightRadius: "20px"
+                                               }}>
+                                            <option value="">Chọn Sở thích</option>
+                                            {hobbyType.map((hobby, index) => (
+                                                <option key={index} value={hobby.id}> {hobby.name}</option>
+
+                                            ))}
+
+                                        </Field>
+                                    </div>
+                                    <ErrorMessage name="hobby" component="span"
+                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                    <div className="d-flex justify-content-center">
+                                        <button className="btn btn-secondary border-0 py-2"
+                                                style={{
+                                                    backgroundColor: "#ccd2d3",
+                                                    borderRadius: "20px",
+                                                    width: "200px",
+                                                    marginLeft:"10px"
+                                                }} type="submit">Huỷ
+                                        </button>
+                                        <button className="btn btn-secondary border-0 py-2"
+                                                style={{
+                                                    backgroundColor: "#a36acb",
+                                                    borderRadius: "20px",
+                                                    width:"200px"
+                                                }}
+                                                type="submit">Xác Nhận
+                                        </button>
+                                    </div>
+                                </Form>
                             </div>
                         </div>
-                        <div className="input-group mb-3">
-                <span className="input-group-text"
-                      style={{
-                          width: "30%",
-                          borderBottomLeftRadius: "20px",
-                          borderTopLeftRadius: "20px"
-                      }}>Nơi sống</span>
-                            <select className="form-select"
-                                    style={{
-                                        height: "40px",
-                                        borderTopRightRadius: "20px",
-                                        borderBottomRightRadius: "20px"
-                                    }}>
-                                {locationType.map((location, index) => (
-                                    <option key={index} value={JSON.stringify(location)}> {location.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="input-group mb-3">
-                <span className="input-group-text"
-                      style={{
-                          width: "30%",
-                          borderBottomLeftRadius: "20px",
-                          borderTopLeftRadius: "20px"
-                      }}>Nghề Nghiệp</span>
-                            <select onChange={(evt) => setJobType(evt.target.value)} className="form-select"
-                                    style="height: 40px;border-top-right-radius: 20px; border-bottom-right-radius: 20px">
-                                {jobType.map((job, index) => (
-                                    <option key={index} value={JSON.stringify(job)}> {job.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="input-group mb-3">
-                <span className="input-group-text"
-                      style={{
-                          width: "30%",
-                          borderBottomLeftRadius: "20px",
-                          borderTopLeftRadius: "20px"
-                      }}>Sở thích</span>
-                            <select onChange={(evt) => setHobbies(evt.target.value)} className="form-select"
-                                    style="height: 40px;border-top-right-radius: 20px; border-bottom-right-radius: 20px">
-                                {hobbyType.map((hobby, index) => (
-                                    <option key={index} value={JSON.stringify(hobby)}> {hobby.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="d-flex justify-content-center">
-                            <button className="btn btn-secondary border-0 py-2"
-                                    style={{
-                                        backgroundColor: "#ccd2d3",
-                                        color: "#5e6773",
-                                        borderRadius: "20px",
-                                        width: "90px"
-                                    }} type="submit">Huỷ
-                            </button>
-                            <a href="/Users/myhanh/Documents/untitled2/search_advanced/card_test.html">
-                                <button class="btn btn-secondary border-0 py-2"
-                                        style={{backgroundColor: "#a36acb", borderRadius: "20px", marginLeft: "5px"}}
-                                        type="submit">Xác
-                                    Nhận
-                                </button>
-                            </a>
-
-                        </div>
-                    </Form>
+                    </Formik>
                 </div>
-            </div>
-        </div>
+                :
+
+                <div className='search-page-container'>
+                    <h1>Kết quả tìm kiếm</h1>
+                    {!account ?
+                        <div className='container'>
+                            {account.length > 0 ? (
+                                <div className="list-cards">
+                                    {
+                                        account.map((item, index) => {
+                                            return (
+                                                <div key={index} className="cards">
+                                                    <div className="icon">
+                                                        <img className="cus-avatar"
+                                                             src={item.avatar}
+                                                             alt=""/>
+                                                    </div>
+                                                    <p className="user-name">{item.name}</p>
+                                                    <p className="text">
+                                                        <button className="btn btn-secondary border-0 py-2"
+                                                                type="submit" onClick={goRegisterPage}
+                                                                style={{marginTop: "40px"}}>Kết bạn
+                                                        </button>
+                                                        <button className="btn btn-secondary border-0 py-2"
+                                                                type="submit" onClick={goRegisterPage}
+                                                                style={{marginTop: "10px"}}>Xem trang cá nhân
+                                                        </button>
+                                                    </p>
+                                                    <span>Sống tại: {item.location}<br></br>
+                    Nghề nghiệp: {item.job}</span>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                    <Link to="/register" className="nav-link viewmore" aria-current="page">
+                                        <span>...Xem thêm</span>
+                                    </Link>
+                                </div>
+                            ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
+                        </div>
+                        :
+                        <div className='container'>
+                            {account.length > 0 ? (
+                                <div className="list-cards-login">
+                                    {
+                                        account.map((item, index) => {
+                                            return (
+                                                <div key={index} className="cards">
+                                                    <div className="icon">
+                                                        <img className="cus-avatar"
+                                                             src={item.avatar}
+                                                             alt=""/>
+                                                    </div>
+                                                    <p className="user-name">{item.name}</p>
+                                                    <p className="text">
+                                                        <button className="btn btn-secondary border-0 py-2"
+                                                                type="submit" onClick={goAddFriendPage}
+                                                                style={{marginTop: "40px"}}>Kết bạn
+                                                        </button>
+                                                        <button className="btn btn-secondary border-0 py-2"
+                                                                type="submit" onClick={() => goPersonalPage(item.id)}
+                                                                style={{marginTop: "10px"}}>Xem trang cá nhân
+                                                        </button>
+                                                    </p>
+                                                    <span>Sống tại: {item.location}<br></br>
+                    Nghề nghiệp: {item.job}</span>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
+                        </div>
+                    }
+                </div>
+            }
+        </>
     )
-
-
-    const ageSlider = document.getElementById('ageSlider');
-    const sliderValue = document.querySelector('.slider-value');
-    const sliderContainer = document.querySelector('.slider-container');
-    const sliderContainerWidth = sliderContainer.offsetWidth;
-    const sliderHandleWidth = ageSlider.offsetWidth;
-
-// Thiết lập giá trị ban đầu và giới hạn của thanh trượt
-    const minValue = 18;
-    const maxValue = 40;
-    let currentValue = minValue;
-
-// Cập nhật hiển thị giá trị
-    function updateValue() {
-        sliderValue.textContent = currentValue;
-    }
-
-// Xử lý việc kéo thanh trượt
-    function handleDrag(event) {
-        const newPosition = event.clientX - sliderContainer.getBoundingClientRect().left;
-        let percentage = (newPosition / sliderContainerWidth) * 100;
-
-        if (percentage < 0) {
-            percentage = 0;
-        } else if (percentage > 100) {
-            percentage = 100;
-        }
-
-        const handlePosition = (percentage * sliderContainerWidth) / 100;
-        const handleLeftOffset = handlePosition - sliderHandleWidth / 2;
-        ageSlider.style.left = handleLeftOffset + 'px';
-
-        currentValue = Math.round((maxValue - minValue) * (percentage / 100) + minValue);
-        updateValue();
-    }
-
-// Bắt đầu xử lý kéo thanh trượt khi nhấn chuột xuống
-    ageSlider.addEventListener('mousedown', function (event) {
-        handleDrag(event);
-        document.addEventListener('mousemove', handleDrag);
-    });
-
-// Kết thúc xử lý kéo thanh trượt khi nhả chuột
-    document.addEventListener('mouseup', function () {
-        document.removeEventListener('mousemove', handleDrag);
-    });
-
-// Cập nhật giá trị ban đầu
-    updateValue();
-
 }
 
 export default SearchAdvanced

@@ -7,6 +7,7 @@ import {getAll, getAllType} from "../../service/accountAdmin/AdminAccountService
 import axios from "axios";
 import {useEffect, useState} from "react";
 
+
 export function ListAccount() {
     const [account, setAccount] = useState([]);
 

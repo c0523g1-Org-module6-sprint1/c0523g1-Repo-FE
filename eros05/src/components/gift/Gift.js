@@ -1,38 +1,83 @@
 import React, { useEffect, useState } from "react";
 import * as giftService from "../../service/gift/giftService";
 import "bootstrap/dist/css/bootstrap.min.css";
-function Gift({ show, handleClose, userNow, userGift }) {
+import { toast } from "react-toastify";
+function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
   const [listGift, setListGift] = useState([]);
   const [getMoney, setgetMoney] = useState(0);
   const [product, setProduct] = useState({});
+  const [quantity, setquantity] = useState(1);
+  const [flagQuantity, setFlagQuantity] = useState(false);
   const [flagChoice, setFlagChoice] = useState(false);
+  const [moneyStatus, setMoneyStatus] = useState(false);
+
   const display = async () => {
     const res = await giftService.getAll();
-    const resMoney = await giftService.getMoney("2");
-    const result = resMoney / 100;
+    const resMoney = await giftService.getMoney(userNow);
+    const result = resMoney / 1000;
     setgetMoney(result);
     setListGift(res);
     console.log();
   };
   useEffect(() => {
     display();
-  }, []);
+  }, [showModaQuyNP]);
+  useEffect(() => {
+    if (!showModaQuyNP) {
+      setFlagChoice(false);
+      setProduct({});
+      setquantity(1);
+      setMoneyStatus(false);
+    }
+  }, [showModaQuyNP]);
 
   const choiceProduct = (value) => {
     setProduct(value);
     console.log(value);
     setFlagChoice(true);
   };
-  console.log(product);
+  const up = () => {
+    const up = quantity + 1;
+    if (up >= 1) {
+      setFlagQuantity(true);
+    }
+    setquantity(up);
+  };
+  const down = () => {
+    const up = quantity - 1;
+    setquantity(up);
+
+    if (quantity === 2) {
+      setFlagQuantity(false);
+    }
+  };
+  const onSubmit = async () => {
+    const GiveDto = {
+      quantity: quantity,
+      giftId: product.id,
+      accountSenderId: userNow,
+      accountReceiverId: userGift,
+    };
+    const flag = await giftService.giveaGive(GiveDto);
+    console.log(flag);
+    if (flag === undefined) {
+      setMoneyStatus(true);
+    }
+    if (flag === 200) {
+      handleClose();
+      toast.success("tặng thành công");
+    }
+  };
   return (
     <>
-      {show && (
+      {showModaQuyNP && (
         <div
           style={{
             borderRadius: "10px",
             textAlign: "center",
             alignItems: "center",
             display: "block",
+            zIndex: "9999",
           }}
           className="modal"
           id="exampleModalToggle"
@@ -42,11 +87,15 @@ function Gift({ show, handleClose, userNow, userGift }) {
         >
           <div
             className="modal-dialog modal-lg"
-            style={{ backgroundColor: "whitesmoke" }}
+            // style={{ backgroundColor: "whitesmoke" }}
           >
             <div
               className="modal-content"
-              style={{ borderRadius: "20px", padding: "1rem " }}
+              style={{
+                borderRadius: "20px",
+                padding: "1rem ",
+                backgroundColor: "whitesmoke",
+              }}
             >
               <div style={{ textAlign: "center" }}>
                 <div style={{ display: "flex", justifyContent: "center" }}>
@@ -62,6 +111,7 @@ function Gift({ show, handleClose, userNow, userGift }) {
                   }}
                 >
                   <div className="title">Số dư tài khoản: {getMoney} 💎</div>
+
                   <div
                     tabIndex="0"
                     className="plusButton"
@@ -82,6 +132,19 @@ function Gift({ show, handleClose, userNow, userGift }) {
                     </svg>
                   </div>
                 </div>
+                {moneyStatus ? (
+                  <div
+                    style={{
+                      color: "red",
+                      fontSize: "14px",
+                      textAlign: "left",
+                    }}
+                  >
+                    Không đủ tiền để thực hiện giao dịch vui lòng nạp thêm!
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div
                   style={{
                     fontSize: "18px",
@@ -103,6 +166,36 @@ function Gift({ show, handleClose, userNow, userGift }) {
                           gap: "0.3rem",
                         }}
                       >
+                        {flagQuantity ? (
+                          <div
+                            style={{
+                              width: "2.4rem",
+                              height: "2.4rem",
+                              borderRadius: "5px",
+                              backgroundColor: "#b295c6",
+                              fontSize: "1.5rem",
+                              color: "white",
+                              cursor: "pointer",
+                            }}
+                            onClick={down}
+                          >
+                            -
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              width: "2.4rem",
+                              height: "2.4rem",
+                              borderRadius: "5px",
+                              // backgroundColor: "#b295c6",
+                              fontSize: "1.5rem",
+                              // color: "white",
+                              cursor: "pointer",
+                            }}
+                          ></div>
+                        )}
+
+                        <div style={{ fontSize: "1.5rem" }}>{quantity}</div>
                         <div
                           style={{
                             width: "2.4rem",
@@ -111,20 +204,9 @@ function Gift({ show, handleClose, userNow, userGift }) {
                             backgroundColor: "#b295c6",
                             fontSize: "1.5rem",
                             color: "white",
+                            cursor: "pointer",
                           }}
-                        >
-                          -
-                        </div>
-                        <div style={{ fontSize: "1.5rem" }}>0</div>
-                        <div
-                          style={{
-                            width: "2.4rem",
-                            height: "2.4rem",
-                            borderRadius: "5px",
-                            backgroundColor: "#b295c6",
-                            fontSize: "1.5rem",
-                            color: "white",
-                          }}
+                          onClick={up}
                         >
                           +
                         </div>
@@ -206,22 +288,28 @@ function Gift({ show, handleClose, userNow, userGift }) {
                     color: "black",
                     border: "#a36acb solid 1px",
                   }}
+                  onClick={handleClose}
                 >
                   Huỷ
                 </button>
-                <button
-                  className="btn btn-primary"
-                  data-bs-target="#exampleModalToggle2"
-                  data-bs-toggle="modal"
-                  style={{
-                    backgroundColor: "#a36acb",
-                    borderRadius: "7px",
-                    border: "#a36acb solid 1px",
-                    color: "white",
-                  }}
-                >
-                  Tặng quà
-                </button>
+                {flagChoice ? (
+                  <button
+                    className="btn btn-primary"
+                    data-bs-target="#exampleModalToggle2"
+                    data-bs-toggle="modal"
+                    style={{
+                      backgroundColor: "#a36acb",
+                      borderRadius: "7px",
+                      border: "#a36acb solid 1px",
+                      color: "white",
+                    }}
+                    onClick={onSubmit}
+                  >
+                    Tặng quà
+                  </button>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>

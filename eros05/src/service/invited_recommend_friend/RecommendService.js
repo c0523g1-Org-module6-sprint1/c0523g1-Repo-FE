@@ -1,11 +1,10 @@
 import axios from "axios";
-const URL_RECOMMEND ="http://localhost:8080/api/member/recommend"
 
-export const findAll = async ()=> {
+export const findAll = async (id,roleID)=> {
     try{
-        let res = await axios.get( URL_RECOMMEND)
+        let res = await axios.get(`http://localhost:8080/api/public/recommend/${id}/${roleID}`)
         return res.data
     }catch (e) {
-        alert("Access denied")
+        return e
     }
 }

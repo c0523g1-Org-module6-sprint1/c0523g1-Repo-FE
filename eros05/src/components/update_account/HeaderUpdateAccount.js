@@ -1,17 +1,114 @@
 import {Link} from "react-router-dom";
 
+import "../update_account/css/infopackage.css"
+import {useEffect, useState} from "react";
+import * as securityService from "../../service/login/securityService";
+import * as SearchNameService from "../../service/searchName/searchNameService";
+import * as packageTypesService from "../../service/update_account/packageTypesService";
+import moment from "moment/moment";
+import {UpdateAccountEros} from "./UpdateAccountEros";
+import {UpdateAccountGold} from "./UpdateAccountGold";
 
-export function HeaderUpdateAccount(props){
-    const {data} = props;
+export function HeaderUpdateAccount() {
+    const accessToken = localStorage.getItem('accessToken')
+    const [user, setUser] = useState();
+    const currentDate = moment().format('YYYY-MM-DD');
+    const [packageTypes, setPackageTypes] = useState([]);
+    const [packageAccount, setPackageAccount] = useState([{name: "", money: "", expire: "", regisDate: ""}]);
 
 
-    return(
-        <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-card">
-            <Link to="/updateAccount/eros+" className="card">
+    useEffect(() => {
+        const test = async () => {
+            const resUsername = securityService.getUsernameByJwt();
+            console.log('resUserName >>>>' + resUsername)
+            // setUserName(resUsername)
+            if (resUsername !== null) {
+                const resUser = await SearchNameService.findByUserName(resUsername);
+                console.log("resUser >>> " + resUser)
+                if (resUser) {
+                    setUser(resUser.data);
+
+                }
+            }
+        }
+        test();
+    }, []);
+    useEffect(() => {
+        if (user) {
+            console.log(user)
+            findPackageAccount()
+        }
+    }, [user])
+
+
+    const findPackageAccount = () => {
+        if (user) {
+            packageTypesService.findPackageAccount(user.id).then(res => {
+                console.log(res)
+                setPackageAccount(res);
+            });
+        }
+    }
+
+
+    const calculateDate = (expirationDate) => {
+        const endDate  = moment(expirationDate)
+        let startDate = moment(currentDate);
+
+        const remainingDays = endDate.diff(startDate , 'days');
+        return remainingDays
+    }
+
+    UpdateAccountEros(calculateDate(packageAccount[0].regisDate))
+    UpdateAccountGold(calculateDate(packageAccount[0].regisDate))
+
+    return (
+        <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-updateaccount-card updateaccount-body">
+            {packageAccount[0].name === "Member" ? (
+                <div className="updateaccount-card-info">
+                    <div className="updateaccount-img">
+                        <img style={{
+                            maxWidth: "100%",
+                            maxHeight: "100%"
+                        }} src="" alt=""/>
+                    </div>
+                    <div className="updateaccount-textBox">
+                        <div className="updateaccount-textContent">
+                            <p className="updateaccount-h1">Bạn chưa đăng ký gói nào</p>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <div className="updateaccount-card-info">
+                    <div className="updateaccount-img">
+                        <img style={{
+                            maxWidth: "100%",
+                            maxHeight: "100%"
+                        }} src="" alt=""/>
+                    </div>
+                    <div className="updateaccount-textBox">
+                        <div className="updateaccount-textContent">
+                            <p className="updateaccount-h1">Hạng hiện tại: {packageAccount[0].name}</p>
+                        </div>
+                        <p className="updateaccount-p">{packageAccount[0].money} <i style={{color: "snow"}}
+                                                                                    className="fa-regular fa-gem"></i>
+                        </p>
+                        <p style={{margin: "-13px 0px 11px 0"}} className="updateaccount-p">Thời hạn gói
+                            còn: {calculateDate(packageAccount[0].regisDate)} ngày</p>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+            <Link to="/updateAccount/eros+" className="updateaccount-card">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701">
-                        <linearGradient id="gradientColor" >
+                        <linearGradient id="gradientColor">
                             <stop offset="5%" stopColor="#7eaaff"></stop>
                             <stop offset="95%" stopColor="#ff48fb"></stop>
                         </linearGradient>
@@ -28,7 +125,7 @@ export function HeaderUpdateAccount(props){
                 <p className="text">Tặng quà nhiều hơn & hơn thế nữa!</p>
             </Link>
 
-            <Link to="/updateAccount/gold" className="card">
+            <Link to="/updateAccount/gold" className="updateaccount-card">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
                          width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701">
@@ -49,10 +146,10 @@ export function HeaderUpdateAccount(props){
                 <p className="text">Nhiều người biết đến bạn hơn & hơn thế nữa!</p>
             </Link>
 
-            <Link className="card" to="/updateAccount/platinum">
+            <Link className="updateaccount-card" to="/updateAccount/platinum">
                 <div className="icon-update-account">
                     <svg xmlns="http://www.w3.org/2000/svg" height="38px"
-                         width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701" >
+                         width="38px" version="1.1" id="heart" viewBox="0 0 471.701 471.701">
                         <linearGradient id="gradientColor">
                             <stop offset="5%" stopColor="#7eaaff"></stop>
                             <stop offset="95%" stopColor="#ff48fb"></stop>
@@ -69,6 +166,7 @@ export function HeaderUpdateAccount(props){
                 </div>
                 <p className="text">lên cấp mọi hành động bạn thực hiện trên Eros</p>
             </Link>
+
         </div>
     )
 }

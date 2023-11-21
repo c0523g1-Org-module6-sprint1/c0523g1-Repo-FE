@@ -2,7 +2,7 @@ export default function HoTro(){
     return(
         <div className="container"
              style={{margin: "100px 5%", alignItems: "center", fontFamily: "Nunito Sans, sans-serif"}}>
-            <h1 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "2rem"}}>Câu hỏi thường gặp</h1>
+            <h1 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "2rem",color: "black"}}>Câu hỏi thường gặp</h1>
 
             <article><h4>Tôi
                 nên viết gì vào phần tiểu sử của mình?</h4>
@@ -62,18 +62,8 @@ export default function HoTro(){
                 dụng Eros05® có miễn phí không?</h4>
                 <div className="Typs(body-1-regular) C($c-ds-text-secondary)" itemScope="" itemProp="acceptedAnswer"
                      itemType="https://schema.org/Answer">
-                    <div itemProp="text">Các bạn có thể tải về Eros05® miễn phí trên <a
-                        className="C($c-ds-text-brand-normal):h Fz(inh) focus-outline-style" target="_blank"
-                        href="https://go.Eros05.com/web-ios-download" rel="noopener noreferrer"
-                        aria-describedby="open-in-new-window">App Store</a> và <a
-                        className="C($c-ds-text-brand-normal):h Fz(inh) focus-outline-style" target="_blank"
-                        href="https://go.Eros05.com/web-android-download" rel="noopener noreferrer"
-                        aria-describedby="open-in-new-window">Cửa hàng Google Play</a> hoặc truy cập <a
-                        className="C($c-ds-text-brand-normal):h Fz(inh) focus-outline-style"
-                        href="https://Eros05.com">https://Eros05.com</a>
-                        để sử dụng Eros05 cho Web. Các tính năng cơ bản cho phép bạn tạo hồ sơ, dùng tính năng Vuốt phải
-                        để
-                        tỏ ý Thích ai đó và dùng Vuốt trái để bỏ qua.
+                    <div itemProp="text">Eros05® hoàn toàn miễn phí
+                        cho Web. Các tính năng cơ bản cho phép bạn tạo hồ sơ, kết bạn và tặng quà.
                     </div>
                 </div>
             </article>
@@ -90,9 +80,8 @@ export default function HoTro(){
                 </div>
             </article>
             <article className="Ta(start) My(32px) Cntv(a)" itemScope="" itemProp="mainEntity"
-                     itemType="https://schema.org/Question"><a
-                href="https://www.help.Eros05.com/hc/articles/360034941812-What-is-Photo-Verification-?utm_source=web">
-                <h4 className="My(8px) Typs(display-3-strong)" itemProp="name">Hồ sơ Eros05® có thật không?</h4></a>
+                     itemType="https://schema.org/Question">
+                <h4 className="My(8px) Typs(display-3-strong)" itemProp="name">Hồ sơ Eros05® có thật không?</h4>
                 <div className="Typs(body-1-regular) C($c-ds-text-secondary)" itemScope="" itemProp="acceptedAnswer"
                      itemType="https://schema.org/Answer">
                     <div itemProp="text">Eros05® cung cấp tính năng Xác Minh Ảnh nhằm đảm bảo người bạn đang trò chuyện
