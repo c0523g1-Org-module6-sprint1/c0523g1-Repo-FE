@@ -21,19 +21,32 @@ export default function Post() {
   const [postUpdate, setPostUpdate] = useState();
   const idLogin = getIdByJwt();
   const userName = getUsernameByJwt();
-  console.log("ID login:" + idLogin);
-  const role = getRoleByJwt();
-  console.log("Role đang đăng nhập:" + role);
-
+  const [userNameNow, setUserNameNow] = useState(null);
+  const [userNameGift, setUserNameGift] = useState(null);
   const [showModaQuyNP, setShowModalQuyNP] = useState(false);
-  const handleModal = async () => {
+  const getUserName = async () => {
+    const result = await getUsernameByJwt();
+    if (result !== null) {
+      setUserNameNow(result);
+    }
+  };
+  const handleModal = async (value) => {
     console.log("hi");
+    setUserNameGift(value);
     setShowModalQuyNP(true);
   };
 
   const closeModal = async () => {
     setShowModalQuyNP(false);
   };
+  
+  console.log("ID login:" + idLogin);
+  const role = getRoleByJwt();
+  console.log("Role đang đăng nhập:" + role);
+
+
+    
+
 
   const fetchDataListNewsfeed = async () => {
     if (role == "ADMIN") {
@@ -46,6 +59,7 @@ export default function Post() {
   };
 
   useEffect(() => {
+    getUserName()
     fetchDataListNewsfeed();
   }, [showModal, idLogin]);
 
@@ -155,7 +169,7 @@ export default function Post() {
                           <div className="action-btn">
                             <i className="fa-regular fa-comment"></i> Bình luận
                           </div>
-                          <div className="action-btn">
+                          <div className="action-btn"  onClick={() => handleModal(item.account.userName)}>
                             <button
                               onClick={handleModal}
                               style={{
@@ -164,12 +178,7 @@ export default function Post() {
                               }}
                             >
                               <i className="fa-solid fa-gift"></i> Tặng quà
-                              <Gift
-                                showModaQuyNP={showModaQuyNP}
-                                userNow={userName}
-                                userGift={item.account.userName}
-                                handleClose={closeModal}
-                              />
+                             
                             </button>
                           </div>
                         </div>
@@ -184,6 +193,12 @@ export default function Post() {
           );
         })}
       </div>
+      <Gift
+        showModaQuyNP={showModaQuyNP}
+        handleClose={closeModal}
+        userNow={userNameNow}
+        userGift={userNameGift}
+      />
       <EditPost
         showModal={showModal}
         handleHideModal={handleHideModal}
