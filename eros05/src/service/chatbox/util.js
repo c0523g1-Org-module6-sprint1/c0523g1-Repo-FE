@@ -35,7 +35,6 @@ export const dateFormatSendMessage = (str) => {
     return `${hour}:${minute} - ${day} tháng ${month}, ${year}`;
 }
 export const dateFormatChatbox = (str) => {
-    console.log(str)
     if (str.hasOwnProperty("release")){
         const date = new Date(str.release);
         const year = date.getFullYear();

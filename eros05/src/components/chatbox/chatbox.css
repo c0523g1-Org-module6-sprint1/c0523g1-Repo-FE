@@ -545,3 +545,46 @@
 .text-smoke {
     color: gray;
 }
+.unknowMessageTable {
+    width: 500px;
+    height: 110px;
+    position: fixed;
+    left: calc((100% - 500px) / 2);
+    top: 10%;
+    display: grid;
+    grid-template-columns: 1fr 60px 60px;
+    grid-template-rows: 1fr 20px;
+    padding: 15px;
+    grid-template-areas: "input close send" "note note note";
+}
+.unknowMessageTable-input {
+    padding: 0 15px;
+    border: none;
+    grid-area: input;
+    height: 50px;
+}
+.unknowMessageTable-close, .unknowMessageTable-send {
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+    background-size: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition-duration: 0.2s;
+}
+.unknowMessageTable-close:hover, .unknowMessageTable-send:hover {
+    transition-duration: 0.2s;
+    background-size: 45px;
+}
+.unknowMessageTable-send {
+    grid-area: send;
+    background-image: url("image/send-1.png");
+}
+.unknowMessageTable-close {
+    grid-area: close;
+    background-image: url("image/Close.png");
+}
+.unknowMessageTable-note {
+    grid-area: note;
+    text-align: center;
+}
