@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as accountService from "../../service/search_advanced/accountService"
+import {getRoleByJwt} from "../../service/login/securityService";
 import *as Yup from "yup"
 import "../searchAdvanced/searchAdvanced.css"
+import "../searchNamePage/SearchPage.css"
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 
@@ -13,6 +15,8 @@ function SearchAdvanced() {
     const [jobType, setJobType] = useState([]);
     const [locationType, setLocationType] = useState([]);
     const [hobbyType, setHobbyType] = useState([]);
+    const [found, setFound] = useState(false)
+
 
     console.log(locationType)
     const navigate = useNavigate();
@@ -32,6 +36,7 @@ function SearchAdvanced() {
         navigate(`personal-page/${id}`)
     }
 
+    const currentRole = getRoleByJwt();
 
     const searchByAdvanced = async (value) => {
         console.log(value)
@@ -79,19 +84,19 @@ function SearchAdvanced() {
             .required("Không được để trống")
             .max(30, "Vui lòng không nhập quá 30 kí tự"),
         birthdayFrom: Yup.string()
-            .required("Không được để trống"),
+            .required("Không được để trống!"),
         birthdayEnd: Yup.string()
-            .required("Không được để trống"),
+            .required("Không được để trống!"),
         // .max(new Date(), "Vui lòng nhập trước ngày hiện tại")
         // .min(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18), "Vui lòng phải đủ 18 tuổi !"),
         gender: Yup.string()
-            .required("Không được để trống"),
+            .required("Không được để trống!"),
         job: Yup.string()
-            .required("Không được để trống"),
+            .required("Không được để trống!"),
         location: Yup.string()
-            .required("Không được để trống"),
+            .required("Không được để trống!"),
         hobby: Yup.string()
-            .required("Không được để trống"),
+            .required("Không được để trống!"),
     }
 
     return (
@@ -124,7 +129,6 @@ function SearchAdvanced() {
                                            width: "30%",
                                            borderBottomLeftRadius: "20px",
                                            borderTopLeftRadius: "20px",
-                                           display: "block"
                                        }}>Tên</span>
                                         <Field id="name" name="name" type="text" className="form-control"
                                                style={{
@@ -134,7 +138,7 @@ function SearchAdvanced() {
 
                                     </div>
                                     <ErrorMessage name="name" component="span"
-                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                                  style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="input-group mb-3">
                                 <span className="input-group-text"
                                       style={{
@@ -157,7 +161,7 @@ function SearchAdvanced() {
 
                                     </div>
                                     <ErrorMessage name="gender" component="span"
-                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                                  style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="input-group mb-3">
                                 <span className="input-group-text"
                                       style={{
@@ -174,7 +178,7 @@ function SearchAdvanced() {
 
                                     </div>
                                     <ErrorMessage name="birthdayFrom" component="span"
-                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                                  style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="input-group mb-3">
                                 <span className="input-group-text"
                                       style={{
@@ -191,7 +195,7 @@ function SearchAdvanced() {
 
                                     </div>
                                     <ErrorMessage name="birthdayEnd" component="span"
-                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                                  style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="input-group mb-3">
                                 <span className="input-group-text"
                                       style={{
@@ -206,14 +210,14 @@ function SearchAdvanced() {
                                                    borderBottomRightRadius: "20px"
                                                }}>
                                             <option value="">Chọn thành phố</option>
-                                            {locationType.map((location, index) => (
+                                            {locationType && locationType.map((location, index) => (
                                                 <option key={index} value={location.code}> {location.name}</option>
                                             ))}
                                         </Field>
 
                                     </div>
                                     <ErrorMessage name="location" component="span"
-                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                                  style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="input-group mb-3">
                                 <span className="input-group-text"
                                       style={{
@@ -234,7 +238,8 @@ function SearchAdvanced() {
 
                                         </Field>
                                     </div>
-                                    <ErrorMessage name="job" component="span" style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                    <ErrorMessage name="job" component="span"
+                                                  style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="input-group mb-3">
                                 <span className="input-group-text" style={{
                                     width: "30%",
@@ -253,27 +258,39 @@ function SearchAdvanced() {
                                             <option value="">Chọn Sở thích</option>
                                             {hobbyType.map((hobby, index) => (
                                                 <option key={index} value={hobby.id}> {hobby.name}</option>
-
                                             ))}
-
                                         </Field>
                                     </div>
                                     <ErrorMessage name="hobby" component="span"
-                                                  style={{color: "red", marginRight:"62px"}}></ErrorMessage>
+                                                  style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="d-flex justify-content-center">
-                                        <button className="btn btn-secondary border-0 py-2"
-                                                style={{
-                                                    backgroundColor: "#ccd2d3",
-                                                    borderRadius: "20px",
-                                                    width: "200px",
-                                                    marginLeft:"10px"
-                                                }} type="submit">Huỷ
-                                        </button>
+                                        {!currentRole ?
+                                            <Link to="/">
+                                                <button className="btn btn-secondary border-0 py-2"
+                                                        style={{
+                                                            backgroundColor: "#ccd2d3",
+                                                            borderRadius: "20px",
+                                                            width: "200px",
+                                                            marginLeft: "10px"
+                                                        }} type="submit">Huỷ
+                                                </button>
+                                            </Link>
+                                            :
+                                            <Link to="/newsfeed">
+                                                <button className="btn btn-secondary border-0 py-2"
+                                                        style={{
+                                                            backgroundColor: "#ccd2d3",
+                                                            borderRadius: "20px",
+                                                            width: "200px",
+                                                            marginLeft: "10px"
+                                                        }} type="submit">Huỷ
+                                                </button>
+                                            </Link>}
                                         <button className="btn btn-secondary border-0 py-2"
                                                 style={{
                                                     backgroundColor: "#a36acb",
                                                     borderRadius: "20px",
-                                                    width:"200px"
+                                                    width: "200px"
                                                 }}
                                                 type="submit">Xác Nhận
                                         </button>
@@ -286,77 +303,36 @@ function SearchAdvanced() {
                 :
 
                 <div className='search-page-container'>
-                    <h1>Kết quả tìm kiếm</h1>
-                    {!account ?
-                        <div className='container'>
-                            {account.length > 0 ? (
-                                <div className="list-cards">
-                                    {
-                                        account.map((item, index) => {
-                                            return (
-                                                <div key={index} className="cards">
-                                                    <div className="icon">
-                                                        <img className="cus-avatar"
-                                                             src={item.avatar}
-                                                             alt=""/>
-                                                    </div>
-                                                    <p className="user-name">{item.name}</p>
-                                                    <p className="text">
-                                                        <button className="btn btn-secondary border-0 py-2"
-                                                                type="submit" onClick={goRegisterPage}
-                                                                style={{marginTop: "40px"}}>Kết bạn
-                                                        </button>
-                                                        <button className="btn btn-secondary border-0 py-2"
-                                                                type="submit" onClick={goRegisterPage}
-                                                                style={{marginTop: "10px"}}>Xem trang cá nhân
-                                                        </button>
-                                                    </p>
-                                                    <span>Sống tại: {item.location}<br></br>
-                    Nghề nghiệp: {item.job}</span>
+                    <h1 style={{fontSize: "300%"}}>Kết quả tìm kiếm</h1>
+                    {/*{!currentRole ?*/}
+                    <div className='container'>
+                        {account.length > 0 ? (
+                            <div className="list-cards">
+                                {
+                                    account.map((item, index) => {
+                                        return (
+                                            <div key={index} className="lien-cards">
+                                                <div className="icon">
+                                                    <img className="cus-avatar"
+                                                         src={item.avatar}
+                                                         alt=""/>
                                                 </div>
-                                            )
-                                        })
-                                    }
-                                    <Link to="/register" className="nav-link viewmore" aria-current="page">
-                                        <span>...Xem thêm</span>
-                                    </Link>
-                                </div>
-                            ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
-                        </div>
-                        :
-                        <div className='container'>
-                            {account.length > 0 ? (
-                                <div className="list-cards-login">
-                                    {
-                                        account.map((item, index) => {
-                                            return (
-                                                <div key={index} className="cards">
-                                                    <div className="icon">
-                                                        <img className="cus-avatar"
-                                                             src={item.avatar}
-                                                             alt=""/>
-                                                    </div>
-                                                    <p className="user-name">{item.name}</p>
-                                                    <p className="text">
-                                                        <button className="btn btn-secondary border-0 py-2"
-                                                                type="submit" onClick={goAddFriendPage}
-                                                                style={{marginTop: "40px"}}>Kết bạn
-                                                        </button>
-                                                        <button className="btn btn-secondary border-0 py-2"
-                                                                type="submit" onClick={() => goPersonalPage(item.id)}
-                                                                style={{marginTop: "10px"}}>Xem trang cá nhân
-                                                        </button>
-                                                    </p>
-                                                    <span>Sống tại: {item.location}<br></br>
-                    Nghề nghiệp: {item.job}</span>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
-                        </div>
-                    }
+                                                <p className="user-name">{item.name}</p>
+                                                <p className="text">
+                                                    <button className="btn btn-secondary border-0 py-2"
+                                                            type="submit" onClick={goRegisterPage}
+                                                            style={{marginTop: "50px"}}>Xem trang cá nhân
+                                                    </button>
+                                                </p>
+                                                <span>Sống tại: {item.location}<br>
+                                                    </br>Nghề nghiệp: {item.job}</span>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
+                    </div>
                 </div>
             }
         </>
