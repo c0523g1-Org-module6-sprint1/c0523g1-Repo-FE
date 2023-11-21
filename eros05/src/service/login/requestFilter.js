@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const requestFilter = async () => {
+const requestFilter = () => {
     axios.interceptors.request
-        .use(async (request) => {
+        .use((request) => {
             const accessToken = localStorage.getItem("accessToken");
             if (accessToken) {
                 request.headers.Authorization = `Bearer ${accessToken}`
