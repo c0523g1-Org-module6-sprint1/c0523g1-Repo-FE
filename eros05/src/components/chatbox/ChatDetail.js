@@ -61,7 +61,9 @@ export default function ChatDetail({element, closeChatBox, own}) {
                 mess: last,
                 id: idMessage,
                 [element.id]: countUnseenElement,
-                [own.id]: 0
+                [own.id]: 0,
+                release: new Date() + ""
+
             })
             setInputMess("");
             setShowEmoji(false);
