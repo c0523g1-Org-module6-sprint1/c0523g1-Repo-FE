@@ -47,7 +47,7 @@ function CommentContent(props) {
                         background: "none", border: "none", padding: 0,
                         position: "relative", left: 5, top: 20
                     }}
-                    onClick={handleDropDown}>
+                    onClick={() => handleDropDown()}>
                     <i className="fa-solid fa-ellipsis"></i>
                 </button>
                 {dropdownOpen && (
@@ -95,9 +95,9 @@ function CommentContent(props) {
         return (
             <>
                 <Modal.Header closeButton>
-                    <Modal.Title>{data.name}</Modal.Title>
+                    <Modal.Title>{data.content}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure to delete {data.name}!</Modal.Body>
+                <Modal.Body>Are you sure to delete this comment!</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={action}>
                         Close
