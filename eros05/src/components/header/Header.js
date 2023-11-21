@@ -9,6 +9,7 @@ import * as securityService from "../../service/login/securityService";
 import {LogoutConfirmModal} from "../searchNamePage/LogoutConfirmModal";
 import {getRoleByJwt} from "../../service/login/securityService";
 import * as giftService from "../../service/gift/giftService";
+import {CheckAccountTypes} from "../update_account/CheckAccountTypes";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
@@ -125,6 +126,8 @@ export default function Header() {
             setName('');
         }
     }, [window.location.href]);
+
+
     return (
         <header className="lien-header">
             <NavbarMobile isOpenNavbarMobile={isOpenNavbarMobile}
