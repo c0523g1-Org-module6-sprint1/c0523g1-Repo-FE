@@ -4,6 +4,7 @@ import {
   getListNewsfeed,
   getListForAdmin,
 } from "../../service/posts/PostService";
+import CommentBox from "../comments/CommentBox";
 import EditPost from "./EditPost";
 import {
   getIdByJwt,
@@ -13,7 +14,6 @@ import {
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import Gift from "../gift/Gift";
-import { Test } from "../update_account/Test";
 
 export default function Post() {
   const [listNewsfeed, setListNewsfeed] = useState();
@@ -173,6 +173,7 @@ export default function Post() {
                             </button>
                           </div>
                         </div>
+                        <CommentBox postId = {item.id}/>
                       </div>
                     </div>
                   </div>
