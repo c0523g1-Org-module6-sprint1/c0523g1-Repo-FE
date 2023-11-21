@@ -135,7 +135,6 @@ export default function Login() {
 
     return (
         <div id="thienbb-wrapper">
-            <Link to="/401">Test 401</Link>
             <div className="thienbb-main-form">
                 <div className="thienbb-login-title">
                     <span className="thienbb-login-title">ĐĂNG NHẬP</span>
