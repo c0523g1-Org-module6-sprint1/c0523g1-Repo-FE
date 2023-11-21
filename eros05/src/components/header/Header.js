@@ -8,6 +8,7 @@ import * as SearchNameService from "../../service/searchName/searchNameService";
 import * as securityService from "../../service/login/securityService";
 import {LogoutConfirmModal} from "../searchNamePage/LogoutConfirmModal";
 import {getRoleByJwt} from "../../service/login/securityService";
+import * as giftService from "../../service/gift/giftService";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
@@ -19,7 +20,16 @@ export default function Header() {
     const [user, setUser] = useState();
     const accessToken = localStorage.getItem('accessToken')
     const [isShowModal, setShowModal] = useState(false);
+    const [gift, setGift] = useState([]);
+
+    const getGift = async () => {
+        const resUsername = securityService.getUsernameByJwt();
+        const res = await giftService.getAllList(resUsername);
+        console.log();
+        setGift(res);
+    };
     useEffect(() => {
+        getGift();
         const handleClickOutside = (event) => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
                 setIsShowUserMenu(false)
@@ -30,6 +40,18 @@ export default function Header() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+    function formatDateTime(dateTime) {
+        let formattedDate = new Date(dateTime);
+        console.log(dateTime);
+        let year = formattedDate.getFullYear();
+        let month = (formattedDate.getMonth() + 1).toString().padStart(2, "0");
+        let day = formattedDate.getDate().toString().padStart(2, "0");
+        let hours = formattedDate.getHours().toString().padStart(2, "0");
+        let minutes = formattedDate.getMinutes().toString().padStart(2, "0");
+        let seconds = formattedDate.getSeconds().toString().padStart(2, "0");
+
+        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    }
     const handleButtonClick = () => {
         setIsShowUserMenu((prevState) => !prevState);
     };
@@ -37,8 +59,7 @@ export default function Header() {
         setName(event.target.value);
     };
     const handleSearch = React.useCallback(
-        (event) => {
-            event.preventDefault();
+        () => {
             var regex = /^[a-zA-Z0-9\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]+$/;
             if (!name) {
                 toast.error("Mời bạn nhập tên cần tìm!");
@@ -52,8 +73,9 @@ export default function Header() {
             }
             navigate(`public/search-name/${name}`);
         },
-        [navigate, name]
+        [navigate,name]
     );
+
     const goLoginPage = () => {
         navigate(`login`)
     }
@@ -89,6 +111,20 @@ export default function Header() {
         }
     }, [accessToken])
     const currentRole = getRoleByJwt();
+    const enterButton = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleSearch();
+        }
+    };
+
+    useEffect(() => {
+        const currentURL = window.location.href;
+        const searchNameIndex = currentURL.indexOf('/search-name/');
+        if (searchNameIndex === -1) {
+            setName('');
+        }
+    }, [window.location.href]);
     return (
         <header className="lien-header">
             <NavbarMobile isOpenNavbarMobile={isOpenNavbarMobile}
@@ -147,6 +183,49 @@ export default function Header() {
                                         </Link>
                                     </li>
                                     {/*Qúy code ở đây*/}
+                                    <li style={{ marginTop: "0.5rem" }} className="nav-item">
+                                        <div className="notification">
+                                            <a href="#">
+                                                <div className="notBtn" href="#">
+                                                    <i className="fas fa-bell"></i>
+
+                                                    <div className="box">
+                                                        <div className="display">
+                                                            <div className="nothing">
+                                                                <h5 className="cent">Không có quà tặng</h5>
+                                                            </div>
+                                                            <div className="cont">
+                                                                {/* Fold this div and try deleting everything in between */}
+
+                                                                {gift === null
+                                                                    ? ""
+                                                                    : gift?.map((item) => (
+                                                                        <div className="sec new">
+                                                                            <div>
+                                                                                <div className="profCont">
+                                                                                    <img
+                                                                                        className="profile"
+                                                                                        src={item.accountSender.avatar}
+                                                                                        alt="Profile 1"
+                                                                                    />
+                                                                                </div>
+                                                                                <div className="txt">
+                                                                                    {item.accountSender.name} đã tặng bạn:{" "}
+                                                                                    {item.quantity} {item.gift.name}
+                                                                                </div>
+                                                                                <div className="txt sub">
+                                                                                    {formatDateTime(item.time)}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
                                 </ul> :
                                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                     <li className="nav-item">
@@ -174,10 +253,11 @@ export default function Header() {
                                     </span>
                                 </div>
                                 <input type="text" className="form-control"
-                                       placeholder="Nhập tên bạn bè" aria-label="Username"
+                                       placeholder="Nhập tên người dùng" aria-label="Username"
                                        aria-describedby="addon-wrapping"
                                        onChange={handleChangeInput}
                                        value={name}
+                                       onKeyDown={(e) => {enterButton(e)}}
                                 />
                             </div>
                         </form>
@@ -185,9 +265,8 @@ export default function Header() {
                     {
                         !isAuthentication ?
                             <div className="float-lg-end lien-login-btn">
-                                <button className="d-flex align-items-center icon"><i
-                                    className="fa-solid fa-right-to-bracket" style={{color: "#9D66C3"}}
-                                    onClick={goLoginPage}></i>
+                                <button className="d-flex align-items-center icon">
+                                    <i className="fa-solid fa-user" style={{color: "#9D66C3"}} onClick={goLoginPage}></i>
                                 </button>
                             </div> :
                             <div className="float-lg-end lien-login-btn">
