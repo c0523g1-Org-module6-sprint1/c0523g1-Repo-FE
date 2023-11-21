@@ -61,7 +61,7 @@
 }
 
 .plan .features li {
-    display: flex;
+    list-style-type: none;
     align-items: center;
     gap: 0.5rem;
 }

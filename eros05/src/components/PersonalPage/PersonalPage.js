@@ -197,7 +197,7 @@ export function PersonalPage() {
 
                                         </div>
                                         <div className="col-lg-3">
-                                                <Link to={`/personal-page/edit/${idLogin}`} style={{textDecoration:"none"}}>
+                                                <Link to={`/personal-page/edit/`} style={{textDecoration:"none"}}>
                                                     <small>
                                                         <i className="fa-solid fa-wrench" /> Chỉnh sửa thông tin
                                                     </small>

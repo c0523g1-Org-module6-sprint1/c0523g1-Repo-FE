@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import * as accountTypesService from "../../service/update_account/accountTypeService"
 import {toast} from "react-toastify";
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import * as securityService from "../../service/login/securityService";
@@ -9,6 +9,7 @@ import * as SearchNameService from "../../service/searchName/searchNameService";
 import {getPrivacyPost} from "../../service/posts/PostService";
 import moment from "moment/moment";
 import "./css/upPost.css"
+import * as Yup from "yup";
 
 export function Test() {
     const [formData, setFormData] = useState("");
@@ -62,10 +63,9 @@ export function Test() {
 
     const innitValue = {
         content: "",
-        date: "",
         image: "",
-        account: "",
-        privacyPost: 1
+        accountId: "",
+        privacyPostId: 1
     }
 
     function CurrentTime() {
@@ -80,13 +80,14 @@ export function Test() {
     }
 
     const upPost = async (values) => {
-        values.account = user.id;
+        values.accountId = user.id;
         values.content = contents;
-        values.date = "";
         values.image = img;
-        values.privacyPost = +values.privacyPost;
-        console.log(values.privacyPost)
-        console.log(values.date);
+        values.privacyPostId = +values.privacyPostId;
+        console.log("privacyPost " + typeof values.privacyPostId)
+        console.log("account id " + typeof values.accountId)
+        console.log("content " + typeof values.content);
+        console.log("image " +typeof values.image);
         console.log(values)
         let status = await accountTypesService.upPost(values);
         console.log(status)
@@ -97,6 +98,19 @@ export function Test() {
             toast.error("Thêm mới thất bại");
         }
     }
+
+    const validatePost = {
+        content: Yup.string().max(
+            6000,
+            "Tình yêu có thể viết ngắn lại được không ?"
+        ),
+        privacyPostId: Yup.string().required(
+            "Tình yêu xin hãy chọn quyền riêng tư"
+        ),
+    };
+
+
+
 
     useEffect(() => {
         const test = async () => {
@@ -129,7 +143,7 @@ export function Test() {
 
     return (
         <div>
-            <div style={{display: "flex", margin: "12% 0 0 0"}}>
+            <div style={{display: "flex", margin: "-10% 0px 15px 21%", width:"55%"}}>
                 <div
                     style={{
                         backgroundImage:
@@ -154,14 +168,6 @@ export function Test() {
                 </button>
             </div>
 
-
-            <br/><h1>Đây là nội dung</h1>
-            <div className="preview"
-                 dangerouslySetInnerHTML={{__html: contents}}
-            />
-            <img style={{width: "300px"}} src={img}/>
-
-
             <div
                 className="modal fade"
                 id="exampleModal"
@@ -185,7 +191,8 @@ export function Test() {
 
                         <Formik
                             initialValues={innitValue}
-                            onSubmit={(value) => upPost(value)}>
+                            onSubmit={(value) => upPost(value)}
+                            >
                             <Form>
                                 <div className="modal-body">
                                     <div className="row" style={{display: "flex"}}>
@@ -204,7 +211,7 @@ export function Test() {
                                             <h4>Lisa</h4>
                                             <Field
                                                 component="select"
-                                                name="privacyPost"
+                                                name="privacyPostId"
                                                 className="uppost-form-select">
                                                 {privacyPostList.map((item) => (
                                                     <option name="privacyPost" key={item.id} value={item.id}>
@@ -233,13 +240,13 @@ export function Test() {
                                     {formData !== "" || image !== "" ? (
                                         <button
                                                 data-bs-dismiss="modal"
-                                                aria-label="Close"  style={{margin: "3% 0 0 0"}} onClick={clickHandle} type="submit" className="btn-close uppost-pushable">
+                                                  style={{margin: "3% 0 0 0"}} onClick={clickHandle} type="submit" className="btn-close uppost-pushable">
                                             <span className="shadow"/>
                                             <span className="uppost-edge"/>
                                             <span className="uppost-front">Đăng</span>
                                         </button>
                                     ) : (
-                                        <button style={{margin: "3% 0 0 0", cursor: "no-drop", outline: "none", pointerEvents: "none"}} disabled type="button"
+                                        <button style={{margin: "3% 0 17px 0", cursor: "no-drop", outline: "none", pointerEvents: "none"}} disabled type="button"
                                                 className="uppost-pushable">
                                             <span className="shadow"/>
                                             <span className="uppost-edge"/>

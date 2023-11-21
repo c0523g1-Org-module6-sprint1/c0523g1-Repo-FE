@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 import * as SearchNameService from "../../service/searchName/searchNameService";
 import * as securityService from "../../service/login/securityService";
 import {LogoutConfirmModal} from "../searchNamePage/LogoutConfirmModal";
+import {getRoleByJwt} from "../../service/login/securityService";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
@@ -45,7 +46,7 @@ export default function Header() {
             } else if (!regex.test(name)) {
                 toast.error("Tên không chứa ký tự đặc biệt!");
                 return;
-            } else if (name.length > 255){
+            } else if (name.length > 255) {
                 toast.error("Tên vượt quá độ dài cho phép!");
                 return;
             }
@@ -60,11 +61,8 @@ export default function Header() {
     useEffect(() => {
         const test = async () => {
             const resUsername = securityService.getUsernameByJwt();
-            console.log('resUserName >>>>' + resUsername)
-            // setUserName(resUsername)
             if (resUsername !== null) {
                 const resUser = await SearchNameService.findByUserName(resUsername);
-                console.log("resUser >>> " + resUser)
                 if (resUser) {
                     setUser(resUser.data);
                 }
@@ -90,9 +88,9 @@ export default function Header() {
             setIsAuthentication(false);
         }
     }, [accessToken])
-
+    const currentRole = getRoleByJwt();
     return (
-        <header className="header">
+        <header className="lien-header">
             <NavbarMobile isOpenNavbarMobile={isOpenNavbarMobile}
                           setOpenNavbarMobile={setOpenNavbarMobile}
                           isAuthentication={isAuthentication}/>
@@ -214,14 +212,14 @@ export default function Header() {
                                                 <li>
                                                     <Link to="/change_password">Đổi mật khẩu</Link>
                                                 </li>
-                                                {user.role === 2 &&
+                                                {currentRole === "ADMIN" &&
                                                     <li>
                                                         <Link to="/accounts">Quản lý</Link>
                                                     </li>
                                                 }
                                                 <hr/>
                                                 <li onClick={() => handleModal()}>
-                                                    <p>Đăng xuất</p>
+                                                    <p style={{fontFamily: "Nunito Sans, sans-serif"}}>Đăng xuất</p>
                                                 </li>
                                                 <span></span>
                                             </ul>

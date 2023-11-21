@@ -101,6 +101,12 @@ export function UpdateAccountPlatinum() {
             findPackageAccount()
         }
     }, [user])
+    const vnPayOnclick = async (pricePay) => {
+        const link = await payService.checkVnPay(pricePay);
+        console.log(link)
+        window.location.href = link;
+        callAsyncFunctions()
+    }
 
     async function callAsyncFunctions() {
         try {
@@ -114,8 +120,21 @@ export function UpdateAccountPlatinum() {
                 await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money); // Hàm bất đồng bộ 2
             }
             await resetRadioButtons(); // Hàm bất đồng bộ 3
-            await registrationDate(currentDate2, newFutureDate, user.id);
-            await load();
+
+            if (packageAccount[0].name === nameAccount) {
+                const endDate  = moment(packageAccount[0].regisDate)
+                let startDate = moment(currentDate2);
+                const partFutureDate = endDate.diff(startDate , 'days');
+                const dateNow = datePackage;
+                const totalDate = partFutureDate + dateNow;
+                const newDate = currentDate.add(totalDate, 'days').format('YYYY-MM-DD');
+
+                await registrationDate(currentDate2, newDate, user.id);
+            } else {
+                await registrationDate(currentDate2, newFutureDate, user.id);
+            }
+
+            // await load();
         } catch (error) {
             console.log("có lỗi xảy ra khi gọi cả 4 hàm")
         }
