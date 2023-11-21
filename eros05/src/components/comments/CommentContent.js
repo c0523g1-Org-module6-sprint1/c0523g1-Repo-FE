@@ -1,44 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
-function CommentContent({content, accountName, date, avatar, postId}) {
-    // function formatDate = (date) =>{
-    //     let formatedDate = '';
-    //     if (date){
-    //         formatedDate =
-    //     }
-    // }
+function CommentContent(props) {
+    const commentId = props;
+    const [dropdownOpen, setDropdownOpen] = useState(false)
 
 
+
+    // chỉnh sủa và xoá
+    const handleDropDown = () => {
+        setDropdownOpen(!dropdownOpen);
+    }
+    useEffect(() => {
+
+    }, [commentId]);
 
     return (
-        <div>
-            <div className="" style={{marginTop: 10, display: "flex", width: "100%"}}>
-                <div className="" style={{marginRight: 20}}>
-                    <img src={avatar}
-                        alt="Avatar"
-                        style={{
-                            width: 50,
-                            height: 50,
-                            borderRadius: "50%",
-                            position: "relative",
-                            left: 12
-                        }}>
-                        {avatar ? '' : accountName?.charAt(0)?.toUpperCase()}
-                    </img>
-                </div>
-                <div className=" w-auto"
+        <>
+            <div>
+                <button
                     style={{
-                        border: "1px solid #ccc",
-                        padding: 5,
-                        position: "relative",
-                        borderRadius: 20}}>
-                    <div>
-                        <b style={{color: "black"}}>{accountName}</b>
-                    </div>
-                    <p>{content}</p>
-                </div>
+                        background: "none", border: "none", padding: 0,
+                        position: "relative", left: 5, top: 20
+                    }}
+                    onClick={handleDropDown}>
+                    <i className="fa-solid fa-ellipsis"></i>
+                </button>
+                {dropdownOpen && (
+                    <ul style={{listStyleType : "none" }}>
+                        <li>Chỉnh sửa</li>
+                        <li>Xoá</li>
+                    </ul>
+                )}
             </div>
-        </div>
+        </>
     );
 }
 

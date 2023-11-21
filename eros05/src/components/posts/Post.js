@@ -1,23 +1,48 @@
 import React, { useEffect, useState } from "react";
 import "./post.css";
-import { getListNewsfeed } from "../../service/posts/PostService";
+import {
+  getListNewsfeed,
+  getListForAdmin,
+} from "../../service/posts/PostService";
 import EditPost from "./EditPost";
-import { getIdByJwt, getRoleByJwt } from "../../service/login/securityService";
+import {
+  getIdByJwt,
+  getRoleByJwt,
+  getUsernameByJwt,
+} from "../../service/login/securityService";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
+import Gift from "../gift/Gift";
+import { Test } from "../update_account/Test";
 
 export default function Post() {
   const [listNewsfeed, setListNewsfeed] = useState();
   const [showModal, setShowModal] = useState();
   const [postUpdate, setPostUpdate] = useState();
   const idLogin = getIdByJwt();
+  const userName = getUsernameByJwt();
   console.log("ID login:" + idLogin);
   const role = getRoleByJwt();
   console.log("Role đang đăng nhập:" + role);
 
+  const [showModaQuyNP, setShowModalQuyNP] = useState(false);
+  const handleModal = async () => {
+    console.log("hi");
+    setShowModalQuyNP(true);
+  };
+
+  const closeModal = async () => {
+    setShowModalQuyNP(false);
+  };
+
   const fetchDataListNewsfeed = async () => {
-    const listNewsfeed = await getListNewsfeed(idLogin);
-    setListNewsfeed(listNewsfeed);
+    if (role == "ADMIN") {
+      const listNewsfeed = await getListForAdmin();
+      setListNewsfeed(listNewsfeed);
+    } else {
+      const listNewsfeed = await getListNewsfeed(idLogin);
+      setListNewsfeed(listNewsfeed);
+    }
   };
 
   useEffect(() => {
@@ -92,19 +117,22 @@ export default function Post() {
                             </div>
                           </div>
                           <div className="post-options">
-                            {
-                              ((role === "ADMIN" ||idLogin === item.account.id) && (
-                                <button
-                                  style={{
-                                    border: "none",
-                                    backgroundColor: "white",
-                                  }}
-                                  onClick={() => handleShowModal(item)}
-                                >
-                                  <i className="fa fa-edit"/>
-                                </button>
-                              ))}
-                            <i className="fa fa-times close-icon" />
+                            {(role === "ADMIN" ||
+                              idLogin === item.account.id) && (
+                              <button
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "white",
+                                }}
+                                onClick={() => handleShowModal(item)}
+                              >
+                                <i className="fa fa-edit" />
+                              </button>
+                            )}
+                            {(role === "ADMIN" ||
+                              idLogin === item.account.id) && (
+                              <i className="fa fa-times close-icon" />
+                            )}
                           </div>
                         </div>
                         <div style={{ width: "100%" }} className="media-body">
@@ -129,14 +157,19 @@ export default function Post() {
                           </div>
                           <div className="action-btn">
                             <button
-                              data-bs-toggle="modal"
-                              data-bs-target="#giftModal"
+                              onClick={handleModal}
                               style={{
                                 border: "none",
                                 backgroundColor: "white",
                               }}
                             >
                               <i className="fa-solid fa-gift"></i> Tặng quà
+                              <Gift
+                                showModaQuyNP={showModaQuyNP}
+                                userNow={userName}
+                                userGift={item.account.userName}
+                                handleClose={closeModal}
+                              />
                             </button>
                           </div>
                         </div>

@@ -67,6 +67,7 @@ function EditAccount() {
     }, []);
 
 
+
     const getAccount = async () => {
         try {
             const idAccount = securityService.getIdByJwt();
