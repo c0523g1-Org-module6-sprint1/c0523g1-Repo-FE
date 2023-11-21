@@ -73,6 +73,12 @@
             transition: all 0.3s ease;
         }
 
+        /*#ThienPT-h1 {*/
+        /*    textAlign: 'center';*/
+        /*    marginBottom: 50px;*/
+        /*    fontFamily: "Agbalumo"*/
+        /*}*/
+
         .cardsThienPT:hover {
             transform: scale(1.1); /* Khi rê chuột vào, đặt tỷ lệ phóng to là 1.4 */
             background: whitesmoke;
@@ -90,11 +96,12 @@
 
 
         .cus-avatarThienPT {
-            margin-bottom: 50px;
-            width: 100px;
-            height: 100px;
+            margin-bottom: 100px;
+            width: 130px;
+            height: 130px;
             object-fit: cover;
             border-radius: 100%;
+
         }
         /*<div class="scecd" style="display: grid; grid-template-columns: repeat(4,1fr); gap: 3rem; padding: 3.2rem">*/
         /* Truy vấn phương tiện cho màn hình nhỏ hơn 576px */

@@ -15,3 +15,7 @@ export const handleDeleteFriend = async (idLogin,friend) => {
 export const handleBlockFriend = async (idLogin,friend) => {
     return (await axios.delete(`http://localhost:8080/api/public/friend/block?idLogin=${idLogin}&idFriend=${friend.id}`)).status
 }
+
+export const handleUnBlockFriend = async (idLogin,friend) => {
+    return (await axios.delete(`http://localhost:8080/api/public/friend/unblock?idLogin=${idLogin}&idFriend=${friend.id}`)).status
+}
