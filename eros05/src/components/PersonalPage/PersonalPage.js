@@ -6,18 +6,18 @@ import Post from "./DatG/Post";
 import {toast} from "react-toastify";
 import * as loginService from "../../service/login/securityService";
 import Gift from "../gift/Gift";
+import UnknowMessage from "../chatbox/UnknowMessage";
 
 export function PersonalPage() {
     const [accountVisit,setAccountVisit] = useState({});
     const [isClicked, setIsClicked] = useState(false);
-
+    const [showMessageTable, setShowMessageTable] =useState(false);
     const {id} = useParams();
     let idLogin =1;
     const [statusRelation, setStatusRelation] = useState('');
     const navigate = useNavigate();
     const idUserLogin = loginService.getIdByJwt();
     const userNameLogin = loginService.getUsernameByJwt();
-
 
     const [showModaQuyNP, setShowModalQuyNP] = useState(false);
     const handleModal = async () => {
@@ -70,8 +70,17 @@ export function PersonalPage() {
         }
     }
 
+    const closeSenderMessage = () => {
+        setShowMessageTable(false);
+    }
     return(
         <>
+            {(showMessageTable) &&
+                <UnknowMessage
+                element={{id: accountVisit.id}}
+                profile={{id: idUserLogin}}
+                close={closeSenderMessage}
+            />}
             {accountVisit ?
                 ( <div className="container-fluid" style={{ marginTop: 80 }}>
                 <div className="row">
@@ -154,7 +163,10 @@ export function PersonalPage() {
                                                 style={{ backgroundColor: "#a36acb", borderRadius: 20 }}
                                             >
 
-                                                <span className="bt"><i className="fa fa-comment bt" /> Tin nhắn </span>
+                                                <span className="bt"
+                                                onClick={() => {
+                                                    setShowMessageTable(true)
+                                                }}><i className="fa fa-comment bt" /> Tin nhắn </span>
                                             </button>
                                         </li>
                                         <li>

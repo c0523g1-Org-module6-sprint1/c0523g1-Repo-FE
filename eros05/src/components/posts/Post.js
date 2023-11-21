@@ -13,7 +13,6 @@ import {
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import Gift from "../gift/Gift";
-import { Test } from "../update_account/Test";
 
 export default function Post() {
   const [listNewsfeed, setListNewsfeed] = useState();
