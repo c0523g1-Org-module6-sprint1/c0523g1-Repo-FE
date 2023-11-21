@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import {now} from "moment";
 import {Field, Form, Formik} from "formik";
+import {getInfoPersonal} from "../../service/personalPage/PersonalpageService";
 
 function CommentBox(props) {
     const {postId} = props;
@@ -15,14 +16,25 @@ function CommentBox(props) {
     const [showChat, setShowChat] = useState(false)
     const [commentList, setCommentList] = useState([])
     const [isRender, setIsRender] = useState(false)
-    const accountId = securityService.getIdByJwt()
+    const accountId = securityService.getIdByJwt();
     const navigate = useNavigate();
     const inputFocus = useRef(null);
+    const [account, setAccount] = useState({})
+
+    const getAccount = async (accountId) => {
+        try {
+            const res = await getInfoPersonal(accountId);
+            setAccount(res.data);
+        } catch (e) {
+            alert("Error")
+        }
+    }
 
     // show comment list
     const getCommentsList = async () => {
         try {
             const result = await commentsService.getAllCommentsService();
+            console.log(result)
             setCommentList(result);
         } catch (e) {
             alert("Error")
@@ -51,6 +63,7 @@ function CommentBox(props) {
 
     useEffect(() => {
         getCommentsList()
+        getAccount(accountId);
     }, [isRender]);
 
     const onEmojiClick = (event) => {
@@ -96,7 +109,7 @@ function CommentBox(props) {
                                     </p>
                                 </div>
                                 {accountId === list.account.id &&
-                                    <CommentContent props={list.id} props2 = {list}/>
+                                    <CommentContent props={list.id} props2={list}/>
                                 }
                             </div>
                         );
@@ -106,7 +119,7 @@ function CommentBox(props) {
             <div className="" style={{marginTop: 10, display: "flex", width: "100%"}}>
                 <div className="" style={{marginRight: 20}}>
                     <img
-                        src="https://tse3.mm.bing.net/th?id=OIP.GtqfauNI1Nd7Hwg74Wjw7wHaHa&pid=Api&P=0&h=180"
+                        src={account.avatar}
                         alt="Avatar"
                         style={{
                             width: 50,
