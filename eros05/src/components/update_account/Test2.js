@@ -1,9 +1,13 @@
 import "./css/test2.css"
-import {Field, Form, Formik} from "formik";
-import ReactQuill from "react-quill";
 import React from "react";
+import {useNavigate} from "react-router-dom";
 
 export function Test2() {
+    const navigate = useNavigate();
+
+    function toUpdateAccount() {
+        navigate("/updateAccount/eros+")
+    }
 
     return (<div>
             <button type="button"
@@ -25,7 +29,7 @@ export function Test2() {
 
 
 
-                        <div className="plan">
+                        <div className="update-plan">
                             <div className="inner">
     <span className="pricing">
          <span>
@@ -100,7 +104,7 @@ export function Test2() {
                                     </li>
                                 </ul>
                                 <div className="action">
-                                    <a className="button" href="#">
+                                    <a onClick={toUpdateAccount} className="button">
                                         Đi tới
                                     </a>
                                 </div>
