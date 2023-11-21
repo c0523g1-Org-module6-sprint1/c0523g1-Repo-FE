@@ -550,12 +550,14 @@
     height: 110px;
     position: fixed;
     left: calc((100% - 500px) / 2);
-    top: 10%;
+    top: 25%;
     display: grid;
     grid-template-columns: 1fr 60px 60px;
     grid-template-rows: 1fr 20px;
     padding: 15px;
     grid-template-areas: "input close send" "note note note";
+    z-index: 100000;
+    border: 2px white dashed;
 }
 .unknowMessageTable-input {
     padding: 0 15px;
