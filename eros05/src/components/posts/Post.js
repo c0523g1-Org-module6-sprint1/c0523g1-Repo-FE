@@ -20,16 +20,10 @@ export default function Post() {
   const [showModal, setShowModal] = useState();
   const [postUpdate, setPostUpdate] = useState();
   const idLogin = getIdByJwt();
-  const userName = getUsernameByJwt();
-  const [userNameNow, setUserNameNow] = useState(null);
+  const userNameNow = getUsernameByJwt();
   const [userNameGift, setUserNameGift] = useState(null);
   const [showModaQuyNP, setShowModalQuyNP] = useState(false);
-  const getUserName = async () => {
-    const result = await getUsernameByJwt();
-    if (result !== null) {
-      setUserNameNow(result);
-    }
-  };
+
   const handleModal = async (value) => {
     console.log("hi");
     setUserNameGift(value);
@@ -59,7 +53,6 @@ export default function Post() {
   };
 
   useEffect(() => {
-    getUserName()
     fetchDataListNewsfeed();
   }, [showModal, idLogin]);
 
