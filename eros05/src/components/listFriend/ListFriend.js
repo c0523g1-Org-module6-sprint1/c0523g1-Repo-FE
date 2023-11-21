@@ -130,6 +130,12 @@ function ListFriend() {
     });
   }
 
+  const handleKeyPress =  (event) => {
+      if(event.key === "Enter"){
+        event.preventDefault();
+         handleSetNameSearch();
+      }
+  }
 
   const getGenderIcon = (value) => {
     if (value === "Female") {
@@ -170,6 +176,7 @@ function ListFriend() {
             </span></a>
             <input 
             onChange={(event) => setNameSearch(event.target.value)}
+            onKeyDown={(event) => handleKeyPress(event)}
             style={{ borderRadius: '0px 20px 20px 0px' }} type="text" className="form-control" placeholder="Nhập tên" aria-label="Username" aria-describedby="addon-wrapping" />
           </div>
         </form>
@@ -178,7 +185,7 @@ function ListFriend() {
             return (
               <>
                 <div className="cardsThienPT">
-                  <button  onClick={()=>handleModal(o.usernameAccount)} className="btn">
+                  <button  onClick={()=>handleModal(o.usernameAccount)} className="btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
                   <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}} 
                     src="https://firebasestorage.googleapis.com/v0/b/cupid-project-439b5.appspot.com/o/img-quy%2Fbox.png?alt=media&token=f991f1b6-fd6b-45e4-9b61-df5ae995e43f" alt />
                   </button>
