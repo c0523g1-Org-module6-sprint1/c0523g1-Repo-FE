@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import {load} from "./Pay";
 
 export const alert = (pricePay,nameAccount) => {
     Swal.fire({
@@ -9,14 +10,15 @@ export const alert = (pricePay,nameAccount) => {
 }
 
 export const handlePackage = async (namePackageAccount, nameAccount) => {
-    if (namePackageAccount !== nameAccount){
+    if (namePackageAccount !== nameAccount && namePackageAccount !== "Member"){
         Swal.fire({
             title: "Thông báo thay đổi thứ hạng",
             text: `Hiện tại thứ hạng của bạn đang là ${namePackageAccount}, nếu bạn mua gói ${nameAccount} thì thứ hạng sẽ bị thay đổi. Thay vào đó nếu bạn thanh toán gói này chúng tôi sẽ hoàn lại kim cương dựa vào số ngày còn lại của gói cũ`,
             icon: "warning",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Tôi đã hiểu"
+            // confirmButtonText: "Tôi đã hiểu"
+            confirmButtonText: 'OK',
         })
 
     }

@@ -13,7 +13,6 @@ import "./post.css";
 
 export default function EditPost({ showModal, handleHideModal, postUpdate }) {
   const [privacyPostList, setPrivacyPostList] = useState();
-  const [isUploading, setIsUploading] = useState(false);
 
   const fetchDataPrivacyPost = async () => {
     const privacyPostList = await getPrivacyPost();
@@ -49,7 +48,9 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
     privacyPostId: postUpdate.privacyPostId,
   };
   const validatePost = {
-    content: Yup.string().max(6000,"Tình yêu có thể viết ngắn lại được không ?"
+    content: Yup.string().max(
+      6000,
+      "Tình yêu có thể viết ngắn lại được không ?"
     ),
     privacyPostId: Yup.string().required(
       "Tình yêu xin hãy chọn quyền riêng tư"
@@ -64,9 +65,14 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
         onHide={handleHideModal}
       >
         <Modal.Header className="modal-header">
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", textAlign: "center" }}>
             <h1
-              style={{ marginTop: "0px", marginBottom: "0px", color: "black" }}
+              style={{
+                marginTop: "0px",
+                marginBottom: "0px",
+                color: "black",
+                fontFamily: "Agbalumo,serif",
+              }}
               className=" fs-5"
               id="exampleModalLabel"
             >
@@ -154,80 +160,80 @@ export default function EditPost({ showModal, handleHideModal, postUpdate }) {
                           ></ErrorMessage>
                         </div>
                         <div className="row no-gutters mb-3">
-                          <Field name="image">
-                            {({ field, form }) => (
-                              <div>
-                                {field.value && (
+                        <Field name="image">
+                              {({ field, form }) => (
                                   <div>
-                                    <div className="image-container">
-                                      <img
-                                        src={field.value}
-                                        className="img-fluid mb-2"
-                                      />
-                                    </div>
-                                    <div className="button-container">
-                                      <button
-                                        className="delete-button"
-                                        onClick={() =>
-                                          form.setFieldValue(field.name, "")
-                                        }
-                                      >
-                                        Xóa ảnh
-                                      </button>
-                                      <label
-                                        htmlFor="image-upload"
-                                        className="upload-button"
-                                      >
-                                        Thay đổi
-                                        <input
-                                          id="image-upload"
-                                          className="hidden-input"
-                                          type="file"
-                                          accept="image/*"
-                                          onChange={async (event) => {
-                                            const file =
-                                              event.currentTarget.files[0];
-                                            const imageURL =
-                                              await uploadImageToFirebase(file);
-                                            form.setFieldValue(
-                                              field.name,
-                                              imageURL
-                                            );
-                                          }}
-                                        />
-                                      </label>
-                                    </div>
+                                    {field.value && (
+                                        <div>
+                                          <div className="image-container">
+                                            <img
+                                                src={field.value}
+                                                className="img-fluid mb-2"
+                                            />
+                                          </div>
+                                          <div className="button-container">
+                                            <button
+                                                className="delete-button"
+                                                onClick={() =>
+                                                    form.setFieldValue(field.name, "")
+                                                }
+                                            >
+                                              <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                            <label
+                                                htmlFor="image-upload"
+                                                className="upload-button"
+                                            >
+                                              <i class="fa-solid fa-upload"></i>
+                                              <input
+                                                  id="image-upload"
+                                                  className="hidden-input"
+                                                  type="file"
+                                                  accept="image/*"
+                                                  onChange={async (event) => {
+                                                    const file =
+                                                        event.currentTarget.files[0];
+                                                    const imageURL =
+                                                        await uploadImageToFirebase(file);
+                                                    form.setFieldValue(
+                                                        field.name,
+                                                        imageURL
+                                                    );
+                                                  }}
+                                              />
+                                            </label>
+                                          </div>
+                                        </div>
+                                    )}
+                                    {!field.value && (
+                                        <div style={{textAlign:"center"}}>
+                                          <label
+                                              htmlFor="image-upload"
+                                              className="upload-button"
+                                          >
+                                              <i style={{width:"100%"}} class="fa-solid fa-upload"></i>
+                                            <input
+                                                id="image-upload"
+                                                className="hidden-input"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={async (event) => {
+                                                  const file =
+                                                      event.currentTarget.files[0];
+                                                  const imageURL =
+                                                      await uploadImageToFirebase(file);
+                                                  form.setFieldValue(
+                                                      field.name,
+                                                      imageURL
+                                                  );
+                                                }}
+                                            />
+                                          </label>
+                                        </div>
+                                    )}
                                   </div>
-                                )}
-                                {!field.value && (
-                                  <div style={{ textAlign: "center" }}>
-                                    <label
-                                      htmlFor="image-upload"
-                                      className="upload-button"
-                                    >
-                                      Tải ảnh lên
-                                      <input
-                                        id="image-upload"
-                                        className="hidden-input"
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={async (event) => {
-                                          const file =
-                                            event.currentTarget.files[0];
-                                          const imageURL =
-                                            await uploadImageToFirebase(file);
-                                          form.setFieldValue(
-                                            field.name,
-                                            imageURL
-                                          );
-                                        }}
-                                      />
-                                    </label>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </Field>
+                              )}
+                            </Field>
                         </div>
                       </div>
                     </div>

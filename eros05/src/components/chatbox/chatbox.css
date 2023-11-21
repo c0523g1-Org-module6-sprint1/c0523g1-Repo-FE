@@ -138,8 +138,8 @@
     display: grid;
     height: 80px;
     grid-template-columns: 80px 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: "avata name" "avata mess";
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "avata name" "avata mess" "avata time";
     transition-duration: 0.2s;
 }
 .chatbox-friendList-board-detail-avata {
@@ -152,15 +152,19 @@
 }
 .chatbox-friendList-board-detail-name {
     grid-area: name;
-    margin: 10px;
+    margin: 0;
 }
 .chatbox-friendList-board-detail-name-name {
     font-size: 16px;
+    margin: 0 10px 0 10px;
 }
 .chatbox-friendList-board-detail-mess {
     grid-area: mess;
-    margin: 10px;
-    color: rgba(0, 0, 0, 0.8);
+    margin: 0 0 0 10px;
+}
+.chatbox-friendList-board-detail-time {
+    grid-area: time;
+    text-align: right;
 }
 .online {
     border: limegreen 2px solid;
@@ -540,4 +544,49 @@
 }
 .text-smoke {
     color: gray;
+}
+.unknowMessageTable {
+    width: 500px;
+    height: 110px;
+    position: fixed;
+    left: calc((100% - 500px) / 2);
+    top: 25%;
+    display: grid;
+    grid-template-columns: 1fr 60px 60px;
+    grid-template-rows: 1fr 20px;
+    padding: 15px;
+    grid-template-areas: "input close send" "note note note";
+    z-index: 100000;
+    border: 2px white dashed;
+}
+.unknowMessageTable-input {
+    padding: 0 15px;
+    border: none;
+    grid-area: input;
+    height: 50px;
+}
+.unknowMessageTable-close, .unknowMessageTable-send {
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+    background-size: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition-duration: 0.2s;
+}
+.unknowMessageTable-close:hover, .unknowMessageTable-send:hover {
+    transition-duration: 0.2s;
+    background-size: 45px;
+}
+.unknowMessageTable-send {
+    grid-area: send;
+    background-image: url("image/send-1.png");
+}
+.unknowMessageTable-close {
+    grid-area: close;
+    background-image: url("image/Close.png");
+}
+.unknowMessageTable-note {
+    grid-area: note;
+    text-align: center;
 }
