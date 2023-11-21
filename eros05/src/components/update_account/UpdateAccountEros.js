@@ -156,19 +156,19 @@ export function UpdateAccountEros() {
                 </div>
 
                 <div className="updateaccount-card-center-content">
-                    <p className="title ">Nâng cấp lượt thích</p>
+                    <p className="title ">Nâng cấp tuơng tác</p>
                     <ul>
                         <li>
+                            <i className="fa-solid fa-lock"></i>
+                            Cho phép bạn bình luận vào bài viết
+                            <p>
+                                <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
+                                Bạn có thể bình luận vào bài viết người mình thích
+                            </p>
+                        </li>
+                        <li>
                             <i className="fa-solid fa-check"></i>
-                            Bạn được phép thích tối đa 10 người mỗi ngày
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-lock"></i>
-                            Xem ai thích bạn
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-lock"></i>
-                            Lượt thích ưu tiên
+                            Tặng quà cho người bạn thích
                         </li>
                     </ul>
                 </div>
@@ -177,12 +177,8 @@ export function UpdateAccountEros() {
                     <p className="title ">Nâng cấp trải nghiệm của bạn</p>
                     <ul>
                         <li>
-                            <i className="fa-solid fa-lock"></i>
-                            Tài khoản của bạn được đề xuất đến nhiều người
-                        </li>
-                        <li>
                             <i className="fa-solid fa-check"></i>
-                            5 lượt tặng quà mỗi ngày
+                            Mở khóa chức năng gợi ý kết bạn
                         </li>
                         <li>
                             <i className="fa-solid fa-lock"></i>
@@ -192,18 +188,10 @@ export function UpdateAccountEros() {
                                 Cho phép bạn tìm kiếm theo ý thích
                             </p>
                         </li>
-                        <li>
-                            <i className="fa-solid fa-check"></i>
-                            Cho phép bạn bình luận vào bài viết
-                            <p>
-                                <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
-                                Bạn có thể bình luận vào bài viết người mình thích
-                            </p>
-                        </li>
                     </ul>
                 </div>
 
-                <div className="updateaccount-card-center-content">
+                <div className="updateaccount-card-center-content" style={{margin: "0 0 8% 0"}}>
                     <p className="title ">Nắm quyền kiểm soát</p>
                     <ul>
                         <li>
@@ -238,7 +226,7 @@ export function UpdateAccountEros() {
                                 name="value-radio"/>
                             <label style={{minWidth: "100%"}} htmlFor={packageType.name}>
                                 {packageType.name}<br/>
-                                {formatPrice(packageType.price)} đ/tháng
+                                {formatPrice(packageType.price)} {packageType.name === "1 tháng" ? (`đ/tháng`):(`đ/${packageType.name}`)}
                             </label>
                         </div>
                     )}

@@ -110,7 +110,7 @@ export function UpdateAccountPlatinum() {
 
     async function callAsyncFunctions() {
         try {
-            await paySucces(user.id, 1); // Hàm bất đồng bộ 1
+            await paySucces(user.id, 3); // Hàm bất đồng bộ 1
             console.log(comfirmChange)
             if (comfirmChange === true){
                 console.log("dk 1")
@@ -153,19 +153,19 @@ export function UpdateAccountPlatinum() {
                 </div>
 
                 <div className="updateaccount-card-center-content">
-                    <p className="title ">Nâng cấp lượt thích</p>
+                    <p className="title ">Nâng cấp tuơng tác</p>
                     <ul>
                         <li>
                             <i className="fa-solid fa-check"></i>
-                            Thích không giới hạn
+                            Cho phép bạn bình luận vào bài viết
+                            <p>
+                                <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
+                                Bạn có thể bình luận vào bài viết người mình thích
+                            </p>
                         </li>
                         <li>
                             <i className="fa-solid fa-check"></i>
-                            Xem ai thích bạn
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-check"></i>
-                            Lượt thích ưu tiên
+                            Tặng quà cho người bạn thích
                         </li>
                     </ul>
                 </div>
@@ -175,11 +175,7 @@ export function UpdateAccountPlatinum() {
                     <ul>
                         <li>
                             <i className="fa-solid fa-check"></i>
-                            Tài khoản của bạn được đề xuất đến nhiều người
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-check"></i>
-                            20 lượt tặng quà mỗi ngày
+                            Mở khóa chức năng gợi ý kết bạn
                         </li>
                         <li>
                             <i className="fa-solid fa-check"></i>
@@ -189,22 +185,14 @@ export function UpdateAccountPlatinum() {
                                 Cho phép bạn tìm kiếm theo ý thích
                             </p>
                         </li>
-                        <li>
-                            <i className="fa-solid fa-check"></i>
-                            Cho phép bạn bình luận vào bài viết
-                            <p>
-                                <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
-                                Bạn có thể bình luận vào bài viết người mình thích
-                            </p>
-                        </li>
                     </ul>
                 </div>
 
-                <div className="updateaccount-card-center-content">
+                <div className="updateaccount-card-center-content" style={{margin: "0 0 8% 0"}}>
                     <p className="title ">Nắm quyền kiểm soát</p>
                     <ul>
                         <li>
-                            <i className="fa-solid fa-check"></i>
+                            <i className="fa-solid fa-lock"></i>
                             Kiểm soát hồ sơ của bạn
                             <p>
                                 <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
@@ -212,7 +200,7 @@ export function UpdateAccountPlatinum() {
                             </p>
                         </li>
                         <li>
-                            <i className="fa-solid fa-check"></i>
+                            <i className="fa-solid fa-lock"></i>
                             Kiểm soát việc bạn nhìn thấy ai
                         </li>
                     </ul>
@@ -236,7 +224,7 @@ export function UpdateAccountPlatinum() {
                                 name="value-radio"/>
                             <label style={{minWidth: "100%"}} htmlFor={packageType.name}>
                                 {packageType.name}<br/>
-                                {formatPrice(packageType.price)} đ/tháng
+                                {formatPrice(packageType.price)} {packageType.name === "1 tháng" ? (`đ/tháng`):(`đ/${packageType.name}`)}
                             </label>
                         </div>
                     ))}
