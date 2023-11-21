@@ -29,7 +29,7 @@ export function ListAccount() {
     }
     const closeModal = () => {
         setStatus(false)
-        setSelectAccount(null)
+        setSelectAccount([])
 
     }
 
@@ -90,6 +90,8 @@ export function ListAccount() {
             setPage((prev) => prev - 1)
         }
     }
+
+
     const handleSelectAccount = (accountId) => {
 
         if (selectAccount.includes(accountId)) {
@@ -191,9 +193,9 @@ export function ListAccount() {
                                     account.map((account, index) => (
                                         <tr key={account.id}>
                                             <td>{index + 1}</td>
-                                            <td><Link to={`/personal-page/${account.id}`}>
-                                                {account.userName}
-                                            </Link>
+                                            <td>
+                                                <Link to={`/personal-page/${account.id}`}>
+                                                    {account.userName} </Link>
                                             </td>
                                             <td>{formatDay(account.regisDate)}</td>
                                             <td>{account.money / 1000} 💎</td>

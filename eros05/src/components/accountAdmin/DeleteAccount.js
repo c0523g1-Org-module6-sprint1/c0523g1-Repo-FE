@@ -5,9 +5,9 @@ export function DeleteAccount(props) {
     // eslint-disable-next-line react/prop-types
     let {show, handleClose, select} = props;
 
-    const handleDelete = async (data) => {
-        const res = await remove(data.id)
-        console.log(data.id)
+    console.log(select)
+    const handleDelete = async () => {
+        const res = await remove(select.id)
         if (res.status === 200) {
             handleClose()
             toast("Xoá Thành Công")

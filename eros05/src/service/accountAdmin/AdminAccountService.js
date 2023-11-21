@@ -23,7 +23,7 @@ export const getAllType = async () => {
 
 export const remove = async (data) => {
     try {
-        const res = await axios.delete("http://localhost:8080/api/public/accounts/" + data.id, data)
+        const res = await axios.delete("http://localhost:8080/api/public/accounts/", { data });
         return res.status;
     } catch (e) {
         alert("Xoá Thất Bại")
