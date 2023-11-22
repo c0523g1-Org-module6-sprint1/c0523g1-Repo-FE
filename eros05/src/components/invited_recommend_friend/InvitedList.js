@@ -43,10 +43,10 @@ export default function InvitedList() {
         }
     }
     const getGenderIcon = (value) => {
-        if (value === "Female") {
-            return <i className="fa-solid fa-venus" style={{ color: '#f08ee8' }}></i>;
-        } else if (value === "Male") {
-            return <i className="fa-solid fa-mars" style={{ color: '#4567ed' }}></i>;
+        if (value === "Nữ") {
+            return <i className="fa-solid fa-venus" style={{color: '#f08ee8'}}></i>;
+        } else if (value === "Nam") {
+            return <i className="fa-solid fa-mars" style={{color: '#4567ed'}}></i>;
         } else {
             return "🏳️‍🌈";
         }
@@ -64,32 +64,20 @@ export default function InvitedList() {
 
                     <div>
                         <p className="hat1">Lời mời kết bạn</p>
-                        <div className="dropdown">
-                            <button className="btn btn-dark " type="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                    style={{
-                                        cursor: "pointer",
-                                        border: "none",
-                                        background: "#a36acb",
-                                        borderRadius:"30px"
-                                    }}>
-                                Sắp xếp <i className="fa fa-sliders text-light"/>
-                            </button>
-                            <ul className="dropdown-menu"
-                                style={{cursor: "pointer"}}>
-                                <li className="dropdown-item hlpdropitem " onClick={(values) => setSort(true)}>
-                                    <i className="fa fa-sort-amount-desc hlpdropitem"/>Theo lời mời mới nhất
-                                </li>
-                                <li className="dropdown-item hlpdropitem " onClick={(values) => setSort(false)}>
-                                    <i className="fa fa-sort-amount-asc hlpdropitem"/>Theo lời mời cũ nhất
-                                </li>
-                            </ul>
-                        </div>
+                        <select className="ms-3 sortdrop" aria-label="Default select example"
+                                onChange={(e) => setSort(e.target.value)}>
+                            <option className="opt" value="true">
+                                Theo lời mời mới nhất
+                            </option>
+                            <option className="opt" value="false">
+                                Theo lời mời cũ nhất
+                            </option>
+                        </select>
                     </div>
-                    {invited.length>0 ? <div>
+                    {invited.length > 0 ? <div>
                         {invited.map((invited) =>
                             <div className="d-flex" style={{float: "left"}}>
-                                <div className="hlpcards" >
+                                <div className="hlpcards">
                                     <div className="hlpicon">
                                         <img className="hlpcus-avatar"
                                              onClick={() => {
@@ -118,7 +106,8 @@ export default function InvitedList() {
                                 </div>
                             </div>
                         )}
-                    </div>:<h5 style={{textAlign:"center", fontFamily:"sans-serif",color:"#a36acb"}} className="text-sencondary">
+                    </div> : <h5 style={{textAlign: "center", fontFamily: "sans-serif", color: "#a36acb"}}
+                                 className="text-sencondary">
                         Chưa có lời mời kết bạn nào😓 <br/><br/>
                         Vào mục gợi ý kết bạn để tìm một nửa phù hợp với bạn nhé 💑
                     </h5>}
