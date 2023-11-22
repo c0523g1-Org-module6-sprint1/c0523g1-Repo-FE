@@ -2,14 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {deleteCommentService} from "../../service/comment/commentService";
 import {toast} from "react-toastify";
 import {Button, Modal} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 
-function CommentContent(props) {
-    const {commentId, comment} = props;
-    console.log(commentId)
-    console.log(comment)
+function CommentContent({props, props2}) {
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [myModal, setMyModal] = useState({})
     const [show, setShow] = useState(false)
+    const navigate = useNavigate();
 
     const handleClose = () => {
         setShow(false);
@@ -18,27 +17,28 @@ function CommentContent(props) {
     const handleShow = (data) => {
         setShow(true);
         setMyModal(data)
+
     }
 
     const deleteComment = async (data) => {
         try {
             const res = await deleteCommentService(data.id);
             if (res.status === 200) {
+                navigate("/newsfeed")
                 toast("Delete Successfully")
                 handleClose();
+
             }
-        }catch (e) {
+        } catch (e) {
             alert("Error")
         }
     }
-
     // chỉnh sủa và xoá
     const handleDropDown = () => {
         setDropdownOpen(!dropdownOpen);
     }
     useEffect(() => {
-
-    }, [commentId]);
+    }, []);
 
     return (
         <>
@@ -48,7 +48,7 @@ function CommentContent(props) {
                         background: "none", border: "none", padding: 0,
                         position: "relative", left: 5, top: 20
                     }}
-                    onClick={() => handleDropDown()}>
+                    onClick={handleDropDown}>
                     <i className="fa-solid fa-ellipsis"></i>
                 </button>
                 {dropdownOpen && (
@@ -74,7 +74,7 @@ function CommentContent(props) {
                         </li>
                         <li>
                             <button type="submit"
-                                    onClick={()=>handleShow(comment)}
+                                    onClick={() => handleShow(props2)}
                                     style={{
                                         border: "none",
                                         backgroundColor: "transparent",
@@ -86,6 +86,9 @@ function CommentContent(props) {
                                     }}>
                                 Xoá
                             </button>
+                            <Modal show={show} onHide={handleClose}>
+                                <MyModal action={handleClose} data={myModal}></MyModal>
+                            </Modal>
                         </li>
                     </ul>
                 )}
@@ -96,9 +99,9 @@ function CommentContent(props) {
         return (
             <>
                 <Modal.Header closeButton>
-                    <Modal.Title>{data.content}</Modal.Title>
+                    <Modal.Title>Xoá Comment</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure to delete this comment!</Modal.Body>
+                <Modal.Body>Bạn có chắc chắn muốn xoá comment này không ?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={action}>
                         Close

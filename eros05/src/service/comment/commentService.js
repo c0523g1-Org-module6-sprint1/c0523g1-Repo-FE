@@ -9,11 +9,7 @@ export async function getAllCommentsService() {
 }
 
 export async function createCommentService(data) {
-    try {
-        return await axios.post(URL, data);
-    } catch (e) {
-        alert("Error Service")
-    }
+    return await axios.post(URL, data);
 }
 
 export async function deleteCommentService(id) {
