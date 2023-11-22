@@ -80,9 +80,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
             zIndex: "9999",
           }}
           className="modal"
-          id="exampleModalToggle"
-          aria-hidden="true"
-          aria-labelledby="exampleModalToggleLabel"
           tabIndex={-1}
         >
           <div
@@ -99,7 +96,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
             >
               <div style={{ textAlign: "center" }}>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <h4 style={{ marginTop: "1rem" }}>Lựa chọn quà tặng</h4>
+                  <h1 style={{ marginTop: "1rem" }}>Lựa chọn quà tặng</h1>
                 </div>
                 <div
                   style={{
@@ -268,7 +265,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                             alt=""
                           />
                         </div>
-                        <div style={{ fontSize: "14px" }}>{item.name}</div>
+                        <div style={{ fontSize: "14px" }}>{item.name} </div>
                         <div style={{ marginTop: "0, 8rem" }}>
                           {item.price} 💎
                         </div>
@@ -277,11 +274,14 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                   )}
                 </div>
               </div>
-              <div className="modal-footer">
+              <div
+                className="modal-footer"
+                style={{
+                  backgroundColor: "whitesmoke",
+                }}
+              >
                 <button
                   className="btn btn-primary"
-                  data-bs-target="#exampleModalToggle2"
-                  data-bs-toggle="modal"
                   style={{
                     backgroundColor: "whitesmoke",
                     borderRadius: "7px",
@@ -295,8 +295,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                 {flagChoice ? (
                   <button
                     className="btn btn-primary"
-                    data-bs-target="#exampleModalToggle2"
-                    data-bs-toggle="modal"
                     style={{
                       backgroundColor: "#a36acb",
                       borderRadius: "7px",

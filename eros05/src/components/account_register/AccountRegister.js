@@ -5,7 +5,6 @@ import {toast} from "react-toastify";
 import "../account_register/AccountRegister.css";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import React, {useEffect, useState} from "react";
-import Login from "../login/Login";
 
 export function Register() {
     const navigate = useNavigate();
@@ -52,24 +51,23 @@ export function Register() {
         password: "",
         confirmPassword: "",
         birthday: "",
-        gender: 2,
+        // gender: 2,
         // job: 1,
         // location: 1,
         email: "",
-        confirmEmail: ""
     }
 
 
     const validationSchema = {
         userName: Yup.string()
-            .required("Không được để trống tên tài khoản !")
+            .required("Không được để trống tên đăng nhập !")
             // .test('check-userName', 'Không để trống tên tài khoản !', (value) => value.trim().length !== 0)
             .min(6, "Tên đăng nhập phải lớn hơn hoặc bằng 6 kí tự !")
             .max(100, "Tên đăng nhập phải ít hơn hoặc bằng 100 kí tự"),
         password: Yup.string()
             .required("Không được để trống mật khẩu !")
             // .test('check-password', "Không được để trống mật khẩu", (value) => value.trim().length !== 0)
-            .min(6, "Mật khẩu phải lớn hơn hoặc bằng 6 kí tự !")
+            // .min(6, "Mật khẩu phải lớn hơn hoặc bằng 6 kí tự !")
             .max(100, "Mật khẩu phải ít hơn hoặc bằng 100 kí tự"),
         confirmPassword: Yup.string()
             .required("Không được để trống xác nhận mật khẩu !")
@@ -78,20 +76,26 @@ export function Register() {
             .max(100, "Xác nhận mật khẩu phải ít hơn hoặc bằng 100 kí tự !")
             .oneOf([Yup.ref('password'), null], "Mật khẩu không trùng khớp !"),
         birthday: Yup.date()
+            // .test(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18),"Vui lòng phải đủ 18 tuổi !")
+            .test(
+                "birthday",
+                "Vui lòng phải đủ 18 tuổi!",
+                function (value) {
+                    const cutoffDate = new Date();
+                    cutoffDate.setFullYear(cutoffDate.getFullYear() - 18);
+                    return new Date(value) <= cutoffDate;
+                }
+            )
             .required("Không được để trống ngày sinh !")
             .max(new Date(), "Vui lòng nhập trước ngày hiện tại"),
-        // .min(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18), "Vui lòng phải đủ 18 tuổi !"),
         email: Yup.string()
             .required("Không được để trống email !")
             // .test("check-email", "Không được bỏ trống email !", (value) => value.trim().length !== 0)
             .min(6, "Email phải lớn hơn hoặc bằng 6 kí tự !")
             .max(100, "Email phải ít hơn hoặc bằng 100 kí tự !"),
-        confirmEmail: Yup.string()
-            .required("Không được để trống xác nhận email !")
-            // .test("check-confirmEmail", "Không được bỏ trống xác nhận email !", (value) => value.trim().length !== 0)
-            .min(6, "Xác nhận email phải lớn hơn hoặc bằng 6 kí tự !")
-            .max(100, "Xác nhận email phải ít hơn hoặc bằng 100 kí tự !")
-            .oneOf([Yup.ref('email'), null], "Email không trùng khớp !")
+        gender: Yup.object().shape({
+            name : Yup.string().required("Vui lòng nhập giới tính !")
+        })
     }
 
     const handleRegister = async (data) => {
@@ -197,13 +201,14 @@ export function Register() {
                                         LGBT
                                     </label>
                                 </div>
+                                <ErrorMessage name="gender.name" component="span" style={{color: "red"}}/>
                             </div>
                             <div className='mb-3'>
                                 <label>Nghề nghiệp :</label>
                                 <Field as="select" className='form-control' name="job" style={{
                                     textAlign: 'center'
                                 }}>
-                                    <option className="option" value="">--Select--</option>
+                                    <option className="option" value="">--Vui lòng chọn--</option>
                                     {
                                         job.map(type => (
                                             <option key={type.id} value={type.id}>{type.name}</option>
@@ -216,7 +221,7 @@ export function Register() {
                                 <Field as="select" className='form-control' name="location" style={{
                                     textAlign: 'center'
                                 }}>
-                                    <option className="option" value="">--Select--</option>
+                                    <option className="option" value="">--Vui lòng chọn--</option>
                                     {
                                         location.map(type => (
                                             <option key={type.id} value={type.id}>{type.name}</option>
@@ -229,13 +234,6 @@ export function Register() {
                                 <Field type='text' name="email" className='form-control' id='email'/>
                                 <ErrorMessage name="email" component="span" style={{color: "red"}}/>
                             </div>
-                            <div className='mb-3'>
-                                <label htmlFor="confirmEmail" className='form-label'>Xác nhận email :</label>
-                                <Field type='text' name="confirmEmail" className='form-control' id='confirmEmail'/>
-                                <ErrorMessage name="confirmEmail" component="span" style={{color: "red"}}/>
-                            </div>
-
-
                             <div className="mb-3 form-rules">
                                 <label className="form-label" htmlFor="rule">
                                     {" "}
@@ -248,7 +246,7 @@ export function Register() {
             className="form-control"
             id="rule"
             defaultValue={
-                "C05Cupid cung cấp dịch vụ theo điều khoản dịch vụ này. truy cập hoặc đăng ký tài khoản trong hệ thống của chúng tôi bằng bất kỳ cách nào có nghĩa là bạn đồng ý và cam kết tuân thủ nghiêm ngặt điều khoản dịch vụ này. chúng tôi có quyền sửa đổi nội dung của điều khoản dịch vụ theo quyết định riêng của mình mà không cần thông báo trước cho người dùng.\n                "
+                "Eros05 cung cấp dịch vụ theo điều khoản dịch vụ này. truy cập hoặc đăng ký tài khoản trong hệ thống của chúng tôi bằng bất kỳ cách nào có nghĩa là bạn đồng ý và cam kết tuân thủ nghiêm ngặt điều khoản dịch vụ này. chúng tôi có quyền sửa đổi nội dung của điều khoản dịch vụ theo quyết định riêng của mình mà không cần thông báo trước cho người dùng.\n                "
             }
         />
                             </div>

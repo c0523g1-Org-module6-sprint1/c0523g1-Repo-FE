@@ -16,7 +16,7 @@ import {v4} from "uuid";
 import {load} from "./Pay";
 
 
-export function UpPost() {
+export default function UpPost() {
     const [formData, setFormData] = useState("");
     const [contents, setContents] = useState("");
     const [image, setImage] = useState("");
@@ -160,7 +160,7 @@ export function UpPost() {
 
     return (
         <div>
-            <div style={{display: "flex", margin: "-10% 0px 15px 21%", width: "55%"}}>
+            <div style={{display: "flex", margin: "-6% 0px 2% 26%", width: "55%"}}>
                 <div
                     style={{
                         backgroundImage:

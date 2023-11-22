@@ -68,9 +68,11 @@ export const SetBusyApi = async (isBusy) => {
     let id = getIdByJwt();
     if (id) {
         try {
-            const res = await axios.post(`http://localhost:8080/api/public/message`,{
-                accountId: id,
-                setbusy: !isBusy
+            const res = await axios.get(`http://localhost:8080/api/public/message/setbusy`,{
+                params: {
+                    accountId: id,
+                    busyMode: !isBusy
+                }
             });
             return res;
         } catch (e) {

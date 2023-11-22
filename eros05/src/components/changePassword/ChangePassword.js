@@ -55,6 +55,8 @@ function Changepassword() {
     setPassword1("");
     setPassword2("");
     setPasswordNow("");
+    setButtonStatuss(false);
+    setStatus(false);
   };
   const checkempty = () => {};
   const checkpassNow = (value) => {
@@ -77,6 +79,9 @@ function Changepassword() {
       >
         <div>
           <div>
+            <div style={{ textAlign: "center" }}>
+              <h1 style={{ left: "10%", top: "-3rem" }}>Đổi mật khẩu</h1>
+            </div>
             <div
               style={{
                 width: "100%",

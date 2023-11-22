@@ -188,7 +188,7 @@ export default function Login() {
                                 </div>
                             </div>
                             <div className="form-child-option">
-                                <p className="thienbb-login-text"> Quay về
+                                <p className="thienbb-login-text" id="back-to-main-div"> Quay về
                                     <Link to="/" className="thienbb-a-link"> Trang chủ! </Link>
                                 </p>
                                 <p className="thienbb-login-text">Bạn chưa có tài khoản?
