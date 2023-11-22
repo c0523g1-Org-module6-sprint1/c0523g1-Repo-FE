@@ -22,15 +22,36 @@ export default function Header() {
     const accessToken = localStorage.getItem('accessToken')
     const [isShowModal, setShowModal] = useState(false);
     const [gift, setGift] = useState([]);
+    const [giftQuantity, setGiftQuantity] = useState([]);
+    const [gitStatus, setGitStatus] = useState(true);
+    const [isHistoryClicked, setHistoryClicked] = useState(false);
+    const [isRepositoryClicked, setRepositoryClicked] = useState(false);
 
     const getGift = async () => {
         const resUsername = securityService.getUsernameByJwt();
         const res = await giftService.getAllList(resUsername);
-        console.log();
+
         setGift(res);
     };
+    const getGiftQuantity = async () => {
+        const resUsername = securityService.getUsernameByJwt();
+        const res = await giftService.getAllQuantity(resUsername);
+        setGiftQuantity(res);
+    };
+    const getHistory = async () => {
+        setGitStatus(true);
+        setHistoryClicked(true);
+        setRepositoryClicked(false);
+    };
+    const getRepository = async () => {
+        setGitStatus(false);
+        setHistoryClicked(false);
+        setRepositoryClicked(true);
+    };
     useEffect(() => {
+        getHistory();
         getGift();
+        getGiftQuantity()
         const handleClickOutside = (event) => {
             if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
                 setIsShowUserMenu(false)
@@ -194,34 +215,130 @@ export default function Header() {
 
                                                     <div className="box">
                                                         <div className="display">
-                                                            <div className="nothing">
-                                                                <h5 className="cent">Không có quà tặng</h5>
-                                                            </div>
                                                             <div className="cont">
-                                                                {/* Fold this div and try deleting everything in between */}
+                                                                <div
+                                                                    className="choiceGift"
+                                                                    style={{
+                                                                        display: "grid",
+                                                                        gridTemplateColumns: "repeat(2,1fr)",
+                                                                        textAlign: "center",
+                                                                    }}
+                                                                >
+                                                                    <div
+                                                                        className={`history ${
+                                                                            isHistoryClicked ? "active" : ""
+                                                                        }`}
+                                                                        style={{
+                                                                            border: "solid 1px #a36acb",
+                                                                            padding: "0.5rem",
+                                                                            cursor: "pointer",
+                                                                        }}
+                                                                        onClick={getHistory}
+                                                                    >
+                                                                        <h1
+                                                                            style={{
+                                                                                fontSize: "1.2rem",
+                                                                            }}
+                                                                        >
+                                                                            Lịch sử quà tặng
+                                                                        </h1>
+                                                                    </div>
+                                                                    <div
+                                                                        className={`kho ${
+                                                                            isRepositoryClicked ? "active" : ""
+                                                                        }`}
+                                                                        onClick={getRepository}
+                                                                        style={{
+                                                                            border: "solid 1px #a36acb",
+                                                                            padding: "0.5rem",
+                                                                            cursor: "pointer",
+                                                                        }}
+                                                                    >
+                                                                        <h1
+                                                                            style={{
+                                                                                fontSize: "1.2rem",
+                                                                            }}
+                                                                        >
+                                                                            Kho quà tặng
+                                                                        </h1>
+                                                                    </div>
+                                                                </div>
 
-                                                                {gift === null
-                                                                    ? ""
-                                                                    : gift?.map((item) => (
-                                                                        <div className="sec new">
-                                                                            <div>
-                                                                                <div className="profCont">
-                                                                                    <img
-                                                                                        className="profile"
-                                                                                        src={item.accountSender.avatar}
-                                                                                        alt="Profile 1"
-                                                                                    />
+                                                                {gitStatus ? (
+                                                                    <div>
+                                                                        {gift.length === 0 ? (
+                                                                            <h1
+                                                                                style={{
+                                                                                    fontSize: "1.2rem",
+                                                                                    padding: "1rem",
+                                                                                }}
+                                                                            >
+                                                                                Không có quà được tặng
+                                                                            </h1>
+                                                                        ) : (
+                                                                            gift.map((item) => (
+                                                                                <div className="sec new" key={item.id}>
+                                                                                    <div>
+                                                                                        <div className="profCont">
+                                                                                            <img
+                                                                                                className="profile"
+                                                                                                src={item.accountSender.avatar}
+                                                                                                alt={`Profile ${item.accountSender.id}`}
+                                                                                            />
+                                                                                        </div>
+                                                                                        <div className="txt">
+                                                                                            {item.accountSender.name} đã tặng
+                                                                                            bạn: {item.quantity}{" "}
+                                                                                            {item.gift.name}
+                                                                                        </div>
+                                                                                        <div className="txt sub">
+                                                                                            {formatDateTime(item.time)}
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div className="txt">
-                                                                                    {item.accountSender.name} đã tặng bạn:{" "}
-                                                                                    {item.quantity} {item.gift.name}
+                                                                            ))
+                                                                        )}
+                                                                    </div>
+                                                                ) : (
+                                                                    <div
+                                                                        className="content-body"
+                                                                        style={{
+                                                                            display: "grid",
+                                                                            gridTemplateColumns: "repeat(2, 1fr)",
+                                                                            gap: "0.2rem",
+                                                                            cursor: "pointer",
+                                                                            padding: "1rem",
+                                                                        }}
+                                                                    >
+                                                                        {giftQuantity.length === 0 ? (
+                                                                            <h1 style={{ fontSize: "1.2rem" }}>
+                                                                                Kho trống
+                                                                            </h1>
+                                                                        ) : (
+                                                                            giftQuantity.map((item) => (
+                                                                                <div
+                                                                                    key={item.giftId}
+                                                                                    style={{
+                                                                                        border: "#a36acb 1px solid",
+                                                                                        borderRadius: "10px",
+                                                                                        textAlign: "center",
+                                                                                    }}
+                                                                                >
+                                                                                    <div style={{ paddingTop: "0.2rem" }}>
+                                                                                        <img
+                                                                                            style={{ width: "50%" }}
+                                                                                            src={item.images}
+                                                                                            alt=""
+                                                                                        />
+                                                                                    </div>
+                                                                                    <div style={{ fontSize: "20px" }}>
+                                                                                        Số lượng: {item.totalQuantity}
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div className="txt sub">
-                                                                                    {formatDateTime(item.time)}
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    ))}
+                                                                            ))
+                                                                        )}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     </div>

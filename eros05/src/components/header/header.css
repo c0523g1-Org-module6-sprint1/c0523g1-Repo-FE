@@ -282,9 +282,6 @@ a:visited {
   font-style: italic;
 }
 
-.fas:hover {
-  color: #d63031;
-}
 
 .notBtn:hover > .box {
   height: 40vh;
@@ -376,4 +373,8 @@ a:visited {
 
 .sec:hover {
   background-color: #bfbfbf;
+}
+.history.active,
+.kho.active {
+  background-color: #baa2ca; /* Màu nền bạn muốn sử dụng khi phần tử được click */
 }
