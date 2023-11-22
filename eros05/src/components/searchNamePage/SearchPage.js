@@ -89,9 +89,11 @@ const SearchPage = () => {
                                         }
                                         {index < 5 && <p style={{color:"#a36acb",textAlign: "center",marginTop: "-20%"}}>Có điểm quà tặng cao</p>}
                                         <span>
-                                            Sống tại: {item.location}<br></br>
-                                            Giới tính: {item.gender}<br></br>
-                                            Nghề nghiệp: {item.job}
+                                            <i className="fa fa-home"/> {item.location}<br></br>
+                                            <i className="fa fa-male"
+                                               aria-hidden="true"/> {item.gender}<br></br>
+                                            <i className="fa fa-briefcase"
+                                               aria-hidden="true"/> {item.job}
                                         </span>
 
                                     </div>

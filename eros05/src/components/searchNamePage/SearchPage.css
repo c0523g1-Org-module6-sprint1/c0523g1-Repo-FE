@@ -91,9 +91,17 @@
 }
 .search-page-container .list-cards .lien-cards:hover span {
     color: #222222;
+    font-weight: 600;
+}
+.search-page-container .list-cards .lien-cards:hover span i{
+    color: #222222;
+}
+.search-page-container .list-cards .lien-cards span i{
+    color: white;
 }
 .search-page-container .list-cards .lien-cards span {
     font-size: 14px;
+    font-weight: 600;
 }
 .search-page-container .list-cards .lien-cards:hover .icon {
     background-position: -120px;
