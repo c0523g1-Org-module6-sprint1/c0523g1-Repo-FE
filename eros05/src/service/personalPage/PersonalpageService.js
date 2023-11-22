@@ -35,6 +35,7 @@ export const getStatus = async (idSent, idReceiver) =>{
        return  await axios.get(URL_GET_STATUS+`${idSent}/${idReceiver}`)
     }catch (e) {
         console.log(e.message)
+        alert("lỗi lấy sttus")
     }
 }
 export const getCount = async (id) => {
