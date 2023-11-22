@@ -8,6 +8,7 @@ import * as loginService from "../../service/login/securityService";
 import Gift from "../gift/Gift";
 import UnknowMessage from "../chatbox/UnknowMessage";
 import {database,ref,push,onValue} from "./LongTND"
+import {UpPost} from "../update_account/UpPost";
 
 export function PersonalPage() {
     const [accountVisit,setAccountVisit] = useState({});
@@ -35,22 +36,29 @@ export function PersonalPage() {
     },[id]);
 
     const getInfoAccount = async () => {
-        let result =  await personalService.getInfoPersonal(id)
-        setAccountVisit(result.data);
-        status(result.data)
+        try {
+            let result =  await personalService.getInfoPersonal(id)
+            setAccountVisit(result.data);
+            status(result.data)
+        } catch (err) {
+            console.log(err);
+        }
     }
     const handleSentInvite = async (relationships) => {
-        if(!isClicked){
-            let result = await personalService.sentInvite(relationships);
-            if (result.status === 201){
-                toast.success("Lời mời kết bạn vừa gửi thành công ")
-                await status(accountVisit);
-            }else {
-                toast.error("Thất bại")
+        try{
+            if(!isClicked){
+                let result = await personalService.sentInvite(relationships);
+                if (result.status === 201){
+                    toast.success("Lời mời kết bạn vừa gửi thành công ")
+                    await status(accountVisit);
+                }else {
+                    toast.error("Thất bại")
+                }
+                setIsClicked(true);
             }
-            setIsClicked(true);
+        }catch (e) {
+            console.log(e)
         }
-
     }
     const value = {
         sendAccount : idUserLogin,
@@ -58,18 +66,18 @@ export function PersonalPage() {
     }
 
     const status = async (accVisit) => {
-        console.log(idLogin);
-        console.log(accVisit.id);
-        console.log(accVisit.userName)
-        console.log(userNameLogin)
-        if(accountVisit){
-           const result = await personalService.getStatus(idUserLogin,accVisit.id);
-            console.log(result)
-            if(result){
-                setStatusRelation(result.data.relationshipStatus);
+        try{
+            if(accountVisit){
+                const result = await personalService.getStatus(idUserLogin,accVisit.id);
+                console.log(result)
+                if(result){
+                    setStatusRelation(result.data.relationshipStatus);
 
 
+                }
             }
+        }catch (e) {
+            console.log(e)
         }
     }
 
@@ -209,7 +217,6 @@ export function PersonalPage() {
                                             <Link to={"/invited_recommend_friend/InvitedList"} style={{textDecoration:"none"}}>
                                                 <small>
                                                     <i className="fa-solid fa-list" /> Lời mời kết bạn{" "}
-                                                    <div className="badge">3</div>
                                                 </small>
                                             </Link>
 
@@ -234,16 +241,23 @@ export function PersonalPage() {
                                     </div>) }
                             </div>
                         </div>
-                        <div className="panel">
-                            <div className="panel-heading">
-                                <h3 className="panel-title">Bài viết</h3>
-                            </div>
-                        </div>
+                        {/*<div className="panel">*/}
+                        {/*    <div className="panel-heading">*/}
+                        {/*        <h3 className="panel-title">Bài viết</h3>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="panel-content panel-activity">*/}
+                        {/*        <UpPost/>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+                        {idUserLogin === accountVisit.id && (<div style={{margin: "20% 0px -9% 21%", width:"178%", marginLeft:"-34%"}}>
+                            <UpPost/></div>)}
+
+
                     </div>
                     <div className="col-lg-3">
                     </div>
                 </div>
-
+                    <Post/>
             </div>)
                 :
                 (<div>
@@ -251,7 +265,7 @@ export function PersonalPage() {
                 </div>)}
 
 
-            <Post/>
+
             <Gift showModaQuyNP={showModaQuyNP} handleClose={closeModal}
                 userNow={userNameLogin}
                   userGift={accountVisit.userName}
