@@ -1,9 +1,12 @@
 import feedback7 from "./image/feedback7.jpg"
-export default function TimHieu(){
+
+export default function TimHieu() {
     return (
-        <div className="container" style={{margin: "100px 5%", alignItems: "center",fontFamily: "Nunito Sans, sans-serif"}}>
+        <div className="container"
+             style={{padding: "3rem 1rem 3rem 1rem", alignItems: "center", fontFamily: "Nunito Sans, sans-serif"}}>
             <div style={{margin: "50px 100px"}}>
-                <h1 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "2rem",color: "black"}}>Vậy tại sao bạn nên chọn ứng dụng hẹn hò
+                <h1 style={{fontFamily: "Agbalumo, sans-serif", fontSize: "2rem", color: "black"}}>Vậy tại sao bạn nên
+                    chọn ứng dụng hẹn hò
                     như
                     Eros05?</h1>
                 <p>Khi nói tới ứng
@@ -24,13 +27,14 @@ export default function TimHieu(){
                     có toàn quyền quyết định xem liệu chuyện này có thật như những gì mọi người vẫn nói.</p>
             </div>
 
-            <div style={{display: "grid",gridTemplateColumns: "repeat(2,1fr)",gap: "1rem"}}>
+            <div style={{display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "1rem"}}>
                 <div className="d-flex justify-content-center align-items-center">
                     <img src={feedback7} alt="Ảnh feedback"/>
                 </div>
                 <div>
                     <div style={{textAlign: "left"}}>
-                        <h2 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "1rem"}}>Cùng chúng tôi chu du khắp thiên
+                        <h2 style={{fontFamily: "Agbalumo, sans-serif", fontSize: "1rem"}}>Cùng chúng tôi chu du khắp
+                            thiên
                             hạ</h2>
                         <p>Khi bạn muốn gặp gỡ người bản địa thì dù bạn đang ở bất kỳ thành phố nào trên thế giới, sẽ
                             luôn có
@@ -54,9 +58,11 @@ export default function TimHieu(){
                     <br/>
                     <br/>
                     <div style={{textAlign: "right"}}>
-                        <h2 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "1rem"}}>Hẹn hò vui nhộn hơn với tính năng
+                        <h2 style={{fontFamily: "Agbalumo, sans-serif", fontSize: "1rem"}}>Hẹn hò vui nhộn hơn với tính
+                            năng
                             Tặng quà</h2>
-                        <p>Ai mà chẳng có chút háo hức khi gặp gỡ người mới ngoài và trao nhau những món quà ý nghĩa, nhưng hẹn hò trong thời COVID-19
+                        <p>Ai mà chẳng có chút háo hức khi gặp gỡ người mới ngoài và trao nhau những món quà ý nghĩa,
+                            nhưng hẹn hò trong thời COVID-19
                             đâu phải
                             chuyện dễ dàng vì chúng ta đều phải đặt an toàn lên hàng đầu. Khi mà khoảng cách giữa hai
                             người 2
@@ -69,7 +75,7 @@ export default function TimHieu(){
                     <br/>
                     <br/>
                     <div style={{textAlign: "left"}}>
-                        <h2 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "1rem"}}>Khám phá các sở thích
+                        <h2 style={{fontFamily: "Agbalumo, sans-serif", fontSize: "1rem"}}>Khám phá các sở thích
                             của bạn</h2>
                         <p>Thật dễ dàng trò chuyện với bạn tương hợp khi biết rằng hai bên có chung một vài sở thích.
                             Ứng dụng
@@ -81,13 +87,11 @@ export default function TimHieu(){
                     <br/>
                     <br/>
                     <div style={{textAlign: "right"}}>
-                        <h2 style={{fontFamily: "Agbalumo, sans-serif",fontSize: "1rem"}}>Kết nối với mọi người khắp
-                            nơi</h2>
-                        <p>Vượt ra ngoài thiết đặt khoảng cách của bạn và chat với mọi người trên khắp địa cầu cùng tính
-                            năng Hộ
-                            Chiếu. Tất cả những gì bạn cần làm là nâng cấp lên thuê bao hạng Eros05 Platinum, từ đó bạn
-                            có thể kết
-                            nối tương hợp với mọi người khắp nơi từ bất kỳ đâu trên thế giới.</p>
+                        <h2 style={{fontFamily: "Agbalumo, sans-serif", fontSize: "1rem"}}>Dễ dàng trở thành "Top
+                            Trending"</h2>
+                        <p>Khi bạn đăng những câu chuyện hay, bức ảnh đẹp,... bạn sẽ có cơ hội nhận quà từ bạn bè hoặc
+                            những người chưa quen bao giờ. Những món quà này sẽ đưa bạn lên top tìm
+                            kiếm và được nhều người biết đến hơn.</p>
                     </div>
                 </div>
             </div>

@@ -53,7 +53,7 @@
     background-color: #956eaf;
     color: white;
     border-radius: 20px;
-    margin-top: 70px;
+    margin-top: 80px;
     font-size: 14px;
     width: 100%;
 }
@@ -102,7 +102,7 @@
 
 
 .search-page-container .list-cards .lien-cards span {
-    margin-top: -30px;
+    margin-top: -10px;
     margin-bottom: 50px;
     color: rgb(255, 255, 255);
     transition: ease 300ms;
