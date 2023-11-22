@@ -261,7 +261,7 @@ export function PersonalPage() {
                             {/*    </div>*/}
                             {/*</div>*/}
                             {idUserLogin === accountVisit.id && (
-                                <div style={{margin: "20% 0px -9% 21%", width: "178%", marginLeft: "-34%"}}>
+                                <div style={{margin: "14% 0px -12% 21%", width: "205%", marginLeft: "-51%"}}>
                                     <UpPost/></div>)}
 
 
