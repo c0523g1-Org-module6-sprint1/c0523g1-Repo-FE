@@ -18,7 +18,7 @@ import moment from "moment";
 import {registrationDate} from "../../service/update_account/packageDetailService";
 import Swal from "sweetalert2";
 import * as AlertModal from "./AlertModal";
-import {handlePackage} from "./AlertModal";
+
 import {calculateDate} from "./CaculateDate";
 
 
@@ -49,18 +49,10 @@ export function UpdateAccountPlatinum() {
     }, []);
     const getAllAccountTypes = async () => {
         let data = await accountTypesService.getAll();
-        let dataAccountType = data.filter(data => data.id === 3);
+        let dataAccountType = data.filter(data => data.id === 2);
         console.log(dataAccountType)
         setNameAccount(dataAccountType[0].name);
         console.log(nameAccount)
-    }
-
-    useEffect(() => {
-        getAllPackageAccount()
-    }, []);
-    const getAllPackageAccount = async () => {
-        let data = await packageTypesService.getAllPackageAccount();
-        setPackageAccount(data);
     }
 
     useEffect(() => {
@@ -68,7 +60,7 @@ export function UpdateAccountPlatinum() {
     }, []);
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountTypes.id === 3);
+        let dataEros = data.filter(data => data.accountTypes.id === 2);
         console.log(dataEros)
         setPackageTypes(dataEros);
     }
@@ -88,11 +80,14 @@ export function UpdateAccountPlatinum() {
         test();
     }, []);
     const findPackageAccount = () => {
-        if (user) {
+        try {
             packageTypesService.findPackageAccount(user.id).then(res => {
                 console.log(res)
                 setPackageAccount(res);
             });
+
+        } catch (e){
+            console.log("lỗi findPackageAccount")
         }
     }
     useEffect(() => {
@@ -110,14 +105,14 @@ export function UpdateAccountPlatinum() {
 
     async function callAsyncFunctions() {
         try {
-            await paySucces(user.id, 3); // Hàm bất đồng bộ 1
+            await paySucces(user.id, 2); // Hàm bất đồng bộ 1
             console.log(comfirmChange)
             if (comfirmChange === true){
                 console.log("dk 1")
-                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money + calculateDate(packageAccount[0].regisDate)); // Hàm bất đồng bộ 2
+                await setMoneyToPaySuccess(user.id, pricePay + packageAccount[0].money + (calculateDate(packageAccount[0].regisDate) * 1000)); // Hàm bất đồng bộ 2
             } else {
                 console.log("dk 2")
-                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money); // Hàm bất đồng bộ 2
+                await setMoneyToPaySuccess(user.id, (pricePay+ packageAccount[0].money)); // Hàm bất đồng bộ 2
             }
             await resetRadioButtons(); // Hàm bất đồng bộ 3
 
@@ -137,6 +132,21 @@ export function UpdateAccountPlatinum() {
             // await load();
         } catch (error) {
             console.log("có lỗi xảy ra khi gọi cả 4 hàm")
+        }
+    }
+
+    const handlePackage = async (namePackageAccount, nameAccount) => {
+        if (namePackageAccount !== nameAccount && namePackageAccount !== "Member"){
+            Swal.fire({
+                title: "Thông báo thay đổi thứ hạng",
+                text: `Hiện tại thứ hạng của bạn đang là ${namePackageAccount}, nếu bạn mua gói ${nameAccount} thì thứ hạng sẽ bị thay đổi. Thay vào đó nếu bạn thanh toán gói này chúng tôi sẽ hoàn lại kim cương dựa vào số ngày còn lại của gói cũ`,
+                icon: "warning",
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                // confirmButtonText: "Tôi đã hiểu"
+                confirmButtonText: 'OK',
+            })
+            setComfirmChange(true)
         }
     }
 
@@ -165,43 +175,17 @@ export function UpdateAccountPlatinum() {
                         </li>
                         <li>
                             <i className="fa-solid fa-check"></i>
-                            Tặng quà cho người bạn thích
+                            Thêm kim cương quà cho người bạn thích
                         </li>
                     </ul>
                 </div>
 
-                <div className="updateaccount-card-center-content">
+                <div className="updateaccount-card-center-content" style={{minHeight: "115px"}}>
                     <p className="title ">Nâng cấp trải nghiệm của bạn</p>
                     <ul>
                         <li>
                             <i className="fa-solid fa-check"></i>
                             Mở khóa chức năng gợi ý kết bạn
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-check"></i>
-                            Mở khóa tìm kiếm nâng cao
-                            <p>
-                                <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
-                                Cho phép bạn tìm kiếm theo ý thích
-                            </p>
-                        </li>
-                    </ul>
-                </div>
-
-                <div className="updateaccount-card-center-content" style={{margin: "0 0 8% 0"}}>
-                    <p className="title ">Nắm quyền kiểm soát</p>
-                    <ul>
-                        <li>
-                            <i className="fa-solid fa-lock"></i>
-                            Kiểm soát hồ sơ của bạn
-                            <p>
-                                <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
-                                Chỉ hiện những gì bạn muốn họ biết
-                            </p>
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-lock"></i>
-                            Kiểm soát việc bạn nhìn thấy ai
                         </li>
                     </ul>
                 </div>
@@ -230,8 +214,7 @@ export function UpdateAccountPlatinum() {
                     ))}
 
                     <div className="updateaccount-radio-input-pay"
-                         onClick={(event) => handlePackage(packageAccount[0].name, nameAccount)}
-                         onChange={() => setComfirmChange(true)}>
+                         onClick={(event) => handlePackage(packageAccount[0].name, nameAccount)}>
                         <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
                                name="value-radio-pay"
                                id="value-4" type="radio"/>

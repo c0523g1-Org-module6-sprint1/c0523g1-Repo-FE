@@ -160,7 +160,7 @@ export default function UpPost() {
 
     return (
         <div>
-            <div style={{display: "flex", margin: "-10% 0px 15px 21%", width: "55%"}}>
+            <div style={{display: "flex", margin: "-6% 0px 2% 26%", width: "55%"}}>
                 <div
                     style={{
                         backgroundImage:

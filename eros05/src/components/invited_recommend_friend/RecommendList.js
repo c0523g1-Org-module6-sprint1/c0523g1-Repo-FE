@@ -31,9 +31,9 @@ export default function RecommendList() {
     }
 
     const getGenderIcon = (value) => {
-        if (value === "Female") {
+        if (value === "Nữ") {
             return <i className="fa-solid fa-venus" style={{color: '#f08ee8'}}></i>;
-        } else if (value === "Male") {
+        } else if (value === "Nam") {
             return <i className="fa-solid fa-mars" style={{color: '#4567ed'}}></i>;
         } else {
             return "🏳️‍🌈";
@@ -68,14 +68,14 @@ export default function RecommendList() {
                                 <option className="opt" value="">
                                     Giới tính
                                 </option>
-                                <option value="Male">
-                                    👱
+                                <option value="Nam">
+                                    Nam
                                 </option>
-                                <option value="Female">
-                                    👩
+                                <option value="Nữ">
+                                    Nữ
                                 </option>
                                 <option value="LGBT">
-                                    🏳️‍🌈
+                                    LGBT
                                 </option>
                             </select>
                             <form className="ms-3 citydrop" aria-label="Default select example"
@@ -120,7 +120,7 @@ export default function RecommendList() {
                                                          src={recommend.avatar}
                                                          alt=""/>
                                                 </div>
-                                                <h5 className="hlptitle mb-4">{recommend.name} {getGenderIcon(recommend.genderName)}</h5>
+                                                <h5 className="hlptitle mb-4">{recommend.name} {getGenderIcon(recommend.gender)}</h5>
                                                 <p className="hlptext">
 
                                                 </p>
