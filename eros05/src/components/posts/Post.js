@@ -161,9 +161,7 @@ export default function Post() {
                               postId={item.id}
                             ></LikeButton>
                           </div>
-                          <div className="action-btn">
-                            <i className="fa-regular fa-comment"></i> Bình luận
-                          </div>
+                    
                           <div className="action-btn"  onClick={() => handleModal(item.account.userName)}>
                             <button
                               onClick={handleModal}
