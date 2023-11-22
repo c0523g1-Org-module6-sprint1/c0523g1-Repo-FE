@@ -79,7 +79,7 @@ function Changepassword() {
       >
         <div>
           <div>
-            <div>
+            <div style={{ textAlign: "center" }}>
               <h1 style={{ left: "10%", top: "-3rem" }}>Đổi mật khẩu</h1>
             </div>
             <div

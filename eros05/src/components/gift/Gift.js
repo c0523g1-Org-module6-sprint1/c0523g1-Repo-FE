@@ -96,7 +96,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
             >
               <div style={{ textAlign: "center" }}>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <h4 style={{ marginTop: "1rem" }}>Lựa chọn quà tặng</h4>
+                  <h1 style={{ marginTop: "1rem" }}>Lựa chọn quà tặng</h1>
                 </div>
                 <div
                   style={{
@@ -274,7 +274,12 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                   )}
                 </div>
               </div>
-              <div className="modal-footer">
+              <div
+                className="modal-footer"
+                style={{
+                  backgroundColor: "whitesmoke",
+                }}
+              >
                 <button
                   className="btn btn-primary"
                   style={{
