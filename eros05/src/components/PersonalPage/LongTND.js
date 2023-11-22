@@ -16,9 +16,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const database = getDatabase(app);
+const appPostFireBase = initializeApp(firebaseConfig, 'longtnd');
+const analytics = getAnalytics(appPostFireBase);
+const database = getDatabase(appPostFireBase);
 
 export {database,ref,push,onValue}
 

@@ -15,6 +15,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import LikeButton from "../../posts/LikeButton";
 import Gift from "../../gift/Gift";
+import CommentBox from "../../comments/CommentBox";
 
 export default function Post() {
   const [listNewsfeed, setListNewsfeed] = useState();
@@ -73,7 +74,7 @@ export default function Post() {
     let day = dateTime.getDate();
     let hour = dateTime.getHours();
     let minute = dateTime.getMinutes();
-    return `${hour}h-${minute}m ${day}/${month}/${year}`;
+    return `${hour}:${minute} ${day}/${month}/${year}`;
   };
 
   if (!listNewsfeed) {
@@ -84,13 +85,13 @@ export default function Post() {
       <div>
         <div
             className="container-fluid my-post"
-            style={{ marginTop: "150px", position: "relative", paddingTop: "70px" }}
+
         >
           {listNewsfeed.map((item) => {
             return (
                 <div className="row" key={item.id} style={{ marginBottom: "50px" }}>
                   <div className="col-12 col-lg-3"></div>
-                  <div className="col-12 col-lg-6">
+                  <div className="col-12 col-lg-6" style={{marginTop:"5%"}}>
                     <div
                         className="middle-column"
                         style={{
@@ -161,9 +162,6 @@ export default function Post() {
                                 ></LikeButton>
                               </div>
                               <div className="action-btn">
-                                <i className="fa-regular fa-comment"></i> Bình luận
-                              </div>
-                              <div className="action-btn">
                                 <button
                                     onClick={handleModal}
 
@@ -176,6 +174,7 @@ export default function Post() {
                                 </button>
                               </div>
                             </div>
+                            <CommentBox postId = {item.id}/>
                           </div>
                         </div>
                       </div>
