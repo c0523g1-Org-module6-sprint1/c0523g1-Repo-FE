@@ -124,16 +124,19 @@ export function ListAccount() {
             <div id="trivn-bd-mana">
                 <div className="container-fluid px-5 my-5">
                     <h1 id="trivn-h1">Quản Lý Thành Viên</h1>
-                    <div className="input-group" style={{width: "300px"}}>
+                    <div className="row">
+                        <div className="input-group" style={{width: "300px"}}>
                     <span style={{borderRadius: "20px 0px 0px 20px "}} className="input-group-text" id="addon-wrapping"><i
                         className="fa-solid fa-magnifying-glass"></i></span>
-                        <input style={{borderRadius: "0px 20px 20px 0px"}} type="text" className="form-control"
-                               placeholder="Tên Thành Viên" aria-label="Username" aria-describedby="addon-wrapping"
-                               onChange={(event) => {
-                                   setUserName(event.target.value)
-                               }}/>
+                            <input style={{borderRadius: "0px 20px 20px 0px"}} type="text" className="form-control"
+                                   placeholder="Tên Thành Viên" aria-label="Username" aria-describedby="addon-wrapping"
+                                   onChange={(event) => {
+                                       setUserName(event.target.value)
+                                   }}/>
+                        </div>
                     </div>
-                    <div className="d-flex align-items-center">
+
+                    <div className="row">
                         <div className="col-lg-8">
                             <div className="d-flex align-items-center">
                                 <div className="form-check form-check-inline">
@@ -173,8 +176,10 @@ export function ListAccount() {
                                 ))}
                             </div>
                         </div>
+
                         <div className="col-lg-4">
                             <div className="d-flex align-items-center">
+
                                 <div>
                                     <button id="trivn-bt-mana" type="button" className="btn btn-warning btn-md"
                                             onClick={() => {
@@ -197,7 +202,6 @@ export function ListAccount() {
                         </div>
                     </div>
                 </div>
-
 
                 <div className="container-fluid">
                     <table id="trivn-tb-mana" className="table table-hover">
@@ -251,7 +255,7 @@ export function ListAccount() {
                                                 >
                                                     <i
                                                         className="fa-solid fa-unlock-keyhole"
-                                                        style={{ color: "#9e50ed" }}
+                                                        style={{color: "#9e50ed"}}
                                                     ></i>
                                                 </button>
                                             </td>
@@ -268,7 +272,6 @@ export function ListAccount() {
                                     </td>
                                 </tr>
                         }
-
                     </table>
                     <div className="row" style={{alignItems: "center"}}>
                         <div className="col-md-3 ">
@@ -276,14 +279,14 @@ export function ListAccount() {
 
                         </div>
                         {account && account.length !== 0 ? (
-                            <div className="col-md-6 d-flex justify-content-center" >
+                            <div className="col-md-6 d-flex justify-content-center">
                                 <button className="btn btn-outline-primary"
                                         onClick={() => prevPage()}>
                                     <i className="fa-solid fa-forward fa-rotate-180" style={{color: "#b966e5"}}></i>
                                 </button>
-                                <span className="btn btn-outline-primary" style={{color:"#b966e5"}}>
-            {page + 1}/{totalPage}
-        </span>
+                                <span className="btn btn-outline-primary" style={{color: "#b966e5"}}>
+                                     {page + 1}/{totalPage}
+                                 </span>
                                 <button className="btn btn-outline-primary" onClick={() => nextPage()}>
                                     <span> <i className="fa-solid fa-forward" style={{color: "#b966e5"}}></i></span>
                                 </button>
