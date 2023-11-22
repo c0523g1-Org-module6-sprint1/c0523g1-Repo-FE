@@ -27,6 +27,7 @@ export default function UpPost() {
     const [privacyPostList, setPrivacyPostList] = useState();
     const [imgToFirebase, setImgToFirebase] = useState("");
     const currentDate = moment().format('YYYY-MM-DD');
+    const [nameAccount, setNameAccount] = useState()
 
     const fetchDataPrivacyPost = async () => {
         const privacyPostList = await getPrivacyPost();
@@ -133,12 +134,15 @@ export default function UpPost() {
         const test = async () => {
             const resUsername = securityService.getUsernameByJwt();
             console.log('resUserName >>>>' + resUsername)
+            setNameAccount(resUsername);
             // setUserName(resUsername)
             if (resUsername !== null) {
                 const resUser = await SearchNameService.findByUserName(resUsername);
                 console.log("resUser >>> " + resUser)
                 if (resUser) {
                     setUser(resUser.data);
+                    console.log(111111)
+                    console.log(resUser)
                     console.log("-------------------")
                     // console.log(user)
                     // console.log(user.id)
@@ -153,9 +157,10 @@ export default function UpPost() {
         }
     }, [user])
 
-    if (!privacyPostList || !user) {
+    if (!privacyPostList || !user || !nameAccount) {
         return null;
     }
+
 
 
     return (
@@ -225,7 +230,7 @@ export default function UpPost() {
                                             }}
                                         />
                                         <div className="col-10">
-                                            <h4>Lisa</h4>
+
                                             <Field
                                                 component="select"
                                                 name="privacyPostId"

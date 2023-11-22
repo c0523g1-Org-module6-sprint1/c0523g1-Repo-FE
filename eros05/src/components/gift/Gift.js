@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as giftService from "../../service/gift/giftService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
+import {useNavigate} from "react-router-dom";
 function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
   const [listGift, setListGift] = useState([]);
   const [getMoney, setgetMoney] = useState(0);
@@ -10,6 +11,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
   const [flagQuantity, setFlagQuantity] = useState(false);
   const [flagChoice, setFlagChoice] = useState(false);
   const [moneyStatus, setMoneyStatus] = useState(false);
+  const navigation = useNavigate();
 
   const display = async () => {
     const res = await giftService.getAll();
@@ -65,7 +67,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
     }
     if (flag === 200) {
       handleClose();
-      toast.success("tặng thành công");
+      toast.success("Tặng thành công");
     }
   };
   return (
@@ -110,6 +112,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                   <div className="title">Số dư tài khoản: {getMoney} 💎</div>
 
                   <div
+                      onClick={() => {navigation("/updateAccount/gold")}}
                     tabIndex="0"
                     className="plusButton"
                     style={{

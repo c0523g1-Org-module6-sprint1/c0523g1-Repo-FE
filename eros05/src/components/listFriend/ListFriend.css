@@ -80,7 +80,7 @@
         /*}*/
 
         .cardsThienPT:hover {
-            transform: scale(1.1); /* Khi rê chuột vào, đặt tỷ lệ phóng to là 1.4 */
+            transform: scale(1.03); /* Khi rê chuột vào, đặt tỷ lệ phóng to là 1.4 */
             background: whitesmoke;
         }
 
@@ -130,5 +130,46 @@
         .titleThienPT {
             text-align: left;
             padding-left: 1rem;
+        }
+        .listfriend-option {
+            /*background-color: black;*/
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            padding: 0 50px;
+        }
+        .listfriend-search {
+            height: 100px;
+        }
+        .input-group{
+            width: 400px;
+        }
+        .listfriend-button {
+            background-color: #9D66C3;
+            border-radius: 50px;
+            width: 100%;
+            color: white;
+            transition-duration: 0.5s;
+        }
+        .listfriend-button:hover {
+            background-color: #9D66C3;
+            color: white;
+            scale: 1.03;
+            transition-duration: 0.5s;
+        }
+        .listfriend-more {
+            background-color: #9D66C3;
+            width: 300px;
+            height: 50px;
+            margin-bottom: 30px;
+            margin-top: 20px;
+            border: none;
+            color: white;
+            border-radius: 50px;
+            margin-left: calc((100% - 300px)/2);
+            transition-duration: 0.5s;
+        }
+        .listfriend-more:hover {
+            scale: 1.05;
+            transition-duration: 0.5s;
         }
 

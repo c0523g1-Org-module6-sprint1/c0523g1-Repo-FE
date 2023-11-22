@@ -93,9 +93,9 @@ export function Register() {
             // .test("check-email", "Không được bỏ trống email !", (value) => value.trim().length !== 0)
             .min(6, "Email phải lớn hơn hoặc bằng 6 kí tự !")
             .max(100, "Email phải ít hơn hoặc bằng 100 kí tự !"),
-        gender: Yup.object().shape({
-            name : Yup.string().required("Vui lòng nhập giới tính !")
-        })
+        // gender: Yup.object().shape({
+        //     name : Yup.string().required("Vui lòng nhập giới tính !")
+        // })
     }
 
     const handleRegister = async (data) => {

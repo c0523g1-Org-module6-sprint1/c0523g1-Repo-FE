@@ -273,7 +273,7 @@ function SearchAdvanced() {
                                                   style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="d-flex justify-content-center">
                                             <Link to="/public/search-name/:">
-                                                <button className="btn btn-secondary border-0 py-2"
+                                                <button className="btn btn-secondary border-0 py-2 hanh-bao-1"
                                                         style={{
                                                             backgroundColor: "#ccd2d3",
                                                             borderRadius: "20px",
@@ -282,7 +282,7 @@ function SearchAdvanced() {
                                                         }} type="submit">Huỷ
                                                 </button>
                                             </Link>
-                                        <button className="btn btn-secondary border-0 py-2"
+                                        <button className="btn btn-secondary border-0 py-2 hanh-bao-1"
                                                 style={{
                                                     backgroundColor: "#a36acb",
                                                     borderRadius: "20px",
@@ -334,6 +334,7 @@ function SearchAdvanced() {
                                                 }
                                                 <span>Sống tại: {item.location}<br>
                                                     </br>Nghề nghiệp: {item.job}</span>
+
                                             </div>
                                         )
                                     })

@@ -194,8 +194,7 @@ export function PersonalPage() {
                                             </li>
                                             <li>
                                                 <div
-                                                    data-bs-target="#exampleModalToggle"
-                                                    data-bs-toggle="modal"
+
                                                 >
                                                     <div>
                                                         <button

@@ -216,4 +216,9 @@ uppost-input:hover {
     100% {
         opacity: 1;
     }
+
+}
+.uppost-form-select {
+    height: 100%;
+    border: none;
 }

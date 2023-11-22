@@ -42,12 +42,12 @@ function Changepassword() {
       };
       const flag = await changepasswordService.changepassword(account);
       if (flag === 200) {
-        toast.success("đổi mật khẩu thành công");
+        toast.success("Đổi mật khẩu thành công");
         close();
       }
       if (flag === undefined) {
         setButtonStatuss(true);
-        toast.error("sai mật khẩu vui lòng nhập lại");
+        toast.error("Sai mật khẩu vui lòng nhập lại");
       }
     }
   };
@@ -121,7 +121,7 @@ function Changepassword() {
                   style={{
                     padding: "0.5rem 2rem",
                     borderRadius: "20px",
-                    border: "2px solid #a36acb",
+
                     border: `2px solid ${
                       status && passwordNow === "" ? "red" : "#a36acb"
                     }`,
