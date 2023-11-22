@@ -10,16 +10,16 @@ a {
 
 #trivn-tb-mana {
     text-align: center;
-    width: 80%;
     margin-left: auto;
     margin-right: auto;
-
 }
 
 
 
 #trivn-bt-mana {
     border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #trivn-tb-th {
@@ -31,7 +31,6 @@ a {
     background-color: #CBD2D4;
     margin-top: 75px;
     font-family: Nunito Sans, sans-serif;
-
 }
 #trivn-p-a{
     background-color: #CBD2D4;

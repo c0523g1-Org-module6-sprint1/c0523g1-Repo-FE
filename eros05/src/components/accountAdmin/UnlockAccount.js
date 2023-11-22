@@ -4,9 +4,10 @@ import { unlock} from "../../service/accountAdmin/AdminAccountService";
 export function UnlockAccount({ showUnlock, handleCloseUnlock, selectUnlock }) {
     const handleUnlock = async () => {
         try {
-            const res = await unlock(selectUnlock.id);
+            const res = await unlock(selectUnlock.id)
             if (res.status === 200) {
                 handleCloseUnlock();
+                console.log()
                 toast("Mở Khoá Thành Công");
             } else {
                 toast.error("Mở Khoá Thất Bại");
