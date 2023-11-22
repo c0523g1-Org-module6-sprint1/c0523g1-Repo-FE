@@ -46,7 +46,7 @@ export function UpdateAccountGold() {
     }, []);
     const getAllAccountTypes = async () => {
         let data = await accountTypesService.getAll();
-        let dataAccountType = data.filter(data => data.id === 2);
+        let dataAccountType = data.filter(data => data.id === 1);
         console.log(dataAccountType)
         setNameAccount(dataAccountType[0].name);
         console.log(nameAccount)
@@ -57,7 +57,7 @@ export function UpdateAccountGold() {
     }, []);
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountTypes.id === 2);
+        let dataEros = data.filter(data => data.accountTypes.id === 1);
         console.log(dataEros)
         setPackageTypes(dataEros);
     }
@@ -99,7 +99,7 @@ export function UpdateAccountGold() {
 
     async function callAsyncFunctions() {
         try {
-            await paySucces(user.id, 2); // Hàm bất đồng bộ 1
+            await paySucces(user.id, 1); // Hàm bất đồng bộ 1
             console.log(comfirmChange)
             if (comfirmChange === true){
                 console.log("dk 1")

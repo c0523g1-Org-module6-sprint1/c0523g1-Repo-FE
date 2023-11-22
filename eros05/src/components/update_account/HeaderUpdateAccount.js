@@ -60,6 +60,21 @@ export function HeaderUpdateAccount() {
         return remainingDays
     }
 
+    // const [accountType, setAccountType] = useState("")
+    // useEffect(() => {
+    //     CheckAccountTypes()
+    // }, [])
+    // const CheckAccountTypes = async () => {
+    //     const id = await securityService.getIdByJwt();
+    //     console.log(id)
+    //     await packageTypesService.findPackageAccount(id).then(res => {
+    //         if (res !== null) {
+    //             console.log(res[0].name)
+    //             setAccountType(res[0].name)
+    //         }
+    //     })
+    // }
+
     return (
         <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-updateaccount-card updateaccount-body">
             {packageAccount[0].name === "Member" ? (<div className="updateaccount-card-info">

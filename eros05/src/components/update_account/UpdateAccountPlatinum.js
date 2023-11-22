@@ -49,7 +49,7 @@ export function UpdateAccountPlatinum() {
     }, []);
     const getAllAccountTypes = async () => {
         let data = await accountTypesService.getAll();
-        let dataAccountType = data.filter(data => data.id === 3);
+        let dataAccountType = data.filter(data => data.id === 2);
         console.log(dataAccountType)
         setNameAccount(dataAccountType[0].name);
         console.log(nameAccount)
@@ -60,7 +60,7 @@ export function UpdateAccountPlatinum() {
     }, []);
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountTypes.id === 3);
+        let dataEros = data.filter(data => data.accountTypes.id === 2);
         console.log(dataEros)
         setPackageTypes(dataEros);
     }
@@ -102,7 +102,7 @@ export function UpdateAccountPlatinum() {
 
     async function callAsyncFunctions() {
         try {
-            await paySucces(user.id, 3); // Hàm bất đồng bộ 1
+            await paySucces(user.id, 2); // Hàm bất đồng bộ 1
             console.log(comfirmChange)
             if (comfirmChange === true){
                 console.log("dk 1")
