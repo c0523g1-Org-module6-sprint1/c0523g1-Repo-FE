@@ -10,9 +10,75 @@
 }
 
 .top-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 300px repeat(3, 40px) 130px;
+    height: 500px;
+    grid-template-areas:
+            "second first third"
+            "second none1 third"
+            "none2 none1 third"
+            "none2 none1 none3"
+            "none2 none1 none3";
+}
+.top-container-first {
+    grid-area: first;
+}
+.top-container-second {
+    grid-area: second;
+}
+.top-container-third {
+
+    grid-area: third;
+}
+.top-container-first, .top-container-second, .top-container-third{
     display: flex;
+    align-items: end;
+}
+.top-container-none1 {
+    grid-area: none1;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border: #9D66C3 2px solid;
+}
+.top-container-none2 {
+    grid-area: none2;
+    border-top-left-radius: 30px;
+    border-left: #9D66C3 2px solid;
+
+}
+.top-container-none3 {
+    grid-area: none3;
+    border-top-right-radius: 30px;
+    border-right: #9D66C3 2px solid;
+}
+.top-container-none1, .top-container-none2, .top-container-none3 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas: "name-element" "point-element" "none-element" "level-element";
     justify-content: center;
-    gap: 6vw;
+    align-items: end;
+    background-color: white;
+    color: #9D66C3;
+    border-bottom: #9D66C3 2px solid;
+    border-top: #9D66C3 2px solid;
+}
+.top-container-none1 p, .top-container-none2 p, .top-container-none3 p {
+    text-align: center;
+
+}
+
+.top-container-img {
+    width: 74%;
+    margin: 0 13%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    border: #9D66C3 3px double;
 }
 .avatar-img{
     width: 11vw;
@@ -21,7 +87,19 @@
     object-fit: cover;
 }
 .top-title{
-    fontWeight: bold
+    fontWeight: bold;
+    grid-area: level-element;
+    font-size: 25px;
+}
+.top-title-name{
+    grid-area: name-element;
+    cursor: pointer;
+    font-size: 30px;
+    color: #9D66C3;
+    margin: 0;
+}
+.top-title-point {
+    grid-area: point-element;
 }
 
 
@@ -148,18 +226,8 @@ p{
 
 
 }
-.point{
-    margin-top: -15% !important;
-    font-style: Italic !important;
-    /*font-family: Nutitosan;*/
-}
-
 .top-crown{
     width: 20%;
-}
-.personal-page{
-    cursor: pointer;
-    font-weight: bold;
 }
 
 

@@ -192,12 +192,13 @@ export function UpdateAccountPlatinum() {
             </div>
 
             <div className="col-xs-12 col-3 col-md-12 col-lg-3">
-                <div className="updateaccount-card-right">
-                    <p className="title ">Đăng ký Eros Platinum</p>
-                    <p style={{fontSize: "14px"}}>Trải nghiệm hẹn hò thú vị bậc nhất</p>
-                </div>
 
-                <div className="updateaccount-radio-input" id="myForm">
+
+                <div className="updateaccount-radio-input  borderRadius haubao" id="myForm">
+                    <div className="updateaccount-card-right">
+                        <p className="title ">Đăng ký Eros Platinum</p>
+                        <p style={{fontSize: "14px"}}>Trải nghiệm hẹn hò thú vị bậc nhất</p>
+                    </div>
                     {packageTypes.map(packageType => (
                         <div
                             onClick={() => packageClick(packageType.days)}>

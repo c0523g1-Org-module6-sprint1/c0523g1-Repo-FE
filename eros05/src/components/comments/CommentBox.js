@@ -97,12 +97,14 @@ function CommentBox(props) {
             if (inputStr === "" || inputStr.trim() === "") {
                 toast("Hãy nhập nội dung tin nhắn")
             } else {
+                setShowPicker(false);
                 const res = await commentsService.createCommentService(newInput);
                 console.log(res.data)
                 if (res.status === 200) {
                     setIsRender(!isRender)
                     setInputStr("")
                     inputFocus.current.focus();
+
                 } else toast(res.data)
             }
         } catch (e) {
@@ -164,7 +166,7 @@ function CommentBox(props) {
                         <Form>
                             <Field
                                 ref={inputFocus}
-                                style={{width: "85%", boxSizing: "border-box", left: 5, borderRadius: 20, height: 35}}
+                                style={{width: "85%", boxSizing: "border-box", left: 5, borderRadius: 20, height: 35, padding: "0 15px"}}
                                 type="text"
                                 name="content"
                                 value={inputStr}

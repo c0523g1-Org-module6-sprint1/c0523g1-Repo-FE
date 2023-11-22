@@ -190,13 +190,12 @@ export function UpdateAccountGold() {
 
             </div>
 
-            <div className="col-xs-12 col-3 col-md-12 col-lg-3">
-                <div className="updateaccount-card-right">
-                    <p className="title ">Đăng ký Eros Gold</p>
-                    <p style={{fontSize: "13px"}}>Bình luận vào bài viết & và nhiều quyền lợi khác</p>
-                </div>
-
-                <div className="updateaccount-radio-input" id="myForm">
+            <div className="col-xs-12 col-3 col-md-12 col-lg-3 borderRadius haubao">
+                <div className="updateaccount-radio-input " id="myForm">
+                    <div className="updateaccount-card-right">
+                        <p className="title ">Đăng ký Eros Gold</p>
+                        <p style={{fontSize: "13px"}}>Bình luận vào bài viết & và nhiều quyền lợi khác</p>
+                    </div>
                     {packageTypes.map(packageType => (
                         <div
                             onClick={() => packageClick(packageType.days)}>

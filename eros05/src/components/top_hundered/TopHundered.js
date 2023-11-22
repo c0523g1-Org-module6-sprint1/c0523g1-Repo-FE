@@ -29,27 +29,31 @@ function TopHundered() {
         <div>
             <h2 style={{marginTop: "90px", textAlign: "center", fontFamily: "Agbalumo", marginLeft: "40px",fontSize:"300%"}}>
                 Bảng xếp hạng top 100</h2>
-            <div className="container" style={{marginTop: "50px"}}>
+            <div className="container" style={{marginTop: "50px", marginBottom: "50px"}}>
                 <div className="top-container" >
-                    <div className="top-avatar-container">
-                        <h2 className="top-title" style={{fontWeight: "bold"}} >Hạng 2</h2>
-                        <img className="avatar-img" src={account[1].avatar}/>
-                        <p className="personal-page" onClick={() => goPersonalPage(account[1].id)} s>{account[1].name}</p>
-                        <p className="point">( {account[1].point} điểm quà tặng)</p>
+                    <div className="top-container-second">
+                        <div className="top-container-img" style={{backgroundImage: `url(${account[2].avatar})`}}/>
                     </div>
-                    <div className="top-avatar-container">
-                        <h2 className="top-title" style={{fontWeight: "bold"}}>Hạng 1</h2>
-                        {/*<img className="top-crown" src={crown} />*/}
-                        <img className="avatar-img" src={account[0].avatar}/>
-                        <p className="personal-page" onClick={() => goPersonalPage(account[0].id)} >{account[0].name}</p>
-                        <p className="point">( {account[0].point} điểm quà tặng)</p>
-
+                    <div className="top-container-first">
+                        <div className="top-container-img" style={{backgroundImage: `url(${account[1].avatar})`}}/>
                     </div>
-                    <div className="top-avatar-container">
-                        <h2 className="top-title" style={{fontWeight: "bold"}}>Hạng 3</h2>
-                        <img className="avatar-img" src={account[2].avatar}/>
-                        <p className="personal-page" onClick={() => goPersonalPage(account[2].id)}>{account[2].name}</p>
-                        <p className="point">( {account[2].point} điểm quà tặng)</p>
+                    <div className="top-container-third">
+                        <div className="top-container-img" style={{backgroundImage: `url(${account[3].avatar})`}}/>
+                    </div>
+                    <div className="top-container-none2">
+                        <p className="top-title-name" onClick={() => goPersonalPage(account[2].id)}>{account[2].name}</p>
+                        <p className="top-title-point">( {account[2].point} điểm quà tặng)</p>
+                        <p className="top-title" style={{fontWeight: "bold"}} >Hạng 2</p>
+                    </div>
+                    <div className="top-container-none1">
+                        <p className="top-title-name" onClick={() => goPersonalPage(account[1].id)}>{account[1].name}</p>
+                        <p className="top-title-point">( {account[1].point} điểm quà tặng)</p>
+                        <p className="top-title" style={{fontWeight: "bold"}} >Hạng 1</p>
+                    </div>
+                    <div className="top-container-none3">
+                        <p className="top-title-name" onClick={() => goPersonalPage(account[3].id)}>{account[3].name}</p>
+                        <p className="top-title-point">( {account[3].point} điểm quà tặng)</p>
+                        <p className="top-title" style={{fontWeight: "bold"}} >Hạng 3</p>
                     </div>
                 </div>
                 <table className="table table-bordered table-hover"

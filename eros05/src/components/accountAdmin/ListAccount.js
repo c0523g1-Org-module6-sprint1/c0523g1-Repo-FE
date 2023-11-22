@@ -124,82 +124,65 @@ export function ListAccount() {
             <div id="trivn-bd-mana">
                 <div className="container-fluid px-5 my-5">
                     <h1 id="trivn-h1">Quản Lý Thành Viên</h1>
-                    <div className="row">
-                        <div className="input-group" style={{width: "300px"}}>
-                    <span style={{borderRadius: "20px 0px 0px 20px "}} className="input-group-text" id="addon-wrapping"><i
+                    <div className="tribao-container">
+                        <div className="row">
+                            <div className="input-group" style={{width: "400px"}}>
+                        <span style={{borderRadius: "20px 0px 0px 20px "}} className="input-group-text" id="addon-wrapping"><i
                         className="fa-solid fa-magnifying-glass"></i></span>
-                            <input style={{borderRadius: "0px 20px 20px 0px"}} type="text" className="form-control"
-                                   placeholder="Tên Thành Viên" aria-label="Username" aria-describedby="addon-wrapping"
-                                   onChange={(event) => {
-                                       setUserName(event.target.value)
-                                   }}/>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-lg-8">
-                            <div className="d-flex align-items-center">
-                                <div className="form-check form-check-inline">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="searchType"
-                                        id="all"
-                                        value=""
-                                        onChange={(event) => {
-                                            setSearchType(event.target.value);
-                                        }}
-                                        checked={searchType === ""}
-                                    />
-                                    <label className="form-check-label" htmlFor="all">
-                                        Loại Thành Viên
-                                    </label>
-                                </div>
-                                {typeAccount.map((typeAccount) => (
-                                    <div key={typeAccount.id} className="form-check form-check-inline">
-                                        <input
-                                            className="form-check-input"
-                                            type="radio"
-                                            name="searchType"
-                                            id={typeAccount.id}
-                                            value={typeAccount.id}
-                                            onChange={(event) => {
-                                                setSearchType(event.target.value);
-                                            }}
-                                            checked={searchType === typeAccount.id}
-                                        />
-                                        <label id="trivn-platinum" className="form-check-label"
-                                               htmlFor={typeAccount.id}>
-                                            {typeAccount.name}
-                                        </label>
-                                    </div>
-                                ))}
+                                <input style={{borderRadius: "0px 20px 20px 0px"}} type="text" className="form-control"
+                                       placeholder="Tên Thành Viên" aria-label="Username" aria-describedby="addon-wrapping"
+                                       onChange={(event) => {
+                                           setUserName(event.target.value)
+                                       }}/>
                             </div>
                         </div>
-
-                        <div className="col-lg-4">
-                            <div className="d-flex align-items-center">
-
-                                <div>
-                                    <button id="trivn-bt-mana" type="button" className="btn btn-warning btn-md"
-                                            onClick={() => {
-                                                handleFault(selectAccount)
-                                            }}>
-                                        Cảnh Cáo
-                                    </button>
-                                </div>
-                                <div>
-                                    {
-                                        (
-                                            <button id="trivn-bt-mana" type="button" className="btn btn-danger btn-md"
-                                                    onClick={handleShowModal}>
-                                                Khoá Tài Khoản
-                                            </button>
-                                        )
-                                    }
-                                </div>
-                            </div>
+                        <div/>
+                        <div className="form-check form-check-inline">
+                            <input
+                                className="form-check-input"
+                                type="radio"
+                                name="searchType"
+                                id="all"
+                                value=""
+                                onChange={(event) => {
+                                    setSearchType(event.target.value);
+                                }}
+                                checked={searchType === ""}
+                            />
+                            <label className="form-check-label" htmlFor="all">
+                                Loại Thành Viên
+                            </label>
                         </div>
+                        {typeAccount.map((typeAccount) => (
+                            <div key={typeAccount.id} className="form-check form-check-inline">
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="searchType"
+                                    id={typeAccount.id}
+                                    value={typeAccount.id}
+                                    onChange={(event) => {
+                                        setSearchType(event.target.value);
+                                    }}
+                                    checked={searchType === typeAccount.id}
+                                />
+                                <label id="trivn-platinum" className="form-check-label"
+                                       htmlFor={typeAccount.id}>
+                                    {typeAccount.name}
+                                </label>
+                            </div>
+                        ))}
+                        <div/>
+                        <button id="trivn-bt-mana" type="button" className="btn btn-warning btn-md ms-3"
+                                onClick={() => {
+                                    handleFault(selectAccount)
+                                }}>
+                            Cảnh Cáo
+                        </button>
+                        <button id="trivn-bt-mana" type="button" className="btn btn-danger btn-md ms-3"
+                                onClick={handleShowModal}>
+                            Khoá Tài Khoản
+                        </button>
                     </div>
                 </div>
 
@@ -280,14 +263,14 @@ export function ListAccount() {
                         </div>
                         {account && account.length !== 0 ? (
                             <div className="col-md-6 d-flex justify-content-center">
-                                <button className="btn btn-outline-primary"
+                                <button className="btn btn-outline-primary tribao-button"
                                         onClick={() => prevPage()}>
                                     <i className="fa-solid fa-forward fa-rotate-180" style={{color: "#b966e5"}}></i>
                                 </button>
-                                <span className="btn btn-outline-primary" style={{color: "#b966e5"}}>
+                                <span className="btn btn-outline-primary tribao-button" style={{color: "#b966e5"}}>
                                      {page + 1}/{totalPage}
                                  </span>
-                                <button className="btn btn-outline-primary" onClick={() => nextPage()}>
+                                <button className="btn btn-outline-primary tribao-button" onClick={() => nextPage()}>
                                     <span> <i className="fa-solid fa-forward" style={{color: "#b966e5"}}></i></span>
                                 </button>
                             </div>
