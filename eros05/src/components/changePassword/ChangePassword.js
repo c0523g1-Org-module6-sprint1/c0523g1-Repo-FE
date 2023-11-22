@@ -69,9 +69,23 @@ function Changepassword() {
     setPassword2(value);
   };
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        textAlign: "center",
+        // marginTop: "10rem",s
+      }}
+    >
       <div
         style={{
+          width: "40rem",
+          // height: "40rem",
+          padding: "5rem",
+          borderRadius: "40px",
+          background:
+            "radial-gradient(circle, rgba(201, 174, 229, 1) 29%, rgba(212, 195, 237, 1) 67%, rgba(216, 175, 231, 1) 85%)",
+          // backgroundColor: "#fff",
           display: "flex",
           justifyContent: "center",
           marginTop: "15rem",
@@ -99,7 +113,7 @@ function Changepassword() {
                   marginTop: "0.4rem",
                 }}
               >
-                Mật khẩu hiện tại:
+                <label htmlFor="mk">Mật khẩu hiện tại:</label>
               </div>
               <div>
                 <input
@@ -115,6 +129,7 @@ function Changepassword() {
                   value={passwordNow}
                   className="input-change"
                   type="password"
+                  id="mk"
                 />
                 {buttonStatus ? (
                   <div style={{ color: "red" }}>Mật khẩu không đúng!</div>
@@ -139,10 +154,11 @@ function Changepassword() {
                   padding: "0.2rem",
                 }}
               >
-                Mật khẩu mới:
+                <label htmlFor="mk1"> Mật khẩu mới:</label>
               </div>
               <div>
                 <input
+                  id="mk1"
                   value={password1}
                   onChange={(event) => checkpass(event.target.value)}
                   style={{
@@ -172,10 +188,11 @@ function Changepassword() {
                   marginTop: "0.4rem",
                 }}
               >
-                Nhập lại mật khẩu:
+                <label htmlFor="mk2">Nhập lại mật khẩu:</label>
               </div>
               <div>
                 <input
+                  id="mk2"
                   value={password2}
                   onChange={(event) => checkpass2(event.target.value)}
                   style={{
