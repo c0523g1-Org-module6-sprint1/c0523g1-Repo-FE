@@ -16,7 +16,7 @@ import {v4} from "uuid";
 import {load} from "./Pay";
 
 
-export function UpPost() {
+export default function UpPost() {
     const [formData, setFormData] = useState("");
     const [contents, setContents] = useState("");
     const [image, setImage] = useState("");
