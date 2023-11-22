@@ -47,3 +47,15 @@ export async function getAllList(value) {
     console.log("getAllListx`" + error);
   }
 }
+export async function getAllQuantity(value) {
+  try {
+    console.log(value);
+    const res = await axios.get(
+      `http://localhost:8080/api/public/gift/quantity/${value}`
+    );
+    return res.data;
+    console.log(res.data);
+  } catch (error) {
+    console.log("getAllQuantity `" + error);
+  }
+}
