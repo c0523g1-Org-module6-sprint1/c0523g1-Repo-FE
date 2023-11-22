@@ -5,6 +5,8 @@ import {Button, Modal} from "react-bootstrap";
 
 function CommentContent(props) {
     const {commentId, comment} = props;
+    console.log(commentId)
+    console.log(comment)
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [myModal, setMyModal] = useState({})
     const [show, setShow] = useState(false)
@@ -18,9 +20,9 @@ function CommentContent(props) {
         setMyModal(data)
     }
 
-    const deleteComment = async (id) => {
+    const deleteComment = async (data) => {
         try {
-            const res = await deleteCommentService(commentId);
+            const res = await deleteCommentService(data.id);
             if (res.status === 200) {
                 toast("Delete Successfully")
                 handleClose();
@@ -29,7 +31,6 @@ function CommentContent(props) {
             alert("Error")
         }
     }
-
 
     // chỉnh sủa và xoá
     const handleDropDown = () => {
