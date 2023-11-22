@@ -100,7 +100,7 @@ export function HeaderUpdateAccount() {
                         <div className="updateaccount-textContent">
                             <p className="updateaccount-h1">Hạng hiện tại: {packageAccount[0].name}</p>
                         </div>
-                        <p className="updateaccount-p">{packageAccount[0].money} <i style={{color: "snow"}}
+                        <p className="updateaccount-p">{packageAccount[0].money / 1000} <i style={{color: "snow"}}
                                                                                     className="fa-regular fa-gem"></i>
                         </p>
                         <p style={{margin: "-13px 0px 11px 0"}} className="updateaccount-p">Thời hạn gói

@@ -80,11 +80,14 @@ export function UpdateAccountPlatinum() {
         test();
     }, []);
     const findPackageAccount = () => {
-        if (user) {
+        try {
             packageTypesService.findPackageAccount(user.id).then(res => {
                 console.log(res)
                 setPackageAccount(res);
             });
+
+        } catch (e){
+            console.log("lỗi findPackageAccount")
         }
     }
     useEffect(() => {
@@ -106,10 +109,10 @@ export function UpdateAccountPlatinum() {
             console.log(comfirmChange)
             if (comfirmChange === true){
                 console.log("dk 1")
-                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money + calculateDate(packageAccount[0].regisDate)); // Hàm bất đồng bộ 2
+                await setMoneyToPaySuccess(user.id, pricePay + packageAccount[0].money + (calculateDate(packageAccount[0].regisDate) * 1000)); // Hàm bất đồng bộ 2
             } else {
                 console.log("dk 2")
-                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money); // Hàm bất đồng bộ 2
+                await setMoneyToPaySuccess(user.id, (pricePay+ packageAccount[0].money)); // Hàm bất đồng bộ 2
             }
             await resetRadioButtons(); // Hàm bất đồng bộ 3
 
