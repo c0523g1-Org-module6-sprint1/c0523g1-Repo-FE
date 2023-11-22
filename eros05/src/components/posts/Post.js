@@ -73,7 +73,7 @@ export default function Post() {
     let day = dateTime.getDate();
     let hour = dateTime.getHours();
     let minute = dateTime.getMinutes();
-    return `${hour}h-${minute}m ${day}/${month}/${year}`;
+    return `${hour}:${minute} ${day}/${month}/${year}`;
   };
 
   if (!listNewsfeed) {
