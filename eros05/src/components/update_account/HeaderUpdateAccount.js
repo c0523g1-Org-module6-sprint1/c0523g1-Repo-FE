@@ -22,52 +22,47 @@ export function HeaderUpdateAccount() {
 
     // let str = CheckAccountTypes()
     // console.log(str)
+    const id = securityService.getIdByJwt();
+    console.log(id)
+
+
+    // useEffect(() => {
+    //     const test = async () => {
+    //         const resUsername = securityService.getUsernameByJwt();
+    //         console.log('resUserName >>>>' + resUsername)
+    //         // setUserName(resUsername)
+    //         if (resUsername !== null) {
+    //             const resUser = await SearchNameService.findByUserName(resUsername);
+    //             console.log("resUser >>> " + resUser)
+    //             if (resUser) {
+    //                 setUser(resUser.data);
+    //
+    //             }
+    //         }
+    //     }
+    //     test();
+    // }, []);
 
 
     useEffect(() => {
-        const test = async () => {
-            const resUsername = securityService.getUsernameByJwt();
-            console.log('resUserName >>>>' + resUsername)
-            // setUserName(resUsername)
-            if (resUsername !== null) {
-                const resUser = await SearchNameService.findByUserName(resUsername);
-                console.log("resUser >>> " + resUser)
-                if (resUser) {
-                    setUser(resUser.data);
-
-                }
-            }
-        }
-        test();
-    }, []);
-    useEffect(() => {
-        if (user) {
-            console.log(user)
-            findPackageAccount()
-        }
-    }, [user])
+        if(id) findPackageAccount(id)
+    }, [])
 
 
-    const findPackageAccount = () => {
-        if (user) {
-            packageTypesService.findPackageAccount(user.id).then(res => {
-                console.log(res)
-                setPackageAccount(res);
-            });
-        }
+    const findPackageAccount = async () => {
+            let a = await packageTypesService.findPackageAccount()
+            setPackageTypes(a)
+        console.log(packageTypes)
     }
 
-    useEffect(async () =>{
-        const id = await securityService.getIdByJwt();
-        console.log(id)
-
-        await packageTypesService.findPackageAccount(id).then(res => {
-            if (res !== null){
-                console.log(res[0].name)
-                setPackageAccount(res)
-            }
-        })
-    }, [])
+    // useEffect(async () =>{
+    //
+    //     await packageTypesService.findPackageAccount(id).then(res => {
+    //         if (res !== null){
+    //             setPackageAccount(res)
+    //         }
+    //     })
+    // }, [])
 
 
     const calculateDate = (expirationDate) => {
