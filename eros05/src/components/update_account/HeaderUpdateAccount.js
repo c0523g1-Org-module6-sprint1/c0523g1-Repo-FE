@@ -60,6 +60,21 @@ export function HeaderUpdateAccount() {
         return remainingDays
     }
 
+    // const [accountType, setAccountType] = useState("")
+    // useEffect(() => {
+    //     CheckAccountTypes()
+    // }, [])
+    // const CheckAccountTypes = async () => {
+    //     const id = await securityService.getIdByJwt();
+    //     console.log(id)
+    //     await packageTypesService.findPackageAccount(id).then(res => {
+    //         if (res !== null) {
+    //             console.log(res[0].name)
+    //             setAccountType(res[0].name)
+    //         }
+    //     })
+    // }
+
     return (
         <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-updateaccount-card updateaccount-body">
             {packageAccount[0].name === "Member" ? (<div className="updateaccount-card-info">
@@ -85,7 +100,7 @@ export function HeaderUpdateAccount() {
                         <div className="updateaccount-textContent">
                             <p className="updateaccount-h1">Hạng hiện tại: {packageAccount[0].name}</p>
                         </div>
-                        <p className="updateaccount-p">{packageAccount[0].money} <i style={{color: "snow"}}
+                        <p className="updateaccount-p">{packageAccount[0].money / 1000} <i style={{color: "snow"}}
                                                                                     className="fa-regular fa-gem"></i>
                         </p>
                         <p style={{margin: "-13px 0px 11px 0"}} className="updateaccount-p">Thời hạn gói

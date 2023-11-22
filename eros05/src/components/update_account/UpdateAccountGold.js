@@ -46,7 +46,7 @@ export function UpdateAccountGold() {
     }, []);
     const getAllAccountTypes = async () => {
         let data = await accountTypesService.getAll();
-        let dataAccountType = data.filter(data => data.id === 2);
+        let dataAccountType = data.filter(data => data.id === 1);
         console.log(dataAccountType)
         setNameAccount(dataAccountType[0].name);
         console.log(nameAccount)
@@ -57,7 +57,7 @@ export function UpdateAccountGold() {
     }, []);
     const getAllPackageTypes = async () => {
         let data = await packageTypesService.getAll();
-        let dataEros = data.filter(data => data.accountTypes.id === 2);
+        let dataEros = data.filter(data => data.accountTypes.id === 1);
         console.log(dataEros)
         setPackageTypes(dataEros);
     }
@@ -77,12 +77,15 @@ export function UpdateAccountGold() {
         test();
     }, []);
     const findPackageAccount = () => {
-        if (user) {
-            packageTypesService.findPackageAccount(user.id).then(res => {
-                console.log(res)
-                setPackageAccount(res);
-            });
-        }
+           try {
+               packageTypesService.findPackageAccount(user.id).then(res => {
+                   console.log(res)
+                   setPackageAccount(res);
+               });
+
+           } catch (e){
+               console.log("lỗi findPackageAccount")
+           }
     }
     useEffect(() => {
         if (user) {
@@ -99,14 +102,14 @@ export function UpdateAccountGold() {
 
     async function callAsyncFunctions() {
         try {
-            await paySucces(user.id, 2); // Hàm bất đồng bộ 1
+            await paySucces(user.id, 1); // Hàm bất đồng bộ 1
             console.log(comfirmChange)
             if (comfirmChange === true){
                 console.log("dk 1")
-                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money + calculateDate(packageAccount[0].regisDate)); // Hàm bất đồng bộ 2
+                await setMoneyToPaySuccess(user.id, pricePay + packageAccount[0].money + (calculateDate(packageAccount[0].regisDate) * 1000)); // Hàm bất đồng bộ 2
             } else {
                 console.log("dk 2")
-                await setMoneyToPaySuccess(user.id, (pricePay / 1000) + packageAccount[0].money); // Hàm bất đồng bộ 2
+                await setMoneyToPaySuccess(user.id, (pricePay + packageAccount[0].money)); // Hàm bất đồng bộ 2
             }
             await resetRadioButtons(); // Hàm bất đồng bộ 3
 
