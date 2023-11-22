@@ -9,13 +9,14 @@ export async function getAllCommentsService() {
 }
 
 export async function createCommentService(data) {
-    try {
-    return  await axios.post(URL,data);
-    }catch (e) {
-        alert("Error Service")
-    }
+    return await axios.post(URL, data);
 }
 
-export async function deleteCommentService(id){
+export async function deleteCommentService(id) {
     return await axios.delete(URL + `/${id}`)
+}
+
+export async function getCommentById(id) {
+    const res = await axios.get(URL + `${id}`);
+    return res.data;
 }
