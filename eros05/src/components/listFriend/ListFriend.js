@@ -143,7 +143,7 @@ function ListFriend() {
     } else if (value === "Male") {
       return <i className="fa-solid fa-mars" style={{ color: '#4567ed' }}></i>;
     } else {
-      return <i className="fa-solid fa-rainbow" style={{ color: '#fc90fe' }}></i>;
+      return "🏳️‍🌈";
     }
   }
   console.log(nameSearch);
