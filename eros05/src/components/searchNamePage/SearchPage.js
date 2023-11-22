@@ -4,6 +4,7 @@ import * as accountService from "../../service/searchName/searchNameService"
 import {Link, useNavigate, useParams} from "react-router-dom";
 import * as SearchNameService from "../../service/searchName/searchNameService";
 import * as securityService from "../../service/login/securityService";
+import {toast} from "react-toastify";
 
 const SearchPage = () => {
     const [accounts, setAccounts] = useState([]);
@@ -20,8 +21,8 @@ const SearchPage = () => {
         setAccounts(res.data);
     };
     const goRegisterPage = () => {
-
-        navigate(`/register`);
+        navigate(`/login`);
+        toast.info("Vui lòng đăng nhập/đăng ký để sử dụng tính năng này!")
     }
     const goSearchAdvanced = () => {
         navigate(`/search_advanced`);
@@ -57,43 +58,49 @@ const SearchPage = () => {
 
             <div className='container'>
                 {accounts.length > 0 ? (
-                        <div className="list-cards">
-                            {
-                                accounts.map((item, index) => {
-                                    return (
-                                        <div key={index} className="lien-cards">
-                                            <div className="icon">
-                                                <img className="cus-avatar"
-                                                     src={item.avatar}
-                                                     alt=""/>
-                                            </div>
-                                            <p className="user-name">{item.name}</p>
-                                            {!isAuthentication ?
-                                                <p className="text">
-                                                    {/*<button className="btn btn-secondary border-0 py-2"*/}
-                                                    {/*        type="submit" onClick={goRegisterPage}*/}
-                                                    {/*        style={{marginTop: "40px"}}>Kết bạn*/}
-                                                    {/*</button>*/}
-                                                    <button className="btn btn-secondary border-0 py-2"
-                                                            type="submit" onClick={goRegisterPage}>Xem trang cá nhân
-                                                    </button>
-                                                </p>
-                                                :
-                                                <p className="text">
-                                                    <button className="btn btn-secondary border-0 py-2 "
-                                                            type="submit" onClick={() => goPersonalPage(item.id)}
-                                                    >Xem trang cá nhân
-                                                    </button>
-                                                </p>
-                                            }
-                                            <span>Sống tại: {item.location}<br></br>
-                                                Giới tính: {item.gender}<br></br>
-                                                Nghề nghiệp: {item.job}</span>
+                    <div className="list-cards">
+                        {
+                            accounts.map((item, index) => {
+                                return (
+                                    <div key={index} className="lien-cards">
+                                        <div className="icon">
+                                            <img className="cus-avatar"
+                                                 src={item.avatar}
+                                                 alt=""/>
                                         </div>
-                                    )
-                                })
-                            }
-                        </div>
+                                        <p className="user-name">{item.name}</p>
+                                        {!isAuthentication ?
+                                            <p className="text">
+                                                {/*<button className="btn btn-secondary border-0 py-2"*/}
+                                                {/*        type="submit" onClick={goRegisterPage}*/}
+                                                {/*        style={{marginTop: "40px"}}>Kết bạn*/}
+                                                {/*</button>*/}
+                                                <button className="btn btn-secondary border-0 py-2"
+                                                        type="submit" onClick={goRegisterPage}>Xem trang cá nhân
+                                                </button>
+                                            </p>
+                                            :
+                                            <p className="text">
+                                                <button className="btn btn-secondary border-0 py-2 "
+                                                        type="submit" onClick={() => goPersonalPage(item.id)}
+                                                >Xem trang cá nhân
+                                                </button>
+                                            </p>
+                                        }
+                                        {index < 5 && <p style={{color:"#a36acb",textAlign: "center",marginTop: "-20%"}}>Có điểm quà tặng cao</p>}
+                                        <span>
+                                            <i className="fa fa-home"/> {item.location}<br></br>
+                                            <i className="fa fa-male"
+                                               aria-hidden="true"/> {item.gender}<br></br>
+                                            <i className="fa fa-briefcase"
+                                               aria-hidden="true"/> {item.job}
+                                        </span>
+
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 ) : (<h5 style={{
                     textAlign: "center",
                     fontStyle: "italic"
