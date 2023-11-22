@@ -22,26 +22,39 @@ function ListFriend() {
   const [idLogin,setIdLogin] = useState(null);
   const [usernameGift,setUsernameGift] = useState(null);
   const [userNameLogin,setUserNameLogin] = useState(null);
+  const [limit,setLimit] = useState(4);
+  const [loading, setLoading] = useState(false);
 
   const [showModaQuyNP, setShowModalQuyNP] = useState(false);
+  const [limitTotal,setLimitTotal] = useState(0);
   const handleModal = async (value) => {
     setUsernameGift(value);
     console.log("hi");
     setShowModalQuyNP(true);
   };
-  console.log("usernameGift" +usernameGift);
-  console.log("username: " +userNameLogin);
 
+  const handleScroll = () => {
+    setLimit(limit + 4);
+  }
+
+  useEffect(() => {
+    getIdLogin()
+    getListFriend();
+    getUsername();
+  },[idLogin,limit])
   const closeModal = async () => {
     setShowModalQuyNP(false);
   };
 
 
   const getListFriend = async () => {
-    if (idLogin !== null) {
-      setListFriend(await getList(idLogin,nameSearch))
-    } else{
-      setListFriend(null)
+    if (idLogin !== null){
+      const res = await getList(idLogin,nameSearch,limit);
+      console.log(res);
+      setListFriend(res[0]);
+      setLimitTotal(res[1]);
+    }else {
+      setListFriend(null);
     }
   }
   const getUsername = async () => {
@@ -146,17 +159,11 @@ function ListFriend() {
       return "🏳️‍🌈";
     }
   }
-  console.log(nameSearch);
 
   const goToPersonalPage =  (id) => {
      navigate(`/personal-page/${id}`);
   }
 
-  useEffect(() => {
-    getIdLogin()
-    getListFriend();
-    getUsername();
-  },[idLogin])
   return (  
     <>
       <div >
@@ -227,6 +234,15 @@ function ListFriend() {
         </div> : <div className="iconThienPT">
           <h1>Không có dữ liệu để hiển thị</h1>
         </div>}
+        {limitTotal > limit &&
+            <div style={{display:'flex',justifyContent:'center'}}>
+              <button className="btn" style={{ color: 'black', padding: '1rem', borderRadius: 20, background: 'radial-gradient(circle, rgba(208,162,247,1) 0%, rgb(216,175,231) 0%, rgba(241,234,255,1) 0%, rgb(227,206,251) 91%, rgba(229,212,255,1) 100%, rgba(183,132,213,1) 100%, rgba(163,106,203,1) 100%)' }}
+                      onClick={handleScroll}
+              >
+                Xem thêm </button>
+            </div>
+        }
+
       </div>
 
 

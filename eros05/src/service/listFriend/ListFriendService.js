@@ -1,8 +1,11 @@
 import axios from "axios";
 
-export const getList = async (idLogin,name) => {
+export const getList = async (idLogin,name,limit) => {
     try {
-        return (await axios.get(`http://localhost:8080/api/public/friend?idLogin=${idLogin}&name=${name}`)).data
+        const res = (await axios.get(`http://localhost:8080/api/public/friend?idLogin=${idLogin}&name=${name}&limit=${limit}`))
+        console.log(res)
+        const  totalLimit = res.data.totalElements
+        return [res.data.content,totalLimit];
     } catch (error) {
         console.log(error);
     }
