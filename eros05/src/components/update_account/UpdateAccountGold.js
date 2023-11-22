@@ -18,7 +18,6 @@ import moment from "moment/moment";
 import Swal from "sweetalert2";
 import {registrationDate} from "../../service/update_account/packageDetailService";
 import * as AlertModal from "./AlertModal";
-import {handlePackage} from "./AlertModal";
 import {calculateDate} from "./CaculateDate";
 
 export function UpdateAccountGold() {
@@ -51,14 +50,6 @@ export function UpdateAccountGold() {
         console.log(dataAccountType)
         setNameAccount(dataAccountType[0].name);
         console.log(nameAccount)
-    }
-
-    useEffect(() => {
-        getAllPackageAccount()
-    }, []);
-    const getAllPackageAccount = async () => {
-        let data = await packageTypesService.getAllPackageAccount();
-        setPackageAccount(data);
     }
 
     useEffect(() => {
@@ -138,6 +129,21 @@ export function UpdateAccountGold() {
         }
     }
 
+    const handlePackage = async (namePackageAccount, nameAccount) => {
+        if (namePackageAccount !== nameAccount && namePackageAccount !== "Member"){
+            Swal.fire({
+                title: "Thông báo thay đổi thứ hạng",
+                text: `Hiện tại thứ hạng của bạn đang là ${namePackageAccount}, nếu bạn mua gói ${nameAccount} thì thứ hạng sẽ bị thay đổi. Thay vào đó nếu bạn thanh toán gói này chúng tôi sẽ hoàn lại kim cương dựa vào số ngày còn lại của gói cũ`,
+                icon: "warning",
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                // confirmButtonText: "Tôi đã hiểu"
+                confirmButtonText: 'OK',
+            })
+            setComfirmChange(true)
+        }
+    }
+
     return (
         <div className="updateaccout-row updateaccount-body" style={{display: "flex"}}>
             <HeaderUpdateAccount/>
@@ -163,46 +169,22 @@ export function UpdateAccountGold() {
                         </li>
                         <li>
                             <i className="fa-solid fa-check"></i>
-                            Tặng quà cho người bạn thích
+                            Thêm kim cương quà cho người bạn thích
                         </li>
                     </ul>
                 </div>
 
-                <div className="updateaccount-card-center-content">
+                <div className="updateaccount-card-center-content" style={{minHeight: "115px"}}>
                     <p className="title ">Nâng cấp trải nghiệm của bạn</p>
                     <ul>
                         <li>
-                            <i className="fa-solid fa-check"></i>
-                            Mở khóa chức năng gợi ý kết bạn
-                        </li>
-                        <li>
                             <i className="fa-solid fa-lock"></i>
-                            Mở khóa tìm kiếm nâng cao
-                            <p>
-                                <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
-                                Cho phép bạn tìm kiếm theo ý thích
-                            </p>
+                            Mở khóa chức năng gợi ý kết bạn
                         </li>
                     </ul>
                 </div>
 
-                <div className="updateaccount-card-center-content" style={{margin: "0 0 8% 0"}}>
-                    <p className="title ">Nắm quyền kiểm soát</p>
-                    <ul>
-                        <li>
-                            <i className="fa-solid fa-lock"></i>
-                            Kiểm soát hồ sơ của bạn
-                            <p>
-                                <i style={{color: "transparent"}} className="fa-solid fa-check"></i>
-                                Chỉ hiện những gì bạn muốn họ biết
-                            </p>
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-lock"></i>
-                            Kiểm soát việc bạn nhìn thấy ai
-                        </li>
-                    </ul>
-                </div>
+
             </div>
 
             <div className="col-xs-12 col-3 col-md-12 col-lg-3">
@@ -228,8 +210,7 @@ export function UpdateAccountGold() {
                     ))}
 
                     <div className="updateaccount-radio-input-pay"
-                         onClick={(event) => handlePackage(packageAccount[0].name, nameAccount)}
-                         onChange={() => setComfirmChange(true)}>
+                         onClick={(event) => handlePackage(packageAccount[0].name, nameAccount)}>
                         <input onChange={(values) => setPayEros(values.target.value)} value="vnpay"
                                name="value-radio-pay"
                                id="value-4" type="radio"/>
