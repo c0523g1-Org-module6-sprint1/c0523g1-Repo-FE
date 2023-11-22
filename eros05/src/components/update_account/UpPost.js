@@ -10,8 +10,13 @@ import {getPrivacyPost} from "../../service/posts/PostService";
 import moment from "moment/moment";
 import "./css/upPost.css"
 import * as Yup from "yup";
+import {imagePostDb} from "../posts/firebase/ConfigFireBasePost";
+import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
+import {v4} from "uuid";
+import {load} from "./Pay";
 
-export function Test() {
+
+export function UpPost() {
     const [formData, setFormData] = useState("");
     const [contents, setContents] = useState("");
     const [image, setImage] = useState("");
@@ -20,6 +25,7 @@ export function Test() {
     const accessToken = localStorage.getItem('accessToken')
     const [user, setUser] = useState();
     const [privacyPostList, setPrivacyPostList] = useState();
+    const [imgToFirebase, setImgToFirebase] = useState("");
     const currentDate = moment().format('YYYY-MM-DD');
 
     const fetchDataPrivacyPost = async () => {
@@ -32,9 +38,9 @@ export function Test() {
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
+        setImgToFirebase(file);
         const imagePath = URL.createObjectURL(file);
         setImage(imagePath);
-        console.log(image)
         const upload = document.getElementById('upload');
         const preview = document.getElementById('preview');
         upload.addEventListener('mouseout', function () {
@@ -45,12 +51,13 @@ export function Test() {
             };
             reader.readAsDataURL(file);
         });
+        setImg(image)
+
     }
 
     const clickHandle = () => {
-        let data = formData;
-        setContents(data);
-        setImg(image)
+
+
     }
 
     function upPostSucces() {
@@ -68,32 +75,29 @@ export function Test() {
         privacyPostId: 1
     }
 
-    function CurrentTime() {
-        const currentTime = moment();
-        const currentYear = currentTime.format('YYYY');
-        const currentMonth = currentTime.format('MM');
-        const currentDay = currentTime.format('DD');
-        const currentHour = currentTime.format('HH');
-        const currentMinute = currentTime.format('mm');
-        const currentSecond = currentTime.format('ss');
-        return `${currentYear}-${currentMonth}-${currentDay} ${currentHour}:${currentMinute}:${currentSecond}`
-    }
-
     const upPost = async (values) => {
+        if (imgToFirebase !== ""){
+            const imgFireBase = await uploadImageToFirebase(imgToFirebase);
+            values.image = imgFireBase;
+        }
+
+        console.log(formData)
+        if(formData !== ""){
+            values.content = formData;
+        }
         values.accountId = user.id;
-        values.content = contents;
-        values.image = img;
         values.privacyPostId = +values.privacyPostId;
         console.log("privacyPost " + typeof values.privacyPostId)
         console.log("account id " + typeof values.accountId)
         console.log("content " + typeof values.content);
-        console.log("image " +typeof values.image);
+        console.log("image " + values.image);
         console.log(values)
         let status = await accountTypesService.upPost(values);
         console.log(status)
         if (status === 201) {
             toast.success("Thêm mới thành công");
             upPostSucces();
+            load()
         } else {
             toast.error("Thêm mới thất bại");
         }
@@ -109,7 +113,20 @@ export function Test() {
         ),
     };
 
+    const resestButton = async () => {
+        await setImg("");
+        await setImage("");
+        await setImgToFirebase("");
+    }
 
+
+    const uploadImageToFirebase = async (image) => {
+        console.log(image)
+        const imgRef = ref(imagePostDb, `files/${v4()}`);
+        const snapshot = await uploadBytes(imgRef, image);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        return downloadURL
+    };
 
 
     useEffect(() => {
@@ -143,7 +160,7 @@ export function Test() {
 
     return (
         <div>
-            <div style={{display: "flex", margin: "12% 0 0 0"}}>
+            <div style={{display: "flex", margin: "-10% 0px 15px 21%", width: "55%"}}>
                 <div
                     style={{
                         backgroundImage:
@@ -164,17 +181,9 @@ export function Test() {
                     data-bs-target="#exampleModal"
                     style={{width: "100%"}}
                 >
-                    Lisa ơi, bạn đang nghĩ gì ?
+                    Hôm nay bạn cảm thấy thế nào ?
                 </button>
             </div>
-
-
-            <br/><h1>Đây là nội dung</h1>
-            <div className="preview"
-                 dangerouslySetInnerHTML={{__html: contents}}
-            />
-            <img style={{width: "300px"}} src={img}/>
-
 
             <div
                 className="modal fade"
@@ -200,7 +209,7 @@ export function Test() {
                         <Formik
                             initialValues={innitValue}
                             onSubmit={(value) => upPost(value)}
-                            >
+                        >
                             <Form>
                                 <div className="modal-body">
                                     <div className="row" style={{display: "flex"}}>
@@ -232,29 +241,64 @@ export function Test() {
                                     </div>
                                     <ReactQuill
                                         name="content"
-                                        style={{margin: "5% 0", width: "106%",
-                                            marginLeft: "-15px"}}
+                                        style={{
+                                            margin: "5% 0", width: "106%",
+                                            marginLeft: "-15px"
+                                        }}
                                         theme="snow" value={formData}
                                         onChange={setFormData}/>
 
-                                    <button className="button-uppost">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none" className="svg-icon"><g stroke-width="2" stroke-linecap="round" stroke="#fff" fill-rule="evenodd" clip-rule="evenodd"><path d="m4 9c0-1.10457.89543-2 2-2h2l.44721-.89443c.33879-.67757 1.03131-1.10557 1.78889-1.10557h3.5278c.7576 0 1.4501.428 1.7889 1.10557l.4472.89443h2c1.1046 0 2 .89543 2 2v8c0 1.1046-.8954 2-2 2h-12c-1.10457 0-2-.8954-2-2z"></path><path d="m15 13c0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3 3 1.3431 3 3z"></path></g></svg>
-                                        <span className="lable-uppost">Tải ảnh lên</span>
-                                        <input style={{opacity:"0", position:"absolute", cursor:"pointer"}} type="file" onChange={handleImageChange} id="upload" accept="image/*"/>
-                                    </button>
+
+
+                                    <div style={{display:"flex"}}>
+                                        <button type="button" className="button-uppost">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
+                                                 height="24" fill="none" className="svg-icon">
+                                                <g stroke-width="2" stroke-linecap="round" stroke="#fff" fill-rule="evenodd"
+                                                   clip-rule="evenodd">
+                                                    <path
+                                                        d="m4 9c0-1.10457.89543-2 2-2h2l.44721-.89443c.33879-.67757 1.03131-1.10557 1.78889-1.10557h3.5278c.7576 0 1.4501.428 1.7889 1.10557l.4472.89443h2c1.1046 0 2 .89543 2 2v8c0 1.1046-.8954 2-2 2h-12c-1.10457 0-2-.8954-2-2z"></path>
+                                                    <path
+                                                        d="m15 13c0 1.6569-1.3431 3-3 3s-3-1.3431-3-3 1.3431-3 3-3 3 1.3431 3 3z"></path>
+                                                </g>
+                                            </svg>
+                                            <span className="lable-uppost">Tải ảnh lên</span>
+                                            <input style={{opacity: "0", position: "absolute", cursor: "pointer"}}
+                                                   type="file" onChange={handleImageChange}
+                                                   id="upload"
+                                                   accept="image/*"/>
+                                        </button>
+
+                                        <button type="button" style={{marginLeft: "27%",background:"tomato"}} className="button-uppost" onClick={async () => {
+                                            await resestButton()
+                                            await uploadImageToFirebase("")
+                                            await setImgToFirebase("");
+                                            await setImage("");
+                                            await setImg("");
+                                        }}>
+                                            <span className="lable-uppost">Xóa ảnh</span>
+                                        </button>
+                                    </div>
+
 
                                     <img className="img-review" style={{width: "300px"}} id="preview" src={image}/>
                                     <br/>
                                     {formData !== "" || image !== "" ? (
                                         <button
-                                                data-bs-dismiss="modal"
-                                                  style={{margin: "3% 0 0 0"}} onClick={clickHandle} type="submit" className="btn-close uppost-pushable">
+                                            data-bs-dismiss="modal"
+                                            style={{margin: "3% 0 0 0"}}
+                                            type="submit" className="btn-close uppost-pushable">
                                             <span className="shadow"/>
                                             <span className="uppost-edge"/>
                                             <span className="uppost-front">Đăng</span>
                                         </button>
                                     ) : (
-                                        <button style={{margin: "3% 0 17px 0", cursor: "no-drop", outline: "none", pointerEvents: "none"}} disabled type="button"
+                                        <button style={{
+                                            margin: "3% 0 17px 0",
+                                            cursor: "no-drop",
+                                            outline: "none",
+                                            pointerEvents: "none"
+                                        }} disabled type="button"
                                                 className="uppost-pushable">
                                             <span className="shadow"/>
                                             <span className="uppost-edge"/>

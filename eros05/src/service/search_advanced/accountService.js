@@ -4,7 +4,9 @@ const URL_SEARCH = "http://localhost:8080/api/public/search_advanced/"
 const URL_GENDER = "http://localhost:8080/api/public/genders"
 const URL_JOB = "http://localhost:8080/api/public/jobs"
 const URL_HOBBY = "http://localhost:8080/api/public/hobby"
-const URL_API = "https://provinces.open-api.vn/api/"
+const URL_LOCATION = "http://localhost:8080/api/public/locations"
+// const URL_API= "https://provinces.open-api.vn/api/"
+
 
 export const searchAdvanced = async (data) => {
         const res = await axios.post(URL_SEARCH, data)
@@ -16,9 +18,10 @@ export const displayGender = async () => {
         const res = await axios.get(URL_GENDER)
         return res.data;
     } catch (e) {
-        alert("fail")
+        alert("loi")
     }
 }
+
 
 export const displayJob = async () => {
     try {
@@ -34,17 +37,17 @@ export const displayHobby = async () => {
         const res = await axios.get(URL_HOBBY)
         return res.data;
     } catch (e) {
-        alert("fail")
+        alert("loi server")
     }
 }
 
 
 export const location = async () => {
     try {
-        const res = await axios.get(URL_API)
+        const res = await axios.get(URL_LOCATION)
         return res.data;
         console.log(res.data)
     } catch (e) {
-        alert("fail")
+        alert("loi location")
     }
 }

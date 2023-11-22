@@ -1,9 +1,21 @@
 import axios from "axios";
 
-export async function getAll () {
+const URL = "http://localhost:8080/api/public/comment"
+
+export async function getAllCommentsService() {
+    const res = await axios.get(URL)
+    console.log(res)
+    return res.data;
+}
+
+export async function createCommentService(data) {
     try {
-        const res = await  axios.get("http://localhost:8080/api/comment")
+    return  await axios.post(URL,data);
     }catch (e) {
         alert("Error Service")
     }
+}
+
+export async function deleteCommentService(id){
+    return await axios.delete(URL + `/${id}`)
 }

@@ -8,6 +8,15 @@ export const getListNewsfeed = async (loggedInAccountId) => {
     }
 }
 
+export const getListForAdmin = async () => {
+    try {
+        const respone = await axios.get("http://localhost:8080/api/public/post/admin");
+        return respone.data; 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getPostById = async (id) => {
     try {
         const respone = await axios.get("http://localhost:8080/api/public/newsfeed/post/" + id);
@@ -45,6 +54,39 @@ export const getListOfAnAccount = async (accountId) => {
         console.log(error);
     }
 }
+
+export const checkIsFriend = async (accountId1,accountId2) => {
+    try {
+        const respone = await axios.get(`http://localhost:8080/api/public/post/isFriend?accountId1=${accountId1}&accountId2=${accountId2}`);
+        console.log(respone.data);
+        return respone.data; 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getListForFriend = async (accountId) => {
+    try {
+        const respone = await axios.get("http://localhost:8080/api/public/post/friend/" + accountId);
+        console.log(respone.data);
+        return respone.data; 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getListForStranger = async (accountId) => {
+    try {
+        const respone = await axios.get("http://localhost:8080/api/public/post/stranger/" + accountId);
+        console.log(respone.data);
+        return respone.data; 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
 
 
 

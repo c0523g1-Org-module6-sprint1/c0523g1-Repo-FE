@@ -1,36 +1,56 @@
 import React, { useEffect, useState } from "react";
 import "./post.css";
-import { getListNewsfeed } from "../../service/posts/PostService";
+import {
+  getListNewsfeed,
+  getListForAdmin,
+} from "../../service/posts/PostService";
+import CommentBox from "../comments/CommentBox";
 import EditPost from "./EditPost";
-import { getIdByJwt, getRoleByJwt,getUsernameByJwt } from "../../service/login/securityService";
+import {
+  getIdByJwt,
+  getRoleByJwt,
+  getUsernameByJwt,
+} from "../../service/login/securityService";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import Gift from "../gift/Gift";
-
+import  UpPost from "../update_account/UpPost";
 
 export default function Post() {
   const [listNewsfeed, setListNewsfeed] = useState();
   const [showModal, setShowModal] = useState();
   const [postUpdate, setPostUpdate] = useState();
   const idLogin = getIdByJwt();
-  const userName = getUsernameByJwt();
-  console.log("ID login:" + idLogin);
-  const role = getRoleByJwt();
-  console.log("Role đang đăng nhập:" + role);
-
+  const userNameNow = getUsernameByJwt();
+  const [userNameGift, setUserNameGift] = useState(null);
   const [showModaQuyNP, setShowModalQuyNP] = useState(false);
-  const handleModal = async () => {
+
+  const handleModal = async (value) => {
     console.log("hi");
+    setUserNameGift(value);
     setShowModalQuyNP(true);
   };
 
   const closeModal = async () => {
     setShowModalQuyNP(false);
   };
+  
+  console.log("ID login:" + idLogin);
+  const role = getRoleByJwt();
+  console.log("Role đang đăng nhập:" + role);
+
+
+    
+
 
   const fetchDataListNewsfeed = async () => {
-    const listNewsfeed = await getListNewsfeed(idLogin);
-    setListNewsfeed(listNewsfeed);
+    if (role == "ADMIN") {
+      const listNewsfeed = await getListForAdmin();
+      setListNewsfeed(listNewsfeed);
+    } else {
+      const listNewsfeed = await getListNewsfeed(idLogin);
+      setListNewsfeed(listNewsfeed);
+    }
   };
 
   useEffect(() => {
@@ -66,6 +86,7 @@ export default function Post() {
         className="container-fluid my-post"
         style={{ marginTop: "150px", position: "relative", paddingTop: "70px" }}
       >
+        <UpPost/>
         {listNewsfeed.map((item) => {
           return (
             <div className="row" key={item.id} style={{ marginBottom: "50px" }}>
@@ -117,11 +138,10 @@ export default function Post() {
                                 <i className="fa fa-edit" />
                               </button>
                             )}
-                            {
-                            ((role === "ADMIN" ||idLogin === item.account.id) &&
-                            (
-                            <i className="fa fa-times close-icon" />
-                            ))}
+                            {(role === "ADMIN" ||
+                              idLogin === item.account.id) && (
+                              <i className="fa fa-times close-icon" />
+                            )}
                           </div>
                         </div>
                         <div style={{ width: "100%" }} className="media-body">
@@ -144,19 +164,20 @@ export default function Post() {
                           <div className="action-btn">
                             <i className="fa-regular fa-comment"></i> Bình luận
                           </div>
-                          <div className="action-btn">
+                          <div className="action-btn"  onClick={() => handleModal(item.account.userName)}>
                             <button
-                       onClick={handleModal}
+                              onClick={handleModal}
                               style={{
                                 border: "none",
                                 backgroundColor: "white",
                               }}
                             >
                               <i className="fa-solid fa-gift"></i> Tặng quà
-                              <Gift showModaQuyNP={showModaQuyNP} userNow = {userName} userGift = {item.account.userName} handleClose={closeModal} />
+                             
                             </button>
                           </div>
                         </div>
+                        <CommentBox postId = {item.id}/>
                       </div>
                     </div>
                   </div>
@@ -167,12 +188,17 @@ export default function Post() {
           );
         })}
       </div>
+      <Gift
+        showModaQuyNP={showModaQuyNP}
+        handleClose={closeModal}
+        userNow={userNameNow}
+        userGift={userNameGift}
+      />
       <EditPost
         showModal={showModal}
         handleHideModal={handleHideModal}
         postUpdate={postUpdate}
       />
     </div>
-    
   );
 }
