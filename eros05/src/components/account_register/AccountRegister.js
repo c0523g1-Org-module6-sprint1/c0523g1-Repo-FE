@@ -5,7 +5,6 @@ import {toast} from "react-toastify";
 import "../account_register/AccountRegister.css";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import React, {useEffect, useState} from "react";
-import Login from "../login/Login";
 
 export function Register() {
     const navigate = useNavigate();
@@ -62,7 +61,7 @@ export function Register() {
 
     const validationSchema = {
         userName: Yup.string()
-            .required("Không được để trống tên tài khoản !")
+            .required("Không được để trống tên đăng nhập !")
             // .test('check-userName', 'Không để trống tên tài khoản !', (value) => value.trim().length !== 0)
             .min(6, "Tên đăng nhập phải lớn hơn hoặc bằng 6 kí tự !")
             .max(100, "Tên đăng nhập phải ít hơn hoặc bằng 100 kí tự"),
@@ -78,6 +77,16 @@ export function Register() {
             .max(100, "Xác nhận mật khẩu phải ít hơn hoặc bằng 100 kí tự !")
             .oneOf([Yup.ref('password'), null], "Mật khẩu không trùng khớp !"),
         birthday: Yup.date()
+            // .test(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18),"Vui lòng phải đủ 18 tuổi !")
+            .test(
+                "birthday",
+                "Vui lòng phải đủ 18 tuổi!",
+                function (value) {
+                    const cutoffDate = new Date();
+                    cutoffDate.setFullYear(cutoffDate.getFullYear() - 18);
+                    return new Date(value) <= cutoffDate;
+                }
+            )
             .required("Không được để trống ngày sinh !")
             .max(new Date(), "Vui lòng nhập trước ngày hiện tại"),
         // .min(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18), "Vui lòng phải đủ 18 tuổi !"),
@@ -248,7 +257,7 @@ export function Register() {
             className="form-control"
             id="rule"
             defaultValue={
-                "C05Cupid cung cấp dịch vụ theo điều khoản dịch vụ này. truy cập hoặc đăng ký tài khoản trong hệ thống của chúng tôi bằng bất kỳ cách nào có nghĩa là bạn đồng ý và cam kết tuân thủ nghiêm ngặt điều khoản dịch vụ này. chúng tôi có quyền sửa đổi nội dung của điều khoản dịch vụ theo quyết định riêng của mình mà không cần thông báo trước cho người dùng.\n                "
+                "Eros05 cung cấp dịch vụ theo điều khoản dịch vụ này. truy cập hoặc đăng ký tài khoản trong hệ thống của chúng tôi bằng bất kỳ cách nào có nghĩa là bạn đồng ý và cam kết tuân thủ nghiêm ngặt điều khoản dịch vụ này. chúng tôi có quyền sửa đổi nội dung của điều khoản dịch vụ theo quyết định riêng của mình mà không cần thông báo trước cho người dùng.\n                "
             }
         />
                             </div>

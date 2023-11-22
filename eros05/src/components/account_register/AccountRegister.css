@@ -20,7 +20,7 @@
     /*background-image: linear-gradient(to right, #d8afe7, #ca86ef)*/
     background:  radial-gradient(circle, rgba(208,162,247,1) 0%, rgba(216,175,231,1) 0%, rgba(241,234,255,1) 0%, rgba(227,206,251,1) 91%, rgba(229,212,255,1) 100%, rgba(183,132,213,1) 100%, rgba(163,106,203,1) 100%);
     position: relative;
-    top: 20px;
+    top: 40px;
     bottom: 40px;
 }
 
@@ -33,7 +33,9 @@
     position: relative;
     top: 20px;
 }
+.sang_checkbox{
 
+}
 .sang_form {
     height: auto;
 }
