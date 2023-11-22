@@ -38,7 +38,10 @@ div .top{
     margin: 0 13%;
     font-family: Nunito Sans, sans-serif;
 }
+p{
+    font-family: Nunito Sans, sans-serif;
 
+}
 /*h1{*/
 /*    border: 1px solid;*/
 /*    font-family: cursive;*/
@@ -144,6 +147,19 @@ div .top{
     background-size: 200px;
 
 
+}
+.point{
+    margin-top: -15% !important;
+    font-style: Italic !important;
+    /*font-family: Nutitosan;*/
+}
+
+.top-crown{
+    width: 20%;
+}
+.personal-page{
+    cursor: pointer;
+    font-weight: bold;
 }
 
 

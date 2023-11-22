@@ -7,6 +7,7 @@ import "../searchAdvanced/searchAdvanced.css"
 import "../searchNamePage/SearchPage.css"
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {toast} from "react-toastify";
+import button from "bootstrap/js/src/button";
 
 function SearchAdvanced() {
 
@@ -15,7 +16,8 @@ function SearchAdvanced() {
     const [jobType, setJobType] = useState([]);
     const [locationType, setLocationType] = useState([]);
     const [hobbyType, setHobbyType] = useState([]);
-    const [found, setFound] = useState(false)
+    const [found, setFound] = useState(false);
+
 
 
     console.log(locationType)
@@ -23,17 +25,16 @@ function SearchAdvanced() {
 
     const {name} = useParams();
 
-    const goRegisterPage = () => {
-        navigate(`register`);
+    const goLoginPage = () => {
+        toast.info("Vui lòng đăng nhập hoặc đăng kí để sử dụng dịch vụ này.")
+        navigate(`/login`);
     }
-    const goSearchAdvanced = () => {
-        navigate(`search_advanced`);
-    }
+
     const goAddFriendPage = () => {
         navigate(`invited_recommend_friend/InvitedList`)
     }
     const goPersonalPage = (id) => {
-        navigate(`personal-page/${id}`)
+        navigate(`/personal-page/${id}`)
     }
 
     const currentRole = getRoleByJwt();
@@ -41,8 +42,11 @@ function SearchAdvanced() {
     const searchByAdvanced = async (value) => {
         console.log(value)
         const res = await accountService.searchAdvanced(value);
-        console.log(res)
-        setAccount(res.data)
+        if (res.status === 200){
+            setAccount(res.data)
+        }else {
+            setFound(true)
+        }
         console.log(account)
     };
 
@@ -71,40 +75,43 @@ function SearchAdvanced() {
 
     const initValue = {
         name: "",
-        birthdayFrom: "",
-        birthdayEnd: "",
-        gender: "",
-        job: "",
+        birthdayFrom: 20,
+        birthdayEnd: 100,
+        gender: 4,
+        job: 11,
         location: "",
-        hobby: "",
+        hobby: 11,
     }
 
     const validateObject = {
-        name: Yup.string()
-            .required("Không được để trống")
-            .max(30, "Vui lòng không nhập quá 30 kí tự"),
-        birthdayFrom: Yup.string()
-            .required("Không được để trống!"),
-        birthdayEnd: Yup.string()
-            .required("Không được để trống!"),
+        // name: Yup.string()
+        //     // .required("Không được để trống!")
+        //     .max(30, "Vui lòng không nhập quá 30 kí tự")
+        //     .matches(/^[^\d]*$/, 'Không được nhập số!'),
+
+        // birthdayFrom: Yup.string()
+        //     .required("Không được để trống!"),
+        // birthdayEnd: Yup.string()
+        //     .required("Không được để trống!"),
         // .max(new Date(), "Vui lòng nhập trước ngày hiện tại")
         // .min(new Date(birthday) <= new Date().setFullYear(new Date().getFullYear() - 18), "Vui lòng phải đủ 18 tuổi !"),
-        gender: Yup.string()
-            .required("Không được để trống!"),
-        job: Yup.string()
-            .required("Không được để trống!"),
+        // gender: Yup.string()
+        //     .required("Không được để trống!"),
+        // job: Yup.string()
+        //     .required("Không được để trống!"),
         location: Yup.string()
             .required("Không được để trống!"),
-        hobby: Yup.string()
-            .required("Không được để trống!"),
+        // hobby: Yup.string()
+        //     .required("Không được để trống!"),
     }
 
     return (
         <>
-            {account.length == 0 ?
+            {found === false ?
                 <div>
                     <Formik initialValues={initValue}
                             onSubmit={(values) => {
+                                setFound(true)
                                 searchByAdvanced(values)
                             }}
                             validationSchema={Yup.object(validateObject)}
@@ -202,7 +209,8 @@ function SearchAdvanced() {
                                           width: "30%",
                                           borderBottomLeftRadius: "20px",
                                           borderTopLeftRadius: "20px"
-                                      }}>Nơi sống</span>
+                                      }}>Nơi sống<span
+                                    style={{color: "red"}}>*</span></span>
                                         <Field as="select" id="location" name="location" className="form-select"
                                                style={{
                                                    height: "40px",
@@ -264,8 +272,7 @@ function SearchAdvanced() {
                                     <ErrorMessage name="hobby" component="span"
                                                   style={{color: "red", marginRight: "62px"}}></ErrorMessage>
                                     <div className="d-flex justify-content-center">
-                                        {!currentRole ?
-                                            <Link to="/">
+                                            <Link to="/public/search-name/:">
                                                 <button className="btn btn-secondary border-0 py-2"
                                                         style={{
                                                             backgroundColor: "#ccd2d3",
@@ -275,23 +282,15 @@ function SearchAdvanced() {
                                                         }} type="submit">Huỷ
                                                 </button>
                                             </Link>
-                                            :
-                                            <Link to="/newsfeed">
-                                                <button className="btn btn-secondary border-0 py-2"
-                                                        style={{
-                                                            backgroundColor: "#ccd2d3",
-                                                            borderRadius: "20px",
-                                                            width: "200px",
-                                                            marginLeft: "10px"
-                                                        }} type="submit">Huỷ
-                                                </button>
-                                            </Link>}
                                         <button className="btn btn-secondary border-0 py-2"
                                                 style={{
                                                     backgroundColor: "#a36acb",
                                                     borderRadius: "20px",
                                                     width: "200px"
                                                 }}
+                                                // onClick={() => {
+                                                //     setFound(true)
+
                                                 type="submit">Xác Nhận
                                         </button>
                                     </div>
@@ -303,8 +302,8 @@ function SearchAdvanced() {
                 :
 
                 <div className='search-page-container'>
-                    <h1 style={{fontSize: "300%"}}>Kết quả tìm kiếm</h1>
-                    {/*{!currentRole ?*/}
+                    <h2 style={{fontSize: "300%", marginTop: "100px", textAlign: "center", fontFamily: "Agbalumo"}}>Kết
+                        quả tìm kiếm</h2>
                     <div className='container'>
                         {account.length > 0 ? (
                             <div className="list-cards">
@@ -318,12 +317,21 @@ function SearchAdvanced() {
                                                          alt=""/>
                                                 </div>
                                                 <p className="user-name">{item.name}</p>
-                                                <p className="text">
+                                                {currentRole ?
+                                                    <p className="text">
                                                     <button className="btn btn-secondary border-0 py-2"
-                                                            type="submit" onClick={goRegisterPage}
+                                                            type="submit" onClick={() => goPersonalPage(item.id)}
                                                             style={{marginTop: "50px"}}>Xem trang cá nhân
                                                     </button>
                                                 </p>
+                                                    :
+                                                    <p className="text">
+                                                        <button className="btn btn-secondary border-0 py-2"
+                                                                type="submit" onClick={goLoginPage}
+                                                                style={{marginTop: "50px"}}>Xem trang cá nhân
+                                                        </button>
+                                                    </p>
+                                                }
                                                 <span>Sống tại: {item.location}<br>
                                                     </br>Nghề nghiệp: {item.job}</span>
                                             </div>
@@ -331,12 +339,36 @@ function SearchAdvanced() {
                                     })
                                 }
                             </div>
-                        ) : (<span style={{color: "#b2b2b2", textAlign: "center"}}>Không có kết quả</span>)}
+                        ) : (<div style={{alignItems:"center",display:"flex"}}>
+                            <p style={{
+                                color: "#b2b2b2",
+                                textAlign: "center",
+                                fontSize: "150%",
+                                marginTop: "30px",
+                                marginLeft:"550px"
+                            }}>Không có kết quả</p>
+                            <button className="btn btn-secondary border-0 py-2"
+                                    style={{
+                                        backgroundColor: "#a36acb",
+                                        borderRadius: "20px",
+                                        width: "100px",
+                                        float:'right',
+                                        marginLeft:"20px",
+                                        marginTop:"12px"
+                                    }}
+                                    onClick={() => {
+                                        setFound(false)
+                                    }}>Quay lại
+                            </button>
+                        </div>)}
                     </div>
+
                 </div>
+
             }
         </>
     )
 }
 
 export default SearchAdvanced
+

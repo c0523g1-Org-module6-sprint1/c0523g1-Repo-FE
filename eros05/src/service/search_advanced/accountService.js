@@ -9,6 +9,7 @@ const URL_LOCATION = "http://localhost:8080/api/public/locations"
 
 
 export const searchAdvanced = async (data) => {
+
         const res = await axios.post(URL_SEARCH, data)
         return res;
 }
