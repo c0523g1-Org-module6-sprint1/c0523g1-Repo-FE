@@ -2,10 +2,11 @@
 import "./check.css"
 import "./management.css"
 import {Link} from "react-router-dom";
-import {DeleteAccount} from "./DeleteAccount";
+import {LockAccount} from "./LockAccount";
 import {getAll, getAllType} from "../../service/accountAdmin/AdminAccountService";
 import axios from "axios";
 import {useEffect, useState} from "react";
+import {UnlockAccount} from "./UnlockAccount";
 
 
 export function ListAccount() {
@@ -25,19 +26,35 @@ export function ListAccount() {
     const [selectAccount, setSelectAccount] = useState([])
 
 
+    const [statusUnlock, setStatusUnlock] = useState(false);
+    const [selectUnlock, setSelectUnlock] = useState(null)
+
+
+    const handleShowUnlock = (value) => {
+        setStatusUnlock(true)
+        setSelectUnlock(value)
+    }
+    const closeModalUnlock = () => {
+        display()
+        setStatusUnlock(false)
+        setSelectUnlock(null)
+
+    }
+
+
     const handleShowModal = () => {
         setStatus(true)
     }
     const closeModal = () => {
         setStatus(false)
-        setSelectAccount(null)
-
+        setSelectAccount([])
+        display()
     }
 
     useEffect(() => {
         display()
         displayTypeAccount()
-    }, [username, searchType, page]);
+    }, [username, searchType, page, status]);
 
 
     const displayTypeAccount = async () => {
@@ -91,8 +108,9 @@ export function ListAccount() {
             setPage((prev) => prev - 1)
         }
     }
-    const handleSelectAccount = (accountId) => {
 
+
+    const handleSelectAccount = (accountId) => {
         if (selectAccount.includes(accountId)) {
             setSelectAccount(selectAccount.filter((id) => id !== accountId));
         } else {
@@ -102,7 +120,6 @@ export function ListAccount() {
 
 
     return (
-
         <>
             <div id="trivn-bd-mana">
                 <div className="container-fluid px-5 my-5">
@@ -117,61 +134,73 @@ export function ListAccount() {
                                }}/>
                     </div>
                     <div className="d-flex align-items-center">
-                        <div className="row mt-2" style={{width: "100%"}}>
-                            <div className="col-lg-6">
-                                <div>
-                                    <div className="col-md-2">
-                                        <select onChange={(event) => {
-                                            console.log(event.target.value)
+                        <div className="col-lg-8">
+                            <div className="d-flex align-items-center">
+                                <div className="form-check form-check-inline">
+                                    <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="searchType"
+                                        id="all"
+                                        value=""
+                                        onChange={(event) => {
                                             setSearchType(event.target.value);
-                                        }} className="bg-light text-dark"
-                                                style={{borderRadius: "15px", textAlign: "center"}}>
-                                            <option value=''>Loại Thành Viên</option>
-                                            {
-                                                typeAccount.map((typeAccount) => (
-                                                    <option key={typeAccount.id}
-                                                            value={typeAccount.id}>{typeAccount.name}</option>
-                                                ))
-                                            }
-                                            <option></option>
-                                        </select>
-                                    </div>
-
+                                        }}
+                                        checked={searchType === ""}
+                                    />
+                                    <label className="form-check-label" htmlFor="all">
+                                        Loại Thành Viên
+                                    </label>
                                 </div>
-                            </div>
-                            <div className="col-lg-6">
-
-                                <div className="ms-auto">
-                                    <div style={{float: "right"}}>
-                                        <button id="trivn-bt-mana" type="button" className="btn btn-warning btn-md "
-                                                onClick={() => {
-                                                    handleFault(selectAccount)
-                                                }}>Cảnh
-                                            Cáo
-                                        </button>
-                                        <button id="trivn-bt-mana" type="button" className="btn btn-danger btn-md">Khoá
-                                            Nick 1
-                                            Tuần
-                                        </button>
-                                        <button id="trivn-bt-mana" type="button" className="btn btn-danger btn-md">Khoá
-                                            1
-                                            Tháng
-                                        </button>
-                                        {
-                                            <button id="trivn-bt-mana" type="button" className="btn btn-danger btn-md"
-                                                    onClick={handleShowModal}>Khoá Vĩnh Viễn
-                                            </button>}
-
+                                {typeAccount.map((typeAccount) => (
+                                    <div key={typeAccount.id} className="form-check form-check-inline">
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="searchType"
+                                            id={typeAccount.id}
+                                            value={typeAccount.id}
+                                            onChange={(event) => {
+                                                setSearchType(event.target.value);
+                                            }}
+                                            checked={searchType === typeAccount.id}
+                                        />
+                                        <label id="trivn-platinum" className="form-check-label"
+                                               htmlFor={typeAccount.id}>
+                                            {typeAccount.name}
+                                        </label>
                                     </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="col-lg-4">
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <button id="trivn-bt-mana" type="button" className="btn btn-warning btn-md"
+                                            onClick={() => {
+                                                handleFault(selectAccount)
+                                            }}>
+                                        Cảnh Cáo
+                                    </button>
+                                </div>
+                                <div>
+                                    {
+                                        (
+                                            <button id="trivn-bt-mana" type="button" className="btn btn-danger btn-md"
+                                                    onClick={handleShowModal}>
+                                                Khoá Tài Khoản
+                                            </button>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
+
+
                 <div className="container-fluid">
-                    <table id="" className="table table-hover">
+                    <table id="trivn-tb-mana" className="table table-hover">
                         <thead>
                         <tr>
                             <th id="trivn-tb-th">STT</th>
@@ -179,10 +208,10 @@ export function ListAccount() {
                             <th id="trivn-tb-th">Ngày Đăng Ký</th>
                             <th id="trivn-tb-th">Kim Cương</th>
                             <th id="trivn-tb-th">Số lỗi</th>
-                            <th id="trivn-tb-th">Ngày Vi phạm</th>
                             <th id="trivn-tb-th">Loại Thành Viên</th>
                             <th id="trivn-tb-th">Trạng Thái</th>
-                            <th id="trivn-tb-th">Chọn</th>
+                            <th id="trivn-tb-th">Chọn Tài Khoản</th>
+                            <th id="trivn-tb-th">Mở Tài Khoản</th>
                         </tr>
                         </thead>
                         {
@@ -192,26 +221,39 @@ export function ListAccount() {
                                     account.map((account, index) => (
                                         <tr key={account.id}>
                                             <td>{index + 1}</td>
-                                            <td><Link to={`/personal-page/${account.id}`}>
-                                                {account.userName}
-                                            </Link>
+                                            <td>
+                                                <Link to={`/personal-page/${account.id}`}>
+                                                    {account.userName} </Link>
                                             </td>
                                             <td>{formatDay(account.regisDate)}</td>
                                             <td>{account.money / 1000} 💎</td>
                                             <td>{account.faultAmount}</td>
-                                            <td>{formatDateTime(account.dateWarning)}</td>
                                             <td>{account.typeAccount}</td>
                                             <td>{account.isDeleted ? <div>
-                                                true
-                                            </div> : <div> false</div>}</td>
+                                                Đang Khoá
+                                            </div> : <div> Đang Mở</div>}</td>
                                             <td>
                                                 <label className="ctn-mana">
                                                     <input
-                                                        type={"checkbox"}
+                                                        type="checkbox"
                                                         onChange={() => handleSelectAccount(account.id)}
+                                                        disabled={account.isDeleted} // isdeleted == true
                                                     />
                                                     <div className="checkmark"></div>
                                                 </label>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn"
+                                                    onClick={() => handleShowUnlock(account)}
+                                                    disabled={!account.isDeleted} // isdeleted == false
+                                                >
+                                                    <i
+                                                        className="fa-solid fa-unlock-keyhole"
+                                                        style={{ color: "#9e50ed" }}
+                                                    ></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     ))
@@ -229,33 +271,42 @@ export function ListAccount() {
 
                     </table>
                     <div className="row" style={{alignItems: "center"}}>
-                        <div className="col-md-3">
+                        <div className="col-md-3 ">
 
 
                         </div>
-                        <div className="col-md-6">
-                            <button className="btn btn-outline-primary" style={{marginLeft: "15rem"}}
-                                    onClick={() => prevPage()}>
-                                <i className="fa-solid fa-forward fa-rotate-180" style={{color: "#b966e5"}}></i>
-                            </button>
-                            <span className="btn btn-outline-primary">
-                                {page + 1}/{totalPage}
-                            </span>
-                            <button className="btn btn-outline-primary" onClick={() => nextPage()}>
-                                <span> <i className="fa-solid fa-forward" style={{color: "#b966e5"}}></i></span>
-                            </button>
-                        </div>
+                        {account && account.length !== 0 ? (
+                            <div className="col-md-6 d-flex justify-content-center" >
+                                <button className="btn btn-outline-primary"
+                                        onClick={() => prevPage()}>
+                                    <i className="fa-solid fa-forward fa-rotate-180" style={{color: "#b966e5"}}></i>
+                                </button>
+                                <span className="btn btn-outline-primary" style={{color:"#b966e5"}}>
+            {page + 1}/{totalPage}
+        </span>
+                                <button className="btn btn-outline-primary" onClick={() => nextPage()}>
+                                    <span> <i className="fa-solid fa-forward" style={{color: "#b966e5"}}></i></span>
+                                </button>
+                            </div>
+                        ) : null}
                         <div className="col-md-3">
 
                         </div>
 
                     </div>
-                    <DeleteAccount
+
+                    <LockAccount
                         show={status}
                         handleClose={closeModal}
                         select={selectAccount}
                     >
-                    </DeleteAccount>
+                    </LockAccount>
+                    <UnlockAccount
+                        showUnlock={statusUnlock}
+                        handleCloseUnlock={closeModalUnlock}
+                        selectUnlock={selectUnlock}
+                    ></UnlockAccount>
+
                 </div>
             </div>
         </>

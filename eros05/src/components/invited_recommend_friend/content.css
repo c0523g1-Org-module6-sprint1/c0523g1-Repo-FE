@@ -7,9 +7,7 @@
 }
 
 .dropdown {
-    margin: 0 40px;
-    position: relative;
-    bottom: 50px;
+    margin: 10px 45px;
 }
 
 
@@ -30,7 +28,7 @@
     align-items: center;
     flex-direction: column;
     cursor: pointer;
-    font-family: 'Poppins', sans-serif;
+    font-family: Nunito Sans, sans-serif;
     transform: scale(1); /* Đặt tỷ lệ phóng to là 1.2 */
 }
 
@@ -72,7 +70,8 @@
     max-height: 0;
     transition: all 0.3s ease;
 }
-.hlpdropitem{
+
+.hlpdropitem {
     color: #a36acb;
 }
 
@@ -134,10 +133,10 @@
 
 .hlptitle {
     font-size: 1.5em;
-    font-weight: 200;
+    font-weight: bold;
     text-align: center;
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: Nunito Sans, sans-serif;
 }
 
 .flip-card-inner {
@@ -161,6 +160,7 @@
     justify-content: center;
     width: 100%;
     height: 100%;
+
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border-radius: 1rem;
@@ -176,3 +176,87 @@
     color: white;
     transform: rotateY(180deg);
 }
+
+
+/*-----dropdown-----*/
+
+
+/* Only for styling, not required for it to work */
+
+.citydrop {
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.citydrop input {
+    background-color: #c9aee5;
+    border: 2px solid gray;
+    height: 40px;
+    border-radius: 30px;
+    padding: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+
+}
+
+.citydrop input:focus {
+    outline: none;
+    border: 2px solid darkslategray;
+    font-weight: bold;
+}
+.opt{
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+
+.resetbtn {
+    background-color: #c9aee5;
+    border: 2px solid gray;
+    height: 40px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    position: relative;
+    left: 210px;
+    bottom: 40px;
+    width: 100px
+}
+
+.generaldrop,.genderdrop{
+    background-color: #c9aee5;
+    border: 2px solid gray;
+    height: 40px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center ;
+
+}
+
+.sortdrop{
+    position: relative;
+    left: 30px;
+    margin: 20px;
+    background-color: #c9aee5;
+    border: 2px solid gray;
+    height: 40px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center ;
+}
+
+
+
+
+
+
+
+
+
+
+
