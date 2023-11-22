@@ -120,7 +120,7 @@ export default function RecommendList() {
                                                          src={recommend.avatar}
                                                          alt=""/>
                                                 </div>
-                                                <h5 className="hlptitle mb-4">{recommend.name} {getGenderIcon(recommend.genderName)}</h5>
+                                                <h5 className="hlptitle mb-4">{recommend.name} {getGenderIcon(recommend.gender)}</h5>
                                                 <p className="hlptext">
 
                                                 </p>
