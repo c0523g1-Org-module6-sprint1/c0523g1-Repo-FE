@@ -14,6 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import Gift from "../gift/Gift";
+import  UpPost from "../update_account/UpPost";
 
 export default function Post() {
   const [listNewsfeed, setListNewsfeed] = useState();
@@ -85,6 +86,7 @@ export default function Post() {
         className="container-fluid my-post"
         style={{ marginTop: "150px", position: "relative", paddingTop: "70px" }}
       >
+        <UpPost/>
         {listNewsfeed.map((item) => {
           return (
             <div className="row" key={item.id} style={{ marginBottom: "50px" }}>

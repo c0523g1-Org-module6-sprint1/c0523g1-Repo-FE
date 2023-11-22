@@ -13,14 +13,10 @@ a {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    border-collapse: collapse; /* để các ô trong bảng không có khoảng trống */
+
 }
 
-#trivn-tb-mana td, #trivn-tb-mana th {
-    padding: 8px; /* điều chỉnh khoảng cách giữa nội dung và đường viền */
 
-    border-radius: 10px; /* đường bo tròn cho ô trong bảng */
-}
 
 #trivn-bt-mana {
     border-radius: 20px;
@@ -33,7 +29,7 @@ a {
 
 #trivn-bd-mana {
     background-color: #CBD2D4;
-    margin-top: 10px;
+    margin-top: 75px;
     font-family: Nunito Sans, sans-serif;
 
 }
@@ -76,6 +72,8 @@ a {
     width: 125px;
     padding: 0 7%;
 }
+#tri-search {
 
+}
 
 

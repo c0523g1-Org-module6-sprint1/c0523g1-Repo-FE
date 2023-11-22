@@ -36,3 +36,26 @@ export async function giveaGive(value) {
     console.error("Lỗi o giveaGive:", error);
   }
 }
+export async function getAllList(value) {
+  try {
+    console.log(value);
+    const res = await axios.get(
+      `http://localhost:8080/api/public/gift/getList/${value}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log("getAllListx`" + error);
+  }
+}
+export async function getAllQuantity(value) {
+  try {
+    console.log(value);
+    const res = await axios.get(
+      `http://localhost:8080/api/public/gift/quantity/${value}`
+    );
+    return res.data;
+    console.log(res.data);
+  } catch (error) {
+    console.log("getAllQuantity `" + error);
+  }
+}
