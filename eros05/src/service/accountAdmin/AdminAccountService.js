@@ -8,24 +8,30 @@ export const getAll = async (username, typeAccount, page) => {
             return await axios.get(`http://localhost:8080/api/public/accounts?username=${username}&typeAccount=${typeAccount}&page=${page}`)
         }
     } catch (e) {
-        alert("Error")
+        alert("Hiển Thị Danh Sách Thất Bại");
     }
-}
-
+};
 export const getAllType = async () => {
     try {
         const res = await axios.get("http://localhost:8080/api/public/typeAccounts")
-        return res.data
+        return res.data;
     } catch (e) {
-        alert("Error")
+        alert("Hiên Thị Loại Account Thất Bại");
     }
-}
+};
 
 export const remove = async (data) => {
     try {
-        const res = await axios.delete("http://localhost:8080/api/public/accounts/", { data });
-        return res.status;
+        return await axios.patch(`http://localhost:8080/api/public/accounts/lock/`, data);
     } catch (e) {
-        alert("Xoá Thất Bại")
+        alert("Khoá Thất Bại");
     }
-}
+
+};
+export const unlock = async (id) => {
+    try {
+        return await axios.patch(`http://localhost:8080/api/public/accounts/unlock/${id}`);
+    } catch (error) {
+        throw new Error("Mở Khoá Thất Bại");
+    }
+};
