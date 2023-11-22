@@ -8,6 +8,9 @@ import * as packageTypesService from "../../service/update_account/packageTypesS
 import moment from "moment/moment";
 import {UpdateAccountEros} from "./UpdateAccountEros";
 import {UpdateAccountGold} from "./UpdateAccountGold";
+import {CheckAccountTypes} from "./CheckAccountTypes";
+import async from "async";
+import {paySucces} from "./Pay";
 
 export function HeaderUpdateAccount() {
     const accessToken = localStorage.getItem('accessToken')
@@ -15,6 +18,10 @@ export function HeaderUpdateAccount() {
     const currentDate = moment().format('YYYY-MM-DD');
     const [packageTypes, setPackageTypes] = useState([]);
     const [packageAccount, setPackageAccount] = useState([{name: "", money: "", expire: "", regisDate: ""}]);
+
+
+    // let str = CheckAccountTypes()
+    // console.log(str)
 
 
     useEffect(() => {
@@ -50,20 +57,35 @@ export function HeaderUpdateAccount() {
         }
     }
 
+    useEffect(async () =>{
+        const id = await securityService.getIdByJwt();
+        console.log(id)
+
+        await packageTypesService.findPackageAccount(id).then(res => {
+            if (res !== null){
+                console.log(res[0].name)
+                setPackageAccount(res)
+            }
+        })
+    }, [])
+
 
     const calculateDate = (expirationDate) => {
         const endDate  = moment(expirationDate)
         let startDate = moment(currentDate);
 
         const remainingDays = endDate.diff(startDate , 'days');
+        if (remainingDays === 0){
+            return paySucces(user.id, 4)
+        }
         return remainingDays
     }
 
-    UpdateAccountEros(calculateDate(packageAccount[0].regisDate))
-    UpdateAccountGold(calculateDate(packageAccount[0].regisDate))
 
     return (
         <div className="col-xs-12 col-3 col-md-12 col-lg-3 total-updateaccount-card updateaccount-body">
+
+
             {packageAccount[0].name === "Member" ? (
                 <div className="updateaccount-card-info">
                     <div className="updateaccount-img">

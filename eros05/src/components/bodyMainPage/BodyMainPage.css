@@ -39,7 +39,7 @@
     flex-direction: column;
 }
 
-.body-main-page .carousel .carousel-content .lien-carousel-btn {
+.body-main-page .carousel .carousel-content .lien-carousel-btn button {
     position: relative;
     padding: 10px 22px;
     border-radius: 30px;
@@ -52,12 +52,12 @@
     transition: all 0.2s ease;
 }
 
-.body-main-page .carousel .carousel-content .lien-carousel-btn:active {
+.body-main-page .carousel .carousel-content .lien-carousel-btn button:active {
     transform: scale(0.96);
 }
 
-.body-main-page .carousel .carousel-content .lien-carousel-btn:before,
-.body-main-page .carousel .carousel-content .lien-carousel-btn:after {
+.body-main-page .carousel .carousel-content .lien-carousel-btn button:before,
+.body-main-page .carousel .carousel-content .lien-carousel-btn button:after {
     position: absolute;
     content: "";
     width: 150%;
@@ -68,7 +68,7 @@
     background-repeat: no-repeat;
 }
 
-.body-main-page .carousel .carousel-content .lien-carousel-btn:hover:before {
+.body-main-page .carousel .carousel-content .lien-carousel-btn button:hover:before {
     top: -70%;
     background-image: radial-gradient(circle, #e54e53 20%, transparent 20%),
     radial-gradient(circle, transparent 20%, #e54e53 20%, transparent 30%),
@@ -103,7 +103,7 @@
     }
 }
 
-.body-main-page .carousel .carousel-content .lien-carousel-btn:hover::after {
+.body-main-page .carousel .carousel-content .lien-carousel-btn button:hover::after {
     bottom: -70%;
     background-image: radial-gradient(circle, #e54e53 20%, transparent 20%),
     radial-gradient(circle, #e54e53 20%, transparent 20%),

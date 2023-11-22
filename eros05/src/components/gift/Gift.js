@@ -80,9 +80,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
             zIndex: "9999",
           }}
           className="modal"
-          id="exampleModalToggle"
-          aria-hidden="true"
-          aria-labelledby="exampleModalToggleLabel"
           tabIndex={-1}
         >
           <div
@@ -280,8 +277,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
               <div className="modal-footer">
                 <button
                   className="btn btn-primary"
-                  data-bs-target="#exampleModalToggle2"
-                  data-bs-toggle="modal"
                   style={{
                     backgroundColor: "whitesmoke",
                     borderRadius: "7px",
@@ -295,8 +290,6 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                 {flagChoice ? (
                   <button
                     className="btn btn-primary"
-                    data-bs-target="#exampleModalToggle2"
-                    data-bs-toggle="modal"
                     style={{
                       backgroundColor: "#a36acb",
                       borderRadius: "7px",

@@ -135,7 +135,6 @@ export default function Login() {
 
     return (
         <div id="thienbb-wrapper">
-            <Link to="/401">Test 401</Link>
             <div className="thienbb-main-form">
                 <div className="thienbb-login-title">
                     <span className="thienbb-login-title">ĐĂNG NHẬP</span>
@@ -189,7 +188,7 @@ export default function Login() {
                                 </div>
                             </div>
                             <div className="form-child-option">
-                                <p className="thienbb-login-text"> Quay về
+                                <p className="thienbb-login-text" id="back-to-main-div"> Quay về
                                     <Link to="/" className="thienbb-a-link"> Trang chủ! </Link>
                                 </p>
                                 <p className="thienbb-login-text">Bạn chưa có tài khoản?

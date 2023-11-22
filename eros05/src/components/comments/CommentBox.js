@@ -1,8 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Picker from "@emoji-mart/react";
 import * as commentsService from '../../service/comment/commentService';
 import CommentContent from "./CommentContent";
 import * as securityService from '../../service/login/securityService'
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
+import {now} from "moment";
+import {Field, Form, Formik} from "formik";
+import {getInfoPersonal} from "../../service/personalPage/PersonalpageService";
 
 function CommentBox(props) {
     const {postId} = props;
@@ -10,21 +15,56 @@ function CommentBox(props) {
     const [showPicker, setShowPicker] = useState(false);
     const [showChat, setShowChat] = useState(false)
     const [commentList, setCommentList] = useState([])
-    const accountId = securityService.getIdByJwt()
+    const [isRender, setIsRender] = useState(false)
+    const accountId = securityService.getIdByJwt();
+    const navigate = useNavigate();
+    const inputFocus = useRef(null);
+    const [account, setAccount] = useState({})
+
+    const getAccount = async (accountId) => {
+        try {
+            const res = await getInfoPersonal(accountId);
+            setAccount(res.data);
+        } catch (e) {
+            alert("Error")
+        }
+    }
 
     // show comment list
     const getCommentsList = async () => {
         try {
             const result = await commentsService.getAllCommentsService();
+            console.log(result)
             setCommentList(result);
         } catch (e) {
             alert("Error")
         }
     }
 
+    const createComment = async (data) => {
+        console.log(data)
+        console.log(inputStr)
+        const newInput = {...data, content: inputStr}
+        console.log(newInput)
+        const res = await commentsService.createCommentService(newInput);
+        console.log(res)
+        if (res.status === 200) {
+            setIsRender(!isRender)
+            setInputStr("")
+            inputFocus.current.focus();
+        } else toast("Comment thất bại")
+    }
+    const initialValue = {
+        "content": "",
+        "idDeleted": 0,
+        "accountId": accountId,
+        "postId": postId
+    }
+
     useEffect(() => {
         getCommentsList()
-    }, []);
+        getAccount(accountId);
+    }, [isRender]);
 
     const onEmojiClick = (event) => {
         setInputStr(prevInput => prevInput + event.native);
@@ -69,7 +109,7 @@ function CommentBox(props) {
                                     </p>
                                 </div>
                                 {accountId === list.account.id &&
-                                    <CommentContent props={list.id}/>
+                                    <CommentContent props={list.id} props2={list}/>
                                 }
                             </div>
                         );
@@ -79,7 +119,7 @@ function CommentBox(props) {
             <div className="" style={{marginTop: 10, display: "flex", width: "100%"}}>
                 <div className="" style={{marginRight: 20}}>
                     <img
-                        src="https://tse3.mm.bing.net/th?id=OIP.GtqfauNI1Nd7Hwg74Wjw7wHaHa&pid=Api&P=0&h=180"
+                        src={account.avatar}
                         alt="Avatar"
                         style={{
                             width: 50,
@@ -90,45 +130,52 @@ function CommentBox(props) {
                         }}/>
                 </div>
                 <div
-                     style={{
-                         width: "100%",
-                         boxSizing: "border-box",
-                         border: "1px solid #ccc",
-                         padding: 5,
-                         position: "relative",
-                         borderRadius: 20
-                     }}>
-                    <input
-                        style={{width: "90%", boxSizing: "border-box", left: 5}}
-                        type="text"
-                        value={inputStr}
-                        id="new-input"
-                        className="input-style"
-                        onChange={e => setInputStr(e.target.value)}
-                    />
-                    <a
-                        style={{
-                            textDecoration: "none",
-                            color: "#000",
-                            fontSize: "130%",
-                            position: "relative",
-                            left: 6,
-                            top: 4
-                        }}
-                        onClick={() => setShowPicker(val => !val)}>
-                        <i className="fa-regular fa-face-smile mb-3"/>
-                    </a>
-                    <a href=""
-                       style={{
-                           textDecoration: "none",
-                           color: "#000",
-                           fontSize: "130%",
-                           position: "relative",
-                           left: 15,
-                           top: 4
-                       }}>
-                        <i className="fa-regular fa-paper-plane"/>
-                    </a>
+                    style={{
+                        width: "100%",
+                        boxSizing: "border-box",
+                        border: "1px solid #ccc",
+                        padding: 5,
+                        position: "relative",
+                        borderRadius: 20
+                    }}>
+                    <Formik initialValues={initialValue} onSubmit={values => createComment(values)}>
+                        <Form>
+                            <Field
+                                ref={inputFocus}
+                                style={{width: "85%", boxSizing: "border-box", left: 5, borderRadius: 20, height: 35}}
+                                type="text"
+                                name="content"
+                                value={inputStr}
+                                id="new-input"
+                                className="input-style"
+                                onChange={e => setInputStr(e.target.value)}
+                            />
+                            <a
+                                style={{
+                                    textDecoration: "none",
+                                    color: "#000",
+                                    fontSize: "130%",
+                                    position: "relative",
+                                    left: 6,
+                                    top: 4
+                                }}
+                                onClick={() => setShowPicker(val => !val)}>
+                                <i className="fa-regular fa-face-smile mb-3"/>
+                            </a>
+                            <button type="submit"
+                                    style={{
+                                        border: "none",
+                                        backgroundColor: "transparent",
+                                        color: "#000",
+                                        fontSize: "130%",
+                                        position: "relative",
+                                        left: 15,
+                                        top: 4
+                                    }}>
+                                <i className="fa-regular fa-paper-plane"/>
+                            </button>
+                        </Form>
+                    </Formik>
                     {showPicker && <Picker
                         pickerStyle={{width: '100%'}}
                         onEmojiSelect={(e) => {

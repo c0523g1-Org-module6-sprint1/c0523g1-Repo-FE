@@ -8,7 +8,14 @@ export async function getAllCommentsService() {
     return res.data;
 }
 
-export async function createCommentService(content) {
-    const res = await axios.post(URL, content)
-    return res;
+export async function createCommentService(data) {
+    try {
+    return  await axios.post(URL,data);
+    }catch (e) {
+        alert("Error Service")
+    }
+}
+
+export async function deleteCommentService(id){
+    return await axios.delete(URL + `/${id}`)
 }
