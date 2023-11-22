@@ -265,7 +265,7 @@ function Gift({ showModaQuyNP, handleClose, userNow, userGift }) {
                             alt=""
                           />
                         </div>
-                        <div style={{ fontSize: "14px" }}>{item.name}</div>
+                        <div style={{ fontSize: "14px" }}>{item.name} </div>
                         <div style={{ marginTop: "0, 8rem" }}>
                           {item.price} 💎
                         </div>
