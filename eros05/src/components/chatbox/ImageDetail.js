@@ -41,13 +41,14 @@ export default function ImageDetail({path, linkImg, close}) {
 
     useEffect(() => {
         getDatabase();
+
     },[]);
 
     if (!picArray || !timeRelease) return null;
     return (
         <div className="array-image"
              style={{height: `${window.innerHeight * 0.96 - 75}px`}}>
-            <div className="array-image-array borderRadius color3">
+            <div className="array-image-array borderRadius color2">
                 {picArray.map((e, index) => {
                     return (
                         <div className={`array-image-array-image borderRadius 

@@ -1,0 +1,89 @@
+#trivn-h1 {
+    text-align: center;
+    margin-top: 90px;
+    font-family: Agbalumo, serif
+}
+
+a {
+    text-decoration: none;
+}
+
+#trivn-tb-mana {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+#trivn-bt-mana {
+    border-radius: 20px;
+    width: 90%;
+    margin: 0 5%;
+}
+
+#trivn-tb-th {
+    background-color: #9E66C3;
+    color: white
+}
+
+#trivn-bd-mana {
+    background-color: #CBD2D4;
+    margin-top: 75px;
+    font-family: Nunito Sans, sans-serif;
+}
+#trivn-p-a{
+    background-color: #CBD2D4;
+    font-family: Nunito Sans, sans-serif;
+    color: coral;
+    font-size: 200%;
+}
+#trivn-gold {
+    background: linear-gradient(to right, #FFD93D, #F6F1E9);
+    color: midnightblue;
+    font-style: italic;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 16px;
+    width: 125px;
+    padding: 0 12%;
+}
+
+#trivn-platinum {
+    background: linear-gradient(to right, black, #d8afe7);
+    color: white;
+    font-style: italic;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 16px;
+    width: 125px;
+    padding: 0 5%;
+
+}
+
+#trivn-thuong {
+    color: white;
+    background: linear-gradient(to right, #5e6773, #9797ff);
+    font-style: italic;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 16px;
+    width: 125px;
+    padding: 0 7%;
+}
+#tri-search {
+
+}
+.tribao-container {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 450px 1fr repeat(4, 200px) 1fr repeat(2, 200px);
+}
+.tribao-button {
+    margin: 5px;
+    height: 40px;
+    width: 60px;
+    background-color: white;
+}
+
+

@@ -1,32 +1,83 @@
 import axios from "axios";
+import {getIdByJwt} from "../login/securityService";
 
 export const GetProfileApi = async () => {
-    try {
-        const res = await axios.get(`http://localhost:8080/profile`)
-        return res;
-    } catch (e) {
-        console.log(e);
+    let id = getIdByJwt();
+    if (id) {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/public/message/account`,{
+                params: {
+                    accountId: id
+                }
+            })
+            return res;
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 export const GetFriendsApi = async (name) => {
-    try {
-        const res = await axios.get(`http://localhost:8080/friends?name_like=${name}`)
-        return res.data;
-    } catch (e) {
-        console.log(e);
+    let id = getIdByJwt();
+    if (id) {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/public/message/chatlist`,{
+                params: {
+                    accountId: id,
+                    name: name
+                }
+            })
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
-export const GetChatBoxApi = async (id1, id2) => {
-    try {
-        const res1 = await axios.get(`http://localhost:8080/mess?sender=${id1}&recipient=${id2}`);
-        const res2 = await axios.get(`http://localhost:8080/mess?sender=${id2}&recipient=${id1}`);
-
-        let res = [...res1.data, ...res2.data];
-        res.sort((a,b) => new Date(b.releaseTime) - new Date(a.releaseTime));
-
-        return res;
-    } catch (e) {
-        console.log(e);
+export const GetUnknowApi = async (name) => {
+    let id = getIdByJwt();
+    if (id) {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/public/message/unknowlist`,{
+                params: {
+                    accountId: id,
+                    name: name
+                }
+            })
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
     }
-
 }
+export const GetChatBoxApi = async (friendId) => {
+    let id = getIdByJwt();
+    if (id) {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/public/message/Chatbox`, {
+                params: {
+                    accountId: id,
+                    id: friendId
+                }
+            })
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+export const SetBusyApi = async (isBusy) => {
+    let id = getIdByJwt();
+    if (id) {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/public/message/setbusy`,{
+                params: {
+                    accountId: id,
+                    busyMode: !isBusy
+                }
+            });
+            return res;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+

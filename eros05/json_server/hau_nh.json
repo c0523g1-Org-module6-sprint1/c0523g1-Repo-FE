@@ -1,0 +1,124 @@
+{
+  "profile": {
+    "id": 99,
+    "img": "https://drive.google.com/uc?id=1uRPquTfLUv3jx0sTTEy2_LAAUXViv6Mh",
+    "name": "Lê Quốc Thắng",
+    "status": {
+      "id": 1,
+      "description": "online"
+    },
+    "money": 3007
+  },
+  "friends": [
+    {
+      "id": 1,
+      "img": "https://sohanews.sohacdn.com/160588918557773824/2020/10/13/photo-1-16026039104352120730718.jpg",
+      "name": "Mục Nhã Lan",
+      "status": {
+        "id": 1,
+        "description": "online"
+      },
+      "mess": "Nhớ anh Thắng quá ạ",
+      "unseen": 10
+    },
+    {
+      "id": 2,
+      "img": "https://www.vietnamfineart.com.vn/wp-content/uploads/2023/03/co-nang-nhi-nhanh-700x700-1.jpg",
+      "name": "Bảo Bảo",
+      "status": {
+        "id": 2,
+        "description": "busy"
+      },
+      "mess": "Cho em cơ hội đi mà",
+      "unseen": 10
+    },
+    {
+      "id": 3,
+      "img": "https://images.giaoducthoidai.vn/1200x630/Uploaded/2023/znaebz/2018-09-07/memantruocnhansaccuahotgirltrungquocco33trieuluottheodoitrentiktok3_WIWG_thumb.jpg",
+      "name": "Ngô Thiển",
+      "status": {
+        "id": 2,
+        "description": "busy"
+      },
+      "mess": "Đừng bỏ em mà anh Thắng",
+      "unseen": 20
+    },
+    {
+      "id": 4,
+      "img": "https://i1-ngoisao.vnecdn.net/2021/07/15/tieu-nhiem-s-5008-1626342223.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=UQcnIKKPbXElxDVePw4N3w",
+      "name": "Cúc Tiểu Y",
+      "status": {
+        "id": 2,
+        "description": "busy"
+      },
+      "mess": "Mai anh Thắng rảnh hơm",
+      "unseen": 102
+    },
+    {
+      "id": 5,
+      "img": "https://giadinh.mediacdn.vn/zoom/740_463/2019/1/18/hot-girl-trung-quoc-1547817063776656281605.jpg",
+      "name": "Goo Hye Sun",
+      "status": {
+        "id": 1,
+        "description": "online"
+      },
+      "mess": "Anh Thắng ngủ chưa ạ",
+      "unseen": 0
+    },
+    {
+      "id": 6,
+      "img": "https://gaixinhbikini.com/wp-content/uploads/2022/09/52322319648_7ea39c2c93_o.jpg",
+      "name": "Xi Tian",
+      "status": {
+        "id": 1,
+        "description": "online"
+      },
+      "mess": "Iu anh Thắng lắm lắm",
+      "unseen": 100
+    },
+    {
+      "id": 7,
+      "img": "https://anh.eva.vn/upload/1-2017/images/2017-01-03/hot-girl-trung-quoc-duoc-menh-danh-la-hoa-khoi-hang-khong-vi-qua-xinh-dep-hot-girl2-1483406123-width500height705.jpg",
+      "name": "ゆあみかみ",
+      "status": {
+        "id": 3,
+        "description": "offline"
+      },
+      "mess": "Anh iu ngủ ngon nhé...<3",
+      "unseen": 54
+    },
+    {
+      "id": 8,
+      "img": "https://gaixinhbikini.com/wp-content/uploads/2022/09/con-gai-giang-nam-trung-quoc.jpg",
+      "name": "Lưu Tư Dao",
+      "status": {
+        "id": 1,
+        "description": "online"
+      },
+      "mess": "Nhớ anh",
+      "unseen": 0
+    },
+    {
+      "id": 9,
+      "img": "https://antimatter.vn/wp-content/uploads/2022/11/hinh-gai-xinh-trung-quoc-hot-girl-noi-tieng.jpg",
+      "name": "Bành Thập Lục",
+      "status": {
+        "id": 1,
+        "description": "online"
+      },
+      "mess": "Anh có gì không vừa ý thì cho em xin lũi mà",
+      "unseen": 0
+    },
+    {
+      "id": 10,
+      "img": "https://media.doisongphapluat.com/493/2020/9/3/hotgirl-Trung-Quoc-trieu-follow-xinh-nhu-bup-be-bat-can-lo-nhan-sac-that-khien-dan-tinh-vo-mong-dspl-3.jpg",
+      "name": "やまだ",
+      "status": {
+        "id": 3,
+        "description": "offline"
+      },
+      "mess": "Mãi iu anh Thắng",
+      "unseen": 0
+    }
+  ]
+}

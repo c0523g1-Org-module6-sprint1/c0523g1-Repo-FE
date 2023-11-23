@@ -1,4 +1,5 @@
 export const sliceString = (str, n) => {
+    if (str == null) return "";
     if (str.length > n) {
         return str.slice(0, n) + "...";
     } else {
@@ -21,8 +22,8 @@ export const dateFormat = (str) => {
     const minute = date.getMinutes();
     const second = date.getSeconds();
 
-    return `Thời gian: ${addZero(hour)}:${addZero(minute)}:${addZero(second)}
-     (${addZero(day)}-${addZero(month)}-${year})`;
+    return `Thời gian: ${hour}:${minute}:${second}
+     (${day}-${month}-${year})`;
 }
 export const dateFormatSendMessage = (str) => {
     const date = new Date(str);
@@ -31,14 +32,36 @@ export const dateFormatSendMessage = (str) => {
     const day = date.getDate();
     const hour = date.getHours();
     const minute = date.getMinutes();
-
-    return `${addZero(hour)} : ${addZero(minute)} - ${addZero(day)} tháng ${addZero(month)}, ${year}`;
+    return `${hour}:${minute} - ${day} tháng ${month}, ${year}`;
 }
-export const addZero = (str) => {
-    str += "";
-    if (str.length == 1){
-        return "0" + str;
+export const dateFormatChatbox = (str) => {
+    if (str.hasOwnProperty("release")){
+        const date = new Date(str.release);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        return `${hour}:${minute} ${day}/${month}/${year}`;
     } else {
-        return str;
+        return "";
     }
+
+}
+export const compareId = (id1, id2) => {
+    let name = id1 + "-" + id2;
+    if (id1 > id2) {
+        name = id2 + "-" + id1;
+    }
+    return name;
+}
+export const IdByNow = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+    return "" + year + month + day + hour + minute + second;
 }
