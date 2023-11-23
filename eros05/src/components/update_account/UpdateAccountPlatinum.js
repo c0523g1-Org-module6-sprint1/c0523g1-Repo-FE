@@ -163,7 +163,7 @@ export function UpdateAccountPlatinum() {
                 </div>
 
                 <div className="updateaccount-card-center-content">
-                    <p className="title ">Nâng cấp tuơng tác</p>
+                    <p className="title ">Nâng cấp tương tác</p>
                     <ul>
                         <li>
                             <i className="fa-solid fa-check"></i>
@@ -175,7 +175,7 @@ export function UpdateAccountPlatinum() {
                         </li>
                         <li>
                             <i className="fa-solid fa-check"></i>
-                            Thêm kim cương quà cho người bạn thích
+                            Thêm kim cương tặng quà cho người bạn thích
                         </li>
                     </ul>
                 </div>
@@ -192,12 +192,13 @@ export function UpdateAccountPlatinum() {
             </div>
 
             <div className="col-xs-12 col-3 col-md-12 col-lg-3">
-                <div className="updateaccount-card-right">
-                    <p className="title ">Đăng ký Eros Platinum</p>
-                    <p style={{fontSize: "14px"}}>Trải nghiệm hẹn hò thú vị bậc nhất</p>
-                </div>
 
-                <div className="updateaccount-radio-input" id="myForm">
+
+                <div className="updateaccount-radio-input  borderRadius haubao" id="myForm">
+                    <div className="updateaccount-card-right">
+                        <p className="title ">Đăng ký Eros Platinum</p>
+                        <p style={{fontSize: "14px"}}>Trải nghiệm hẹn hò thú vị bậc nhất</p>
+                    </div>
                     {packageTypes.map(packageType => (
                         <div
                             onClick={() => packageClick(packageType.days)}>
@@ -208,7 +209,7 @@ export function UpdateAccountPlatinum() {
                                 name="value-radio"/>
                             <label style={{minWidth: "100%"}} htmlFor={packageType.name}>
                                 {packageType.name}<br/>
-                                {formatPrice(packageType.price)} {packageType.name === "1 tháng" ? (`đ/tháng`):(`đ/${packageType.name}`)}
+                                {formatPrice(packageType.price)} {packageType.name === "1 tháng" ? (`/tháng`):(`/${packageType.name}`)}
                             </label>
                         </div>
                     ))}

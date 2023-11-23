@@ -10,6 +10,7 @@ import {LogoutConfirmModal} from "../searchNamePage/LogoutConfirmModal";
 import {getRoleByJwt} from "../../service/login/securityService";
 import * as giftService from "../../service/gift/giftService";
 import {CheckAccountTypes} from "../update_account/CheckAccountTypes";
+import * as packageTypesService from "../../service/update_account/packageTypesService";
 
 export default function Header() {
     const [isOpenNavbarMobile, setOpenNavbarMobile] = useState(false)
@@ -26,6 +27,7 @@ export default function Header() {
     const [gitStatus, setGitStatus] = useState(true);
     const [isHistoryClicked, setHistoryClicked] = useState(false);
     const [isRepositoryClicked, setRepositoryClicked] = useState(false);
+    // const [accountType, setAccountType] = useState()
 
     const getGift = async () => {
         const resUsername = securityService.getUsernameByJwt();
@@ -62,6 +64,7 @@ export default function Header() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
     function formatDateTime(dateTime) {
         let formattedDate = new Date(dateTime);
         console.log(dateTime);
@@ -74,6 +77,7 @@ export default function Header() {
 
         return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     }
+
     const handleButtonClick = () => {
         setIsShowUserMenu((prevState) => !prevState);
     };
@@ -93,9 +97,14 @@ export default function Header() {
                 toast.error("Tên vượt quá độ dài cho phép!");
                 return;
             }
-            navigate(`public/search-name/${name}`);
+            try{
+                navigate(`public/search-name/${name}`);
+            }catch (e){
+                console.log("Lỗi URL searchName")
+            }
+
         },
-        [navigate,name]
+        [navigate, name]
     );
 
     const goLoginPage = () => {
@@ -149,6 +158,27 @@ export default function Header() {
     }, [window.location.href]);
 
 
+    // useEffect(() => {
+    //     CheckAccountTypes()
+    // }, [])
+
+    // const CheckAccountTypes = async () => {
+    //     const id = await securityService.getIdByJwt();
+    //     console.log(id)
+    //
+    //     await packageTypesService.findPackageAccount(id).then(res => {
+    //         if (res !== null) {
+    //             console.log(res[0].name)
+    //             setAccountType(res[0].name)
+    //             console.log(accountType)
+    //         }
+    //     })
+    // }
+    // const updateOnclick = () => {
+    //     toast.warning("Bạn cần nâng cấp lên Eros Gold để sử dụng dịch vụ này")
+    // }
+
+
     return (
         <header className="lien-header">
             <NavbarMobile isOpenNavbarMobile={isOpenNavbarMobile}
@@ -187,12 +217,29 @@ export default function Header() {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
+                                        {/*{accountType === "Member" ?*/}
+                                        {/*    (*/}
+                                        {/*        <button onClick={() => updateOnclick()} className="nav-link icon"*/}
+                                        {/*                aria-current="page">*/}
+                                        {/*            <i className="fa-solid fa-user-plus fs-4 text-white"></i>*/}
+                                        {/*            <span className="description-icon">Gợi ý kết bạn</span>*/}
+                                        {/*        </button>*/}
+                                        {/*    ) : (*/}
+                                                <Link to="/invited_recommend_friend/RecommendList"
+                                                      className="nav-link icon"
+                                                      aria-current="page">
+                                                    <i className="fa-solid fa-user-plus fs-4 text-white"></i>
+                                                    <span className="description-icon">Gợi ý kết bạn</span>
+                                                </Link>
+                                            {/*)}*/}
 
-                                        <Link to="/invited_recommend_friend/RecommendList" className="nav-link icon"
-                                              aria-current="page">
-                                            <i className="fa-solid fa-user-plus fs-4 text-white"></i>
-                                            <span className="description-icon">Gợi ý kết bạn</span>
-                                        </Link>
+                                        {/*<Link to="/invited_recommend_friend/RecommendList" className="nav-link icon"*/}
+                                        {/*      aria-current="page">*/}
+                                        {/*    <i className="fa-solid fa-user-plus fs-4 text-white"></i>*/}
+                                        {/*    <span className="description-icon">Gợi ý kết bạn</span>*/}
+                                        {/*</Link>*/}
+
+
                                     </li>
                                     <li className="nav-item">
                                         <Link to="/top_hundered" className="nav-link icon" aria-current="page">
@@ -207,11 +254,11 @@ export default function Header() {
                                         </Link>
                                     </li>
                                     {/*Qúy code ở đây*/}
-                                    <li style={{ marginTop: "0.5rem" }} className="nav-item">
+                                    <li style={{marginTop: "0.5rem"}} className="nav-item">
                                         <div className="notification">
                                             <a href="#">
                                                 <div className="notBtn" href="#">
-                                                    <i className="fas fa-bell"></i>
+                                                    <i className="fa-solid fa-gift fs-4 text-white"></i>
 
                                                     <div className="box">
                                                         <div className="display">
@@ -287,7 +334,8 @@ export default function Header() {
                                                                                             />
                                                                                         </div>
                                                                                         <div className="txt">
-                                                                                            {item.accountSender.name} đã tặng
+                                                                                            {item.accountSender.name} đã
+                                                                                            tặng
                                                                                             bạn: {item.quantity}{" "}
                                                                                             {item.gift.name}
                                                                                         </div>
@@ -311,7 +359,7 @@ export default function Header() {
                                                                         }}
                                                                     >
                                                                         {giftQuantity.length === 0 ? (
-                                                                            <h1 style={{ fontSize: "1.2rem" }}>
+                                                                            <h1 style={{fontSize: "1.2rem"}}>
                                                                                 Kho trống
                                                                             </h1>
                                                                         ) : (
@@ -324,14 +372,14 @@ export default function Header() {
                                                                                         textAlign: "center",
                                                                                     }}
                                                                                 >
-                                                                                    <div style={{ paddingTop: "0.2rem" }}>
+                                                                                    <div style={{paddingTop: "0.2rem"}}>
                                                                                         <img
-                                                                                            style={{ width: "50%" }}
+                                                                                            style={{width: "50%"}}
                                                                                             src={item.images}
                                                                                             alt=""
                                                                                         />
                                                                                     </div>
-                                                                                    <div style={{ fontSize: "20px" }}>
+                                                                                    <div style={{fontSize: "20px"}}>
                                                                                         Số lượng: {item.totalQuantity}
                                                                                     </div>
                                                                                 </div>
@@ -377,7 +425,9 @@ export default function Header() {
                                        aria-describedby="addon-wrapping"
                                        onChange={handleChangeInput}
                                        value={name}
-                                       onKeyDown={(e) => {enterButton(e)}}
+                                       onKeyDown={(e) => {
+                                           enterButton(e)
+                                       }}
                                 />
                             </div>
                         </form>
@@ -386,7 +436,8 @@ export default function Header() {
                         !isAuthentication ?
                             <div className="float-lg-end lien-login-btn">
                                 <button className="d-flex align-items-center icon">
-                                    <i className="fa-solid fa-user" style={{color: "#9D66C3"}} onClick={goLoginPage}></i>
+                                    <i className="fa-solid fa-user" style={{color: "#9D66C3"}}
+                                       onClick={goLoginPage}></i>
                                 </button>
                             </div> :
                             <div className="float-lg-end lien-login-btn">

@@ -12,6 +12,8 @@
     border-radius: 10px;
     box-shadow: 0px 87px 78px -39px rgba(0,0,0,0.4);
     width: 320px;
+    margin-left: calc((100% - 320px) / 2);
+    margin-top: 20px;
 }
 
 .updateaccount-info {
@@ -107,5 +109,8 @@
 
 .updateaccount-radio-input:has(input:not([type="radio"]):checked ) .updateaccount-result.error {
     display: flex;
+}
+.haubao {
+    margin-top: 80px;
 }
 

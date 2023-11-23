@@ -105,7 +105,9 @@ export function PersonalPage() {
                     profile={{id: idUserLogin}}
                     close={closeSenderMessage}
                 />}
+
             {(accountVisit && (statusRelation.id !== 3)) ?
+
                 (<div className="container-fluid" style={{marginTop: 80}}>
                     <div className="row">
                         <div className="col-lg-3"></div>
@@ -212,8 +214,7 @@ export function PersonalPage() {
                                             </li>
                                             <li>
                                                 <div
-                                                    data-bs-target="#exampleModalToggle"
-                                                    data-bs-toggle="modal"
+
                                                 >
                                                     <div>
                                                         <button

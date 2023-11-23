@@ -150,7 +150,7 @@ export function Chatbox() {
                             <div/>
                             <div className="chatbox-feature-info">
                                 <p className="border-text-white">{profile.name}</p>
-                                <p>💎 {profile.money}</p>
+                                <p>💎 {profile.money / 1000}</p>
                             </div>
                         </div>
                         <div className="chatbox-friendList color0 borderRadius" style={{height: chatlistHeight}}>

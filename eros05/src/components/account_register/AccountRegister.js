@@ -93,9 +93,9 @@ export function Register() {
             // .test("check-email", "Không được bỏ trống email !", (value) => value.trim().length !== 0)
             .min(6, "Email phải lớn hơn hoặc bằng 6 kí tự !")
             .max(100, "Email phải ít hơn hoặc bằng 100 kí tự !"),
-        gender: Yup.object().shape({
-            name : Yup.string().required("Vui lòng nhập giới tính !")
-        })
+        // gender: Yup.object().shape({
+        //     name : Yup.string().required("Vui lòng nhập giới tính !")
+        // })
     }
 
     const handleRegister = async (data) => {
@@ -130,7 +130,7 @@ export function Register() {
                             </div>
                             <div className='mb-3'>
                                 <label htmlFor="password" className='form-label'>Mật khẩu :</label>
-                                <div className='input-group'>
+                                <div className='input-group' style={{width: "100%"}}>
                                     <Field type={showPassword1 ? 'text' : 'password'} name="password"
                                            className='form-control' id='password'/>
                                     <div className='input-group-append'>
@@ -141,11 +141,11 @@ export function Register() {
                                 </div>
                                 <ErrorMessage name="password" component="span" style={{color: "red"}}/>
                             </div>
-                            <div className='mb-3'>
-                                <label htmlFor="confirmPassword" className='form-label'>Nhập lại mật khẩu :</label>
+                            <div className='mb-3' >
+                                <label htmlFor="confirmPassword" className='form-label' >Nhập lại mật khẩu :</label>
                                 {/*<Field type='password' name="confirmPassword" className='form-control'*/}
                                 {/*       id='confirmPassword'/>*/}
-                                <div className='input-group'>
+                                <div className='input-group'  style={{width: "100%"}}>
                                     <Field type={showPassword2 ? 'text' : 'password'} name="confirmPassword"
                                            className='form-control' id='confirmPassword'/>
                                     <div className='input-group-append'>
