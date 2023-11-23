@@ -198,42 +198,50 @@ function ListFriend() {
 
 
         {listFriend ? <div><div className="reponsive-cardThienPT" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '3rem', padding: '1rem 3.2rem 1rem 3.2rem' }}>
-          {listFriend.map((o, index) => {
-            console.log(o)
+          {listFriend.map((friend, index) => {
+            console.log(friend)
             return (
               <>
                 <div className={`cardsThienPT`}
                 >
-                  {o.idRel == 3 ?
+                  {friend.idRel == 3 ?
                       <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}}
                            src="https://firebasestorage.googleapis.com/v0/b/cupid-project-439b5.appspot.com/o/img-quy%2F360_F_129559908_BuXa2ZOYwP1f2kRC8unjeHfnXkJ34we6.png?alt=media&token=ba62dbcd-772d-49dc-ba16-7a2c3377ea50" alt />
                       :
-                    <button  onClick={()=>handleModal(o.usernameAccount)}>
+                    <button  onClick={()=>handleModal(friend.usernameAccount)}>
                   <img style={{width: '20%', height: '3rem', position: 'absolute', top: '3%', right: '3%'}}
                     src="https://firebasestorage.googleapis.com/v0/b/cupid-project-439b5.appspot.com/o/img-quy%2Fbox.png?alt=media&token=f991f1b6-fd6b-45e4-9b61-df5ae995e43f" alt />
                   </button>}
-                  <div className="iconThienPT" onClick={()=>goToPersonalPage(o.id)}>
+                  <div className="iconThienPT" onClick={()=>goToPersonalPage(friend.id)}>
                                    <img className="cus-avatarThienPT"
-                                             src={o.avatarAccount}
+                                             src={friend.avatarAccount}
                                              alt=""/>
                   </div>
-                  <p className="titleThienPT" onClick={()=>goToPersonalPage(o.id)}>{o.nameAccount} {getGenderIcon(o.nameGender)}</p>
-                  <p className="titleThienPT" style={{ opacity: '0.5' }}>{o.nameLocation}</p>
+                  <p className="titleThienPT" onClick={()=>goToPersonalPage(friend.id)}>{friend.nameAccount} {getGenderIcon(friend.nameGender)}</p>
+                  <p className="titleThienPT" style={{ opacity: '0.5' }}>{friend.nameLocation}</p>
                   <p className="textThienPT">
 
-                    {o.idRel === 2 ?
+                    {friend.idRel === 2 &&
                     <button style={{ width: '100%', backgroundColor: '#a36acb', color: 'white' }}
-                      className="btn" onClick={() => takeFriendBlock(o)}  >
+                      className="btn" onClick={() => takeFriendBlock(friend)}  >
                       Chặn bạn
-                    </button> :
-                    <button style={{ width: '100%', backgroundColor: '#a36acb', color: 'white' }}
-                      className="btn" onClick={() => takeFriendUnblock(o)}  >
-                      Hủy chặn
-                    </button>
+                    </button> }
+                    { friend.idRel === 3 &&
+                        <div>
+                          {
+                            friend.idSender === idLogin ? <button style={{ width: '100%', backgroundColor: '#a36acb', color: 'white' }}
+                                                           className="btn"  disabled>
+                                Bạn đã bị chặn
+                              </button> : <button style={{ width: '100%', backgroundColor: '#a36acb', color: 'white' }}
+                                                  className="btn" onClick={() => takeFriendUnblock(friend)} >
+                              Hủy chặn
+                            </button>
+                          }
+                        </div>
                     }
                     <button style={{ width: '100%', background: "#cbd2d4", color: "white" }} className="btn  mt-1"
                       type="button"
-                      onClick={() => takeFriendDelete(o)}>
+                      onClick={() => takeFriendDelete(friend)}>
                       Hủy kết bạn
                     </button>
                   </p>
