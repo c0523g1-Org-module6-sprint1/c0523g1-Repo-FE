@@ -30,11 +30,7 @@ export function LockAccount({show, handleClose, select}) {
                                 </div>
                                 <div className="modal-body">
                                     {/* eslint-disable-next-line react/prop-types */}
-                                    <p>Bạn Muốn Khoá Các Tài Khoản Đã Chọn Không ? {
-                                        select.map((se)=>(
-                                            <span key={se.id}>{se}</span>
-                                        ))
-                                    }</p>
+                                    <p>Bạn Muốn Khoá Các Tài Khoản Đã Chọn Không ? </p>
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal"
