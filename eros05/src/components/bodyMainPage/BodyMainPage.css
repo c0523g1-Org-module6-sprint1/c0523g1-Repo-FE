@@ -17,8 +17,8 @@
 .body-main-page .carousel .description .typeing-text {
     margin: 20% 0;
     text-align: center;
-    color: #a36acb;
-    text-shadow: 1px 1px 3px whitesmoke;
+    color: white;
+    text-shadow: 1px 1px 3px #a36acb;
     overflow: hidden;
     border-right: 0.15em solid orange;
     white-space: nowrap;

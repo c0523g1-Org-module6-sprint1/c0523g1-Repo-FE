@@ -160,7 +160,7 @@ export function UpdateAccountGold() {
                 </div>
 
                 <div className="updateaccount-card-center-content">
-                    <p className="title ">Nâng cấp tuơng tác</p>
+                    <p className="title ">Nâng cấp tương tác</p>
                     <ul>
                         <li>
                             <i className="fa-solid fa-check"></i>
@@ -172,7 +172,7 @@ export function UpdateAccountGold() {
                         </li>
                         <li>
                             <i className="fa-solid fa-check"></i>
-                            Thêm kim cương quà cho người bạn thích
+                            Thêm kim cương tặng quà cho người bạn thích
                         </li>
                     </ul>
                 </div>
@@ -206,7 +206,7 @@ export function UpdateAccountGold() {
                                 name="value-radio"/>
                             <label style={{minWidth: "100%"}} htmlFor={packageType.name}>
                                 {packageType.name}<br/>
-                                {formatPrice(packageType.price)} {packageType.name === "1 tháng" ? (`đ/tháng`):(`đ/${packageType.name}`)}
+                                {formatPrice(packageType.price)} {packageType.name === "1 tháng" ? (`/tháng`):(`/${packageType.name}`)}
                             </label>
                         </div>
                     ))}

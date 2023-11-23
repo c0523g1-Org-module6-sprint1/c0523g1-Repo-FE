@@ -153,8 +153,12 @@ export function ListAccount() {
                               id="addon-wrapping"><i
                             className="fa-solid fa-magnifying-glass"></i></span>
                                 <input style={{borderRadius: "0px 20px 20px 0px"}} type="text" className="form-control"
+
                                        placeholder="Tên Thành Viên" aria-label="Username"
                                        aria-describedby="addon-wrapping"
+
+                                       placeholder="Tên Tài Khoản" aria-label="Username" aria-describedby="addon-wrapping"
+
                                        onChange={(event) => {
                                            setUserName(event.target.value)
                                        }}/>
@@ -221,10 +225,9 @@ export function ListAccount() {
                         <thead>
                         <tr>
                             <th id="trivn-tb-th">STT</th>
-                            <th id="trivn-tb-th">Tên Thành Viên</th>
-                            <th id="trivn-tb-th">Ngày Đăng Ký</th>
+                            <th id="trivn-tb-th">Tên Tài Khoản</th>
                             <th id="trivn-tb-th">Kim Cương</th>
-                            <th id="trivn-tb-th">Số lỗi</th>
+                            <th id="trivn-tb-th">Số Lỗi</th>
                             <th id="trivn-tb-th">Loại Thành Viên</th>
                             <th id="trivn-tb-th">Trạng Thái</th>
                             <th id="trivn-tb-th">Khoá Tài Khoản</th>
@@ -243,7 +246,6 @@ export function ListAccount() {
                                                 <Link to={`/personal-page/${account.id}`}>
                                                     {account.userName} </Link>
                                             </td>
-                                            <td>{formatDay(account.regisDate)}</td>
                                             <td>{account.money / 1000} 💎</td>
                                             <td>{account.faultAmount}</td>
                                             <td>{account.typeAccount}</td>
