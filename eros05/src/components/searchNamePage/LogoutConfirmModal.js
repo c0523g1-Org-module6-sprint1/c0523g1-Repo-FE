@@ -36,7 +36,7 @@ export function LogoutConfirmModal(events) {
                                     onClick={handleCloseFn}>Quay lại
                             </button>
                             <button type="button" className="btn btn-primary"
-                                    onClick={() => handleLogoutFn()}>Đăng xuất
+                                    style={{backgroundColor: "#9D66C3"}} onClick={() => handleLogoutFn()}>Đăng xuất
                             </button>
                         </div>
                     </div>
