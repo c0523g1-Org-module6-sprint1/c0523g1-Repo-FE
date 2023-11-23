@@ -12,13 +12,27 @@ export const getList = async (idLogin,name,limit) => {
 }
 
 export const handleDeleteFriend = async (idLogin,friend) => {
-    return (await axios.delete(`http://localhost:8080/api/public/friend/unfriend?idLogin=${idLogin}&idFriend=${friend.id}`)).status
+    try{
+        return (await axios.delete(`http://localhost:8080/api/public/friend/unfriend?idLogin=${idLogin}&idFriend=${friend.id}`)).status
+    } catch (error){
+        console.log(error)
+    }
+
 }
 
 export const handleBlockFriend = async (idLogin,friend) => {
-    return (await axios.delete(`http://localhost:8080/api/public/friend/block?idLogin=${idLogin}&idFriend=${friend.id}`)).status
+    try {
+        return (await axios.patch(`http://localhost:8080/api/public/friend/block?idLogin=${idLogin}&idFriend=${friend.id}`)).status
+    }catch (e){
+        console.log(e)
+    }
+
 }
 
 export const handleUnBlockFriend = async (idLogin,friend) => {
-    return (await axios.delete(`http://localhost:8080/api/public/friend/unblock?idLogin=${idLogin}&idFriend=${friend.id}`)).status
+    try {
+        return (await axios.patch(`http://localhost:8080/api/public/friend/unblock?idLogin=${idLogin}&idFriend=${friend.id}`)).status
+    }catch (e){
+        console.log(e)
+    }
 }
