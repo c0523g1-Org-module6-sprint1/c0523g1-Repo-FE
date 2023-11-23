@@ -68,7 +68,7 @@ function TopHundered() {
                     </tr>
                     </thead>
                     <tbody>
-                    {account.slice(3).map((account, index) => (
+                    {account.slice(4).map((account, index) => (
                         <tr key={index}>
                             <td>{index + 4}</td>
                             <td onClick={() => goPersonalPage(account.id)} style={{cursor:"pointer"}}>{account.name}</td>

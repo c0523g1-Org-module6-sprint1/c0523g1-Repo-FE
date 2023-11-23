@@ -94,7 +94,7 @@ export function PersonalPage() {
                     profile={{id: idUserLogin}}
                     close={closeSenderMessage}
                 />}
-            {accountVisit ?
+            {(accountVisit && (statusRelation.id !==3)) ?
                 (<div className="container-fluid" style={{marginTop: 80}}>
                     <div className="row">
                         <div className="col-lg-3"></div>
