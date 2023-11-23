@@ -7,6 +7,7 @@ import {getAll, getAllType} from "../../service/accountAdmin/AdminAccountService
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {UnlockAccount} from "./UnlockAccount";
+import {toast} from "react-toastify";
 
 
 export function ListAccount() {
@@ -25,11 +26,14 @@ export function ListAccount() {
     const [status, setStatus] = useState(false);
     const [selectAccount, setSelectAccount] = useState([])
 
-
     const [statusUnlock, setStatusUnlock] = useState(false);
     const [selectUnlock, setSelectUnlock] = useState(null)
 
 
+    /**
+     * set account is unlock
+     * @param value
+     */
     const handleShowUnlock = (value) => {
         setStatusUnlock(true)
         setSelectUnlock(value)
@@ -38,10 +42,11 @@ export function ListAccount() {
         display()
         setStatusUnlock(false)
         setSelectUnlock(null)
-
     }
 
-
+    /**
+     * set account is lock
+     */
     const handleShowModal = () => {
         setStatus(true)
     }
@@ -51,23 +56,35 @@ export function ListAccount() {
         display()
     }
 
+
     useEffect(() => {
         display()
         displayTypeAccount()
     }, [username, searchType, page, status]);
 
-
+    /**
+     * display typeAccount
+     * @returns {Promise<void>}
+     */
     const displayTypeAccount = async () => {
         const res = await getAllType()
         setTypeAccount(res)
     }
 
+
+    /**
+     * truyen list đuọc chon
+     * @returns {Promise<void>}
+     */
     const handleFault = async () => {
         await axios.put(`http://localhost:8080/api/public/warning`, selectAccount);
         display();
     }
 
-
+    /**
+     * hiển thị danh sachs
+     * @returns {Promise<void>}
+     */
     const display = async () => {
         const res = await getAll(username, searchType, page);
         setTotalPage(res.data.totalPages);
@@ -109,7 +126,10 @@ export function ListAccount() {
         }
     }
 
-
+    /**
+     * Kiểm tra xem account đó có được tick hay chua
+     * @param accountId
+     */
     const handleSelectAccount = (accountId) => {
         if (selectAccount.includes(accountId)) {
             setSelectAccount(selectAccount.filter((id) => id !== accountId));
@@ -117,6 +137,8 @@ export function ListAccount() {
             setSelectAccount([...selectAccount, accountId]);
         }
     };
+
+
 
 
     return (
@@ -127,10 +149,12 @@ export function ListAccount() {
                     <div className="tribao-container">
                         <div className="row">
                             <div className="input-group" style={{width: "400px"}}>
-                        <span style={{borderRadius: "20px 0px 0px 20px "}} className="input-group-text" id="addon-wrapping"><i
-                        className="fa-solid fa-magnifying-glass"></i></span>
+                        <span style={{borderRadius: "20px 0px 0px 20px "}} className="input-group-text"
+                              id="addon-wrapping"><i
+                            className="fa-solid fa-magnifying-glass"></i></span>
                                 <input style={{borderRadius: "0px 20px 20px 0px"}} type="text" className="form-control"
-                                       placeholder="Tên Thành Viên" aria-label="Username" aria-describedby="addon-wrapping"
+                                       placeholder="Tên Thành Viên" aria-label="Username"
+                                       aria-describedby="addon-wrapping"
                                        onChange={(event) => {
                                            setUserName(event.target.value)
                                        }}/>
@@ -173,20 +197,26 @@ export function ListAccount() {
                             </div>
                         ))}
                         <div/>
+
                         <button id="trivn-bt-mana" type="button" className="btn btn-warning btn-md ms-3"
-                                onClick={() => {
-                                    handleFault(selectAccount)
-                                }}>
+                                onClick={handleFault}>
                             Cảnh Cáo
                         </button>
-                        <button id="trivn-bt-mana" type="button" className="btn btn-danger btn-md ms-3"
-                                onClick={handleShowModal}>
-                            Khoá Tài Khoản
-                        </button>
+
+
+                        {
+                           (
+                                <button id="trivn-bt-mana" type="button" className="btn btn-danger btn-md ms-3"
+                                        onClick={handleShowModal}>
+                                    Khoá Tài Khoản
+                                </button>
+                            )
+                        }
+
                     </div>
                 </div>
 
-                <div className="container-fluid">
+                <div className="container">
                     <table id="trivn-tb-mana" className="table table-hover">
                         <thead>
                         <tr>
@@ -197,6 +227,7 @@ export function ListAccount() {
                             <th id="trivn-tb-th">Số lỗi</th>
                             <th id="trivn-tb-th">Loại Thành Viên</th>
                             <th id="trivn-tb-th">Trạng Thái</th>
+                            <th id="trivn-tb-th">Khoá Tài Khoản</th>
                             <th id="trivn-tb-th">Chọn Tài Khoản</th>
                             <th id="trivn-tb-th">Mở Tài Khoản</th>
                         </tr>
@@ -219,6 +250,10 @@ export function ListAccount() {
                                             <td>{account.isDeleted ? <div>
                                                 Đang Khoá
                                             </div> : <div> Đang Mở</div>}</td>
+                                            <td>
+
+
+                                            </td>
                                             <td>
                                                 <label className="ctn-mana">
                                                     <input
