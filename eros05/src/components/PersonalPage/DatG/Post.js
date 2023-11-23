@@ -89,9 +89,9 @@ export default function Post() {
         >
           {listNewsfeed.map((item) => {
             return (
-                <div className="row" key={item.id} style={{ marginBottom: "50px" }}>
+                <div className="row" key={item.id} >
                   <div className="col-12 col-lg-3"></div>
-                  <div className="col-12 col-lg-6" style={{marginTop:"5%"}}>
+                  <div className="col-12 col-lg-6" style={{marginTop:"1%"}}>
                     <div
                         className="middle-column"
                         style={{

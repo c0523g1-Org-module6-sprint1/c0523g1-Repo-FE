@@ -14,13 +14,13 @@ export function PersonalPage() {
     const [accountVisit, setAccountVisit] = useState({});
     const [isClicked, setIsClicked] = useState(false);
     const [showMessageTable, setShowMessageTable] = useState(false);
+    const [statusPending, setStatusPending] = useState('');
     const {id} = useParams();
     let idLogin = 1;
     const [statusRelation, setStatusRelation] = useState('');
     const navigate = useNavigate();
     const idUserLogin = loginService.getIdByJwt();
     const userNameLogin = loginService.getUsernameByJwt();
-
     const [showModaQuyNP, setShowModalQuyNP] = useState(false);
     const handleModal = async () => {
         console.log("hi");
@@ -38,12 +38,23 @@ export function PersonalPage() {
     const getInfoAccount = async () => {
         try {
             let result = await personalService.getInfoPersonal(id)
+            console.log(result)
             setAccountVisit(result.data);
             if (id !== idUserLogin) {
-                status(result.data)
+                status(result.data);
+                getStatusPending(result.data);
             }
         } catch (err) {
             console.log(err);
+        }
+    }
+
+    const getStatusPending = async (accountVisit) => {
+        try {
+            let result = await personalService.getStatusPending(idUserLogin, accountVisit.id)
+            setStatusPending(result.data.relationshipStatus);
+        } catch (e) {
+            console.log(e)
         }
     }
     const handleSentInvite = async (relationships) => {
@@ -94,7 +105,7 @@ export function PersonalPage() {
                     profile={{id: idUserLogin}}
                     close={closeSenderMessage}
                 />}
-            {accountVisit ?
+            {(accountVisit && (statusRelation.id !== 3)) ?
                 (<div className="container-fluid" style={{marginTop: 80}}>
                     <div className="row">
                         <div className="col-lg-3"></div>
@@ -155,10 +166,17 @@ export function PersonalPage() {
                                                                             borderRadius: 20
                                                                         }}
                                                                     >
-                                                                    <span className="bt">
+                                                                        {statusPending.id === 1 ? (<span className="bt">
+                                                                         <i className="fa-solid fa-paper-plane bt"></i>
+                                                                        Đang chờ đồng ý
+                                                                    </span>)
+                                                                            :
+                                                                            (<span className="bt">
                                                                          <i className="fa-solid fa-paper-plane bt"></i>
                                                                           Đã gửi lời mời kết bạn
-                                                                    </span>
+                                                                    </span>)
+                                                                        }
+
                                                                     </button>
                                                                 );
                                                             case 2:
@@ -244,9 +262,9 @@ export function PersonalPage() {
 
                                             </div>
                                             <div className="col-lg-3">
-                                                    <small>
-                                                        <i className="fa-solid fa-wrench"/> Chỉnh sửa thông tin
-                                                    </small>
+                                                <small>
+                                                    <i className="fa-solid fa-wrench"/> Chỉnh sửa thông tin
+                                                </small>
                                             </div>
 
                                         </div>)}
@@ -261,8 +279,8 @@ export function PersonalPage() {
                             {/*    </div>*/}
                             {/*</div>*/}
                             {idUserLogin === accountVisit.id && (
-                                <div style={{margin: "14% 0px -12% 21%", width: "205%", marginLeft: "-51%"}}>
-                                    <UpPost/></div>)}
+                                <div style={{margin: "22% 0px 0 -42%", width: "205%"}}>
+                                    <UpPost></UpPost></div>)}
 
 
                         </div>
